@@ -4,55 +4,363 @@
       "Глагол to be (am/is/are)": {
         "questions": [
           {"q": "I ___ a student.", "options": ["am", "is", "are"], "answer": 0},
-          {"q": "They ___ from Spain.", "options": ["am", "is", "are"], "answer": 2},
           {"q": "She ___ my sister.", "options": ["am", "is", "are"], "answer": 1},
+          {"q": "They ___ happy.", "options": ["am", "is", "are"], "answer": 2},
           {"q": "It ___ a black cat.", "options": ["am", "is", "are"], "answer": 1},
-          {"q": "We ___ happy today.", "options": ["am", "is", "are"], "answer": 2},
-          {"q": "___ you a doctor?", "options": ["Am", "Is", "Are"], "answer": 2},
-          {"q": "He ___ not at home.", "options": ["am", "is", "are"], "answer": 1},
-          {"q": "My name ___ Alex.", "options": ["am", "is", "are"], "answer": 1}
+          {"q": "We ___ ready.", "options": ["am", "is", "are"], "answer": 2},
+          {"q": "He ___ a doctor.", "options": ["am", "is", "are"], "answer": 1},
+          {"q": "You ___ my friend.", "options": ["am", "is", "are"], "answer": 2},
+          {"q": "My mother ___ at home.", "options": ["am", "is", "are"], "answer": 1}
         ]
       },
-      "Личные и объектные местоимения": {
+      "Личные местоимения (I, you, he, she, it, we, they)": {
         "questions": [
-          {"q": "Look at ___ (на меня)!", "options": ["I", "me", "my"], "answer": 1},
-          {"q": "___ (она) likes pizza.", "options": ["Her", "She", "He"], "answer": 1},
-          {"q": "I like ___ (его).", "options": ["he", "his", "him"], "answer": 2},
-          {"q": "___ (мы) are friends.", "options": ["Us", "Our", "We"], "answer": 2},
-          {"q": "Give it to ___ (им).", "options": ["they", "them", "their"], "answer": 1},
-          {"q": "___ (оно) is raining.", "options": ["It", "Its", "He"], "answer": 0},
-          {"q": "I don't know ___ (её).", "options": ["she", "her", "hers"], "answer": 1},
-          {"q": "___ (ты) are a good person.", "options": ["You", "Your", "Yours"], "answer": 0}
+          {"q": "(My father) ___ is tall.", "options": ["She", "He", "It"], "answer": 1},
+          {"q": "(Anna and I) ___ are friends.", "options": ["We", "They", "You"], "answer": 0},
+          {"q": "(The cat) ___ is black.", "options": ["He", "She", "It"], "answer": 2},
+          {"q": "(My friends) ___ are at school.", "options": ["He", "They", "We"], "answer": 1},
+          {"q": "(Maria) ___ is kind.", "options": ["He", "She", "It"], "answer": 1},
+          {"q": "(The apple) ___ is red.", "options": ["it", "he", "she"], "answer": 0},
+          {"q": "(John) ___ is a boy.", "options": ["She", "It", "He"], "answer": 2},
+          {"q": "(The teachers) ___ are busy.", "options": ["They", "She", "He"], "answer": 0}
+        ]
+      },
+      "Объектные местоимения (me, him, her, us, them)": {
+        "questions": [
+          {"q": "Look at ___ (я).", "options": ["I", "me", "my"], "answer": 1},
+          {"q": "Listen to ___ (он).", "options": ["him", "his", "he"], "answer": 0},
+          {"q": "I love ___ (она).", "options": ["she", "her", "hers"], "answer": 1},
+          {"q": "Come with ___ (мы).", "options": ["we", "our", "us"], "answer": 2},
+          {"q": "Can you help ___ (они)?", "options": ["they", "them", "their"], "answer": 1},
+          {"q": "This present is for ___ (ты).", "options": ["you", "your", "yours"], "answer": 0},
+          {"q": "I don't know ___ (он).", "options": ["him", "his", "he"], "answer": 0},
+          {"q": "Please wait for ___ (мы).", "options": ["our", "we", "us"], "answer": 2}
+        ]
+      },
+      "Притяжательные местоимения (my/mine, your/yours)": {
+        "questions": [
+          {"q": "This is ___ book. (я)", "options": ["my", "mine", "me"], "answer": 0},
+          {"q": "The pen is ___. (я)", "options": ["my", "mine", "me"], "answer": 1},
+          {"q": "It is ___ car. (ты)", "options": ["your", "yours", "you"], "answer": 0},
+          {"q": "The car is ___. (ты)", "options": ["your", "yours", "you"], "answer": 1},
+          {"q": "That is ___ bag. (она)", "options": ["her", "hers", "she"], "answer": 0},
+          {"q": "The bag is ___. (она)", "options": ["her", "hers", "she"], "answer": 1},
+          {"q": "This is ___ house. (он)", "options": ["him", "his", "he"], "answer": 1},
+          {"q": "These are ___ toys. (мы)", "options": ["our", "ours", "us"], "answer": 0}
+        ]
+      },
+      "Указательные местоимения (this, that, these, those)": {
+        "questions": [
+          {"q": "(Близко, ед.ч.) ___ is a pen.", "options": ["This", "That", "Those"], "answer": 0},
+          {"q": "(Далеко, мн.ч.) ___ are mountains.", "options": ["This", "These", "Those"], "answer": 2},
+          {"q": "(Близко, мн.ч.) ___ are my books.", "options": ["These", "This", "That"], "answer": 0},
+          {"q": "(Далеко, ед.ч.) ___ is a plane.", "options": ["This", "Those", "That"], "answer": 2},
+          {"q": "Look at ___ dog here.", "options": ["that", "this", "those"], "answer": 1},
+          {"q": "___ children there are noisy.", "options": ["This", "That", "Those"], "answer": 2},
+          {"q": "Is ___ your phone in your hand?", "options": ["this", "that", "those"], "answer": 0},
+          {"q": "Is ___ hotel over there expensive?", "options": ["this", "these", "that"], "answer": 2}
+        ]
+      },
+      "Неопределённые местоимения (some, any, no)": {
+        "questions": [
+          {"q": "I have ___ milk.", "options": ["some", "any", "no"], "answer": 0},
+          {"q": "Do you have ___ money?", "options": ["some", "any", "no"], "answer": 1},
+          {"q": "There is ___ sugar. (отсутствие)", "options": ["some", "any", "no"], "answer": 2},
+          {"q": "We don't need ___ help.", "options": ["some", "any", "no"], "answer": 1},
+          {"q": "There are ___ apples in the fridge.", "options": ["some", "any", "no"], "answer": 0},
+          {"q": "I have ___ time. I'm very busy.", "options": ["some", "any", "no"], "answer": 2},
+          {"q": "Would you like ___ tea?", "options": ["some", "any", "no"], "answer": 0},
+          {"q": "She has ___ brothers. She is an only child.", "options": ["some", "any", "no"], "answer": 2}
+        ]
+      },
+      "Множественное число существительных": {
+        "questions": [
+          {"q": "One cat, two ___.", "options": ["cats", "caties", "catses"], "answer": 0},
+          {"q": "One box, two ___.", "options": ["boxs", "boxes", "boxies"], "answer": 1},
+          {"q": "One baby, two ___.", "options": ["babys", "babies", "babes"], "answer": 1},
+          {"q": "One child, two ___.", "options": ["childs", "childes", "children"], "answer": 2},
+          {"q": "One woman, two ___.", "options": ["womans", "women", "womens"], "answer": 1},
+          {"q": "One mouse, two ___.", "options": ["mouses", "mice", "mices"], "answer": 1},
+          {"q": "One tomato, two ___.", "options": ["tomatos", "tomato", "tomatoes"], "answer": 2},
+          {"q": "One man, two ___.", "options": ["mans", "men", "mens"], "answer": 1}
+        ]
+      },
+      "Притяжательный падеж ('s)": {
+        "questions": [
+          {"q": "The book of the boy = The ___ book.", "options": ["boys'", "boy's", "boys"], "answer": 1},
+          {"q": "The house of my parents = My ___ house.", "options": ["parent's", "parents'", "parents's"], "answer": 1},
+          {"q": "The name of my sister = My ___ name.", "options": ["sisters", "sister's", "sisters'"], "answer": 1},
+          {"q": "The ball of the children = The ___ ball.", "options": ["childrens'", "children's", "childrens"], "answer": 1},
+          {"q": "The room of the girls = The ___ room.", "options": ["girl's", "girls'", "girls's"], "answer": 1},
+          {"q": "The tail of the cat = The ___ tail.", "options": ["cats'", "cat's", "cats"], "answer": 1},
+          {"q": "The cars of the men = The ___ cars.", "options": ["mens'", "men's", "mens"], "answer": 1},
+          {"q": "The office of the boss = The ___ office.", "options": ["boss'", "bosss'", "boss's"], "answer": 2}
+        ]
+      },
+      "Артикли (a/an, the)": {
+        "questions": [
+          {"q": "I see ___ apple.", "options": ["a", "an", "the"], "answer": 1},
+          {"q": "She is ___ teacher.", "options": ["a", "an", "the"], "answer": 0},
+          {"q": "___ sun is hot today.", "options": ["A", "An", "The"], "answer": 2},
+          {"q": "He has ___ umbrella.", "options": ["a", "an", "the"], "answer": 1},
+          {"q": "We live in ___ old house.", "options": ["a", "an", "the"], "answer": 1},
+          {"q": "___ house is very big.", "options": ["A", "An", "The"], "answer": 2},
+          {"q": "I want ___ banana.", "options": ["a", "an", "the"], "answer": 0},
+          {"q": "She is ___ honest girl.", "options": ["a", "an", "the"], "answer": 1}
+        ]
+      },
+      "Present Simple": {
+        "questions": [
+          {"q": "I ___ coffee every morning.", "options": ["drink", "drinks", "drinking"], "answer": 0},
+          {"q": "She ___ TV in the evening.", "options": ["watch", "watches", "watchs"], "answer": 1},
+          {"q": "We ___ to school by bus.", "options": ["goes", "go", "gos"], "answer": 1},
+          {"q": "He ___ his homework.", "options": ["does", "do", "dos"], "answer": 0},
+          {"q": "They ___ English.", "options": ["studys", "studies", "study"], "answer": 2},
+          {"q": "The train ___ at 5 pm.", "options": ["leave", "leaves", "leavs"], "answer": 1},
+          {"q": "I ___ like broccoli.", "options": ["doesn't", "don't", "am not"], "answer": 1},
+          {"q": "She ___ play the piano.", "options": ["doesn't", "don't", "isn't"], "answer": 0}
+        ]
+      },
+      "Present Continuous": {
+        "questions": [
+          {"q": "I ___ reading a book now.", "options": ["am", "is", "are"], "answer": 0},
+          {"q": "She ___ cooking dinner.", "options": ["is", "are", "am"], "answer": 0},
+          {"q": "They ___ playing football.", "options": ["is", "am", "are"], "answer": 2},
+          {"q": "Look! It ___ raining.", "options": ["is", "are", "am"], "answer": 0},
+          {"q": "I ___ eating. I'm drinking.", "options": ["isn't", "'m not", "aren't"], "answer": 1},
+          {"q": "She ___ sleeping. She's awake.", "options": ["aren't", "isn't", "am not"], "answer": 1},
+          {"q": "What are you ___?", "options": ["do", "does", "doing"], "answer": 2},
+          {"q": "We are ___ to the park.", "options": ["going", "go", "goes"], "answer": 0}
+        ]
+      },
+      "Present Simple vs Present Continuous": {
+        "questions": [
+          {"q": "I usually ___ tea, but today I ___ coffee.", "options": ["drink / am drinking", "am drinking / drink", "drinks / drinks"], "answer": 0},
+          {"q": "She ___ to the gym every day. Right now she ___ yoga.", "options": ["goes / does", "goes / is doing", "is going / does"], "answer": 1},
+          {"q": "Listen! The birds ___.", "options": ["sing", "sings", "are singing"], "answer": 2},
+          {"q": "My father ___ in an office. He ___ at the weekend.", "options": ["works / doesn't work", "is working / isn't working", "works / is working"], "answer": 0},
+          {"q": "It's 8 am. I ___ breakfast.", "options": ["have", "has", "am having"], "answer": 2},
+          {"q": "We ___ on holiday twice a year.", "options": ["go", "are going", "goes"], "answer": 0},
+          {"q": "___ you ___ English? Yes, I do.", "options": ["Are / speaking", "Do / speak", "Does / speak"], "answer": 1},
+          {"q": "Where is John? He ___ a shower.", "options": ["takes", "is taking", "take"], "answer": 1}
+        ]
+      },
+      "Past Simple (was/were, правильные глаголы)": {
+        "questions": [
+          {"q": "I ___ at home yesterday.", "options": ["was", "were", "am"], "answer": 0},
+          {"q": "They ___ happy last night.", "options": ["was", "were", "are"], "answer": 1},
+          {"q": "She ___ in London last year.", "options": ["is", "were", "was"], "answer": 2},
+          {"q": "We ___ to music an hour ago.", "options": ["listened", "listen", "listens"], "answer": 0},
+          {"q": "He ___ his grandmother last week.", "options": ["visit", "visited", "visitted"], "answer": 1},
+          {"q": "The film ___ at 7 pm.", "options": ["started", "starts", "startted"], "answer": 0},
+          {"q": "I ___ TV yesterday.", "options": ["didn't watched", "didn't watch", "don't watch"], "answer": 1},
+          {"q": "___ you at the party?", "options": ["Was", "Were", "Did"], "answer": 1}
+        ]
+      },
+      "Past Simple (неправильные глаголы, топ-20)": {
+        "questions": [
+          {"q": "I ___ a movie last night.", "options": ["saw", "seed", "seen"], "answer": 0},
+          {"q": "She ___ to school early.", "options": ["goed", "went", "gone"], "answer": 1},
+          {"q": "We ___ pizza for dinner.", "options": ["ate", "eated", "eaten"], "answer": 0},
+          {"q": "He ___ a new car.", "options": ["buyed", "bought", "boughten"], "answer": 1},
+          {"q": "They ___ a song.", "options": ["singed", "sang", "sung"], "answer": 1},
+          {"q": "I ___ his name.", "options": ["forgot", "forgetted", "forgotten"], "answer": 0},
+          {"q": "She ___ the answer.", "options": ["knew", "knowed", "known"], "answer": 0},
+          {"q": "He ___ me a gift.", "options": ["gived", "gave", "given"], "answer": 1}
+        ]
+      },
+      "Future Simple (will)": {
+        "questions": [
+          {"q": "I ___ help you.", "options": ["am", "will", "do"], "answer": 1},
+          {"q": "She ___ come to the party.", "options": ["willn't", "won't", "don't will"], "answer": 1},
+          {"q": "___ you call me tomorrow?", "options": ["Will", "Do", "Are"], "answer": 0},
+          {"q": "I think it ___ rain.", "options": ["wills", "will", "is will"], "answer": 1},
+          {"q": "They ___ finish the work on time.", "options": ["will", "are will", "wills"], "answer": 0},
+          {"q": "We ___ be late.", "options": ["won't", "willn't", "don't will"], "answer": 0},
+          {"q": "She ___ probably pass the exam.", "options": ["does", "is", "will"], "answer": 2},
+          {"q": "I promise I ___ tell anyone.", "options": ["am not", "don't", "won't"], "answer": 2}
+        ]
+      },
+      "Конструкция to be going to": {
+        "questions": [
+          {"q": "I ___ going to travel to Italy.", "options": ["am", "is", "are"], "answer": 0},
+          {"q": "She ___ going to buy a new dress.", "options": ["am", "is", "are"], "answer": 1},
+          {"q": "We ___ going to watch a film.", "options": ["am", "is", "are"], "answer": 2},
+          {"q": "Look at the clouds! It ___ rain.", "options": ["is going to", "will", "going to"], "answer": 0},
+          {"q": "___ you going to eat that?", "options": ["Is", "Are", "Am"], "answer": 1},
+          {"q": "He ___ play football.", "options": ["isn't going to", "aren't going to", "not going to"], "answer": 0},
+          {"q": "What are you ___ do?", "options": ["going to", "go to", "going"], "answer": 0},
+          {"q": "I am ___ to cook dinner.", "options": ["go", "going", "gone"], "answer": 1}
+        ]
+      },
+      "Предлоги места (in, on, under, next to, behind)": {
+        "questions": [
+          {"q": "The cat is ___ the table. (под)", "options": ["in", "on", "under"], "answer": 2},
+          {"q": "The book is ___ the bag. (внутри)", "options": ["in", "on", "behind"], "answer": 0},
+          {"q": "The pen is ___ the desk. (на поверхности)", "options": ["in", "on", "under"], "answer": 1},
+          {"q": "The garden is ___ the house. (рядом)", "options": ["under", "next to", "in"], "answer": 1},
+          {"q": "The dog is ___ the sofa. (позади)", "options": ["behind", "under", "on"], "answer": 0},
+          {"q": "I live ___ London.", "options": ["in", "on", "at"], "answer": 0},
+          {"q": "The picture is ___ the wall.", "options": ["in", "on", "under"], "answer": 1},
+          {"q": "She is sitting ___ me.", "options": ["next to", "in", "under"], "answer": 0}
+        ]
+      },
+      "Предлоги времени (at, on, in)": {
+        "questions": [
+          {"q": "I wake up ___ 7 o'clock.", "options": ["in", "on", "at"], "answer": 2},
+          {"q": "My birthday is ___ May.", "options": ["in", "on", "at"], "answer": 0},
+          {"q": "We go to the beach ___ summer.", "options": ["in", "on", "at"], "answer": 0},
+          {"q": "She was born ___ 2010.", "options": ["on", "in", "at"], "answer": 1},
+          {"q": "They visit us ___ Sunday.", "options": ["in", "on", "at"], "answer": 1},
+          {"q": "He does his homework ___ night.", "options": ["at", "in", "on"], "answer": 0},
+          {"q": "Flowers bloom ___ spring.", "options": ["on", "at", "in"], "answer": 2},
+          {"q": "The exam is ___ the morning.", "options": ["in", "on", "at"], "answer": 0}
         ]
       }
     },
     "Лексика": {
-      "Числа, даты, время": {
+      "Цифры, числа, даты, время": {
         "questions": [
-          {"q": "It's 3:30.", "options": ["half past three", "three half", "half to four"], "answer": 0},
-          {"q": "25th of December is ___ Day.", "options": ["Christmas", "New Year", "Valentine's"], "answer": 0},
-          {"q": "What is 1000 in words?", "options": ["hundred", "thousand", "million"], "answer": 1},
-          {"q": "Today is Monday. Tomorrow is ___.", "options": ["Sunday", "Tuesday", "Wednesday"], "answer": 1},
-          {"q": "June is the ___ month.", "options": ["fifth", "sixth", "seventh"], "answer": 1},
-          {"q": "It's 9:45.", "options": ["quarter past nine", "quarter to ten", "half past nine"], "answer": 1},
-          {"q": "2025 is a ___.", "options": ["month", "day", "year"], "answer": 2},
-          {"q": "10 + 5 = 15. This is ___.", "options": ["maths", "history", "geography"], "answer": 0}
+          {"q": "15", "options": ["fifty", "fifteen", "five"], "answer": 1},
+          {"q": "100", "options": ["one thousand", "one hundred", "ten"], "answer": 1},
+          {"q": "3rd", "options": ["third", "three", "threeth"], "answer": 0},
+          {"q": "It's 7:30.", "options": ["half past seven", "seven half", "half to seven"], "answer": 0},
+          {"q": "It's 9:45.", "options": ["quarter to nine", "quarter to ten", "quarter past nine"], "answer": 1},
+          {"q": "1,000", "options": ["one thousand", "one hundred", "ten thousand"], "answer": 0},
+          {"q": "It's 2:00.", "options": ["two hours", "two o'clock", "two clock"], "answer": 1},
+          {"q": "40", "options": ["fourty", "forty", "fourteen"], "answer": 1}
         ]
-      }
-    }
-  },
-  "A2 (Elementary)": {
-    "Грамматика": {
-      "Past Continuous и Present Perfect": {
+      },
+      "Дни недели, месяцы, времена года": {
         "questions": [
-          {"q": "I ___ TV when you called.", "options": ["watched", "was watching", "have watched"], "answer": 1},
-          {"q": "He ___ his homework.", "options": ["has already done", "did already", "already has done"], "answer": 0},
-          {"q": "She ___ (ever/be) to Paris?", "options": ["Did she ever go", "Has she ever been", "Was she ever"], "answer": 1},
-          {"q": "They ___ football at 5 pm yesterday.", "options": ["played", "were playing", "have played"], "answer": 1},
-          {"q": "I ___ my keys. I can't find them.", "options": ["have lost", "lost", "was losing"], "answer": 0},
-          {"q": "When the boss arrived, we ___.", "options": ["have worked", "were working", "worked"], "answer": 1},
-          {"q": "___ you ___ the new Marvel movie yet?", "options": ["Did / see", "Have / seen", "Were / seeing"], "answer": 1},
-          {"q": "While I ___ (cook), I burnt my hand.", "options": ["cooked", "have cooked", "was cooking"], "answer": 2}
+          {"q": "What is the first month of the year?", "options": ["February", "January", "December"], "answer": 1},
+          {"q": "What day comes after Tuesday?", "options": ["Monday", "Wednesday", "Thursday"], "answer": 1},
+          {"q": "What season is July in?", "options": ["Winter", "Spring", "Summer"], "answer": 2},
+          {"q": "The weekend is Saturday and ___.", "options": ["Friday", "Sunday", "Monday"], "answer": 1},
+          {"q": "What is the month after March?", "options": ["April", "May", "February"], "answer": 0},
+          {"q": "The season after Summer is ___.", "options": ["Winter", "Spring", "Autumn"], "answer": 2},
+          {"q": "Christmas is in ___.", "options": ["October", "November", "December"], "answer": 2},
+          {"q": "What day comes before Friday?", "options": ["Saturday", "Thursday", "Wednesday"], "answer": 1}
+        ]
+      },
+      "Семья (mother, father, sister, brother)": {
+        "questions": [
+          {"q": "Your mother's husband is your ___.", "options": ["uncle", "father", "brother"], "answer": 1},
+          {"q": "Your father's daughter is your ___.", "options": ["sister", "aunt", "mother"], "answer": 0},
+          {"q": "Your mother's son is your ___.", "options": ["brother", "uncle", "cousin"], "answer": 0},
+          {"q": "Your mother and father are your ___.", "options": ["children", "parents", "grandparents"], "answer": 1},
+          {"q": "Your father's mother is your ___.", "options": ["aunt", "grandmother", "sister"], "answer": 1},
+          {"q": "Your mother's brother is your ___.", "options": ["uncle", "brother", "cousin"], "answer": 0},
+          {"q": "Your uncle's child is your ___.", "options": ["sister", "cousin", "nephew"], "answer": 1},
+          {"q": "My mother's sister is my ___.", "options": ["aunt", "grandmother", "cousin"], "answer": 0}
+        ]
+      },
+      "Дом и комната (furniture, rooms)": {
+        "questions": [
+          {"q": "We sleep in the ___.", "options": ["bathroom", "kitchen", "bedroom"], "answer": 2},
+          {"q": "A sofa is usually in the ___.", "options": ["bedroom", "living room", "bathroom"], "answer": 1},
+          {"q": "You cook in the ___.", "options": ["bedroom", "garage", "kitchen"], "answer": 2},
+          {"q": "A ___ for sitting.", "options": ["bed", "chair", "table"], "answer": 1},
+          {"q": "You take a shower in the ___.", "options": ["kitchen", "bathroom", "hall"], "answer": 1},
+          {"q": "A ___ for sleeping.", "options": ["bed", "fridge", "oven"], "answer": 0},
+          {"q": "You eat dinner in the ___ room.", "options": ["dining", "living", "bath"], "answer": 0},
+          {"q": "A ___ keeps food cold.", "options": ["cooker", "fridge", "sink"], "answer": 1}
+        ]
+      },
+      "Еда и напитки (food, drink)": {
+        "questions": [
+          {"q": "We get this from a cow.", "options": ["eggs", "milk", "bread"], "answer": 1},
+          {"q": "A red fruit, not a vegetable.", "options": ["potato", "tomato", "cucumber"], "answer": 1},
+          {"q": "A drink from fruit.", "options": ["bread", "juice", "butter"], "answer": 1},
+          {"q": "The meat of a pig.", "options": ["beef", "chicken", "pork"], "answer": 2},
+          {"q": "A yellow dairy product.", "options": ["cheese", "fish", "pasta"], "answer": 0},
+          {"q": "Rice, pasta and bread are types of ___.", "options": ["vegetables", "meat", "carbohydrates"], "answer": 2},
+          {"q": "A very cold, sweet food.", "options": ["soup", "ice cream", "tea"], "answer": 1},
+          {"q": "We need this to live, it's clear.", "options": ["milk", "water", "coffee"], "answer": 1}
+        ]
+      },
+      "Одежда и цвета (clothes, colours)": {
+        "questions": [
+          {"q": "What do you wear on your feet?", "options": ["gloves", "socks", "hat"], "answer": 1},
+          {"q": "What is the colour of the sky?", "options": ["green", "blue", "yellow"], "answer": 1},
+          {"q": "What do you wear in winter to keep warm?", "options": ["shorts", "a coat", "a T-shirt"], "answer": 1},
+          {"q": "The colour of grass.", "options": ["red", "blue", "green"], "answer": 2},
+          {"q": "Jeans are a type of ___.", "options": ["top", "trousers", "shoes"], "answer": 1},
+          {"q": "What do you wear on your hands?", "options": ["scarf", "gloves", "belt"], "answer": 1},
+          {"q": "The colour of a banana.", "options": ["orange", "purple", "yellow"], "answer": 2},
+          {"q": "This covers your body, women often wear it.", "options": ["tie", "dress", "shirt"], "answer": 1}
+        ]
+      },
+      "Школа и школьные предметы": {
+        "questions": [
+          {"q": "We study numbers in ___.", "options": ["Math", "English", "Art"], "answer": 0},
+          {"q": "We read stories in ___.", "options": ["Science", "Literature", "Geography"], "answer": 1},
+          {"q": "A ___ writes on the board.", "options": ["student", "teacher", "doctor"], "answer": 1},
+          {"q": "You write with a ___.", "options": ["ruler", "eraser", "pen"], "answer": 2},
+          {"q": "We learn about the past in ___.", "options": ["History", "Math", "Physics"], "answer": 0},
+          {"q": "A ___ for drawing straight lines.", "options": ["pencil", "ruler", "book"], "answer": 1},
+          {"q": "We learn about plants and animals in ___.", "options": ["Literature", "Science", "Music"], "answer": 1},
+          {"q": "The room where we learn is a ___.", "options": ["library", "classroom", "canteen"], "answer": 1}
+        ]
+      },
+      "Хобби и свободное время": {
+        "questions": [
+          {"q": "I like reading ___.", "options": ["books", "football", "TV"], "answer": 0},
+          {"q": "He plays ___ on his guitar.", "options": ["games", "music", "films"], "answer": 1},
+          {"q": "She goes ___ in the pool.", "options": ["running", "swimming", "cycling"], "answer": 1},
+          {"q": "We watch ___ in the evening.", "options": ["books", "music", "films"], "answer": 2},
+          {"q": "Taking photos is ___.", "options": ["photography", "drawing", "dancing"], "answer": 0},
+          {"q": "In winter, I like ___.", "options": ["swimming", "skiing", "surfing"], "answer": 1},
+          {"q": "They play ___ with a ball on the field.", "options": ["chess", "football", "cards"], "answer": 1},
+          {"q": "I ___ stamps and coins.", "options": ["collect", "play", "make"], "answer": 0}
+        ]
+      },
+      "Описание людей (tall, short, kind, funny)": {
+        "questions": [
+          {"q": "He is not short, he is ___.", "options": ["tall", "fat", "small"], "answer": 0},
+          {"q": "She always says 'please' and 'thank you'. She is ___.", "options": ["rude", "polite", "lazy"], "answer": 1},
+          {"q": "He makes everyone laugh. He is ___.", "options": ["kind", "funny", "angry"], "answer": 1},
+          {"q": "A person with good looks is ___.", "options": ["ugly", "beautiful", "short"], "answer": 1},
+          {"q": "I am 12. I am not old, I am ___.", "options": ["young", "tall", "kind"], "answer": 0},
+          {"q": "The opposite of 'fat' is ___.", "options": ["tall", "thin", "big"], "answer": 1},
+          {"q": "He helps everyone. He is ___.", "options": ["kind", "mean", "funny"], "answer": 0},
+          {"q": "Her hair is not straight, it's ___.", "options": ["tall", "curly", "slim"], "answer": 1}
+        ]
+      },
+      "Город и транспорт (places, prepositions)": {
+        "questions": [
+          {"q": "We wait for a bus at the bus ___.", "options": ["station", "stop", "park"], "answer": 1},
+          {"q": "You buy medicine at the ___.", "options": ["library", "pharmacy", "museum"], "answer": 1},
+          {"q": "The train arrives at the ___.", "options": ["airport", "station", "stop"], "answer": 1},
+          {"q": "You cross a river on a ___.", "options": ["bridge", "park", "hospital"], "answer": 0},
+          {"q": "Where do you buy food?", "options": ["cinema", "supermarket", "bank"], "answer": 1},
+          {"q": "A place to see paintings.", "options": ["hospital", "gym", "museum"], "answer": 2},
+          {"q": "You take a plane from the ___.", "options": ["bus station", "airport", "port"], "answer": 1},
+          {"q": "You drive a car on the ___.", "options": ["pavement", "road", "park"], "answer": 1}
+        ]
+      },
+      "Погода (sunny, rainy, hot, cold)": {
+        "questions": [
+          {"q": "The temperature is -5°C. It's ___.", "options": ["hot", "warm", "freezing"], "answer": 2},
+          {"q": "Look at the blue sky. It's ___.", "options": ["cloudy", "sunny", "rainy"], "answer": 1},
+          {"q": "You need an umbrella. It's ___.", "options": ["dry", "sunny", "raining"], "answer": 2},
+          {"q": "In autumn, it is often ___.", "options": ["windy", "snowy", "boiling"], "answer": 0},
+          {"q": "It's 40°C. It's ___.", "options": ["freezing", "boiling hot", "chilly"], "answer": 1},
+          {"q": "White flakes are falling. It's ___.", "options": ["raining", "snowing", "sunny"], "answer": 1},
+          {"q": "There are many clouds. It's ___.", "options": ["cloudy", "clear", "sunny"], "answer": 0},
+          {"q": "I can't see far because of ___.", "options": ["wind", "fog", "sun"], "answer": 1}
+        ]
+      },
+      "Повседневные действия (get up, have breakfast, go to school)": {
+        "questions": [
+          {"q": "I ___ at 7 am.", "options": ["go to bed", "get up", "sleep"], "answer": 1},
+          {"q": "Then I ___ a shower.", "options": ["have", "make", "do"], "answer": 0},
+          {"q": "I ___ breakfast with my family.", "options": ["do", "have", "make"], "answer": 1},
+          {"q": "I ___ to school by bus.", "options": ["go", "take", "walk"], "answer": 0},
+          {"q": "At school, I ___ homework.", "options": ["do", "make", "play"], "answer": 0},
+          {"q": "After school, I ___ video games.", "options": ["do", "play", "go"], "answer": 1},
+          {"q": "I ___ dinner at 7 pm.", "options": ["have", "do", "make"], "answer": 0},
+          {"q": "I ___ to bed at 10 pm.", "options": ["have", "get", "go"], "answer": 2}
         ]
       }
     }
