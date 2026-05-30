@@ -817,8 +817,22 @@
     }
   },
     "A2 (Elementary)": {
-    "Грамматика": {
-      "Past Continuous (I was doing)": {
+    "Грамматика": {\
+      "explanation": {
+          "headers": ["Время", "Местоимение", "Форма", "Пример"],
+          "rows": [
+            ["Past", "I / He / She / It", "was + Ving", "I was reading a book"],
+            ["Past", "You / We / They", "were + Ving", "They were sleeping"],
+            ["Past", "Действие в процессе", "was/were + Ving", "He was cooking at 5 pm"],
+            ["Past", "Два одновременных", "while + Ving", "I was reading while she was cooking"],
+            ["Past", "Прерванное действие", "was/were + Ving when + Past Simple", "I was walking when it started to rain"],
+            ["", "", "", ""],
+            [" Утв.", " Отрицание", " Вопрос", ""],
+            ["I was doing", "I wasn't doing", "Was I doing?", ""],
+            ["You were going", "You weren't going", "Were you going?", ""],
+            ["He was working", "He wasn't working", "Was he playing?", ""]
+          ]
+        },
         "questions": [
           {"q": "I saw you yesterday at 7 PM. You ___ for a bus.", "options": ["waited", "was waiting", "were waiting"], "answer": 2},
           {"q": "While she ___ dinner, the phone rang.", "options": ["was cooking", "cooked", "were cooking"], "answer": 0},
@@ -831,6 +845,21 @@
         ]
       },
       "Present Perfect (I have done) — опыт, результат": {
+        "explanation": {
+          "headers": ["Время", "Местоимение/Случай", "Форма", "Пример"],
+          "rows": [
+            ["Present Perfect", "I / You / We / They", "have + V3 (ed)", "I have finished my work"],
+            ["Present Perfect", "He / She / It", "has + V3 (ed)", "She has lost her keys"],
+            ["Опыт", "Действие было/не было когда-либо", "have/has + ever/never + V3", "I have been to London"],
+            ["Результат", "Действие завершилось, результат виден", "have/has + already/just/yet + V3", "I have already done my homework"],
+            ["Новость", "Недавнее событие, время неважно", "have/has + just + V3", "They have just arrived"],
+            ["", "", "", ""],
+            [" Утв.", " Отрицание", " Вопрос", ""],
+            ["I have seen", "I haven't seen", "Have I seen?", ""],
+            ["She has gone", "She hasn't gone", "Has she gone?", ""],
+            ["We have been", "We haven't been", "Have you ever been?", ""]
+          ]
+        },
         "questions": [
           {"q": "I can't go out. I ___ my homework yet.", "options": ["didn't finish", "haven't finished", "hasn't finished"], "answer": 1},
           {"q": "She has ___ visited London. She loved it.", "options": ["ever", "never", "just"], "answer": 2},
@@ -843,6 +872,22 @@
         ]
       },
       "Present Perfect vs Past Simple": {
+        "explanation": {
+          "headers": ["Время", "Случай", "Форма", "Пример"],
+          "rows": [
+            ["Present Perfect", "Результат есть сейчас (нет точного времени)", "have/has + V3", "I have cut my finger (болит)"],
+            ["Present Perfect", "Жизненный опыт (ever, never, before)", "have/has + V3", "He has been to Japan"],
+            ["Present Perfect", "Незавершённый период (today, this week)", "have/has + V3", "I have seen him today"],
+            ["Past Simple", "Факт в прошлом (есть точное время)", "V2 / Ved", "I cut my finger yesterday (уже не болит)"],
+            ["Past Simple", "Завершённый период (yesterday, last week)", "V2 / Ved", "I saw him yesterday"],
+            ["", "", "", ""],
+            [" Утв.", " Отрицание", " Вопрос", ""],
+            ["I have done", "I haven't done", "Have I done?", ""],
+            ["She has been", "She hasn't been", "Has she been?", ""],
+            ["I did", "I didn't do", "Did I do?", ""],
+            ["He went", "He didn't go", "Did he go?", ""]
+          ]
+        },
         "questions": [
           {"q": "I ___ to Italy last year.", "options": ["have been", "went", "have gone"], "answer": 1},
           {"q": "She ___ her job three months ago.", "options": ["has quit", "quit", "have quit"], "answer": 1},
@@ -855,6 +900,21 @@
         ]
       },
       "Present Perfect Continuous (I have been doing)": {
+        "explanation": {
+          "headers": ["Время", "Местоимение / Случай", "Форма", "Пример"],
+          "rows": [
+            ["Present", "I / You / We / They", "have been + Ving", "I have been reading for two hours"],
+            ["Present", "He / She / It", "has been + Ving", "She has been waiting since morning"],
+            ["Длительность", "Действие началось в прошлом и продолжается", "have/has been + Ving (for / since)", "We have been living here since 2015"],
+            ["Результат", "Действие только что закончилось, виден результат", "have/has been + Ving", "The ground is wet. It has been raining"],
+            ["Акцент", "Подчёркиваем длительность процесса", "have/has been + Ving", "He is tired. He has been working all day"],
+            ["", "", "", ""],
+            [" Утв.", " Отрицание", " Вопрос", ""],
+            ["I have been doing", "I haven't been doing", "Have I been doing?", ""],
+            ["She has been working", "She hasn't been working", "Has she been working?", ""],
+            ["They have been studying", "They haven't been studying", "Have they been studying?", ""]
+          ]
+        },
         "questions": [
           {"q": "The ground is wet. It ___ raining.", "options": ["has been", "have been", "was"], "answer": 0},
           {"q": "She is tired. She ___ for hours.", "options": ["has been studying", "have been studying", "studied"], "answer": 0},
@@ -867,6 +927,22 @@
         ]
       },
       "Future forms: will / going to / Present Continuous": {
+        "explanation": {
+          "headers": ["Время", "Случай / Значение", "Форма", "Пример"],
+          "rows": [
+            ["Future", "WILL — спонтанное решение", "will + V1", "I will open the window"],
+            ["Future", "WILL — предсказание (мнение/факт)", "will + V1", "It will rain tomorrow"],
+            ["Future", "WILL — обещание/угроза", "will + V1", "I will help you with this"],
+            ["Future", "GOING TO — план, намерение", "am/is/are + going to + V1", "I am going to visit Paris soon"],
+            ["Future", "GOING TO — предсказание (очевидное)", "am/is/are + going to + V1", "Look at the clouds! It is going to rain"],
+            ["Future", "PRESENT CONTINUOUS — договорённость", "am/is/are + Ving", "I am meeting friends tomorrow at 7 pm"],
+            ["", "", "", ""],
+            [" Утв.", " Отрицание", " Вопрос", ""],
+            ["I will go", "I won't go", "Will you go?", ""],
+            ["She is going to call", "She isn't going to call", "Is she going to call?", ""],
+            ["We are leaving", "We aren't leaving at 5", "Are we leaving tomorrow?", ""]
+          ]
+        },
         "questions": [
           {"q": "Look at those clouds! It ___ rain.", "options": ["will", "is going to", "is raining"], "answer": 1},
           {"q": "I think you ___ love this movie.", "options": ["are going to", "will", "are loving"], "answer": 1},
@@ -879,6 +955,21 @@
         ]
       },
       "Конструкция used to": {
+        "explanation": {
+          "headers": ["Время", "Случай / Значение", "Форма", "Пример"],
+          "rows": [
+            ["Past", "Привычка в прошлом (сейчас уже нет)", "used to + V1", "I used to play the piano"],
+            ["Past", "Состояние в прошлом (больше не актуально)", "used to + V1", "She used to be very shy"],
+            ["Past", "Действие повторялось регулярно в прошлом", "used to + V1", "We used to visit grandma every summer"],
+            ["", "НЕ ПУТАТЬ с: привык к чему-то", "be used to + Ving/сущ.", "I am used to getting up early"],
+            ["", "НЕ ПУТАТЬ с: привыкаю", "get used to + Ving/сущ.", "He is getting used to the weather"],
+            ["", "", "", ""],
+            [" Утв.", " Отрицание", " Вопрос", ""],
+            ["I used to work", "I didn't use to work", "Did you use to work?", ""],
+            ["He used to smoke", "He never used to smoke", "Did he use to smoke?", ""],
+            ["We used to live here", "We didn't use to live here", "Did we use to live here?", ""]
+          ]
+        },
         "questions": [
           {"q": "I ___ eat meat, but now I'm a vegetarian.", "options": ["used to", "use to", "using to"], "answer": 0},
           {"q": "She ___ short hair, but it's long now.", "options": ["used to have", "use to have", "was having"], "answer": 0},
@@ -891,6 +982,22 @@
         ]
       },
       "Степени сравнения прилагательных": {
+        "explanation": {
+          "headers": ["Степень", "Правило", "Форма", "Пример"],
+          "rows": [
+            ["Сравнит.", "Короткое прилаг. (1 слог)", "прил. + er", "small → smaller"],
+            ["Сравнит.", "Короткое прилаг. (гласн. + согл.)", "двойная согл. + er", "big → bigger"],
+            ["Сравнит.", "Прилаг. на -y", "y → ier", "happy → happier"],
+            ["Сравнит.", "Длинное прилаг. (2+ слога)", "more + прил.", "beautiful → more beautiful"],
+            ["Превосх.", "Короткое прилаг. (1 слог)", "the + прил. + est", "small → the smallest"],
+            ["Превосх.", "Короткое прилаг. (гласн. + согл.)", "the + двойная согл. + est", "big → the biggest"],
+            ["Превосх.", "Прилаг. на -y", "the + y → iest", "happy → the happiest"],
+            ["Превосх.", "Длинное прилаг. (2+ слога)", "the most + прил.", "beautiful → the most beautiful"],
+            [" Искл.", "good / bad / little / much / far / old", "особая форма", "better-best / worse-worst / less-least / more-most"],
+            ["", "", "", ""],
+            [" Равная степень", "as + прил. + as (такой же... как)", "not as/so + прил. + as (не такой... как)", "She is as tall as me. He is not as smart as you"]
+          ]
+        },
         "questions": [
           {"q": "Russia is ___ than France.", "options": ["biggest", "bigger", "more big"], "answer": 1},
           {"q": "This is the ___ film I have ever seen.", "options": ["most interesting", "more interesting", "interestingest"], "answer": 0},
@@ -903,6 +1010,24 @@
         ]
       },
       "Сравнительные конструкции (as…as, not as…as, than)": {
+        "explanation": {
+          "headers": ["Конструкция", "Значение", "Форма", "Пример"],
+          "rows": [
+            ["as...as", "Равная степень (такой же... как)", "as + прил. + as", "She is as tall as her brother"],
+            ["as...as", "Равная степень (с наречиями)", "as + нареч. + as", "He runs as fast as a cheetah"],
+            ["as...as", "Равное количество", "as + much/many + сущ. + as", "I have as much money as you"],
+            ["not as...as", "Неравная степень (не такой... как)", "not as/so + прил. + as", "This book is not as interesting as that one"],
+            ["not as...as", "Менее... чем", "not as + нареч. + as", "She doesn't sing as well as you"],
+            ["than", "Сравнительная степень (более... чем)", "прил.-er / more + прил. + than", "My car is faster than yours"],
+            ["than", "С наречиями", "нареч.-er / more + нареч. + than", "She works harder than me"],
+            ["than", "С much/far/a lot (намного...)", "much + сравн. + than", "This is much better than that"],
+            ["than", "С a bit/a little (немного...)", "a bit + сравн. + than", "It is a little colder than yesterday"],
+            ["", "", "", ""],
+            [" Устойч.", "Чем... тем...", "the + сравн., the + сравн.", "The sooner, the better"],
+            [" Устойч.", "Более или менее", "more or less", "It is more or less the same"],
+            [" Устойч.", "Всё более и более", "сравн. + and + сравн.", "It is getting colder and colder"]
+          ]
+        },
         "questions": [
           {"q": "My cat is as ___ as your dog.", "options": ["friendlier", "friendly", "most friendly"], "answer": 1},
           {"q": "The new flat is not ___ the old one.", "options": ["as big as", "as big than", "bigger as"], "answer": 0},
@@ -915,6 +1040,21 @@
         ]
       },
       "Порядок прилагательных": {
+        "explanation": {
+          "headers": ["Порядок", "Категория", "Примеры", "Пример предложения"],
+          "rows": [
+            ["1", "Opinion (мнение/оценка)", "beautiful, ugly, nice, terrible", "a beautiful old wooden table"],
+            ["2", "Size (размер)", "big, small, tiny, huge", "a lovely small round box"],
+            ["3", "Shape (форма)", "round, square, flat", "a big square metal plate"],
+            ["4", "Age (возраст)", "old, new, young, ancient", "an expensive new Italian suit"],
+            ["5", "Colour (цвет)", "red, blue, dark, light", "a beautiful big old red car"],
+            ["6", "Origin (происхождение)", "Italian, French, Russian", "a nice small French cheese"],
+            ["7", "Material (материал)", "wooden, metal, cotton, silk", "a cheap plastic toy"],
+            ["8", "Purpose (назначение)", "sleeping (bag), cooking (pot)", "a useful small round metal cooking pot"],
+            ["", "", "", ""],
+            [" Мнемоника", "O S S A C O M P", "Opinion-Size-Shape-Age-Colour-Origin-Material-Purpose", ""]
+          ]
+        },
         "questions": [
           {"q": "She bought a ___ dress.", "options": ["Italian lovely red", "lovely red Italian", "red lovely Italian"], "answer": 1},
           {"q": "We live in a ___ house.", "options": ["old big stone", "big old stone", "stone big old"], "answer": 1},
@@ -927,6 +1067,25 @@
         ]
       },
       "Наречия образа действия (quickly, well, fast)": {
+        "explanation": {
+          "headers": ["Тип", "Правило", "Форма", "Пример"],
+          "rows": [
+            ["Образ действия", "Большинство наречий", "прил. + ly", "quick → quickly"],
+            ["Образ действия", "Прилаг. на -y", "y → ily", "happy → happily / easy → easily"],
+            ["Образ действия", "Прилаг. на -le", "le → ly", "simple → simply / terrible → terribly"],
+            ["Образ действия", "Прилаг. на -ic", "ic → ically", "basic → basically"],
+            ["Образ действия", "Прилаг. на -ll", "ll + y", "full → fully"],
+            [" Исключения", "Совпадают с прилагательным", "fast, hard, late, early, straight, daily", "He drives fast. She works hard. I arrived late"],
+            ["", "", "", ""],
+            [" Меняют значение", "hard (усердно) / hardly (едва)", "hardly", "He works hard. I hardly know him"],
+            [" Меняют значение", "late (поздно) / lately (недавно)", "lately", "She came late. Have you seen her lately?"],
+            [" Меняют значение", "near (близко) / nearly (почти)", "nearly", "Come near. I nearly fell"],
+            [" Меняют значение", "high (высоко) / highly (весьма)", "highly", "The bird flew high. It is highly recommended"],
+            ["", "", "", ""],
+            [" Нерегулярные", "good → well", "fast → fast", "straight → straight"],
+            ["", "She sings well", "He runs fast", "Go straight home"]
+          ]
+        },
         "questions": [
           {"q": "He is a driver. He drives very ___.", "options": ["careful", "carefully", "carefuly"], "answer": 1},
           {"q": "My brother isn't a cook, but he cooks quite ___.", "options": ["good", "well", "goodly"], "answer": 1},
@@ -939,6 +1098,27 @@
         ]
       },
       "Модальные глаголы (must, have to, should, may, might, could)": {
+        п"explanation": {
+          "headers": ["Глагол", "Значение", "Форма", "Пример"],
+          "rows": [
+            ["must", "Должен (личное убеждение)", "must + V1", "I must call my mum today"],
+            ["must", "Строгий запрет", "must not (mustn't) + V1", "You mustn't smoke here"],
+            ["must", "Уверенность (точно так)", "must + be/Ving", "She must be at home now"],
+            ["have to", "Должен (правило/закон/обстоятельства)", "have/has to + V1", "I have to wear a uniform at work"],
+            ["have to", "Пришлось (в прошлом)", "had to + V1", "We had to wait for an hour"],
+            ["don't have to", "Не нужно, нет необходимости", "don't/doesn't have to + V1", "You don't have to come"],
+            ["should", "Совет, рекомендация", "should + V1", "You should see a doctor"],
+            ["should", "Не стоит (совет не делать)", "should not (shouldn't) + V1", "You shouldn't eat so much sugar"],
+            ["should", "Упрёк о прошлом", "should have + V3", "You should have called me"],
+            ["may", "Разрешение (формально) / Вероятность 50%", "may + V1", "May I come in? / It may rain tomorrow"],
+            ["may", "Возможно в прошлом", "may have + V3", "She may have forgotten about it"],
+            ["might", "Вероятность 30% (менее уверенно)", "might + V1", "I might go to the party"],
+            ["might", "Упрёк (мягче)", "might have + V3", "You might have told me earlier"],
+            ["could", "Способность в прошлом", "could + V1", "I could swim when I was five"],
+            ["could", "Вежливая просьба", "Could + подл. + V1?", "Could you help me, please?"],
+            ["could", "Возможно в прошлом (но не сделал)", "could have + V3", "He could have taken the bus"]
+          ]
+        },
         "questions": [
           {"q": "You ___ smoke here. It's forbidden.", "options": ["don't have to", "mustn't", "shouldn't"], "answer": 1},
           {"q": "I think you ___ see a doctor. Your cough is terrible.", "options": ["should", "may", "must"], "answer": 0},
@@ -951,6 +1131,28 @@
         ]
       },
       "Предлоги времени (for, since, during, by, until)": {
+        "explanation": {
+          "headers": ["Предлог", "Значение", "Правило", "Пример"],
+          "rows": [
+            ["for", "В течение (как долго?)", "for + период времени", "I have lived here for 5 years"],
+            ["for", "", "for two days, for a long time", "She waited for two hours"],
+            ["since", "С (с какого момента?)", "since + точка отсчёта", "I have lived here since 2020"],
+            ["since", "", "since Monday, since 9 am", "She has been working since Monday"],
+            ["since", "", "since + придаточное", "We have known each other since we were kids"],
+            ["during", "Во время, в течение (когда?)", "during + сущ.", "I fell asleep during the film"],
+            ["during", "", "during the lesson, during summer", "Nobody spoke during the meeting"],
+            ["by", "К какому-то моменту (не позже чем)", "by + время/дата", "Finish the report by Friday"],
+            ["by", "", "by 5 pm, by Monday", "I will be home by 7 o'clock"],
+            ["until (till)", "До какого-то момента (действие длится до)", "until + время/событие", "I will wait until you come"],
+            ["until", "", "until Friday, until he comes", "The shop is open until 9 pm"],
+            ["", "", "", ""],
+            [" Сравнение", "for 3 hours", "как долго?", "I slept for 3 hours"],
+            ["", "since 3 o'clock", "с какого момента?", "I have been here since 3 o'clock"],
+            ["", "during the night", "когда? (на протяжении)", "I woke up twice during the night"],
+            ["", "by tomorrow", "к какому сроку?", "I need it by tomorrow"],
+            ["", "until tomorrow", "до какого момента?", "You can keep it until tomorrow"]
+          ]
+        },
         "questions": [
           {"q": "I have lived here ___ 2015.", "options": ["for", "since", "during"], "answer": 1},
           {"q": "You must finish the report ___ Friday.", "options": ["by", "until", "for"], "answer": 0},
@@ -963,6 +1165,32 @@
         ]
       },
       "Предлоги места (in, on, at, behind, between)": {
+        "explanation": {
+          "headers": ["Предлог", "Значение", "Правило", "Пример"],
+          "rows": [
+            ["in", "В, внутри", "in + город/страна/комната/здание", "I live in Moscow. She is in the kitchen"],
+            ["in", "", "in the box, in the water, in the sky", "The keys are in my bag"],
+            ["in", "", "in a car/taxi", "He is in the car"],
+            ["on", "На (поверхности)", "on + поверхность", "The book is on the table"],
+            ["on", "", "on the wall, on the floor, on the shelf", "The picture is on the wall"],
+            ["on", "", "on + улица/этаж", "I live on Tverskaya Street"],
+            ["on", "", "on + транспорт (общественный)", "She is on the bus / on a plane"],
+            ["on", "", "on the left/right", "The bank is on the left"],
+            ["at", "У, в, на (конкретная точка)", "at + точный адрес", "I live at 25 Pushkin Street"],
+            ["at", "", "at home, at school, at work, at the station", "She is at home now"],
+            ["at", "", "at the door, at the entrance", "Someone is at the door"],
+            ["behind", "Позади, сзади, за", "behind + объект", "The garden is behind the house"],
+            ["behind", "", "behind the door, behind me", "She hid behind the tree"],
+            ["between", "Между (двумя объектами)", "between A and B", "The shop is between the bank and the post office"],
+            ["between", "", "between the chairs, between us", "I sat between Tom and Jerry"],
+            ["", "", "", ""],
+            [" Сравнение", "in the box", "внутри", "The toy is in the box"],
+            ["", "on the box", "на поверхности", "The cat is on the box"],
+            ["", "at the door", "у/около точки", "He is standing at the door"],
+            ["", "behind the box", "позади", "The ball is behind the box"],
+            ["", "between the boxes", "между двумя", "The ball is between the boxes"]
+          ]
+        },
         "questions": [
           {"q": "The bank is ___ the post office and the supermarket.", "options": ["between", "behind", "in front of"], "answer": 0},
           {"q": "I live ___ a big city.", "options": ["at", "in", "on"], "answer": 1},
@@ -975,6 +1203,37 @@
         ]
       },
       "Предлоги движения (to, into, out of, through, along)": {
+        "explanation": {
+          "headers": ["Предлог", "Значение", "Правило", "Пример"],
+          "rows": [
+            ["to", "К, в, на (направление)", "to + место", "I am going to the park"],
+            ["to", "", "go to, walk to, come to, return to", "She walked to school"],
+            ["to", "", "Welcome to London", "He came to my house yesterday"],
+            ["into", "В, внутрь (движение внутрь)", "into + замкнутое пространство", "She came into the room"],
+            ["into", "", "into the box, into the house, into the car", "He jumped into the water"],
+            ["into", "", "Put the milk into the fridge", "The cat climbed into the bag"],
+            ["out of", "Из, наружу (движение изнутри)", "out of + пространство", "She walked out of the room"],
+            ["out of", "", "out of the house, out of the box", "He took the book out of his bag"],
+            ["out of", "", "Get out of the car!", "I pulled the key out of my pocket"],
+            ["through", "Через, сквозь (насквозь)", "through + пространство/препятствие", "We walked through the forest"],
+            ["through", "", "through the park, through the crowd, through the tunnel", "The road goes through the tunnel"],
+            ["through", "", "through the window", "I could see her through the window"],
+            ["along", "Вдоль, по (по линии)", "along + длинный объект", "We walked along the beach"],
+            ["along", "", "along the street, along the river, along the wall", "There are trees along the road"],
+            ["along", "", "Shops along this street are expensive", "He was running along the corridor"],
+            ["", "", "", ""],
+            [" Сравнение", "in — где? (статика)", "нахождение внутри", "I am in the room"],
+            ["", "into — куда? (движение)", "движение внутрь", "I am going into the room"],
+            ["", "out of — откуда?", "движение наружу", "I am coming out of the room"],
+            ["", "", "", ""],
+            [" Сравнение", "through — через, сквозь", "пересекает границы", "We drove through the city"],
+            ["", "along — вдоль", "движется по линии", "We drove along the coast"],
+            ["", "", "", ""],
+            [" Исключения", " go to home", " go home (без to)", "I am going home"],
+            ["", " enter into the room", " enter the room (без into)", "She entered the room quietly"],
+            ["", " arrive in (город/страна)", " arrive at (здание/станция)", "I arrived in London / at the airport"]
+          ]
+        },
         "questions": [
           {"q": "Let's walk ___ the park and enjoy the sun.", "options": ["into", "through", "to"], "answer": 1},
           {"q": "She got ___ the car and drove away.", "options": ["into", "to", "through"], "answer": 0},
@@ -987,6 +1246,25 @@
         ]
       },
       "Количественные слова (some, any, much, many, a lot of)": {
+        "explanation": {
+          "headers": ["Слово", "Значение", "Правило", "Пример"],
+          "rows": [
+            ["some", "Немного, несколько", " Утв. предложения", "I have some apples"],
+            ["some", "", "some + исчисл. мн.ч. / some + неисчисл.", "There is some milk in the fridge"],
+            ["some", "", " Вопрос-просьба/предложение", "Can I have some water? Would you like some tea?"],
+            ["any", "Сколько-нибудь, вообще", " Вопрос", "Do you have any questions? Is there any milk left?"],
+            ["any", "", " Отрицание", "I don't have any money. There aren't any chairs"],
+            ["any", "", " Любой (в утв.)", "Take any book you like. Any student can do this"],
+            ["much", "Много", "much + неисчисл. ( Вопросы и отрицания)", "I don't have much time. How much sugar do you need?"],
+            ["many", "Много, многие", "many + исчисл. мн.ч. ( Вопросы и отрицания)", "I don't have many friends. How many books did you read?"],
+            ["a lot of (lots of)", "Много (очень много)", " Утв. предложения (a lot of + неисчисл. / исчисл. мн.ч.)", "I have a lot of work. She has a lot of friends"],
+            ["", "", "", ""],
+            [" Обзор", "Исчисляемые", "Неисчисляемые", ""],
+            [" Утв.", "a lot of / many", "a lot of / much", ""],
+            [" Отриц.", "many", "much", ""],
+            [" Вопр.", "many", "much", ""]
+          ]
+        },
         "questions": [
           {"q": "Are there ___ eggs in the fridge?", "options": ["some", "any", "much"], "answer": 1},
           {"q": "How ___ money do you need?", "options": ["many", "much", "a lot of"], "answer": 1},
@@ -999,6 +1277,26 @@
         ]
       },
       "Неопределённые местоимения (somebody, anybody, nobody)": {
+        "explanation": {
+          "headers": ["Местоимение", "Значение", "Правило", "Пример"],
+          "rows": [
+            ["somebody (someone)", "Кто-то, кто-нибудь", " Утв. предложения", "Somebody called you. I saw somebody outside"],
+            ["somebody", "", " Вопрос-просьба/предложение", "Can somebody help me? Would you like somebody to talk to?"],
+            ["anybody (anyone)", "Кто-нибудь, никто (с not)", " Вопрос", "Is anybody home? Did anybody see my phone?"],
+            ["anybody", "", " Отрицание", "I don't know anybody here. There isn't anybody in the room"],
+            ["anybody", "", " Любой (в утв.)", "Anybody can do it. Ask anybody — they will tell you"],
+            ["nobody (no one)", "Никто", " Утв. предложения (глагол в утв. форме!)", "Nobody knows the answer. Nobody came to the party"],
+            ["nobody", "", " Не используется с not!", " I don't know nobody →  I know nobody / I don't know anybody"],
+            ["", "", "", ""],
+            [" Таблица", "Люди", "Предметы", "Места"],
+            [" Утв.", "somebody/someone", "something", "somewhere"],
+            [ " Отриц./ Вопр.", "anybody/anyone", "anything", "anywhere"],
+            [" Дв. отриц.", "nobody/no one", "nothing", "nowhere"],
+            ["", "", "", ""],
+            [" Правила", "Глагол в ед. числе (с -body, -one, -thing)", "is/was/has/V+s", "Somebody is waiting. Everything is ready"],
+            ["", "Прилагательное ПОСЛЕ -thing, -body, -where", "something + прил.", "I want something hot. Let's go somewhere quiet"]
+          ]
+        },
         "questions": [
           {"q": "I think ___ is at the door. Go and check.", "options": ["nobody", "somebody", "anything"], "answer": 1},
           {"q": "There is ___ in this box. It's empty.", "options": ["something", "nothing", "everything"], "answer": 1},
@@ -1011,6 +1309,26 @@
         ]
       },
       "Возвратные местоимения (myself, yourself, himself)": {
+        "explanation": {
+          "headers": ["Местоимение", "Значение", "Правило", "Пример"],
+          "rows": [
+            ["myself", "Себя, сам, себя самого", "I → myself", "I looked at myself in the mirror"],
+            ["myself", "", "", "I did it myself (я сам). I hurt myself"],
+            ["yourself", "Себя, сам (ед.ч.)", "you (ед.ч.) → yourself", "Help yourself! (угощайся!)"],
+            ["yourself", "", "", "Don't blame yourself. You should be proud of yourself"],
+            ["himself", "Себя, сам (он)", "he → himself", "He cut himself while shaving"],
+            ["himself", "", "", "He built the house himself. He is talking to himself"],
+            ["herself", "Себя, сама (она)", "she → herself", "She bought herself a new dress"],
+            ["herself", "", "", "She lives by herself. She made it herself"],
+            ["itself", "Себя, сам (оно/животное/предмет)", "it → itself", "The cat is washing itself"],
+            ["itself", "", "", "The door closes by itself. The problem solved itself"],
+            ["ourselves", "Себя, сами (мы)", "we → ourselves", "We enjoyed ourselves at the party"],
+            ["ourselves", "", "", "We made it all by ourselves"],
+            ["yourselves", "Себя, сами (вы, мн.ч.)", "you (мн.ч.) → yourselves", "Help yourselves! You can be proud of yourselves"],
+            ["themselves", "Себя, сами (они)", "they → themselves", "They introduced themselves"],
+            ["themselves", "", "", "The children can dress themselves. They built it themselves"]
+          ]
+        },
         "questions": [
           {"q": "I made this cake ___.", "options": ["myself", "yourself", "myselfe"], "answer": 0},
           {"q": "Be careful with that knife! Don't cut ___.", "options": ["you", "yourself", "myself"], "answer": 1},
@@ -1023,6 +1341,26 @@
         ]
       },
       "Союзы (because, so, although, however)": {
+        "explanation": {
+          "headers": ["Союз", "Значение", "Правило", "Пример"],
+          "rows": [
+            ["because", "Потому что (причина)", "because + подлеж. + сказ.", "I stayed at home because it was raining"],
+            ["because", "", "Отвечает на «Why?»", "She is happy because she passed the exam"],
+            ["because", "", " Не путать с so!", " Because it was raining, so I stayed home →  I stayed home because it was raining"],
+            ["so", "Поэтому, так что (результат)", "so + результат", "It was raining, so I stayed at home"],
+            ["so", "", "", "I was tired, so I went to bed early. He didn't study, so he failed the test"],
+            ["although", "Хотя, несмотря на то что (контраст, уступка)", "although + подлеж. + сказ.", "Although it was raining, I went for a walk"],
+            ["although", "", "В начале или в середине предложения", "She went to work although she was sick. Although he is rich, he is not happy"],
+            ["although", "", " Не путать с but!", " Although it was cold, but I went out →  Although it was cold, I went out"],
+            ["however", "Однако, тем не менее (контраст)", "however (формально)", "I wanted to come. However, I was too busy"],
+            ["however", "", "В начале предложения + запятая", "It is an expensive phone. However, it is worth it"],
+            ["however", "", "В середине (в запятых)", "The weather was terrible. The trip, however, was fantastic"],
+            ["", "", "", ""],
+            [" Сравнение", "but", "но (менее формально)", "It was cold, but I went out"],
+            ["", "although", "хотя + подлеж. + сказ.", "Although it was cold, I went out"],
+            ["", "however", "однако (формально, пауза)", "It was cold. However, I went out"]
+          ]
+        },
         "questions": [
           {"q": "I was late ___ my alarm didn't go off.", "options": ["so", "because", "although"], "answer": 1},
           {"q": "It was raining, ___ we decided to stay home.", "options": ["because", "so", "although"], "answer": 1},
@@ -1035,6 +1373,28 @@
         ]
       },
       "Косвенная речь (база: He said that…)": {
+        "explanation": {
+          "headers": ["Время", "Прямая речь", "Косвенная речь", "Пример"],
+          "rows": [
+            ["Present → Past", "Present Simple", "Past Simple", "'I like coffee' → He said that he liked coffee"],
+            ["Present → Past", "Present Continuous", "Past Continuous", "'I am working' → She said that she was working"],
+            ["Present → Past", "Present Perfect", "Past Perfect", "'I have finished' → He said that he had finished"],
+            ["Past → Past Perfect", "Past Simple", "Past Perfect", "'I saw her' → He said that he had seen her"],
+            ["Past → Past Perfect", "Past Continuous", "Past Perfect Continuous", "'I was sleeping' → She said that she had been sleeping"],
+            ["Future → Past", "will", "would", "'I will call' → She said that she would call"],
+            ["Future → Past", "can / may", "could / might", "'I can swim' → He said that he could swim"],
+            ["Future → Past", "must (долженствование)", "had to", "'I must go' → He said that he had to go"],
+            ["", "", "", ""],
+            [" Наречия", "now → then", "today → that day", "tomorrow → the next day"],
+            ["", "yesterday → the day before", "here → there", "this/these → that/those"],
+            ["", "", "", ""],
+            [" Глагол в наст.", "says (не меняем время!)", "'I am tired' → She says (that) she is tired", ""],
+            [" Вопросы", "Yes/No → if/whether", "'Do you like tea?' → She asked if I liked tea", ""],
+            [" Вопросы", "Спец. вопрос → прямой порядок", "'Where do you live?' → He asked where I lived", ""],
+            [" Приказы", "Повелительное → to + V1 / not to + V1", "'Sit down' → He told me to sit down", ""],
+            ["say / tell", "say (без адресата) / tell + кому", "He said (that) he was tired / He told me (that) he was tired", ""]
+          ]
+        },
         "questions": [
           {"q": "'I am tired.' He said that he ___ tired.", "options": ["is", "was", "am"], "answer": 1},
           {"q": "'I don't like fish.' She said she ___ like fish.", "options": ["doesn't", "didn't", "wasn't"], "answer": 1},
@@ -1047,6 +1407,33 @@
         ]
       },
       "Условные предложения 0 и 1 типа": {
+        "explanation": {
+          "headers": ["Тип", "Значение", "Формула", "Пример"],
+          "rows": [
+            ["Zero Conditional (Тип 0)", "Реальный факт, закон природы, общеизвестная истина (всегда так)", "If + Present Simple, Present Simple", "If you heat ice, it melts. If water reaches 100°C, it boils"],
+            ["Тип 0", "", "If + Present Simple, Повелительное наклонение", "If you feel sick, see a doctor. If the phone rings, answer it"],
+            ["Тип 0", "", "IF = WHEN (всегда можно заменить)", "When I am tired, I drink coffee (= If I am tired...)"],
+            ["First Conditional (Тип 1)", "Реальное будущее (вполне вероятно)", "If + Present Simple, will + V1", "If it rains, I will stay at home. If I see her, I will tell her the news"],
+            ["Тип 1", "", "If + Present Simple, can/may/must/should + V1", "If you finish early, you can go home"],
+            ["Тип 1", "", "If + Present Simple, Повелительное наклонение", "If you are hungry, eat something. If she calls, tell me immediately"],
+            ["", "", "", ""],
+            [" Сравнение", "Тип 0 — Всегда правда", "If you drop an egg, it breaks", ""],
+            ["", "Тип 0 — Инструкция", "If the light is red, stop", ""],
+            ["", "Тип 1 — Конкретная ситуация в будущем", "If I drop this egg, it will break", ""],
+            ["", "Тип 1 — Предупреждение/обещание", "If you don't hurry, we will be late", ""],
+            ["", "", "", ""],
+            [" Утв. Тип 0", "If I wake up early, I go for a run", "", ""],
+            [" Утв. Тип 1", "If I wake up early tomorrow, I will go for a run", "", ""],
+            [" Отриц.", "If you don't water plants, they die / If you don't leave now, you will miss the bus", "", ""],
+            ["", "", "", ""],
+            [" Правила", "If-часть в начале → ЗАПЯТАЯ", "If I see her, I will call her", ""],
+            ["", "If-часть в конце → БЕЗ запятой", "I will call her if I see her", ""],
+            ["", " will в if-части нельзя!", " If I see her, I will call her", ""],
+            ["", "", "", ""],
+            [" Unless = if not", "unless + Present Simple", "Unless you hurry, you will be late (= If you don't hurry...)", ""],
+            ["", "", "I won't go unless you come too (= if you don't come)", ""]
+          ]
+        },
         "questions": [
           {"q": "If you heat ice, it ___.", "options": ["melts", "melted", "will melt"], "answer": 0},
           {"q": "If it ___ sunny tomorrow, we'll go to the beach.", "options": ["will be", "is", "was"], "answer": 1},
@@ -1059,6 +1446,29 @@
         ]
       },
       "Пассивный залог (база: is done, was done)": {
+        "explanation": {
+          "headers": ["Время", "Активный залог", "Пассивный залог", "Пример"],
+          "rows": [
+            ["Present Simple", "V1 / V-s", "am/is/are + V3", "English is spoken all over the world"],
+            ["Present Simple", "They make cars here", "Cars are made here", "He cleans the room → The room is cleaned every day"],
+            ["Past Simple", "V2 / V-ed", "was/were + V3", "This house was built in 1900"],
+            ["Past Simple", "She wrote the letter", "The letter was written by her", "They stole my phone → My phone was stolen"],
+            ["Present Continuous", "am/is/are + Ving", "am/is/are + being + V3", "The road is being repaired now"],
+            ["Present Continuous", "They are fixing the road", "The road is being fixed", "She is cooking dinner → Dinner is being cooked"],
+            ["Present Perfect", "have/has + V3", "have/has + been + V3", "The work has been finished"],
+            ["Present Perfect", "Someone has stolen my bag", "My bag has been stolen", "They have built a new hospital → A new hospital has been built"],
+            ["Future Simple", "will + V1", "will + be + V3", "The letter will be sent tomorrow"],
+            ["Future Simple", "They will send the letter", "The letter will be sent", "She will finish the project → The project will be finished"],
+            ["Modals", "can/must/should + V1", "can/must/should + be + V3", "Cars must be parked here"],
+            ["Modals", "You must park cars here", "Cars must be parked here", "You cannot use this phone → This phone cannot be used"],
+            ["", "", "", ""],
+            [" by + исполнитель", "by Shakespeare (когда важно КТО)", "'Hamlet' was written by Shakespeare", ""],
+            ["", "by НЕ переводим (исполнитель неизвестен/не важен)", "My bike was stolen. Rice is grown in China", ""],
+            ["", "", "", ""],
+            [" Шаги: Актив → Пассив", "1. Дополнение → подлежащее", "They built the house → The house was built (by them)", ""],
+            ["", "2. Глагол be в нужном времени", "3. Глагол в V3", "4. by + кто (опционально)"]
+          ]
+        },
         "questions": [
           {"q": "The office ___ cleaned every evening.", "options": ["is", "are", "was"], "answer": 0},
           {"q": "The 'Mona Lisa' ___ by Leonardo da Vinci.", "options": ["is painted", "was painted", "painted"], "answer": 1},
@@ -1071,6 +1481,31 @@
         ]
       },
       "Вопросы разделительные (You like coffee, don't you?)": {
+        "explanation": {
+          "headers": ["Тип", "Главная часть", "Хвостик", "Пример"],
+          "rows": [
+            ["  ", "Утверждение (+)", "Отрицание (-)", "You like coffee, don't you? She is tired, isn't she?"],
+            ["  ", "Отрицание (-)", "Утверждение (+)", "You don't like tea, do you? She isn't ready, is she?"],
+            ["to be", "I am", "aren't I?", "I am late, aren't I?"],
+            ["to be", "He/She/It is", "isn't he/she/it?", "She is happy, isn't she?"],
+            ["to be", "You/We/They are", "aren't you/we/they?", "We are ready, aren't we?"],
+            ["Present Simple", "I/You/We/They work", "don't I/you/we/they?", "You work here, don't you?"],
+            ["Present Simple", "He/She/It works", "doesn't he/she/it?", "She knows him, doesn't she?"],
+            ["Past Simple", "I/He/She/It worked", "didn't I/he/she/it?", "She called you, didn't she?"],
+            ["Past Simple", "You/We/They worked", "didn't you/we/they?", "They went home, didn't they?"],
+            ["Present Perfect", "I/You/We/They have done", "haven't I/you/we/they?", "You have seen it, haven't you?"],
+            ["Present Perfect", "He/She/It has done", "hasn't he/she/it?", "She has left, hasn't she?"],
+            ["Modals", "can / will / should", "can't / won't / shouldn't + мест.?", "You can swim, can't you? You will come, won't you?"],
+            ["", "", "", ""],
+            [" Особые случаи", "Let's (приглашение)", "shall we?", "Let's go for a walk, shall we?"],
+            ["", "Повелительное (приказ)", "will you?", "Open the door, will you? Don't be late, will you?"],
+            ["", "There is/are", "isn't/aren't there?", "There is a problem, isn't there?"],
+            ["", "This/That is", "isn't it?", "That's your bag, isn't it?"],
+            ["", "Everybody/Everyone", "... they?", "Everyone is here, aren't they?"],
+            ["", "Nothing", "... it?", "Nothing is wrong, is it?"],
+            ["", "Nobody/No one", "... they?", "Nobody called, did they?"]
+          ]
+        },
         "questions": [
           {"q": "You like coffee, ___?", "options": ["do you?", "don't you?", "doesn't you?"], "answer": 1},
           {"q": "She is a teacher, ___?", "options": ["isn't she?", "is she?", "doesn't she?"], "answer": 0},
@@ -1083,6 +1518,34 @@
         ]
       },
       "Вопросы косвенные (Can you tell me where…)": {
+        "explanation": {
+          "headers": ["Тип", "Прямой вопрос", "Косвенный вопрос", "Пример"],
+          "rows": [
+            ["Вводная фраза", "Can you tell me...?", "", "Can you tell me where the bank is?"],
+            ["", "Do you know...?", "", "Do you know what time it is?"],
+            ["", "I wonder... / I don't know...", "", "I wonder why she left early. I don't know how he did it"],
+            ["", "Do you remember...? / Could you tell me...?", "", "Do you remember where we parked? Could you tell me how to get to the station?"],
+            ["Yes/No вопросы", "Прямой: Вспом. гл. + подл. + гл.", "if/whether + подл. + гл.", "'Is she at home?' → Can you tell me if she is at home?"],
+            ["", "", "", "'Do you like pizza?' → I wonder if you like pizza"],
+            ["", "", "", "'Has he arrived?' → Do you know whether he has arrived?"],
+            ["", "if = whether (оба можно)", "", "Can you tell me whether/if she is coming?"],
+            ["", "whether ... or not", "", "I wonder whether he will come or not"],
+            ["Wh- вопросы", "Прямой: Wh-word + вспом. гл. + подл. + гл.", "Wh-word + подл. + гл.", "'Where is the toilet?' → Can you tell me where the toilet is?"],
+            ["", "", "", "'What does she want?' → Do you know what she wants?"],
+            ["", "", "", "'How did he get here?' → I don't know how he got here"],
+            ["", "", "", "'When will they arrive?' → Can you tell me when they will arrive?"],
+            ["", "", "", "'Why are you crying?' → Can I ask why you are crying?"],
+            ["", "", "", ""],
+            [" Порядок слов", " Прямой: Where is the station?", " Косвенный: Can you tell me where the station is?", ""],
+            ["", " Does he like music?", " Do you know if he likes music?", ""],
+            ["", "What time does the film start?", " Do you know what time the film starts?", ""],
+            ["",  " Where did she go?", " I wonder where she went", ""],
+            ["", "", "", ""],
+            [" Ответы", "Can you tell me where...?", "Yes, it's over there / Sorry, I don't know", ""],
+            ["", "Do you mind if...?", "No, not at all / Please go ahead", ""],
+            ["", "Would you mind...?", "No, of course not / Sure, no problem", ""]
+          ]
+        },
         "questions": [
           {"q": "Can you tell me where ___?", "options": ["is the station", "the station is", "the station"], "answer": 1},
           {"q": "Do you know how much ___?", "options": ["this costs", "does this cost", "cost this"], "answer": 0},
