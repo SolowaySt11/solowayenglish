@@ -70,14 +70,23 @@ async def show_explanation(update: Update, context: ContextTypes.DEFAULT_TYPE, l
     
     try:
         await update.callback_query.message.delete()
-    except:
-        pass
+    except Exception as e:
+        print(f"Не удалось удалить сообщение: {e}")
     
-    await update.effective_chat.send_photo(
-        photo=buf,
-        caption=f"📖 {topic}",
-        reply_markup=reply_markup
-    )
+    try:
+        await update.effective_chat.send_photo(
+            photo=buf,
+            caption=f"📖 *{topic}*",
+            reply_markup=reply_markup,
+            parse_mode="Markdown"
+        )
+    except Exception as e:
+        print(f"Ошибка при отправке фото: {e}")
+        await update.effective_chat.send_message(
+            f"📖 *{topic}*\n\nТеория по этой теме.",
+            reply_markup=reply_markup,
+            parse_mode="Markdown"
+        )
 
 TOKEN = "8681728801:AAHYuSN_UtHSe4w6F3uOLXwoaL0dSGjuF9k"
 
@@ -472,7 +481,8 @@ async def start_test(update: Update, context: ContextTypes.DEFAULT_TYPE, level, 
         "topic": topic,
         "questions": questions,
         "current": 0,
-        "score": 0
+        "score": 0,
+        "user_answers": []
     }
     
     await show_question(update, context)
@@ -513,13 +523,22 @@ async def handle_answer(update: Update, context: ContextTypes.DEFAULT_TYPE, answ
     question = test["questions"][test["current"]]
     correct = question["answer"]
     correct_ans = question["options"][correct]
+    user_answer = question["options"][answer_idx]
+    is_correct = (answer_idx == correct)
     
-    if answer_idx == correct:
+    # Сохраняем ответ пользователя
+    test["user_answers"].append({
+        "question": question["q"],
+        "user_answer": user_answer,
+        "correct_answer": correct_ans,
+        "is_correct": is_correct
+    })
+    
+    if is_correct:
         test["score"] += 1
         await update.callback_query.answer(f"✅ Правильно! ({correct_ans})")
     else:
-        your_ans = question["options"][answer_idx]
-        await update.callback_query.answer(f"❌ Твой ответ: {your_ans}. Правильно: {correct_ans}", show_alert=True)
+        await update.callback_query.answer(f"❌ Твой ответ: {user_answer}. Правильно: {correct_ans}", show_alert=True)
     
     test["current"] += 1
     
@@ -553,6 +572,9 @@ async def finish_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
         emoji = "💪"
         comment = "Нужно подучить эту тему. Не сдавайся!"
     
+    # Получаем неправильные ответы
+    wrong_answers = [ans for ans in test["user_answers"] if not ans["is_correct"]]
+    
     idx = find_topic_index(test["level"], test["category"], test["topic"])
     
     keyboard = [
@@ -561,14 +583,52 @@ async def finish_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     
-    await update.callback_query.edit_message_text(
-        f"{emoji} *Тест завершён!*\n\n"
-        f"📝 {test['topic']}\n"
-        f"📊 Результат: {score}/{total} ({percent}%)\n\n"
-        f"{comment}",
-        reply_markup=reply_markup,
-        parse_mode="Markdown"
-    )
+    # Формируем сообщение с результатами
+    if wrong_answers:
+        # Если есть ошибки, показываем краткий результат и отдельно ошибки
+        result_text = (
+            f"{emoji} *Тест завершён!*\n\n"
+            f"📝 {test['topic']}\n"
+            f"📊 Результат: {score}/{total} ({percent}%)\n\n"
+            f"{comment}\n\n"
+            f"❌ *Ошибки: {len(wrong_answers)} из {total}*"
+        )
+        
+        # Отправляем результат
+        await update.callback_query.edit_message_text(
+            result_text,
+            reply_markup=reply_markup,
+            parse_mode="Markdown"
+        )
+        
+        # Отправляем ошибки отдельными сообщениями
+        for i in range(0, len(wrong_answers), 2):  # По 2 ошибки в сообщении
+            chunk = wrong_answers[i:i+2]
+            error_text = "*❌ Ошибки:*\n\n"
+            for j, wrong in enumerate(chunk, i+1):
+                error_text += f"{j}. *{wrong['question']}*\n"
+                error_text += f"   ❌ Ваш ответ: {wrong['user_answer']}\n"
+                error_text += f"   ✅ Правильно: {wrong['correct_answer']}\n\n"
+            
+            await update.effective_chat.send_message(
+                error_text,
+                parse_mode="Markdown"
+            )
+    else:
+        # Если ошибок нет
+        result_text = (
+            f"{emoji} *Тест завершён!*\n\n"
+            f"📝 {test['topic']}\n"
+            f"📊 Результат: {score}/{total} ({percent}%)\n\n"
+            f"{comment}\n\n"
+            f"🎯 *Все ответы правильные!*"
+        )
+        
+        await update.callback_query.edit_message_text(
+            result_text,
+            reply_markup=reply_markup,
+            parse_mode="Markdown"
+        )
     
     del context.user_data["test"]
 
@@ -617,6 +677,8 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.answer()
     data = query.data
     
+    print(f"DEBUG: callback_data = {data}")
+    
     if "authenticated" not in context.user_data:
         await query.edit_message_text("🔐 Сначала авторизуйся: /start")
         return
@@ -625,6 +687,8 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await show_levels(update, context)
     elif data == "total_progress":
         await show_total_progress(update, context)
+    elif data == "noop":
+        pass  # Ничего не делаем для кнопок-заглушек
     elif data.startswith("level_"):
         level = data[6:]
         await show_categories(update, context, level)
