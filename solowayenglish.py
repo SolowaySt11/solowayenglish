@@ -390,7 +390,7 @@ async def show_topics(update: Update, context: ContextTypes.DEFAULT_TYPE, level,
     for idx in range(start_idx, end_idx):
         topic = topics[idx]
         done = progress.get(topic, 0)
-        emoji = "OK" if done else "--"
+        emoji = "✅" if done else "⬜"
         keyboard.append([InlineKeyboardButton(f"{emoji} {topic}", callback_data=f"topic_{level}|{category}|{idx}")])
     
     nav_row = []
@@ -420,7 +420,7 @@ async def show_topic_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, le
     progress = get_progress(update.effective_user.id, level)
     done = progress.get(topic, 0)
     
-    status = "OK Пройдена" if done else "-- Не пройдена"
+    status = "✅ Пройдена" if done else "⬜ Не пройдена"
     
     has_expl = False
     try:
@@ -439,12 +439,11 @@ async def show_topic_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, le
     ]
     
     if has_expl:
-        keyboard.append([InlineKeyboardButton("Теория", callback_data=f"expl_{level}|{category}|{idx}")])
-    
+        keyboard.append([InlineKeyboardButton("📖 Теория", callback_data=f"expl_{level}|{category}|{idx}")])
     if has_test(level, topic):
-        keyboard.append([InlineKeyboardButton("Пройти тест (8 вопросов)", callback_data=f"test_{level}|{category}|{idx}")])
+        keyboard.append([InlineKeyboardButton("📝 Пройти тест (8 вопросов)", callback_data=f"test_{level}|{category}|{idx}")])
     
-    keyboard.append([InlineKeyboardButton("Назад", callback_data=f"cat_{level}|{category}")])
+    keyboard.append([InlineKeyboardButton("🔙 Назад", callback_data=f"cat_{level}|{category}")])
     reply_markup = InlineKeyboardMarkup(keyboard)
     
     await update.callback_query.edit_message_text(
@@ -528,7 +527,7 @@ async def handle_answer(update: Update, context: ContextTypes.DEFAULT_TYPE, answ
         await finish_test(update, context)
     else:
         await show_question(update, context)
-
+        
 async def finish_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
     test = context.user_data.get("test")
     if not test:
