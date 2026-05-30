@@ -126,6 +126,17 @@
         ]
       },
       "Неопределённые местоимения (some, any, no)": {
+        "explanation": {
+          "headers": ["Тип", "Местоимение", "Значение", "Пример"],
+          "rows": [
+            ["Утверждение (+)", "some", "несколько, немного", "I have some books. / There is some milk."],
+            ["Вопрос (?)", "any", "сколько-нибудь", "Do you have any questions?"],
+            ["Отрицание (-)", "any", "в отрицании", "I don't need any help."],
+            ["Сильное отриц.", "no", "никакой, нет", "I have no time. / There is no water."],
+            ["", "", "", ""],
+            ["⚠️ Исключение", "some в вопросе", "просьба/предложение", "Can I have some water? / Would you like some tea?"]
+          ]
+        },
         "questions": [
           {"q": "I have ___ milk.", "options": ["some", "any", "no"], "answer": 0},
           {"q": "Do you have ___ money?", "options": ["some", "any", "no"], "answer": 1},
@@ -138,6 +149,18 @@
         ]
       },
       "Множественное число существительных": {
+        "explanation": {
+          "headers": ["Правило", "Описание", "Окончание", "Пример"],
+          "rows": [
+            ["✅ Основное", "Добавляем -S", "-s", "cat → cats / book → books"],
+            ["✅ Шипящие", "Добавляем -ES", "-es", "bus → buses / box → boxes"],
+            ["✅ Согл. + Y", "Y → I + ES", "-ies", "baby → babies / city → cities"],
+            ["✅ Гласн. + Y", "Просто +S", "-ys", "boy → boys / day → days"],
+            ["✅ -F / -FE", "F/VE → V + ES", "-ves", "wolf → wolves / knife → knives"],
+            ["❌ Исключения", "Меняется всё слово", "особая форма", "man → men / child → children"],
+            ["❌ Исключения", "Не меняется", "без изменений", "sheep → sheep / fish → fish"]
+          ]
+        },
         "questions": [
           {"q": "One cat, two ___.", "options": ["cats", "caties", "catses"], "answer": 0},
           {"q": "One box, two ___.", "options": ["boxs", "boxes", "boxies"], "answer": 1},
@@ -150,6 +173,17 @@
         ]
       },
       "Притяжательный падеж ('s)": {
+        "explanation": {
+          "headers": ["Правило", "Чье?", "Форма", "Пример"],
+          "rows": [
+            ["Ед. число", "Книга девочки", "'s", "The girl's book"],
+            ["Ед. число", "Хвост кошки", "'s", "The cat's tail"],
+            ["Множ. (не -s)", "Игрушки детей", "'s", "The children's toys"],
+            ["Множ. (на -s)", "Комната родителей", "'", "My parents' room"],
+            ["Множ. (на -s)", "Машины друзей", "'", "My friends' cars"],
+            ["Имена на -s", "Велосипед Джеймса", "'s или '", "James's bike / James' bike"]
+          ]
+        },
         "questions": [
           {"q": "The book of the boy = The ___ book.", "options": ["boys'", "boy's", "boys"], "answer": 1},
           {"q": "The house of my parents = My ___ house.", "options": ["parent's", "parents'", "parents's"], "answer": 1},
@@ -162,6 +196,17 @@
         ]
       },
       "Артикли (a/an, the)": {
+        "explanation": {
+          "headers": ["Артикль", "Когда использовать", "Правило", "Пример"],
+          "rows": [
+            ["A", "Перед согласным звуком", "Неопределённый", "a cat, a house, a university"],
+            ["AN", "Перед гласным звуком", "Неопределённый", "an apple, an hour, an MP3"],
+            ["THE", "Конкретный / единственный", "Определённый", "the sun, the book you gave me"],
+            ["—", "Мн. число (общее)", "Без артикля", "Cats are cute. I like books."],
+            ["—", "Неисчисляемые (общее)", "Без артикля", "Water is wet. Love is important."],
+            ["—", "Имена / Страны", "Без артикля", "Russia, London, John"]
+          ]
+        },
         "questions": [
           {"q": "I see ___ apple.", "options": ["a", "an", "the"], "answer": 1},
           {"q": "She is ___ teacher.", "options": ["a", "an", "the"], "answer": 0},
@@ -174,6 +219,18 @@
         ]
       },
       "Present Simple": {
+        "explanation": {
+          "headers": ["Время", "Местоимение", "Форма", "Пример"],
+          "rows": [
+            ["Present", "I / You / We / They", "V1 (база)", "I play football. They work hard."],
+            ["Present", "He / She / It", "V1+s/es", "She plays tennis. It works perfectly."],
+            ["", "", "", ""],
+            ["✅ Утв.", "❌ Отрицание", "❓ Вопрос", ""],
+            ["I play", "I do not (don't) play", "Do I play?", ""],
+            ["He plays", "He does not (doesn't) play", "Does he play?", ""],
+            ["We play", "We do not (don't) play", "Do we play?", ""]
+          ]
+        },
         "questions": [
           {"q": "I ___ coffee every morning.", "options": ["drink", "drinks", "drinking"], "answer": 0},
           {"q": "She ___ TV in the evening.", "options": ["watch", "watches", "watchs"], "answer": 1},
@@ -186,6 +243,19 @@
         ]
       },
       "Present Continuous": {
+        "explanation": {
+          "headers": ["Время", "Местоимение", "Форма", "Пример"],
+          "rows": [
+            ["Present", "I", "am + V-ing", "I am reading a book"],
+            ["Present", "He / She / It", "is + V-ing", "She is cooking dinner"],
+            ["Present", "You / We / They", "are + V-ing", "They are playing football"],
+            ["", "", "", ""],
+            ["✅ Утв.", "❌ Отрицание", "❓ Вопрос", ""],
+            ["I am reading", "I am not reading", "Am I reading?", ""],
+            ["He is reading", "He isn't reading", "Is he reading?", ""],
+            ["We are reading", "We aren't reading", "Are we reading?", ""]
+          ]
+       },
         "questions": [
           {"q": "I ___ reading a book now.", "options": ["am", "is", "are"], "answer": 0},
           {"q": "She ___ cooking dinner.", "options": ["is", "are", "am"], "answer": 0},
@@ -198,6 +268,18 @@
         ]
       },
       "Present Simple vs Present Continuous": {
+        "explanation": {
+          "headers": ["Время", "Правило", "Формула", "Пример"],
+          "rows": [
+            ["Present Simple", "Регулярно, всегда, факт", "V1 (he/she/it +s)", "I work every day"],
+            ["Present Continuous", "Прямо сейчас, временно", "am/is/are + V-ing", "I am working now"],
+            ["", "", "", ""],
+            ["Ключевые слова", "Present Simple", "Present Continuous", ""],
+            ["every day", "I work", "—", "usually → now"],
+            ["always", "He works", "—", "always → at the moment"],
+            ["Look! Listen!", "—", "We are working", "Look! It is raining!"]
+          ]
+        },
         "questions": [
           {"q": "I usually ___ tea, but today I ___ coffee.", "options": ["drink / am drinking", "am drinking / drink", "drinks / drinks"], "answer": 0},
           {"q": "She ___ to the gym every day. Right now she ___ yoga.", "options": ["goes / does", "goes / is doing", "is going / does"], "answer": 1},
@@ -210,6 +292,32 @@
         ]
       },
       "Past Simple (was/were, правильные глаголы)": {
+        "explanation": {
+          "headers": ["Инфинитив", "Past Simple", "Пример"],
+          "rows": [
+            ["be", "was / were", "I was tired"],
+            ["become", "became", "She became a doctor"],
+            ["begin", "began", "It began to rain"],
+            ["break", "broke", "He broke his leg"],
+            ["bring", "brought", "She brought a cake"],
+            ["buy", "bought", "We bought a new car"],
+            ["come", "came", "They came home late"],
+            ["do", "did", "I did my homework"],
+            ["drink", "drank", "He drank some water"],
+            ["eat", "ate", "She ate an apple"],
+            ["find", "found", "I found my keys"],
+            ["get", "got", "He got a letter"],
+            ["give", "gave", "She gave me a gift"],
+            ["go", "went", "We went to the park"],
+            ["have", "had", "I had a dog"],
+            ["know", "knew", "She knew the answer"],
+            ["make", "made", "He made a mistake"],
+            ["see", "saw", "I saw a movie"],
+            ["take", "took", "She took the bus"],
+            ["tell", "told", "He told a story"],
+            ["think", "thought", "I thought about you"]
+          ]
+        },
         "questions": [
           {"q": "I ___ at home yesterday.", "options": ["was", "were", "am"], "answer": 0},
           {"q": "They ___ happy last night.", "options": ["was", "were", "are"], "answer": 1},
@@ -234,6 +342,19 @@
         ]
       },
       "Future Simple (will)": {
+        "explanation": {
+          "headers": ["Время", "Местоимение", "Форма", "Пример"],
+          "rows": [
+            ["Future", "Все местоимения", "will + глагол", "I will call you tomorrow"],
+            ["Future", "Сокращение", "'ll + глагол", "He'll help us"],
+            ["Future", "Маркеры", "tomorrow, next week, soon", "We will travel next summer"],
+            ["", "", "", ""],
+            ["✅ Утв.", "❌ Отрицание", "❓ Вопрос", ""],
+            ["I will", "I will not (won't)", "Will I?", ""],
+            ["He will", "He won't", "Will he?", ""],
+            ["We will", "We won't", "Will we?", ""]
+          ]
+        },
         "questions": [
           {"q": "I ___ help you.", "options": ["am", "will", "do"], "answer": 1},
           {"q": "She ___ come to the party.", "options": ["willn't", "won't", "don't will"], "answer": 1},
@@ -246,6 +367,21 @@
         ]
       },
       "Конструкция to be going to": {
+        "explanation": {
+          "headers": ["Время", "Местоимение", "Форма", "Пример"],
+          "rows": [
+            ["Present", "I", "am going to", "I am going to read a book"],
+            ["Present", "He / She / It", "is going to", "She is going to cook dinner"],
+            ["Present", "You / We / They", "are going to", "We are going to travel"],
+            ["Past", "I / He / She / It", "was going to", "He was going to call me"],
+            ["Past", "You / We / They", "were going to", "They were going to help"],
+            ["", "", "", ""],
+            ["✅ Утв.", "❌ Отрицание", "❓ Вопрос", ""],
+            ["I am going to", "I'm not going to", "Am I going to?", ""],
+            ["He is going to", "He isn't going to", "Is he going to?", ""],
+            ["We are going to", "We aren't going to", "Are we going to?", ""]
+          ]
+        },
         "questions": [
           {"q": "I ___ going to travel to Italy.", "options": ["am", "is", "are"], "answer": 0},
           {"q": "She ___ going to buy a new dress.", "options": ["am", "is", "are"], "answer": 1},
