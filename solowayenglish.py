@@ -3,7 +3,84 @@ from telegram.ext import Application, CommandHandler, CallbackQueryHandler, Mess
 import sqlite3
 import os
 import json
-from tabulate import tabulate
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+import io
+
+def generate_table_image(headers, rows, topic):
+    """Создаёт красивую таблицу-картинку"""
+    fig, ax = plt.subplots(figsize=(10, len(rows) * 0.5 + 1))
+    ax.axis('off')
+    
+    # Создаём таблицу
+    table = ax.table(
+        cellText=rows,
+        colLabels=headers,
+        cellLoc='left',
+        loc='center',
+        colWidths=[0.2, 0.3, 0.3, 0.2]
+    )
+    
+    # Стилизуем
+    table.auto_set_font_size(False)
+    table.set_fontsize(10)
+    table.scale(1, 1.5)
+    
+    # Цвета
+    for (i, j), cell in table.get_celld().items():
+        cell.set_edgecolor('#2c3e50')
+        if i == 0:  # Заголовки
+            cell.set_facecolor('#3498db')
+            cell.set_text_props(color='white', weight='bold')
+        elif i % 2 == 0:
+            cell.set_facecolor('#ecf0f1')
+        else:
+            cell.set_facecolor('white')
+    
+    plt.title(topic, fontsize=14, weight='bold', pad=20)
+    plt.tight_layout()
+    
+    # Сохраняем в буфер
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', dpi=150, bbox_inches='tight')
+    buf.seek(0)
+    plt.close()
+    
+    return buf
+
+async def show_explanation(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
+    topics = TOPICS[level][category]
+    topic = topics[int(idx)]
+    
+    # Ищем объяснение
+    expl_data = None
+    try:
+        for cat in TESTS.get(level, {}):
+            if topic in TESTS[level][cat]:
+                expl = TESTS[level][cat][topic].get("explanation")
+                if expl and isinstance(expl, dict):
+                    expl_data = expl
+                    break
+    except:
+        pass
+    
+    if not expl_data:
+        await update.callback_query.answer("❌ Теория пока не добавлена", show_alert=True)
+        return
+    
+    # Генерируем картинку
+    buf = generate_table_image(expl_data["headers"], expl_data["rows"], topic)
+    
+    keyboard = [[InlineKeyboardButton("🔙 К теме", callback_data=f"topic_{level}|{category}|{idx}")]]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    # Отправляем фото
+    await update.callback_query.message.reply_photo(
+        photo=buf,
+        caption=f"📖 {topic}",
+        reply_markup=reply_markup
+    )
+    await update.callback_query.message.delete()
 
 TOKEN = "8681728801:AAHYuSN_UtHSe4w6F3uOLXwoaL0dSGjuF9k"
 
@@ -249,20 +326,6 @@ def has_test(level, topic):
         pass
     return False
 
-def get_explanation(level, topic):
-    """Получает объяснение и форматирует через tabulate"""
-    try:
-        for cat in TESTS.get(level, {}):
-            if topic in TESTS[level][cat]:
-                expl = TESTS[level][cat][topic].get("explanation")
-                if expl and isinstance(expl, dict):
-                    headers = expl.get("headers", [])
-                    rows = expl.get("rows", [])
-                    if headers and rows:
-                        return tabulate(rows, headers=headers, tablefmt="grid")
-    except:
-        pass
-    return None
 
 def find_topic_index(level, category, topic_name):
     if level in TOPICS and category in TOPICS[level]:
@@ -346,7 +409,17 @@ async def show_topic_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, le
     status = "✅ Пройдена" if done else "⬜ Не пройдена"
     
     # Проверяем есть ли объяснение
-    has_expl = get_explanation(level, topic) is not None
+        # Проверяем есть ли объяснение
+    has_expl = False
+    try:
+        for cat in TESTS.get(level, {}):
+            if topic in TESTS[level][cat]:
+                expl = TESTS[level][cat][topic].get("explanation")
+                if expl and isinstance(expl, dict):
+                    has_expl = True
+                    break
+    except:
+        pass
     
     keyboard = [
         [InlineKeyboardButton("✅ Отметить как пройденное" if not done else "❌ Снять отметку", 
@@ -367,24 +440,7 @@ async def show_topic_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, le
         reply_markup=reply_markup
     )
 
-async def show_explanation(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
-    topics = TOPICS[level][category]
-    topic = topics[int(idx)]
-    
-    expl = get_explanation(level, topic)
-    
-    if not expl:
-        await update.callback_query.answer("❌ Теория пока не добавлена", show_alert=True)
-        return
-    
-    keyboard = [[InlineKeyboardButton("🔙 К теме", callback_data=f"topic_{level}|{category}|{idx}")]]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    
-    await update.callback_query.edit_message_text(
-        f"📖 *{topic}*\n\n<pre>{expl}</pre>",
-        reply_markup=reply_markup,
-        parse_mode="HTML"
-    )
+
 
 async def start_test(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
     topics = TOPICS[level][category]
