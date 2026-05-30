@@ -482,7 +482,9 @@
           {"q": "She ___ goes shopping at the weekend. (иногда)", "options": ["never", "sometimes", "always"], "answer": 1},
           {"q": "He ___ does his homework. (часто)", "options": ["often", "never", "sometimes"], "answer": 0}
         ]
-      },
+      }
+    }
+  },
         "A2 (Elementary)": {
     "Грамматика": {
       "Past Continuous (I was doing)": {
