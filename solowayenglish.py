@@ -409,7 +409,12 @@ async def handle_answer(update: Update, context: ContextTypes.DEFAULT_TYPE, answ
         await update.callback_query.answer(f"❌ Неправильно! Правильно: {correct_ans}")
     
     test["current"] += 1
-    await show_question(update, context)
+    
+    # ПРИНУДИТЕЛЬНАЯ проверка — последний ли это был вопрос?
+    if test["current"] >= len(test["questions"]):
+        await finish_test(update, context)
+    else:
+        await show_question(update, context)
 
 async def finish_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
     test = context.user_data.get("test")
