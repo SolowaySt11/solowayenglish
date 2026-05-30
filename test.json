@@ -886,5 +886,335 @@
         ]
       }
     }
+  },
+    "B1 (Intermediate)": {
+    "Грамматика": {
+      "Past Perfect (I had done)": {
+        "questions": [
+          {"q": "When we arrived at the cinema, the film _____.", "options": ["already started", "had already started", "has already started"], "answer": 1},
+          {"q": "She didn't recognize him because she _____ him before.", "options": ["didn't meet", "hadn't met", "hasn't met"], "answer": 1},
+          {"q": "After they _____ dinner, they watched TV.", "options": ["had finished", "finished", "have finished"], "answer": 0},
+          {"q": "I realized I _____ my keys at home.", "options": ["had left", "left", "was leaving"], "answer": 0},
+          {"q": "The ground was wet because it _____ all night.", "options": ["rained", "had rained", "was raining"], "answer": 1},
+          {"q": "He _____ never _____ such a beautiful sunset before that day.", "options": ["had ... seen", "did ... see", "has ... seen"], "answer": 0},
+          {"q": "By the time the police arrived, the thief _____.", "options": ["escaped", "had escaped", "has escaped"], "answer": 1},
+          {"q": "She told me she _____ the report yet.", "options": ["didn't finish", "hadn't finished", "wasn't finishing"], "answer": 1}
+        ]
+      },
+      "Past Perfect vs Past Simple": {
+        "questions": [
+          {"q": "After she _____ the letter, she posted it.", "options": ["had written", "wrote", "has written"], "answer": 0},
+          {"q": "He _____ me that he had lost my number.", "options": ["had told", "told", "was telling"], "answer": 1},
+          {"q": "When I _____ home, my family had already eaten.", "options": ["had got", "got", "was getting"], "answer": 1},
+          {"q": "The meeting _____ by the time I arrived.", "options": ["ended", "had ended", "has ended"], "answer": 1},
+          {"q": "She _____ the book before she saw the film adaptation.", "options": ["had read", "read", "was reading"], "answer": 0},
+          {"q": "I didn't want to go to the cinema because I _____ the movie twice.", "options": ["saw", "had seen", "have seen"], "answer": 1},
+          {"q": "They _____ the project before the deadline.", "options": ["had completed", "completed", "have completed"], "answer": 1},
+          {"q": "We _____ for hours before we finally found the hotel.", "options": ["walked", "had walked", "have walked"], "answer": 1}
+        ]
+      },
+      "Present Perfect Continuous (углублённо)": {
+        "questions": [
+          {"q": "She's exhausted because she _____ all morning.", "options": ["has been working", "worked", "had been working"], "answer": 0},
+          {"q": "How long _____ English?", "options": ["are you learning", "have you been learning", "you have been learning"], "answer": 1},
+          {"q": "The ground is wet. It _____.", "options": ["has been raining", "rained", "had rained"], "answer": 0},
+          {"q": "I _____ this book for weeks and I'm still not finished.", "options": ["read", "have been reading", "have read"], "answer": 1},
+          {"q": "We _____ here since 2010.", "options": ["are living", "have been living", "live"], "answer": 1},
+          {"q": "He _____ for the bus for half an hour and it still hasn't come.", "options": ["waits", "has been waiting", "waited"], "answer": 1},
+          {"q": "My eyes hurt. I _____ at a screen all day.", "options": ["stared", "have been staring", "have stared"], "answer": 1},
+          {"q": "She _____ the same salary for five years and is getting frustrated.", "options": ["earns", "has been earning", "earned"], "answer": 1}
+        ]
+      },
+      "Future Continuous (I will be doing)": {
+        "questions": [
+          {"q": "This time tomorrow I _____ to London.", "options": ["will be flying", "will fly", "am flying"], "answer": 0},
+          {"q": "At 8 p.m. tonight, she _____ her exam.", "options": ["will be taking", "will take", "takes"], "answer": 0},
+          {"q": "Don't call between 7 and 8 — we _____ dinner.", "options": ["will be having", "will have", "have"], "answer": 0},
+          {"q": "In the future, people _____ electric cars everywhere.", "options": ["will be driving", "will drive", "drive"], "answer": 0},
+          {"q": "He _____ at the office when you arrive.", "options": ["will be waiting", "will be working", "will work"], "answer": 1},
+          {"q": "This weekend they _____ their new house.", "options": ["will paint", "will be painting", "paint"], "answer": 1},
+          {"q": "I _____ my favourite show at 9 p.m. tomorrow.", "options": ["will be watching", "will watch", "watch"], "answer": 0},
+          {"q": "Will you _____ the report at noon? I need it by 1 p.m.", "options": ["be still writing", "still be writing", "write"], "answer": 1}
+        ]
+      },
+      "Future Perfect (I will have done)": {
+        "questions": [
+          {"q": "By next year, she _____ from university.", "options": ["will have graduated", "will graduate", "will be graduating"], "answer": 0},
+          {"q": "They _____ the project by Friday.", "options": ["will finish", "will have finished", "will be finishing"], "answer": 1},
+          {"q": "By the time you arrive, I _____ everything ready.", "options": ["get", "will have got", "will be getting"], "answer": 1},
+          {"q": "In ten years' time, we _____ fossil fuels completely.", "options": ["will stop using", "will have stopped using", "stop using"], "answer": 1},
+          {"q": "He hopes he _____ a promotion by the end of the year.", "options": ["will have received", "will receive", "receives"], "answer": 0},
+          {"q": "I _____ this book by next Monday.", "options": ["will read", "will have read", "read"], "answer": 1},
+          {"q": "Will you _____ the email before the meeting starts?", "options": ["have sent", "send", "be sending"], "answer": 0},
+          {"q": "By 2030, scientists _____ a cure for the disease.", "options": ["find", "will have found", "are finding"], "answer": 1}
+        ]
+      },
+      "Условные предложения 2 и 3 типа": {
+        "questions": [
+          {"q": "If I _____ rich, I would travel the world.", "options": ["am", "were", "had been"], "answer": 1},
+          {"q": "If she had studied harder, she _____ the exam.", "options": ["would pass", "would have passed", "will pass"], "answer": 1},
+          {"q": "They _____ if they had known about the traffic.", "options": ["would leave earlier", "would have left earlier", "left earlier"], "answer": 1},
+          {"q": "If he spoke English, he _____ a better job.", "options": ["could get", "could have got", "got"], "answer": 0},
+          {"q": "We _____ the match if our best player hadn't been injured.", "options": ["would have won", "won", "would win"], "answer": 0},
+          {"q": "If I _____ you, I'd accept the offer.", "options": ["had been", "am", "were"], "answer": 2},
+          {"q": "She _____ her flight if she hadn't overslept.", "options": ["wouldn't miss", "wouldn't have missed", "didn't miss"], "answer": 1},
+          {"q": "If people _____ more responsible, the planet would be cleaner.", "options": ["had been", "were", "are"], "answer": 1}
+        ]
+      },
+      "Сослагательное наклонение (I wish… / If only…)": {
+        "questions": [
+          {"q": "I wish I _____ how to swim.", "options": ["know", "knew", "have known"], "answer": 1},
+          {"q": "If only she _____ earlier yesterday.", "options": ["comes", "had come", "came"], "answer": 1},
+          {"q": "We wish we _____ a bigger house.", "options": ["have", "had", "will have"], "answer": 1},
+          {"q": "I wish you _____ interrupting me all the time.", "options": ["stop", "would stop", "stopped"], "answer": 1},
+          {"q": "If only I _____ that job offer last year.", "options": ["had accepted", "accepted", "would accept"], "answer": 0},
+          {"q": "She wishes she _____ so much homework right now.", "options": ["doesn't have", "didn't have", "hadn't had"], "answer": 1},
+          {"q": "I wish it _____ raining. It's been three days!", "options": ["stops", "would stop", "stopped"], "answer": 1},
+          {"q": "They wish they _____ the warning.", "options": ["had heeded", "heeded", "would heed"], "answer": 0}
+        ]
+      },
+      "Конструкция be/get used to + ing": {
+        "questions": [
+          {"q": "She is used to _____ early every day.", "options": ["get up", "getting up", "got up"], "answer": 1},
+          {"q": "It took me a while to get used to _____ on the left.", "options": ["drive", "driving", "drove"], "answer": 1},
+          {"q": "I _____ the noise now — it doesn't bother me.", "options": ["am used to", "used to", "get used to"], "answer": 0},
+          {"q": "He isn't used to _____ so much responsibility.", "options": ["having", "have", "had"], "answer": 0},
+          {"q": "Have you got used to _____ in a big city yet?", "options": ["living", "live", "lived"], "answer": 0},
+          {"q": "She _____ work long hours, so she doesn't mind.", "options": ["used to", "is used to", "gets used to"], "answer": 1},
+          {"q": "I can't get used to _____ contact lenses.", "options": ["wearing", "wear", "wore"], "answer": 0},
+          {"q": "They will have to get used to _____ less free time.", "options": ["have", "having", "had"], "answer": 1}
+        ]
+      },
+      "Герундий и инфинитив (remember to do vs remember doing)": {
+        "questions": [
+          {"q": "I remember _____ the door before leaving.", "options": ["to lock", "locking", "lock"], "answer": 1},
+          {"q": "Remember _____ milk on your way home.", "options": ["buying", "to buy", "buy"], "answer": 1},
+          {"q": "He stopped _____ a coffee on his way to work.", "options": ["drinking", "to drink", "drink"], "answer": 1},
+          {"q": "She stopped _____ coffee because it kept her awake.", "options": ["to drink", "drinking", "drink"], "answer": 1},
+          {"q": "I regret _____ you that your application was unsuccessful.", "options": ["telling", "to tell", "tell"], "answer": 1},
+          {"q": "He regrets _____ so rude to her yesterday.", "options": ["to be", "being", "be"], "answer": 1},
+          {"q": "I'll never forget _____ the ocean for the first time.", "options": ["seeing", "to see", "see"], "answer": 0},
+          {"q": "Don't forget _____ the report before the meeting.", "options": ["sending", "to send", "send"], "answer": 1}
+        ]
+      },
+      "Модальные глаголы в прошлом (must have, might have)": {
+        "questions": [
+          {"q": "He looks exhausted. He _____ all night.", "options": ["must have worked", "should have worked", "might work"], "answer": 0},
+          {"q": "She _____ the email; she never checks spam.", "options": ["might not have seen", "mustn't see", "shouldn't have seen"], "answer": 0},
+          {"q": "You _____ your parents before making that decision.", "options": ["must have asked", "should have asked", "might have asked"], "answer": 1},
+          {"q": "The cake is gone. The kids _____ it.", "options": ["could have eaten", "should have eaten", "must eat"], "answer": 0},
+          {"q": "It _____ very difficult to quit smoking, but he managed.", "options": ["must have been", "should be", "might be"], "answer": 0},
+          {"q": "You _____ so much money on that bag — it's a fake!", "options": ["mustn't spend", "shouldn't have spent", "might not spend"], "answer": 1},
+          {"q": "The phone rang, but it _____ my mother, she usually texts.", "options": ["must have been", "might not have been", "should have been"], "answer": 1},
+          {"q": "They arrived early. They _____ a taxi instead of the bus.", "options": ["could have taken", "must take", "should take"], "answer": 0}
+        ]
+      },
+      "Пассивный залог (все времена)": {
+        "questions": [
+          {"q": "The company _____ in 2005.", "options": ["founded", "was founded", "has founded"], "answer": 1},
+          {"q": "The emails _____ yet.", "options": ["haven't been sent", "weren't sent", "didn't send"], "answer": 0},
+          {"q": "A new shopping centre _____ at the moment.", "options": ["is being built", "is built", "builds"], "answer": 0},
+          {"q": "The results _____ tomorrow morning.", "options": ["will be announced", "are announced", "announce"], "answer": 0},
+          {"q": "The Mona Lisa _____ by Leonardo da Vinci.", "options": ["was painted", "painted", "has painted"], "answer": 0},
+          {"q": "The room _____ before the guests arrived.", "options": ["had been cleaned", "was cleaning", "has been cleaned"], "answer": 0},
+          {"q": "The project _____ by next Friday.", "options": ["completes", "will have been completed", "will complete"], "answer": 1},
+          {"q": "A lot of coffee _____ in Brazil.", "options": ["is produced", "produces", "produced"], "answer": 0}
+        ]
+      },
+      "Косвенная речь (вопросы, просьбы, приказы)": {
+        "questions": [
+          {"q": "He asked me where _____.", "options": ["I was going", "was I going", "I am going"], "answer": 0},
+          {"q": "She told me _____ the documents.", "options": ["to send", "send", "sending"], "answer": 0},
+          {"q": "The officer ordered the crowd _____.", "options": ["to disperse", "disperse", "dispersed"], "answer": 0},
+          {"q": "She asked if I _____ the meeting.", "options": ["attended", "had attended", "have attended"], "answer": 1},
+          {"q": "He wanted to know what time the train _____.", "options": ["leaves", "did leave", "left"], "answer": 2},
+          {"q": "My boss asked me _____ the report on his desk.", "options": ["if I have seen", "if I had seen", "did I see"], "answer": 1},
+          {"q": "She told her son _____ the door.", "options": ["to not slam", "not to slam", "don't slam"], "answer": 1},
+          {"q": "They asked us whether we _____ at the hotel before.", "options": ["stay", "had stayed", "have stayed"], "answer": 1}
+        ]
+      },
+      "Определительные придаточные (who, which, that, whose)": {
+        "questions": [
+          {"q": "The woman _____ lives next door is a doctor.", "options": ["which", "who", "whose"], "answer": 1},
+          {"q": "That's the restaurant _____ we first met.", "options": ["which", "where", "whose"], "answer": 1},
+          {"q": "I need a phone _____ battery lasts all day.", "options": ["which", "whose", "who"], "answer": 1},
+          {"q": "The book _____ I'm reading is fascinating.", "options": ["who", "that", "where"], "answer": 1},
+          {"q": "The man _____ car was stolen is my neighbour.", "options": ["who", "which", "whose"], "answer": 2},
+          {"q": "The town _____ I grew up has changed a lot.", "options": ["where", "which", "whose"], "answer": 0},
+          {"q": "Students _____ study hard usually succeed.", "options": ["which", "whose", "who"], "answer": 2},
+          {"q": "The reason _____ he left is still unclear.", "options": ["why", "which", "where"], "answer": 0}
+        ]
+      },
+      "Артикли (углублённо, включая нулевой артикль)": {
+        "questions": [
+          {"q": "_____ Mount Everest is the highest peak in the world.", "options": ["The", "A", "– (нулевой артикль)"], "answer": 2},
+          {"q": "_____ happiness is more important than money.", "options": ["The", "A", "–"], "answer": 2},
+          {"q": "She has _____ MBA from Harvard.", "options": ["an", "a", "–"], "answer": 0},
+          {"q": "We visited _____ Netherlands last summer.", "options": ["–", "the", "a"], "answer": 1},
+          {"q": "_____ poor need more support from the government.", "options": ["–", "The", "A"], "answer": 1},
+          {"q": "He plays _____ piano beautifully.", "options": ["–", "the", "a"], "answer": 1},
+          {"q": "I saw _____ dog in the park. _____ dog was chasing a ball.", "options": ["a / The", "a / A", "the / A"], "answer": 0},
+          {"q": "_____ Lake Baikal is in Siberia.", "options": ["The", "–", "A"], "answer": 1}
+        ]
+      },
+      "Предлоги (углублённо: despite, in spite of, due to)": {
+        "questions": [
+          {"q": "_____ the rain, we went for a walk.", "options": ["Despite", "Due to", "According to"], "answer": 0},
+          {"q": "The flight was cancelled _____ bad weather.", "options": ["despite", "in spite of", "due to"], "answer": 2},
+          {"q": "_____ the report, sales have increased.", "options": ["Despite", "According to", "Due to"], "answer": 1},
+          {"q": "She got the job _____ her lack of experience.", "options": ["in spite of", "due to", "according to"], "answer": 0},
+          {"q": "_____ the heavy traffic, we arrived on time.", "options": ["Despite", "Due to", "According to"], "answer": 0},
+          {"q": "The event was postponed _____ the strike.", "options": ["in spite of", "due to", "according to"], "answer": 1},
+          {"q": "_____ his doctor, he should rest more.", "options": ["In spite of", "According to", "Due to"], "answer": 1},
+          {"q": "He passed the exam _____ not studying much.", "options": ["due to", "in spite of", "according to"], "answer": 1}
+        ]
+      },
+      "Фразовые глаголы (get up, turn on, look for, give up)": {
+        "questions": [
+          {"q": "I usually _____ at 7 a.m.", "options": ["get up", "turn on", "give up"], "answer": 0},
+          {"q": "Can you _____ the light? It's dark in here.", "options": ["get up", "turn on", "run out of"], "answer": 1},
+          {"q": "She is _____ her keys. She can't find them.", "options": ["giving up", "running out of", "looking for"], "answer": 2},
+          {"q": "Don't _____! Keep trying and you'll succeed.", "options": ["give up", "get up", "turn on"], "answer": 0},
+          {"q": "We've _____ milk. Can you buy some?", "options": ["looked for", "run out of", "turned on"], "answer": 1},
+          {"q": "He finally _____ smoking after 20 years.", "options": ["got up", "turned on", "gave up"], "answer": 2},
+          {"q": "What time did you _____ this morning?", "options": ["give up", "get up", "run out of"], "answer": 1},
+          {"q": "I'm _____ a new job at the moment.", "options": ["running out of", "looking for", "giving up"], "answer": 1}
+        ]
+      },
+      "Инверсия (Never have I seen…)": {
+        "questions": [
+          {"q": "Never _____ such a beautiful sunset.", "options": ["I have seen", "have I seen", "did I saw"], "answer": 1},
+          {"q": "Not only _____ late, but he also forgot the report.", "options": ["did he arrive", "he arrived", "he did arrive"], "answer": 0},
+          {"q": "Rarely _____ so much rain in July.", "options": ["we have had", "have we had", "had we have"], "answer": 1},
+          {"q": "Under no circumstances _____ the building during an alarm.", "options": ["you should enter", "should you enter", "you enter"], "answer": 1},
+          {"q": "Hardly _____ the room when the phone rang.", "options": ["had I entered", "I had entered", "did I entered"], "answer": 0},
+          {"q": "Little _____ that he would become famous one day.", "options": ["did she know", "she knew", "knew she"], "answer": 0},
+          {"q": "So exhausted _____ that she fell asleep immediately.", "options": ["was she", "she was", "did she"], "answer": 0},
+          {"q": "Only after the meeting _____ the truth.", "options": ["did I learn", "I learned", "I did learn"], "answer": 0}
+        ]
+      }
+    },
+    "Лексика": {
+      "Путешествия и культура": {
+        "questions": [
+          {"q": "You need a valid _____ to travel abroad.", "options": ["loan", "passport", "budget"], "answer": 1},
+          {"q": "They prefer to stay in a _____ rather than a hotel.", "options": ["hostel", "symptom", "degree"], "answer": 0},
+          {"q": "We decided to _____ the local cuisine on our trip.", "options": ["sample", "invest", "fire"], "answer": 0},
+          {"q": "The tour includes _____ to all the main museums.", "options": ["admission", "promotion", "insurance"], "answer": 0},
+          {"q": "She brought back a beautiful _____ from Italy.", "options": ["souvenir", "budget", "interview"], "answer": 0},
+          {"q": "It's important to respect local _____ when visiting another country.", "options": ["customs", "salaries", "deadlines"], "answer": 0},
+          {"q": "Let's _____ a car for the weekend trip.", "options": ["rent", "earn", "resign"], "answer": 0},
+          {"q": "The city has an impressive skyline and vibrant _____.", "options": ["scholarship", "culture", "treatment"], "answer": 1}
+        ]
+      },
+      "Технологии и интернет": {
+        "questions": [
+          {"q": "I need to _____ the latest version of the app.", "options": ["download", "upload", "resign"], "answer": 0},
+          {"q": "Make sure your password is _____ to protect your account.", "options": ["secure", "outdated", "viral"], "answer": 0},
+          {"q": "The video went _____ and got millions of views overnight.", "options": ["viral", "cyber", "manual"], "answer": 0},
+          {"q": "A lot of companies store their data in the _____.", "options": ["cloud", "virus", "screen"], "answer": 0},
+          {"q": "My laptop keeps crashing; I think it has a _____.", "options": ["browser", "virus", "gadget"], "answer": 1},
+          {"q": "She has a popular blog with thousands of _____.", "options": ["devices", "subscribers", "symptoms"], "answer": 1},
+          {"q": "The website isn't working; the server might be _____.", "options": ["down", "artificial", "encrypted"], "answer": 0},
+          {"q": "Don't click on that link — it could be a _____ scam.", "options": ["phishing", "streaming", "bandwidth"], "answer": 0}
+        ]
+      },
+      "Экология и окружающая среда": {
+        "questions": [
+          {"q": "We should use less plastic to reduce our carbon _____.", "options": ["footprint", "disaster", "loan"], "answer": 0},
+          {"q": "Many species are at risk of _____ due to deforestation.", "options": ["extinction", "pollution", "evolution"], "answer": 0},
+          {"q": "Solar and wind are examples of _____ energy.", "options": ["renewable", "fossil", "nuclear"], "answer": 0},
+          {"q": "The company was fined for dumping _____ waste into the river.", "options": ["toxic", "organic", "sustainable"], "answer": 0},
+          {"q": "_____ warming is causing glaciers to melt at an alarming rate.", "options": ["Global", "Climate", "Ozone"], "answer": 0},
+          {"q": "We need to protect the _____ for future generations.", "options": ["environment", "salary", "interview"], "answer": 0},
+          {"q": "A thick layer of _____ in the atmosphere traps heat.", "options": ["greenhouse gases", "recycling bins", "solar panels"], "answer": 0},
+          {"q": "You should separate your rubbish so it can be _____.", "options": ["recycled", "wasted", "polluted"], "answer": 0}
+        ]
+      },
+      "Работа и карьера": {
+        "questions": [
+          {"q": "Before the interview, you should update your _____.", "options": ["CV", "tax", "symptom"], "answer": 0},
+          {"q": "She applied for a _____ at the university.", "options": ["position", "salary", "loan"], "answer": 0},
+          {"q": "He earns a very competitive _____.", "options": ["salary", "budget", "investment"], "answer": 0},
+          {"q": "The manager decided to _____ an employee for repeated lateness.", "options": ["fire", "promote", "resign"], "answer": 0},
+          {"q": "After five years, she finally got a _____ to team leader.", "options": ["promotion", "bankruptcy", "treatment"], "answer": 0},
+          {"q": "It's common to be nervous during a job _____.", "options": ["interview", "budget", "insurance"], "answer": 0},
+          {"q": "He decided to _____ from his job due to stress.", "options": ["resign", "hire", "fire"], "answer": 0},
+          {"q": "To apply, please send your CV and a cover _____.", "options": ["letter", "money", "tax"], "answer": 0}
+        ]
+      },
+      "Образование": {
+        "questions": [
+          {"q": "She got a _____ to study at a prestigious university.", "options": ["scholarship", "loan", "symptom"], "answer": 0},
+          {"q": "He has a master's _____ in Economics.", "options": ["degree", "budget", "interview"], "answer": 0},
+          {"q": "I plan to attend _____ to study medicine.", "options": ["university", "salary", "promotion"], "answer": 0},
+          {"q": "You have to write a 10,000-word _____ for your Master's.", "options": ["dissertation", "CV", "tax"], "answer": 0},
+          {"q": "The course includes online _____ every Tuesday.", "options": ["lectures", "treatments", "investments"], "answer": 0},
+          {"q": "She is a _____ student from Brazil.", "options": ["foreign", "toxic", "viral"], "answer": 0},
+          {"q": "The _____ for this course is two years.", "options": ["duration", "salary", "insurance"], "answer": 0},
+          {"q": "They took out a student _____ to pay for their tuition.", "options": ["loan", "tax", "grant"], "answer": 0}
+        ]
+      },
+      "Здоровье и медицина": {
+        "questions": [
+          {"q": "A sore throat and fever are common _____ of flu.", "options": ["symptoms", "treatments", "scholarships"], "answer": 0},
+          {"q": "The doctor prescribed a new _____ for the infection.", "options": ["treatment", "symptom", "budget"], "answer": 0},
+          {"q": "I have private medical _____ in case of emergencies.", "options": ["insurance", "loan", "promotion"], "answer": 0},
+          {"q": "You should make an _____ to see a specialist.", "options": ["appointment", "investment", "interview"], "answer": 0},
+          {"q": "A balanced diet and regular exercise are essential for good _____.", "options": ["health", "salary", "degree"], "answer": 0},
+          {"q": "The nurse checked my blood _____.", "options": ["pressure", "tax", "culture"], "answer": 0},
+          {"q": "She was rushed to the emergency _____ after the accident.", "options": ["room", "interview", "budget"], "answer": 0},
+          {"q": "This cream will help the wound _____ faster.", "options": ["heal", "fire", "resign"], "answer": 0}
+        ]
+      },
+      "Медиа и новости": {
+        "questions": [
+          {"q": "The story made the _____ of every newspaper.", "options": ["headlines", "deadlines", "symptoms"], "answer": 0},
+          {"q": "Reporters should always check their _____ before publishing.", "options": ["sources", "budgets", "treatments"], "answer": 0},
+          {"q": "She works as a _____ for a local TV station.", "options": ["journalist", "patient", "accountant"], "answer": 0},
+          {"q": "The article was written from a biased _____.", "options": ["perspective", "scholarship", "symptom"], "answer": 0},
+          {"q": "Many people get their news from social _____ now.", "options": ["media", "interviews", "loans"], "answer": 0},
+          {"q": "The newspaper issued a _____ for the incorrect information.", "options": ["correction", "promotion", "investment"], "answer": 0},
+          {"q": "Breaking _____: earthquake hits the coast.", "options": ["news", "culture", "tax"], "answer": 0},
+          {"q": "I listen to a weekly _____ about true crime.", "options": ["podcast", "CV", "insurance"], "answer": 0}
+        ]
+      },
+      "Отношения и общение": {
+        "questions": [
+          {"q": "Trust is the foundation of any strong _____.", "options": ["relationship", "budget", "treatment"], "answer": 0},
+          {"q": "We had a big _____ over money but quickly made up.", "options": ["argument", "scholarship", "symptom"], "answer": 0},
+          {"q": "They got _____ last year after dating for six months.", "options": ["married", "fired", "promoted"], "answer": 0},
+          {"q": "He finds it hard to _____ his emotions.", "options": ["express", "invest", "download"], "answer": 0},
+          {"q": "She is my _____ friend — we've known each other since kindergarten.", "options": ["closest", "viral", "sustainable"], "answer": 0},
+          {"q": "Good _____ is key to a healthy marriage.", "options": ["communication", "salary", "pollution"], "answer": 0},
+          {"q": "They decided to _____ after a long conversation.", "options": ["compromise", "fire", "resign"], "answer": 0},
+          {"q": "He complimented her on her _____ and kindness.", "options": ["honesty", "tax", "gadget"], "answer": 0}
+        ]
+      },
+      "Искусство и литература": {
+        "questions": [
+          {"q": "The _____ painted the landscape in watercolours.", "options": ["artist", "author", "journalist"], "answer": 0},
+          {"q": "Her latest novel became a _____ immediately.", "options": ["bestseller", "sculpture", "portrait"], "answer": 0},
+          {"q": "The gallery is hosting an _____ of modern art.", "options": ["exhibition", "investment", "interview"], "answer": 0},
+          {"q": "The book is set in a _____ world with dragons and magic.", "options": ["fictional", "renewable", "toxic"], "answer": 0},
+          {"q": "Shakespeare is widely regarded as a literary _____.", "options": ["genius", "patient", "applicant"], "answer": 0},
+          {"q": "I prefer reading _____ because I enjoy real stories.", "options": ["non-fiction", "poetry", "fantasy"], "answer": 0},
+          {"q": "The sculpture is made of _____.", "options": ["marble", "budget", "symptom"], "answer": 0},
+          {"q": "The play received standing _____ from the audience.", "options": ["ovation", "loan", "tax"], "answer": 0}
+        ]
+      },
+      "Финансы и деньги": {
+        "questions": [
+          {"q": "We need to stick to our _____ this month.", "options": ["budget", "loan", "symptom"], "answer": 0},
+          {"q": "He took out a _____ to buy a new car.", "options": ["loan", "tax", "CV"], "answer": 0},
+          {"q": "She made a wise _____ in the stock market.", "options": ["investment", "promotion", "treatment"], "answer": 0},
+          {"q": "Everyone has to pay income _____ on their salary.", "options": ["tax", "budget", "insurance"], "answer": 0},
+          {"q": "The company declared _____ after huge losses.", "options": ["bankruptcy", "scholarship", "culture"], "answer": 0},
+          {"q": "We opened a joint savings _____ for our wedding.", "options": ["account", "interview", "art"], "answer": 0},
+          {"q": "Inflation has caused the _____ of living to rise sharply.", "options": ["cost", "salary", "degree"], "answer": 0},
+          {"q": "He transferred the money via online _____.", "options": ["banking", "media", "article"], "answer": 0}
+        ]
+      }
+    }
   }
 }
