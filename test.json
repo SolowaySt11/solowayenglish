@@ -819,7 +819,7 @@
     "A2 (Elementary)": {
     "Грамматика": {
       "Past Continuous (I was doing)": {
-      "explanation": {
+        "explanation": {
           "headers": ["Время", "Местоимение", "Форма", "Пример"],
           "rows": [
             ["Past", "I / He / She / It", "was + Ving", "I was reading a book"],
@@ -843,9 +843,8 @@
           {"q": "I ___ a book when you came in.", "options": ["read", "was reading", "reading"], "answer": 1},
           {"q": "Were you sleeping? No, I ___.", "options": ["wasn't", "weren't", "didn't"], "answer": 0},
           {"q": "The sun ___ and the birds were singing.", "options": ["was shining", "shone", "were shining"], "answer": 0}
-          ]
-       }
-    },
+        ]
+      },
       "Present Perfect (I have done) — опыт, результат": {
         "explanation": {
           "headers": ["Время", "Местоимение/Случай", "Форма", "Пример"],
