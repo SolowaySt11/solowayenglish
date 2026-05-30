@@ -575,7 +575,7 @@
             ["Все", "hate + Ving", "They hate waiting"],
             ["Все", "don't mind + Ving", "I don't mind helping"],
             ["", "", ""],
-            ["⚠️ Правило", "После like/love/enjoy", "всегда Ving!", "I like playing ✅"]
+            [" Правило", "После like/love/enjoy", "всегда Ving!", "I like playing "]
           ]
         },
         "questions": [
@@ -599,7 +599,7 @@
             ["Просьба", "Can...?", "Can you help me?"],
             ["Предложение", "Can I...?", "Can I open the window?"],
             ["", "", ""],
-            ["✅ Утв.", "❌ Отрицание", "❓ Вопрос"],
+            [" Утв.", " Отрицание", " Вопрос"],
             ["I can swim", "He can't fly", "Can she drive?"],
             ["We can come", "They can't hear", "Can you help?"]
           ]
@@ -626,7 +626,7 @@
             ["Past", "Мн. число", "There were", "There were many people"],
             ["Future", "Всё", "There will be", "There will be a meeting tomorrow"],
             ["", "", "", ""],
-            ["❓ Вопрос", "Is there?", "Are there?", ""],
+            [" Вопрос", "Is there?", "Are there?", ""],
             ["Is there a bank?", "Yes, there is", "No, there isn't", ""],
             ["Are there shops?", "Yes, there are", "No, there aren't", ""]
           ]
