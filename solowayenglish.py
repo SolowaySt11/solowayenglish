@@ -211,7 +211,7 @@ def toggle_topic(user_id, level, category, topic):
     conn.close()
     return new_status
 
-async def start(update: Update, context):
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if "authenticated" not in context.user_data:
         await update.message.reply_text("🔐 Привет! Введи свой ник:")
         context.user_data["awaiting_username"] = True
@@ -219,7 +219,7 @@ async def start(update: Update, context):
     
     await show_levels(update, context)
 
-async def show_levels(update: Update, context):
+async def show_levels(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
         [InlineKeyboardButton("📚 A1 (Beginner)", callback_data="level_A1 (Beginner)")],
         [InlineKeyboardButton("📚 A2 (Elementary)", callback_data="level_A2 (Elementary)")],
@@ -236,7 +236,7 @@ async def show_levels(update: Update, context):
     else:
         await update.callback_query.edit_message_text(text, reply_markup=reply_markup, parse_mode="Markdown")
 
-async def show_categories(update: Update, context, level):
+async def show_categories(update: Update, context: ContextTypes.DEFAULT_TYPE, level):
     categories = list(TOPICS[level].keys())
     keyboard = []
     for cat in categories:
@@ -253,7 +253,7 @@ async def show_categories(update: Update, context, level):
         reply_markup=reply_markup
     )
 
-async def show_topics(update: Update, context, level, category):
+async def show_topics(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category):
     topics = TOPICS[level][category]
     progress = get_progress(update.effective_user.id, level)
     
@@ -261,30 +261,31 @@ async def show_topics(update: Update, context, level, category):
     for topic in topics:
         done = progress.get(topic, 0)
         emoji = "✅" if done else "⬜"
-        keyboard.append([InlineKeyboardButton(f"{emoji} {topic}", callback_data=f"toggle_{level}|{category}|{topic}")])
+        # Обрезаем topic для callback_data (макс 64 байта)
+        short_topic = topic[:50]
+        keyboard.append([InlineKeyboardButton(f"{emoji} {topic}", callback_data=f"toggle_{level}|{category}|{short_topic}")])
     
     keyboard.append([InlineKeyboardButton("🔙 Назад", callback_data=f"level_{level}")])
     reply_markup = InlineKeyboardMarkup(keyboard)
     
     total = len(topics)
     done = sum(1 for t in topics if progress.get(t, 0))
-    percent = int(done / total * 10) if total > 0 else 0
-    bar = "🟩" * percent + "⬜" * (10 - percent)
+    percent = int(done / total * 100) if total > 0 else 0
+    bar = "🟩" * (percent // 10) + "⬜" * (10 - percent // 10)
     
     await update.callback_query.edit_message_text(
-        f"📚 {level} → {category}\n\n{bar} {done}/{total} ({int(done/total*100) if total > 0 else 0}%)\n\nНажми на тему чтобы отметить:",
+        f"📚 {level} → {category}\n\n{bar} {done}/{total} ({percent}%)\n\nНажми на тему чтобы отметить:",
         reply_markup=reply_markup
     )
 
-async def toggle_topic_handler(update: Update, context, level, category, topic):
+async def toggle_topic_handler(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, topic):
     user_id = update.effective_user.id
     new_status = toggle_topic(user_id, level, category, topic)
-    await update.callback_query.answer(f"{'✅' if new_status else '❌'} {topic[:50]}...")
+    await update.callback_query.answer(f"{'✅' if new_status else '❌'} Обновлено!")
     await show_topics(update, context, level, category)
 
-async def show_total_progress(update: Update, context):
+async def show_total_progress(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
-    progress = get_progress(user_id, None)  # Все записи
     
     text = "📊 *Общий прогресс*\n\n"
     total_all = 0
@@ -292,9 +293,8 @@ async def show_total_progress(update: Update, context):
     
     for level in TOPICS:
         level_total = sum(len(topics) for topics in TOPICS[level].values())
-        level_done = sum(1 for t in progress if progress.get(t, 0) and level in str(t))
+        progress = get_progress(user_id, level)
         
-        # Более точный подсчёт
         level_done = 0
         for cat in TOPICS[level]:
             for topic in TOPICS[level][cat]:
@@ -303,9 +303,9 @@ async def show_total_progress(update: Update, context):
         
         total_all += level_total
         done_all += level_done
-        percent = int(level_done / level_total * 10) if level_total > 0 else 0
-        bar = "🟩" * percent + "⬜" * (10 - percent)
-        text += f"{bar} {level}: {level_done}/{level_total}\n"
+        percent = int(level_done / level_total * 100) if level_total > 0 else 0
+        bar = "🟩" * (percent // 10) + "⬜" * (10 - percent // 10)
+        text += f"{bar} {level}: {level_done}/{level_total} ({percent}%)\n"
     
     total_percent = int(done_all / total_all * 100) if total_all > 0 else 0
     text += f"\n🎯 *Всего: {done_all}/{total_all} ({total_percent}%)*"
@@ -315,7 +315,7 @@ async def show_total_progress(update: Update, context):
     
     await update.callback_query.edit_message_text(text, reply_markup=reply_markup, parse_mode="Markdown")
 
-async def button_callback(update: Update, context):
+async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     data = query.data
@@ -340,7 +340,7 @@ async def button_callback(update: Update, context):
         level, category, topic = parts[0], parts[1], parts[2]
         await toggle_topic_handler(update, context, level, category, topic)
 
-async def handle_messages(update: Update, context):
+async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if context.user_data.get("awaiting_username"):
         username = update.message.text.strip()
         if username in ALLOWED_USERS:
