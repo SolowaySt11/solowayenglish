@@ -258,12 +258,11 @@ async def show_topics(update: Update, context: ContextTypes.DEFAULT_TYPE, level,
     progress = get_progress(update.effective_user.id, level)
     
     keyboard = []
-    for topic in topics:
+    for idx, topic in enumerate(topics):
         done = progress.get(topic, 0)
         emoji = "✅" if done else "⬜"
-        # Обрезаем topic для callback_data (макс 64 байта)
-        short_topic = topic[:50]
-        keyboard.append([InlineKeyboardButton(f"{emoji} {topic}", callback_data=f"toggle_{level}|{category}|{short_topic}")])
+        # Используем индекс вместо текста темы!
+        keyboard.append([InlineKeyboardButton(f"{emoji} {topic}", callback_data=f"tog_{level}|{category}|{idx}")])
     
     keyboard.append([InlineKeyboardButton("🔙 Назад", callback_data=f"level_{level}")])
     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -278,7 +277,11 @@ async def show_topics(update: Update, context: ContextTypes.DEFAULT_TYPE, level,
         reply_markup=reply_markup
     )
 
-async def toggle_topic_handler(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, topic):
+async def toggle_topic_handler(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx_str):
+    idx = int(idx_str)
+    topics = TOPICS[level][category]
+    topic = topics[idx]  # Получаем тему по индексу
+    
     user_id = update.effective_user.id
     new_status = toggle_topic(user_id, level, category, topic)
     await update.callback_query.answer(f"{'✅' if new_status else '❌'} Обновлено!")
@@ -335,10 +338,10 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         parts = data[4:].split("|")
         level, category = parts[0], parts[1]
         await show_topics(update, context, level, category)
-    elif data.startswith("toggle_"):
-        parts = data[7:].split("|")
-        level, category, topic = parts[0], parts[1], parts[2]
-        await toggle_topic_handler(update, context, level, category, topic)
+    elif data.startswith("tog_"):
+        parts = data[4:].split("|")
+        level, category, idx = parts[0], parts[1], parts[2]
+        await toggle_topic_handler(update, context, level, category, idx)
 
 async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if context.user_data.get("awaiting_username"):
