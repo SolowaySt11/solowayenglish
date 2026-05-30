@@ -9,7 +9,7 @@
             ["Present", "He / She / It", "is", "She is smart"],
             ["Present", "You / We / They", "are", "We are happy"],
             ["", "", "", ""],
-            ["✅ Утв.", "❌ Отрицание", "❓ Вопрос", ""],
+            [" Утв.", " Отрицание", " Вопрос", ""],
             ["I am", "I am not", "Am I?", ""],
             ["He is", "He isn't", "Is he?", ""],
             ["We are", "We aren't", "Are we?", ""]
@@ -107,7 +107,7 @@
             ["Ед. число", "this (этот, эта, это)", "that (тот, та, то)", "This is my book. / That is your car."],
             ["Мн. число", "these (эти)", "those (те)", "These are apples. / Those are stars."],
             ["", "", "", ""],
-            ["❓ Вопрос", "✅ Утверждение", "➖ Отрицание", ""],
+            [" Вопрос", " Утверждение", " Отрицание", ""],
             ["Is this your pen?", "This is my pen.", "This isn't my pen.", ""],
             ["Is that your car?", "That is my car.", "That isn't my car.", ""],
             ["Are these yours?", "These are mine.", "These aren't mine.", ""],
@@ -134,7 +134,7 @@
             ["Отрицание (-)", "any", "в отрицании", "I don't need any help."],
             ["Сильное отриц.", "no", "никакой, нет", "I have no time. / There is no water."],
             ["", "", "", ""],
-            ["⚠️ Исключение", "some в вопросе", "просьба/предложение", "Can I have some water? / Would you like some tea?"]
+            [" Исключение", "some в вопросе", "просьба/предложение", "Can I have some water? / Would you like some tea?"]
           ]
         },
         "questions": [
@@ -152,13 +152,13 @@
         "explanation": {
           "headers": ["Правило", "Описание", "Окончание", "Пример"],
           "rows": [
-            ["✅ Основное", "Добавляем -S", "-s", "cat → cats / book → books"],
-            ["✅ Шипящие", "Добавляем -ES", "-es", "bus → buses / box → boxes"],
-            ["✅ Согл. + Y", "Y → I + ES", "-ies", "baby → babies / city → cities"],
-            ["✅ Гласн. + Y", "Просто +S", "-ys", "boy → boys / day → days"],
-            ["✅ -F / -FE", "F/VE → V + ES", "-ves", "wolf → wolves / knife → knives"],
-            ["❌ Исключения", "Меняется всё слово", "особая форма", "man → men / child → children"],
-            ["❌ Исключения", "Не меняется", "без изменений", "sheep → sheep / fish → fish"]
+            [" Основное", "Добавляем -S", "-s", "cat → cats / book → books"],
+            [" Шипящие", "Добавляем -ES", "-es", "bus → buses / box → boxes"],
+            [" Согл. + Y", "Y → I + ES", "-ies", "baby → babies / city → cities"],
+            [" Гласн. + Y", "Просто +S", "-ys", "boy → boys / day → days"],
+            [" -F / -FE", "F/VE → V + ES", "-ves", "wolf → wolves / knife → knives"],
+            [" Исключения", "Меняется всё слово", "особая форма", "man → men / child → children"],
+            [" Исключения", "Не меняется", "без изменений", "sheep → sheep / fish → fish"]
           ]
         },
         "questions": [
@@ -225,7 +225,7 @@
             ["Present", "I / You / We / They", "V1 (база)", "I play football. They work hard."],
             ["Present", "He / She / It", "V1+s/es", "She plays tennis. It works perfectly."],
             ["", "", "", ""],
-            ["✅ Утв.", "❌ Отрицание", "❓ Вопрос", ""],
+            [" Утв.", " Отрицание", " Вопрос", ""],
             ["I play", "I do not (don't) play", "Do I play?", ""],
             ["He plays", "He does not (doesn't) play", "Does he play?", ""],
             ["We play", "We do not (don't) play", "Do we play?", ""]
@@ -250,7 +250,7 @@
             ["Present", "He / She / It", "is + V-ing", "She is cooking dinner"],
             ["Present", "You / We / They", "are + V-ing", "They are playing football"],
             ["", "", "", ""],
-            ["✅ Утв.", "❌ Отрицание", "❓ Вопрос", ""],
+            [" Утв.", " Отрицание", " Вопрос", ""],
             ["I am reading", "I am not reading", "Am I reading?", ""],
             ["He is reading", "He isn't reading", "Is he reading?", ""],
             ["We are reading", "We aren't reading", "Are we reading?", ""]
@@ -293,6 +293,33 @@
       },
       "Past Simple (was/were, правильные глаголы)": {
         "explanation": {
+          "headers": ["Время", "Тип", "Форма", "Пример"],
+          "rows": [
+            ["Past", "I / He / She / It", "was", "She was at home"],
+            ["Past", "You / We / They", "were", "We were friends"],
+            ["Past", "Правильные глаголы", "глагол + ed", "I played football"],
+            ["Past", "Окончание на -e", "глагол + d", "She danced well"],
+            ["Past", "Согл. + y", "y → ied", "He studied English"],
+            ["Past", "Краткий гл. + согл.", "двойная согл. + ed", "They stopped the car"],
+            ["", "", "", ""],
+            [" Утв.", " Отрицание", " Вопрос", ""],
+            ["I was", "I wasn't", "Was I?", ""],
+            ["I played", "I didn't play", "Did I play?", ""]
+          ]
+        },
+        "questions": [
+          {"q": "I ___ at home yesterday.", "options": ["was", "were", "am"], "answer": 0},
+          {"q": "They ___ happy last night.", "options": ["was", "were", "are"], "answer": 1},
+          {"q": "She ___ in London last year.", "options": ["is", "were", "was"], "answer": 2},
+          {"q": "We ___ to music an hour ago.", "options": ["listened", "listen", "listens"], "answer": 0},
+          {"q": "He ___ his grandmother last week.", "options": ["visit", "visited", "visitted"], "answer": 1},
+          {"q": "The film ___ at 7 pm.", "options": ["started", "starts", "startted"], "answer": 0},
+          {"q": "I ___ TV yesterday.", "options": ["didn't watched", "didn't watch", "don't watch"], "answer": 1},
+          {"q": "___ you at the party?", "options": ["Was", "Were", "Did"], "answer": 1}
+        ]
+      },
+      "Past Simple (неправильные глаголы, топ-20)": {
+        "explanation": {
           "headers": ["Инфинитив", "Past Simple", "Пример"],
           "rows": [
             ["be", "was / were", "I was tired"],
@@ -319,18 +346,6 @@
           ]
         },
         "questions": [
-          {"q": "I ___ at home yesterday.", "options": ["was", "were", "am"], "answer": 0},
-          {"q": "They ___ happy last night.", "options": ["was", "were", "are"], "answer": 1},
-          {"q": "She ___ in London last year.", "options": ["is", "were", "was"], "answer": 2},
-          {"q": "We ___ to music an hour ago.", "options": ["listened", "listen", "listens"], "answer": 0},
-          {"q": "He ___ his grandmother last week.", "options": ["visit", "visited", "visitted"], "answer": 1},
-          {"q": "The film ___ at 7 pm.", "options": ["started", "starts", "startted"], "answer": 0},
-          {"q": "I ___ TV yesterday.", "options": ["didn't watched", "didn't watch", "don't watch"], "answer": 1},
-          {"q": "___ you at the party?", "options": ["Was", "Were", "Did"], "answer": 1}
-        ]
-      },
-      "Past Simple (неправильные глаголы, топ-20)": {
-        "questions": [
           {"q": "I ___ a movie last night.", "options": ["saw", "seed", "seen"], "answer": 0},
           {"q": "She ___ to school early.", "options": ["goed", "went", "gone"], "answer": 1},
           {"q": "We ___ pizza for dinner.", "options": ["ate", "eated", "eaten"], "answer": 0},
@@ -349,7 +364,7 @@
             ["Future", "Сокращение", "'ll + глагол", "He'll help us"],
             ["Future", "Маркеры", "tomorrow, next week, soon", "We will travel next summer"],
             ["", "", "", ""],
-            ["✅ Утв.", "❌ Отрицание", "❓ Вопрос", ""],
+            [" Утв.", " Отрицание", " Вопрос", ""],
             ["I will", "I will not (won't)", "Will I?", ""],
             ["He will", "He won't", "Will he?", ""],
             ["We will", "We won't", "Will we?", ""]
@@ -376,7 +391,7 @@
             ["Past", "I / He / She / It", "was going to", "He was going to call me"],
             ["Past", "You / We / They", "were going to", "They were going to help"],
             ["", "", "", ""],
-            ["✅ Утв.", "❌ Отрицание", "❓ Вопрос", ""],
+            [" Утв.", " Отрицание", " Вопрос", ""],
             ["I am going to", "I'm not going to", "Am I going to?", ""],
             ["He is going to", "He isn't going to", "Is he going to?", ""],
             ["We are going to", "We aren't going to", "Are we going to?", ""]
@@ -393,31 +408,267 @@
           {"q": "I am ___ to cook dinner.", "options": ["go", "going", "gone"], "answer": 1}
         ]
       },
-      "Предлоги места (in, on, under, next to, behind)": {
+            "Порядок слов в утверждении (SVO)": {
+        "explanation": {
+          "headers": ["Тип", "Порядок слов", "Формула", "Пример"],
+          "rows": [
+            ["Утв.", "Подлежащее + Сказуемое", "S + V", "I read"],
+            ["Утв.", "+ Дополнение", "S + V + O", "I read books"],
+            ["Утв.", "+ Обстоятельство места", "S + V + O + Place", "I read books at home"],
+            ["Утв.", "+ Обстоятельство времени", "S + V + O + Place + Time", "I read books at home every day"],
+            ["Отриц.", "Подл. + Вспом. гл. + not + Ост.", "S + Aux + not + V + O", "I do not read books"],
+            ["Общий вопрос", "Вспом. гл. + Подл. + Ост.", "Aux + S + V + O", "Do you read books?"],
+            ["Спец. вопрос", "Вопр. слово + Вспом. гл. + Подл. + Ост.", "QW + Aux + S + V + O", "Where do you read books?"]
+          ]
+        },
         "questions": [
-          {"q": "The cat is ___ the table. (под)", "options": ["in", "on", "under"], "answer": 2},
-          {"q": "The book is ___ the bag. (внутри)", "options": ["in", "on", "behind"], "answer": 0},
-          {"q": "The pen is ___ the desk. (на поверхности)", "options": ["in", "on", "under"], "answer": 1},
-          {"q": "The garden is ___ the house. (рядом)", "options": ["under", "next to", "in"], "answer": 1},
-          {"q": "The dog is ___ the sofa. (позади)", "options": ["behind", "under", "on"], "answer": 0},
-          {"q": "I live ___ London.", "options": ["in", "on", "at"], "answer": 0},
-          {"q": "The picture is ___ the wall.", "options": ["in", "on", "under"], "answer": 1},
-          {"q": "She is sitting ___ me.", "options": ["next to", "in", "under"], "answer": 0}
+          {"q": "like / I / pizza.", "options": ["Like I pizza.", "I like pizza.", "Pizza I like."], "answer": 1},
+          {"q": "She / books / reads.", "options": ["Reads she books.", "She books reads.", "She reads books."], "answer": 2},
+          {"q": "play / They / in the park.", "options": ["They play in the park.", "Play they in the park.", "In the park they play."], "answer": 0},
+          {"q": "My father / a car / has.", "options": ["A car my father has.", "My father has a car.", "Has my father a car."], "answer": 1},
+          {"q": "We / English / study.", "options": ["English we study.", "Study we English.", "We study English."], "answer": 2},
+          {"q": "The cat / milk / drinks.", "options": ["The cat drinks milk.", "Milk the cat drinks.", "Drinks the cat milk."], "answer": 0},
+          {"q": "I / my homework / do.", "options": ["Do I my homework.", "I do my homework.", "My homework I do."], "answer": 1},
+          {"q": "He / coffee / likes.", "options": ["Coffee he likes.", "He likes coffee.", "Likes he coffee."], "answer": 1}
         ]
       },
-      "Предлоги времени (at, on, in)": {
+      "Общие вопросы (Do you…? Is he…?)": {
+        "explanation": {
+          "headers": ["Время", "Тип глагола", "Формула", "Пример"],
+          "rows": [
+            ["Present", "to be", "Am/Is/Are + подлеж. + ?", "Is she a teacher?"],
+            ["Present", "другие глаголы", "Do/Does + подлеж. + гл.?", "Do you like coffee?"],
+            ["Present", "модальные", "Can/Must + подлеж. + гл.?", "Can he swim?"],
+            ["Past", "to be", "Was/Were + подлеж. + ?", "Were they at home?"],
+            ["Past", "другие глаголы", "Did + подлеж. + глагол?", "Did she call you?"],
+            ["Future", "will", "Will + подлеж. + глагол?", "Will it rain tomorrow?"],
+            ["Future", "to be going to", "Am/Is/Are + подлеж. + going to + гл.?", "Are you going to come?"]
+          ]
+        },
         "questions": [
-          {"q": "I wake up ___ 7 o'clock.", "options": ["in", "on", "at"], "answer": 2},
-          {"q": "My birthday is ___ May.", "options": ["in", "on", "at"], "answer": 0},
-          {"q": "We go to the beach ___ summer.", "options": ["in", "on", "at"], "answer": 0},
-          {"q": "She was born ___ 2010.", "options": ["on", "in", "at"], "answer": 1},
-          {"q": "They visit us ___ Sunday.", "options": ["in", "on", "at"], "answer": 1},
-          {"q": "He does his homework ___ night.", "options": ["at", "in", "on"], "answer": 0},
-          {"q": "Flowers bloom ___ spring.", "options": ["on", "at", "in"], "answer": 2},
-          {"q": "The exam is ___ the morning.", "options": ["in", "on", "at"], "answer": 0}
+          {"q": "___ you like music?", "options": ["Are", "Do", "Is"], "answer": 1},
+          {"q": "___ she your sister?", "options": ["Is", "Does", "Are"], "answer": 0},
+          {"q": "___ they speak French?", "options": ["Is", "Are", "Do"], "answer": 2},
+          {"q": "___ he reading a book?", "options": ["Is", "Does", "Do"], "answer": 0},
+          {"q": "___ I late?", "options": ["Do", "Am", "Is"], "answer": 1},
+          {"q": "___ we have homework?", "options": ["Are", "Is", "Do"], "answer": 2},
+          {"q": "___ it raining outside?", "options": ["Does", "Is", "Do"], "answer": 1},
+          {"q": "___ your mother work here?", "options": ["Is", "Does", "Do"], "answer": 1}
         ]
-      }
-    },
+      },
+      "Специальные вопросы (What, Where, When)": {
+        "explanation": {
+          "headers": ["Время", "Формула", "Порядок слов", "Пример"],
+          "rows": [
+            ["Present Simple", "Wh + do/does + подл. + гл.?", "Wh + вспом. + подл. + гл.?", "Where do you work?"],
+            ["Past Simple", "Wh + did + подл. + гл.?", "Wh + did + подл. + гл.?", "What did you eat?"],
+            ["Future Simple", "Wh + will + подл. + гл.?", "Wh + will + подл. + гл.?", "When will you arrive?"],
+            ["С глаг. to be", "Wh + am/is/are + подл.?", "Wh + to be + подл.?", "Where are they?"],
+            ["", "", "", ""],
+            ["Слово", "Значение", "Пример", ""],
+            ["What", "Что? Какой?", "What is your name?", ""],
+            ["Who", "Кто?", "Who is she?", ""],
+            ["Where", "Где? Куда?", "Where do you live?", ""],
+            ["When", "Когда?", "When is your birthday?", ""],
+            ["Why", "Почему?", "Why are you sad?", ""],
+            ["How", "Как?", "How are you?", ""],
+            ["How many", "Сколько? (исчисл.)", "How many apples?", ""],
+            ["How much", "Сколько? (неисчисл.)", "How much water?", ""]
+          ]
+        },
+        "questions": [
+          {"q": "___ is your name?", "options": ["Where", "When", "What"], "answer": 2},
+          {"q": "___ do you live?", "options": ["What", "Where", "Who"], "answer": 1},
+          {"q": "___ is your birthday?", "options": ["When", "Where", "What"], "answer": 0},
+          {"q": "___ time is it?", "options": ["When", "What", "Where"], "answer": 1},
+          {"q": "___ is the party? At 5 pm.", "options": ["Where", "What", "When"], "answer": 2},
+          {"q": "___ is the Eiffel Tower? In Paris.", "options": ["When", "Where", "What"], "answer": 1},
+          {"q": "___ colour do you like?", "options": ["Where", "When", "What"], "answer": 2},
+          {"q": "___ does the train arrive? At 6.", "options": ["Where", "What", "When"], "answer": 2}
+        ]
+      },
+      "Вопросы к подлежащему (Who lives here?)": {
+        "explanation": {
+          "headers": ["Время", "Особенность", "Форма", "Пример"],
+          "rows": [
+            ["Все", "Главное правило", "Who/What + глагол (3 лицо)", "Who loves you?"],
+            ["Все", "Порядок слов", "ПРЯМОЙ (как в утв.)", "What happened?"],
+            ["Все", "Вспом. глаголы", "НЕ используем do/does/did", "Who plays the piano?"],
+            ["Present", "Who + V(s)", "Who + гл. + s", "Who works here?"],
+            ["Past", "Who + V2", "Who + гл. во 2 форме", "Who broke the window?"],
+            ["Future", "Who + will + V", "Who + will + глагол", "Who will come tomorrow?"]
+          ]
+        },
+        "questions": [
+          {"q": "___ lives in that house? John.", "options": ["Who", "What", "Where"], "answer": 0},
+          {"q": "___ helps you with math? My dad.", "options": ["What", "Who", "Which"], "answer": 1},
+          {"q": "___ happened? An accident.", "options": ["Who", "What", "Why"], "answer": 1},
+          {"q": "___ makes the best pizza? This restaurant.", "options": ["What", "When", "Who"], "answer": 2},
+          {"q": "___ is on the table? A vase.", "options": ["Who", "What", "Where"], "answer": 1},
+          {"q": "___ told you that? Maria.", "options": ["What", "Who", "When"], "answer": 1},
+          {"q": "___ won the game? Our team.", "options": ["Which", "What", "Who"], "answer": 2},
+          {"q": "___ dances best? Anna.", "options": ["What", "Who", "Where"], "answer": 1}
+        ]
+      },
+      "Повелительное наклонение (Open the door!)": {
+        "explanation": {
+          "headers": ["Тип", "Обращение", "Форма", "Пример"],
+          "rows": [
+            ["Приказ", "Ты / Вы", "Глагол (V1)", "Sit down!"],
+            ["Приказ", "Ты / Вы", "V1 + дополнение", "Open the door!"],
+            ["Приказ", "Давайте (мы)", "Let's + V1", "Let's go!"],
+            ["Просьба", "Ты / Вы", "Please + V1", "Please wait"],
+            ["Отрицание", "Ты / Вы", "Don't + V1", "Don't touch!"],
+            ["Отрицание", "Давайте (мы)", "Let's not + V1", "Let's not argue"],
+            ["Вежливо", "Ты / Вы", "V1 + дополнение", "Have a seat"],
+            ["Вежливо", "Давайте (мы)", "Let's + V1", "Let's begin"]
+          ]
+        },
+        "questions": [
+          {"q": "___ the window, please. It's hot.", "options": ["To open", "Open", "Opens"], "answer": 1},
+          {"q": "___ late! The boss is angry.", "options": ["Not be", "Don't be", "Be not"], "answer": 1},
+          {"q": "___ quiet, please! The baby is sleeping.", "options": ["Be", "Is", "Are"], "answer": 0},
+          {"q": "___ your homework now.", "options": ["Does", "Do", "Doing"], "answer": 1},
+          {"q": "___ on the grass!", "options": ["Walk not", "Don't walk", "Not walk"], "answer": 1},
+          {"q": "___ left at the corner.", "options": ["Turn", "To turn", "Turns"], "answer": 0},
+          {"q": "___ me some water, please.", "options": ["Gives", "Giving", "Give"], "answer": 2},
+          {"q": "___ touch that! It's hot.", "options": ["Not", "No", "Don't"], "answer": 2}
+        ]
+      },
+      "Союзы (and, but, or, because)": {
+        "explanation": {
+          "headers": ["Тип", "Союз", "Перевод", "Пример"],
+          "rows": [
+            ["Соедин.", "and", "и, а", "I like tea and coffee"],
+            ["Соедин.", "both ... and", "и ... и", "She is both smart and kind"],
+            ["Против.", "but", "но", "I am tired but happy"],
+            ["Раздел.", "or", "или", "Tea or coffee?"],
+            ["Раздел.", "either ... or", "либо ... либо", "Either you go or I go"],
+            ["Причины", "because", "потому что", "I stayed home because it rained"],
+            ["Следств.", "so", "поэтому", "It rained, so I stayed home"],
+            ["Времени", "when", "когда", "Call me when you arrive"],
+            ["Времени", "before", "до того как", "Wash hands before you eat"],
+            ["Времени", "after", "после того как", "We left after it stopped raining"],
+            ["Условия", "if", "если", "If it rains, I will stay"],
+            ["Уступки", "although", "хотя", "Although it rained, we went"]
+          ]
+        },
+        "questions": [
+          {"q": "I like tea ___ coffee.", "options": ["but", "or", "and"], "answer": 2},
+          {"q": "She is tired ___ she went to bed early.", "options": ["so", "but", "because"], "answer": 0},
+          {"q": "Is it Monday ___ Tuesday today?", "options": ["or", "but", "because"], "answer": 0},
+          {"q": "He is poor ___ he is happy.", "options": ["because", "but", "or"], "answer": 1},
+          {"q": "I am hungry ___ I didn't eat lunch.", "options": ["because", "but", "so"], "answer": 0},
+          {"q": "Do you want pizza ___ pasta?", "options": ["and", "but", "or"], "answer": 2},
+          {"q": "The sun is shining ___ it is warm.", "options": ["and", "but", "because"], "answer": 0},
+          {"q": "I want to come ___ I am very busy.", "options": ["and", "but", "because"], "answer": 1}
+        ]
+      },
+      "Конструкция like + ing": {
+        "explanation": {
+          "headers": ["Лицо", "Форма", "Пример"],
+          "rows": [
+            ["I/You/We/They", "like + Ving", "I like swimming"],
+            ["He/She/It", "likes + Ving", "She likes dancing"],
+            ["Все", "love + Ving", "We love travelling"],
+            ["Все", "enjoy + Ving", "He enjoys reading"],
+            ["Все", "hate + Ving", "They hate waiting"],
+            ["Все", "don't mind + Ving", "I don't mind helping"],
+            ["", "", ""],
+            ["⚠️ Правило", "После like/love/enjoy", "всегда Ving!", "I like playing ✅"]
+          ]
+        },
+        "questions": [
+          {"q": "I like ___ books.", "options": ["read", "reading", "reads"], "answer": 1},
+          {"q": "She likes ___ basketball.", "options": ["playing", "play", "plays"], "answer": 0},
+          {"q": "Do you like ___?", "options": ["swim", "swimming", "swims"], "answer": 1},
+          {"q": "He doesn't like ___ up early.", "options": ["getting", "get", "gets"], "answer": 0},
+          {"q": "We love ___ to music.", "options": ["listen", "listening", "listens"], "answer": 1},
+          {"q": "They enjoy ___ time together.", "options": ["spending", "spend", "spends"], "answer": 0},
+          {"q": "I hate ___ in lines.", "options": ["wait", "waiting", "waits"], "answer": 1},
+          {"q": "Do you like ___ video games?", "options": ["playing", "play", "plays"], "answer": 0}
+        ]
+      },
+      "Модальный глагол can/can't": {
+        "explanation": {
+          "headers": ["Значение", "Форма", "Пример"],
+          "rows": [
+            ["Способность", "can / can't", "I can speak English"],
+            ["Разрешение", "can", "You can go now"],
+            ["Запрет", "cannot / can't", "You can't park here"],
+            ["Просьба", "Can...?", "Can you help me?"],
+            ["Предложение", "Can I...?", "Can I open the window?"],
+            ["", "", ""],
+            ["✅ Утв.", "❌ Отрицание", "❓ Вопрос"],
+            ["I can swim", "He can't fly", "Can she drive?"],
+            ["We can come", "They can't hear", "Can you help?"]
+          ]
+        },
+        "questions": [
+          {"q": "I ___ swim very well.", "options": ["can", "am", "do"], "answer": 0},
+          {"q": "She ___ speak French, only English.", "options": ["can", "can't", "don't"], "answer": 1},
+          {"q": "___ you play the guitar?", "options": ["Can", "Are", "Do"], "answer": 0},
+          {"q": "Birds ___ fly.", "options": ["can", "is", "do"], "answer": 0},
+          {"q": "I ___ hear you. It's too noisy.", "options": ["can", "can't", "don't"], "answer": 1},
+          {"q": "He ___ run fast. He's an athlete.", "options": ["can", "can't", "is"], "answer": 0},
+          {"q": "___ I open the window?", "options": ["Can", "Do", "Am"], "answer": 0},
+          {"q": "Fish ___ walk.", "options": ["can", "can't", "aren't"], "answer": 1}
+        ]
+      },
+      "There is / There are": {
+        "explanation": {
+          "headers": ["Время", "Число", "Форма", "Пример"],
+          "rows": [
+            ["Present", "Ед. число", "There is", "There is a cat on the sofa"],
+            ["Present", "Неисчисл.", "There is", "There is some milk"],
+            ["Present", "Мн. число", "There are", "There are two books"],
+            ["Past", "Ед. число", "There was", "There was a party yesterday"],
+            ["Past", "Мн. число", "There were", "There were many people"],
+            ["Future", "Всё", "There will be", "There will be a meeting tomorrow"],
+            ["", "", "", ""],
+            ["❓ Вопрос", "Is there?", "Are there?", ""],
+            ["Is there a bank?", "Yes, there is", "No, there isn't", ""],
+            ["Are there shops?", "Yes, there are", "No, there aren't", ""]
+          ]
+        },
+        "questions": [
+          {"q": "___ a cat under the table.", "options": ["There is", "There are", "It is"], "answer": 0},
+          {"q": "___ many books on the shelf.", "options": ["There is", "There are", "They are"], "answer": 1},
+          {"q": "___ some water in the glass.", "options": ["There is", "There are", "It is"], "answer": 0},
+          {"q": "___ any apples in the fridge?", "options": ["Is there", "Are there", "There are"], "answer": 1},
+          {"q": "___ a bank near here?", "options": ["Are there", "Is there", "There is"], "answer": 1},
+          {"q": "___ no mistakes in my test.", "options": ["There is", "There are", "It is"], "answer": 1},
+          {"q": "___ three chairs in the kitchen.", "options": ["There is", "There are", "They are"], "answer": 1},
+          {"q": "___ a lot of noise.", "options": ["There is", "There are", "It is"], "answer": 0}
+        ]
+      },
+      "Наречия частоты (always, never, sometimes, often)": {
+        "explanation": {
+          "headers": ["%", "Наречие", "Перевод", "Пример"],
+          "rows": [
+            ["100%", "always", "всегда", "I always wake up early"],
+            ["90%", "usually", "обычно", "She usually walks to school"],
+            ["80%", "normally", "как правило", "We normally eat at home"],
+            ["70%", "often", "часто", "He often reads before bed"],
+            ["50%", "sometimes", "иногда", "They sometimes cook dinner"],
+            ["30%", "occasionally", "время от времени", "I occasionally drink coffee"],
+            ["10%", "seldom/rarely", "редко", "She rarely watches TV"],
+            ["5%", "hardly ever", "почти никогда", "He hardly ever gets angry"],
+            ["0%", "never", "никогда", "We never smoke"]
+          ]
+        },
+        "questions": [
+          {"q": "I ___ (100%) brush my teeth before bed.", "options": ["sometimes", "never", "always"], "answer": 2},
+          {"q": "She ___ (0%) eats meat. She's vegetarian.", "options": ["always", "never", "often"], "answer": 1},
+          {"q": "We ___ (50%) go to the cinema on Friday.", "options": ["never", "sometimes", "always"], "answer": 1},
+          {"q": "He ___ (80%) visits his grandmother on Sundays.", "options": ["often", "never", "always"], "answer": 0},
+          {"q": "They are ___ late for class. (постоянно)", "options": ["never", "always", "sometimes"], "answer": 1},
+          {"q": "I have ___ been to Paris. (никогда)", "options": ["ever", "never", "always"], "answer": 1},
+          {"q": "She ___ goes shopping at the weekend. (иногда)", "options": ["never", "sometimes", "always"], "answer": 1},
+          {"q": "He ___ does his homework. (часто)", "options": ["often", "never", "sometimes"], "answer": 0}
+        ]
+      },
+      
     "Лексика": {
       "Цифры, числа, даты, время": {
         "questions": [
@@ -561,126 +812,6 @@
           {"q": "After school, I ___ video games.", "options": ["do", "play", "go"], "answer": 1},
           {"q": "I ___ dinner at 7 pm.", "options": ["have", "do", "make"], "answer": 0},
           {"q": "I ___ to bed at 10 pm.", "options": ["have", "get", "go"], "answer": 2}
-        ]
-      },
-      "Порядок слов в утверждении (SVO)": {
-        "questions": [
-          {"q": "like / I / pizza.", "options": ["Like I pizza.", "I like pizza.", "Pizza I like."], "answer": 1},
-          {"q": "She / books / reads.", "options": ["Reads she books.", "She books reads.", "She reads books."], "answer": 2},
-          {"q": "play / They / in the park.", "options": ["They play in the park.", "Play they in the park.", "In the park they play."], "answer": 0},
-          {"q": "My father / a car / has.", "options": ["A car my father has.", "My father has a car.", "Has my father a car."], "answer": 1},
-          {"q": "We / English / study.", "options": ["English we study.", "Study we English.", "We study English."], "answer": 2},
-          {"q": "The cat / milk / drinks.", "options": ["The cat drinks milk.", "Milk the cat drinks.", "Drinks the cat milk."], "answer": 0},
-          {"q": "I / my homework / do.", "options": ["Do I my homework.", "I do my homework.", "My homework I do."], "answer": 1},
-          {"q": "He / coffee / likes.", "options": ["Coffee he likes.", "He likes coffee.", "Likes he coffee."], "answer": 1}
-        ]
-      },
-      "Общие вопросы (Do you…? Is he…?)": {
-        "questions": [
-          {"q": "___ you like music?", "options": ["Are", "Do", "Is"], "answer": 1},
-          {"q": "___ she your sister?", "options": ["Is", "Does", "Are"], "answer": 0},
-          {"q": "___ they speak French?", "options": ["Is", "Are", "Do"], "answer": 2},
-          {"q": "___ he reading a book?", "options": ["Is", "Does", "Do"], "answer": 0},
-          {"q": "___ I late?", "options": ["Do", "Am", "Is"], "answer": 1},
-          {"q": "___ we have homework?", "options": ["Are", "Is", "Do"], "answer": 2},
-          {"q": "___ it raining outside?", "options": ["Does", "Is", "Do"], "answer": 1},
-          {"q": "___ your mother work here?", "options": ["Is", "Does", "Do"], "answer": 1}
-        ]
-      },
-      "Специальные вопросы (What, Where, When)": {
-        "questions": [
-          {"q": "___ is your name?", "options": ["Where", "When", "What"], "answer": 2},
-          {"q": "___ do you live?", "options": ["What", "Where", "Who"], "answer": 1},
-          {"q": "___ is your birthday?", "options": ["When", "Where", "What"], "answer": 0},
-          {"q": "___ time is it?", "options": ["When", "What", "Where"], "answer": 1},
-          {"q": "___ is the party? At 5 pm.", "options": ["Where", "What", "When"], "answer": 2},
-          {"q": "___ is the Eiffel Tower? In Paris.", "options": ["When", "Where", "What"], "answer": 1},
-          {"q": "___ colour do you like?", "options": ["Where", "When", "What"], "answer": 2},
-          {"q": "___ does the train arrive? At 6.", "options": ["Where", "What", "When"], "answer": 2}
-        ]
-      },
-      "Вопросы к подлежащему (Who lives here?)": {
-        "questions": [
-          {"q": "___ lives in that house? John.", "options": ["Who", "What", "Where"], "answer": 0},
-          {"q": "___ helps you with math? My dad.", "options": ["What", "Who", "Which"], "answer": 1},
-          {"q": "___ happened? An accident.", "options": ["Who", "What", "Why"], "answer": 1},
-          {"q": "___ makes the best pizza? This restaurant.", "options": ["What", "When", "Who"], "answer": 2},
-          {"q": "___ is on the table? A vase.", "options": ["Who", "What", "Where"], "answer": 1},
-          {"q": "___ told you that? Maria.", "options": ["What", "Who", "When"], "answer": 1},
-          {"q": "___ won the game? Our team.", "options": ["Which", "What", "Who"], "answer": 2},
-          {"q": "___ dances best? Anna.", "options": ["What", "Who", "Where"], "answer": 1}
-        ]
-      },
-      "Повелительное наклонение (Open the door!)": {
-        "questions": [
-          {"q": "___ the window, please. It's hot.", "options": ["To open", "Open", "Opens"], "answer": 1},
-          {"q": "___ late! The boss is angry.", "options": ["Not be", "Don't be", "Be not"], "answer": 1},
-          {"q": "___ quiet, please! The baby is sleeping.", "options": ["Be", "Is", "Are"], "answer": 0},
-          {"q": "___ your homework now.", "options": ["Does", "Do", "Doing"], "answer": 1},
-          {"q": "___ on the grass!", "options": ["Walk not", "Don't walk", "Not walk"], "answer": 1},
-          {"q": "___ left at the corner.", "options": ["Turn", "To turn", "Turns"], "answer": 0},
-          {"q": "___ me some water, please.", "options": ["Gives", "Giving", "Give"], "answer": 2},
-          {"q": "___ touch that! It's hot.", "options": ["Not", "No", "Don't"], "answer": 2}
-        ]
-      },
-      "Союзы (and, but, or, because)": {
-        "questions": [
-          {"q": "I like tea ___ coffee.", "options": ["but", "or", "and"], "answer": 2},
-          {"q": "She is tired ___ she went to bed early.", "options": ["so", "but", "because"], "answer": 0},
-          {"q": "Is it Monday ___ Tuesday today?", "options": ["or", "but", "because"], "answer": 0},
-          {"q": "He is poor ___ he is happy.", "options": ["because", "but", "or"], "answer": 1},
-          {"q": "I am hungry ___ I didn't eat lunch.", "options": ["because", "but", "so"], "answer": 0},
-          {"q": "Do you want pizza ___ pasta?", "options": ["and", "but", "or"], "answer": 2},
-          {"q": "The sun is shining ___ it is warm.", "options": ["and", "but", "because"], "answer": 0},
-          {"q": "I want to come ___ I am very busy.", "options": ["and", "but", "because"], "answer": 1}
-        ]
-      },
-      "Конструкция like + ing": {
-        "questions": [
-          {"q": "I like ___ books.", "options": ["read", "reading", "reads"], "answer": 1},
-          {"q": "She likes ___ basketball.", "options": ["playing", "play", "plays"], "answer": 0},
-          {"q": "Do you like ___?", "options": ["swim", "swimming", "swims"], "answer": 1},
-          {"q": "He doesn't like ___ up early.", "options": ["getting", "get", "gets"], "answer": 0},
-          {"q": "We love ___ to music.", "options": ["listen", "listening", "listens"], "answer": 1},
-          {"q": "They enjoy ___ time together.", "options": ["spending", "spend", "spends"], "answer": 0},
-          {"q": "I hate ___ in lines.", "options": ["wait", "waiting", "waits"], "answer": 1},
-          {"q": "Do you like ___ video games?", "options": ["playing", "play", "plays"], "answer": 0}
-        ]
-      },
-      "Модальный глагол can/can't": {
-        "questions": [
-          {"q": "I ___ swim very well.", "options": ["can", "am", "do"], "answer": 0},
-          {"q": "She ___ speak French, only English.", "options": ["can", "can't", "don't"], "answer": 1},
-          {"q": "___ you play the guitar?", "options": ["Can", "Are", "Do"], "answer": 0},
-          {"q": "Birds ___ fly.", "options": ["can", "is", "do"], "answer": 0},
-          {"q": "I ___ hear you. It's too noisy.", "options": ["can", "can't", "don't"], "answer": 1},
-          {"q": "He ___ run fast. He's an athlete.", "options": ["can", "can't", "is"], "answer": 0},
-          {"q": "___ I open the window?", "options": ["Can", "Do", "Am"], "answer": 0},
-          {"q": "Fish ___ walk.", "options": ["can", "can't", "aren't"], "answer": 1}
-        ]
-      },
-      "There is / There are": {
-        "questions": [
-          {"q": "___ a cat under the table.", "options": ["There is", "There are", "It is"], "answer": 0},
-          {"q": "___ many books on the shelf.", "options": ["There is", "There are", "They are"], "answer": 1},
-          {"q": "___ some water in the glass.", "options": ["There is", "There are", "It is"], "answer": 0},
-          {"q": "___ any apples in the fridge?", "options": ["Is there", "Are there", "There are"], "answer": 1},
-          {"q": "___ a bank near here?", "options": ["Are there", "Is there", "There is"], "answer": 1},
-          {"q": "___ no mistakes in my test.", "options": ["There is", "There are", "It is"], "answer": 1},
-          {"q": "___ three chairs in the kitchen.", "options": ["There is", "There are", "They are"], "answer": 1},
-          {"q": "___ a lot of noise.", "options": ["There is", "There are", "It is"], "answer": 0}
-        ]
-      },
-      "Наречия частоты (always, never, sometimes, often)": {
-        "questions": [
-          {"q": "I ___ (100%) brush my teeth before bed.", "options": ["sometimes", "never", "always"], "answer": 2},
-          {"q": "She ___ (0%) eats meat. She's vegetarian.", "options": ["always", "never", "often"], "answer": 1},
-          {"q": "We ___ (50%) go to the cinema on Friday.", "options": ["never", "sometimes", "always"], "answer": 1},
-          {"q": "He ___ (80%) visits his grandmother on Sundays.", "options": ["often", "never", "always"], "answer": 0},
-          {"q": "They are ___ late for class. (постоянно)", "options": ["never", "always", "sometimes"], "answer": 1},
-          {"q": "I have ___ been to Paris. (никогда)", "options": ["ever", "never", "always"], "answer": 1},
-          {"q": "She ___ goes shopping at the weekend. (иногда)", "options": ["never", "sometimes", "always"], "answer": 1},
-          {"q": "He ___ does his homework. (часто)", "options": ["often", "never", "sometimes"], "answer": 0}
         ]
       }
     }
