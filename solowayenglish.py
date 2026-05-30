@@ -1,4 +1,4 @@
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup  # исправлена опечатка
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, filters, ContextTypes
 import sqlite3
 import os
@@ -6,6 +6,8 @@ import json
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import io
+
+# --- СНАЧАЛА ВСЕ ФУНКЦИИ, ПОТОМ ИХ ИСПОЛЬЗОВАНИЕ ---
 
 def generate_table_image(headers, rows, topic):
     """Создаёт красивую таблицу-картинку"""
@@ -44,207 +46,6 @@ def generate_table_image(headers, rows, topic):
     
     return buf
 
-async def show_explanation(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
-    topics = TOPICS[level][category]
-    topic = topics[int(idx)]
-    
-    expl_data = None
-    try:
-        for cat in TESTS.get(level, {}):
-            if topic in TESTS[level][cat]:
-                expl = TESTS[level][cat][topic].get("explanation")
-                if expl and isinstance(expl, dict):
-                    expl_data = expl
-                    break
-    except:
-        pass
-    
-    if not expl_data:
-        await update.callback_query.answer("❌ Теория пока не добавлена", show_alert=True)
-        return
-    
-    buf = generate_table_image(expl_data["headers"], expl_data["rows"], topic)
-    
-    keyboard = [[InlineKeyboardButton("🔙 К теме", callback_data=f"topic_{level}|{category}|{idx}")]]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    
-    try:
-        await update.callback_query.message.delete()
-    except Exception as e:
-        print(f"Не удалось удалить сообщение: {e}")
-    
-    try:
-        await update.effective_chat.send_photo(
-            photo=buf,
-            caption=f"📖 *{topic}*",
-            reply_markup=reply_markup,
-            parse_mode="Markdown"
-        )
-    except Exception as e:
-        print(f"Ошибка при отправке фото: {e}")
-        await update.effective_chat.send_message(
-            f"📖 *{topic}*\n\nТеория по этой теме.",
-            reply_markup=reply_markup,
-            parse_mode="Markdown"
-        )
-
-TOKEN = "8681728801:AAHYuSN_UtHSe4w6F3uOLXwoaL0dSGjuF9k"
-
-DB_PATH = "/data/english.db"
-
-try:
-    with open("test.json", "r", encoding="utf-8") as f:
-        TESTS = json.load(f)
-except:
-    TESTS = {}
-
-TOPICS = {
-    "A1 (Beginner)": {
-        "Грамматика": [
-            "Глагол to be (am/is/are)",
-            "Личные местоимения (I, you, he, she, it, we, they)",
-            "Объектные местоимения (me, him, her, us, them)",
-            "Притяжательные местоимения (my/mine, your/yours)",
-            "Указательные местоимения (this, that, these, those)",
-            "Неопределённые местоимения (some, any, no)",
-            "Множественное число существительных",
-            "Притяжательный падеж ('s)",
-            "Артикли (a/an, the)",
-            "Present Simple",
-            "Present Continuous",
-            "Present Simple vs Present Continuous",
-            "Past Simple (was/were, правильные глаголы)",
-            "Past Simple (неправильные глаголы, топ-20)",
-            "Future Simple (will)",
-            "Конструкция to be going to",
-            "Предлоги места (in, on, under, next to, behind)",
-            "Предлоги времени (at, on, in)",
-            "Порядок слов в утверждении (SVO)",
-            "Общие вопросы (Do you…? Is he…?)",
-            "Специальные вопросы (What, Where, When)",
-            "Вопросы к подлежащему (Who lives here?)",
-            "Повелительное наклонение (Open the door!)",
-            "Союзы (and, but, or, because)",
-            "Конструкция like + ing",
-            "Модальный глагол can/can't",
-            "There is / There are",
-            "Наречия частоты (always, never, sometimes, often)",
-        ],
-        "Лексика": [
-            "Цифры, числа, даты, время",
-            "Дни недели, месяцы, времена года",
-            "Семья (mother, father, sister, brother)",
-            "Дом и комната (furniture, rooms)",
-            "Еда и напитки (food, drink)",
-            "Одежда и цвета (clothes, colours)",
-            "Школа и школьные предметы",
-            "Хобби и свободное время",
-            "Описание людей (tall, short, kind, funny)",
-            "Город и транспорт (places, prepositions)",
-            "Погода (sunny, rainy, hot, cold)",
-            "Повседневные действия (get up, have breakfast, go to school)",
-        ],
-    },
-    "A2 (Elementary)": {
-        "Грамматика": [
-            "Past Continuous (I was doing)",
-            "Present Perfect (I have done) — опыт, результат",
-            "Present Perfect vs Past Simple",
-            "Present Perfect Continuous (I have been doing)",
-            "Future forms: will / going to / Present Continuous",
-            "Конструкция used to",
-            "Степени сравнения прилагательных",
-            "Сравнительные конструкции (as…as, not as…as, than)",
-            "Порядок прилагательных",
-            "Наречия образа действия (quickly, well, fast)",
-            "Модальные глаголы (must, have to, should, may, might, could)",
-            "Предлоги времени (for, since, during, by, until)",
-            "Предлоги места (in, on, at, behind, between)",
-            "Предлоги движения (to, into, out of, through, along)",
-            "Количественные слова (some, any, much, many, a lot of)",
-            "Неопределённые местоимения (somebody, anybody, nobody)",
-            "Возвратные местоимения (myself, yourself, himself)",
-            "Союзы (because, so, although, however)",
-            "Косвенная речь (база: He said that…)",
-            "Условные предложения 0 и 1 типа",
-            "Пассивный залог (база: is done, was done)",
-            "Вопросы разделительные (You like coffee, don't you?)",
-            "Вопросы косвенные (Can you tell me where…)",
-        ],
-        "Лексика": [
-            "Путешествия и транспорт",
-            "Еда и заказ в кафе",
-            "Внешность и характер",
-            "Семья и отношения",
-            "Образование и экзамены",
-            "Работа и профессии",
-            "Город и ориентация",
-            "Погода и времена года",
-            "Покупки и одежда",
-            "Здоровье и тело",
-        ],
-    },
-    "B1 (Intermediate)": {
-        "Грамматика": [
-            "Past Perfect (I had done)",
-            "Past Perfect vs Past Simple",
-            "Present Perfect Continuous (углублённо)",
-            "Future Continuous (I will be doing)",
-            "Future Perfect (I will have done)",
-            "Условные предложения 2 и 3 типа",
-            "Сослагательное наклонение (I wish… / If only…)",
-            "Конструкция be/get used to + ing",
-            "Герундий и инфинитив (remember to do vs remember doing)",
-            "Модальные глаголы в прошлом (must have, might have)",
-            "Пассивный залог (все времена)",
-            "Косвенная речь (вопросы, просьбы, приказы)",
-            "Определительные придаточные (who, which, that, whose)",
-            "Артикли (углублённо, включая нулевой артикль)",
-            "Предлоги (углублённо: despite, in spite of, due to)",
-            "Фразовые глаголы (get up, turn on, look for, give up)",
-            "Инверсия (Never have I seen…)",
-        ],
-        "Лексика": [
-            "Путешествия и культура",
-            "Технологии и интернет",
-            "Экология и окружающая среда",
-            "Работа и карьера",
-            "Образование",
-            "Здоровье и медицина",
-            "Медиа и новости",
-            "Отношения и общение",
-            "Искусство и литература",
-            "Финансы и деньги",
-        ],
-    },
-    "B2 (Upper-Intermediate)": {
-        "Грамматика": [
-            "Все времена (активный и пассивный залог)",
-            "Все условные предложения (смешанные типы)",
-            "Сослагательное наклонение после suggest, recommend, insist",
-            "Модальные глаголы для выражения предположений",
-            "Инверсия в условных предложениях (Had I known…)",
-            "Эмфатические конструкции (It is … that… / What … is…)",
-            "Сложные союзы (nonetheless, whereas, thereby, hence)",
-            "Фразовые глаголы (углублённо, с несколькими значениями)",
-            "Сложные герундиальные и инфинитивные обороты",
-            "Пунктуация и стилистика",
-        ],
-        "Лексика": [
-            "Бизнес и экономика",
-            "Наука и технологии",
-            "Политика и общество",
-            "Юриспруденция и право",
-            "Психология и саморазвитие",
-            "Глобальные проблемы",
-            "Культура и традиции (глубоко)",
-            "Маркетинг и реклама",
-            "Переговоры и убеждение",
-            "Реферирование и пересказ",
-        ],
-    },
-}
-
 def init_db():
     try:
         os.makedirs("/data", exist_ok=True)
@@ -278,12 +79,6 @@ def init_db():
     """)
     conn.commit()
     conn.close()
-
-init_db()
-
-ALLOWED_USERS = {
-    "Соловей": "2011",
-}
 
 def get_progress(user_id, level):
     conn = sqlite3.connect(DB_PATH)
@@ -337,6 +132,51 @@ def find_topic_index(level, category, topic_name):
             if topic == topic_name:
                 return idx
     return 0
+
+async def show_explanation(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
+    """Показывает теорию по теме в виде красивой таблицы"""
+    topics = TOPICS[level][category]
+    topic = topics[int(idx)]
+    
+    expl_data = None
+    try:
+        for cat in TESTS.get(level, {}):
+            if topic in TESTS[level][cat]:
+                expl = TESTS[level][cat][topic].get("explanation")
+                if expl and isinstance(expl, dict):
+                    expl_data = expl
+                    break
+    except:
+        pass
+    
+    if not expl_data:
+        await update.callback_query.answer("❌ Теория пока не добавлена", show_alert=True)
+        return
+    
+    buf = generate_table_image(expl_data["headers"], expl_data["rows"], topic)
+    
+    keyboard = [[InlineKeyboardButton("🔙 К теме", callback_data=f"topic_{level}|{category}|{idx}")]]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    try:
+        await update.callback_query.message.delete()
+    except Exception as e:
+        print(f"Не удалось удалить сообщение: {e}")
+    
+    try:
+        await update.effective_chat.send_photo(
+            photo=buf,
+            caption=f"📖 *{topic}*",
+            reply_markup=reply_markup,
+            parse_mode="Markdown"
+        )
+    except Exception as e:
+        print(f"Ошибка при отправке фото: {e}")
+        await update.effective_chat.send_message(
+            f"📖 *{topic}*\n\nТеория по этой теме.",
+            reply_markup=reply_markup,
+            parse_mode="Markdown"
+        )
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if "authenticated" not in context.user_data:
@@ -526,7 +366,6 @@ async def handle_answer(update: Update, context: ContextTypes.DEFAULT_TYPE, answ
     user_answer = question["options"][answer_idx]
     is_correct = (answer_idx == correct)
     
-    # Сохраняем ответ пользователя
     test["user_answers"].append({
         "question": question["q"],
         "user_answer": user_answer,
@@ -546,7 +385,7 @@ async def handle_answer(update: Update, context: ContextTypes.DEFAULT_TYPE, answ
         await finish_test(update, context)
     else:
         await show_question(update, context)
-        
+
 async def finish_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
     test = context.user_data.get("test")
     if not test:
@@ -572,7 +411,6 @@ async def finish_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
         emoji = "💪"
         comment = "Нужно подучить эту тему. Не сдавайся!"
     
-    # Получаем неправильные ответы
     wrong_answers = [ans for ans in test["user_answers"] if not ans["is_correct"]]
     
     idx = find_topic_index(test["level"], test["category"], test["topic"])
@@ -583,9 +421,7 @@ async def finish_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     
-    # Формируем сообщение с результатами
     if wrong_answers:
-        # Если есть ошибки, показываем краткий результат и отдельно ошибки
         result_text = (
             f"{emoji} *Тест завершён!*\n\n"
             f"📝 {test['topic']}\n"
@@ -594,15 +430,13 @@ async def finish_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"❌ *Ошибки: {len(wrong_answers)} из {total}*"
         )
         
-        # Отправляем результат
         await update.callback_query.edit_message_text(
             result_text,
             reply_markup=reply_markup,
             parse_mode="Markdown"
         )
         
-        # Отправляем ошибки отдельными сообщениями
-        for i in range(0, len(wrong_answers), 2):  # По 2 ошибки в сообщении
+        for i in range(0, len(wrong_answers), 2):
             chunk = wrong_answers[i:i+2]
             error_text = "*❌ Ошибки:*\n\n"
             for j, wrong in enumerate(chunk, i+1):
@@ -615,7 +449,6 @@ async def finish_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 parse_mode="Markdown"
             )
     else:
-        # Если ошибок нет
         result_text = (
             f"{emoji} *Тест завершён!*\n\n"
             f"📝 {test['topic']}\n"
@@ -688,7 +521,7 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif data == "total_progress":
         await show_total_progress(update, context)
     elif data == "noop":
-        pass  # Ничего не делаем для кнопок-заглушек
+        pass
     elif data.startswith("level_"):
         level = data[6:]
         await show_categories(update, context, level)
@@ -748,7 +581,170 @@ async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text("❌ Неверный пароль. Начни заново с /start")
         return
 
+# --- ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ И ИНИЦИАЛИЗАЦИЯ (после определения функций) ---
+
+TOKEN = "8681728801:AAHYuSN_UtHSe4w6F3uOLXwoaL0dSGjuF9k"
+DB_PATH = "/data/english.db"
+
+try:
+    with open("test.json", "r", encoding="utf-8") as f:
+        TESTS = json.load(f)
+except:
+    TESTS = {}
+
+TOPICS = {
+    "A1 (Beginner)": {
+        "Грамматика": [
+            "Глагол to be (am/is/are)",
+            "Личные местоимения (I, you, he, she, it, we, they)",
+            "Объектные местоимения (me, him, her, us, them)",
+            "Притяжательные местоимения (my/mine, your/yours)",
+            "Указательные местоимения (this, that, these, those)",
+            "Неопределённые местоимения (some, any, no)",
+            "Множественное число существительных",
+            "Притяжательный падеж ('s)",
+            "Артикли (a/an, the)",
+            "Present Simple",
+            "Present Continuous",
+            "Present Simple vs Present Continuous",
+            "Past Simple (was/were, правильные глаголы)",
+            "Past Simple (неправильные глаголы, топ-20)",
+            "Future Simple (will)",
+            "Конструкция to be going to",
+            "Предлоги места (in, on, under, next to, behind)",
+            "Предлоги времени (at, on, in)",
+            "Порядок слов в утверждении (SVO)",
+            "Общие вопросы (Do you…? Is he…?)",
+            "Специальные вопросы (What, Where, When)",
+            "Вопросы к подлежащему (Who lives here?)",
+            "Повелительное наклонение (Open the door!)",
+            "Союзы (and, but, or, because)",
+            "Конструкция like + ing",
+            "Модальный глагол can/can't",
+            "There is / There are",
+            "Наречия частоты (always, never, sometimes, often)",
+        ],
+        "Лексика": [
+            "Цифры, числа, даты, время",
+            "Дни недели, месяцы, времена года",
+            "Семья (mother, father, sister, brother)",
+            "Дом и комната (furniture, rooms)",
+            "Еда и напитки (food, drink)",
+            "Одежда и цвета (clothes, colours)",
+            "Школа и школьные предметы",
+            "Хобби и свободное время",
+            "Описание людей (tall, short, kind, funny)",
+            "Город и транспорт (places, prepositions)",
+            "Погода (sunny, rainy, hot, cold)",
+            "Повседневные действия (get up, have breakfast, go to school)",
+        ],
+    },
+    "A2 (Elementary)": {
+        "Грамматика": [
+            "Past Continuous (I was doing)",
+            "Present Perfect (I have done) — опыт, результат",
+            "Present Perfect vs Past Simple",
+            "Present Perfect Continuous (I have been doing)",
+            "Future forms: will / going to / Present Continuous",
+            "Конструкция used to",
+            "Степени сравнения прилагательных",
+            "Сравнительные конструкции (as…as, not as…as, than)",
+            "Порядок прилагательных",
+            "Наречия образа действия (quickly, well, fast)",
+            "Модальные глаголы (must, have to, should, may, might, could)",
+            "Предлоги времени (for, since, during, by, until)",
+            "Предлоги места (in, on, at, behind, between)",
+            "Предлоги движения (to, into, out of, through, along)",
+            "Количественные слова (some, any, much, many, a lot of)",
+            "Неопределённые местоимения (somebody, anybody, nobody)",
+            "Возвратные местоимения (myself, yourself, himself)",
+            "Союзы (because, so, although, however)",
+            "Косвенная речь (база: He said that…)",
+            "Условные предложения 0 и 1 типа",
+            "Пассивный залог (база: is done, was done)",
+            "Вопросы разделительные (You like coffee, don't you?)",
+            "Вопросы косвенные (Can you tell me where…)",
+        ],
+        "Лексика": [
+            "Путешествия и транспорт",
+            "Еда и заказ в кафе",
+            "Внешность и характер",
+            "Семья и отношения",
+            "Образование и экзамены",
+            "Работа и профессии",
+            "Город и ориентация",
+            "Погода и времена года",
+            "Покупки и одежда",
+            "Здоровье и тело",
+        ],
+    },
+    "B1 (Intermediate)": {
+        "Грамматика": [
+            "Past Perfect (I had done)",
+            "Past Perfect vs Past Simple",
+            "Present Perfect Continuous (углублённо)",
+            "Future Continuous (I will be doing)",
+            "Future Perfect (I will have done)",
+            "Условные предложения 2 и 3 типа",
+            "Сослагательное наклонение (I wish… / If only…)",
+            "Конструкция be/get used to + ing",
+            "Герундий и инфинитив (remember to do vs remember doing)",
+            "Модальные глаголы в прошлом (must have, might have)",
+            "Пассивный залог (все времена)",
+            "Косвенная речь (вопросы, просьбы, приказы)",
+            "Определительные придаточные (who, which, that, whose)",
+            "Артикли (углублённо, включая нулевой артикль)",
+            "Предлоги (углублённо: despite, in spite of, due to)",
+            "Фразовые глаголы (get up, turn on, look for, give up)",
+            "Инверсия (Never have I seen…)",
+        ],
+        "Лексика": [
+            "Путешествия и культура",
+            "Технологии и интернет",
+            "Экология и окружающая среда",
+            "Работа и карьера",
+            "Образование",
+            "Здоровье и медицина",
+            "Медиа и новости",
+            "Отношения и общение",
+            "Искусство и литература",
+            "Финансы и деньги",
+        ],
+    },
+    "B2 (Upper-Intermediate)": {
+        "Грамматика": [
+            "Все времена (активный и пассивный залог)",
+            "Все условные предложения (смешанные типы)",
+            "Сослагательное наклонение после suggest, recommend, insist",
+            "Модальные глаголы для выражения предположений",
+            "Инверсия в условных предложениях (Had I known…)",
+            "Эмфатические конструкции (It is … that… / What … is…)",
+            "Сложные союзы (nonetheless, whereas, thereby, hence)",
+            "Фразовые глаголы (углублённо, с несколькими значениями)",
+            "Сложные герундиальные и инфинитивные обороты",
+            "Пунктуация и стилистика",
+        ],
+        "Лексика": [
+            "Бизнес и экономика",
+            "Наука и технологии",
+            "Политика и общество",
+            "Юриспруденция и право",
+            "Психология и саморазвитие",
+            "Глобальные проблемы",
+            "Культура и традиции (глубоко)",
+            "Маркетинг и реклама",
+            "Переговоры и убеждение",
+            "Реферирование и пересказ",
+        ],
+    },
+}
+
+ALLOWED_USERS = {
+    "Соловей": "2011",
+}
+
 def main():
+    init_db()
     app = Application.builder().token(TOKEN).build()
     
     app.add_handler(CommandHandler("start", start))
