@@ -1,0 +1,60 @@
+{
+  "A1 (Beginner)": {
+    "Грамматика": {
+      "Глагол to be (am/is/are)": {
+        "questions": [
+          {"q": "I ___ a student.", "options": ["am", "is", "are"], "answer": 0},
+          {"q": "They ___ from Spain.", "options": ["am", "is", "are"], "answer": 2},
+          {"q": "She ___ my sister.", "options": ["am", "is", "are"], "answer": 1},
+          {"q": "It ___ a black cat.", "options": ["am", "is", "are"], "answer": 1},
+          {"q": "We ___ happy today.", "options": ["am", "is", "are"], "answer": 2},
+          {"q": "___ you a doctor?", "options": ["Am", "Is", "Are"], "answer": 2},
+          {"q": "He ___ not at home.", "options": ["am", "is", "are"], "answer": 1},
+          {"q": "My name ___ Alex.", "options": ["am", "is", "are"], "answer": 1}
+        ]
+      },
+      "Личные и объектные местоимения": {
+        "questions": [
+          {"q": "Look at ___ (на меня)!", "options": ["I", "me", "my"], "answer": 1},
+          {"q": "___ (она) likes pizza.", "options": ["Her", "She", "He"], "answer": 1},
+          {"q": "I like ___ (его).", "options": ["he", "his", "him"], "answer": 2},
+          {"q": "___ (мы) are friends.", "options": ["Us", "Our", "We"], "answer": 2},
+          {"q": "Give it to ___ (им).", "options": ["they", "them", "their"], "answer": 1},
+          {"q": "___ (оно) is raining.", "options": ["It", "Its", "He"], "answer": 0},
+          {"q": "I don't know ___ (её).", "options": ["she", "her", "hers"], "answer": 1},
+          {"q": "___ (ты) are a good person.", "options": ["You", "Your", "Yours"], "answer": 0}
+        ]
+      }
+    },
+    "Лексика": {
+      "Числа, даты, время": {
+        "questions": [
+          {"q": "It's 3:30.", "options": ["half past three", "three half", "half to four"], "answer": 0},
+          {"q": "25th of December is ___ Day.", "options": ["Christmas", "New Year", "Valentine's"], "answer": 0},
+          {"q": "What is 1000 in words?", "options": ["hundred", "thousand", "million"], "answer": 1},
+          {"q": "Today is Monday. Tomorrow is ___.", "options": ["Sunday", "Tuesday", "Wednesday"], "answer": 1},
+          {"q": "June is the ___ month.", "options": ["fifth", "sixth", "seventh"], "answer": 1},
+          {"q": "It's 9:45.", "options": ["quarter past nine", "quarter to ten", "half past nine"], "answer": 1},
+          {"q": "2025 is a ___.", "options": ["month", "day", "year"], "answer": 2},
+          {"q": "10 + 5 = 15. This is ___.", "options": ["maths", "history", "geography"], "answer": 0}
+        ]
+      }
+    }
+  },
+  "A2 (Elementary)": {
+    "Грамматика": {
+      "Past Continuous и Present Perfect": {
+        "questions": [
+          {"q": "I ___ TV when you called.", "options": ["watched", "was watching", "have watched"], "answer": 1},
+          {"q": "He ___ his homework.", "options": ["has already done", "did already", "already has done"], "answer": 0},
+          {"q": "She ___ (ever/be) to Paris?", "options": ["Did she ever go", "Has she ever been", "Was she ever"], "answer": 1},
+          {"q": "They ___ football at 5 pm yesterday.", "options": ["played", "were playing", "have played"], "answer": 1},
+          {"q": "I ___ my keys. I can't find them.", "options": ["have lost", "lost", "was losing"], "answer": 0},
+          {"q": "When the boss arrived, we ___.", "options": ["have worked", "were working", "worked"], "answer": 1},
+          {"q": "___ you ___ the new Marvel movie yet?", "options": ["Did / see", "Have / seen", "Were / seeing"], "answer": 1},
+          {"q": "While I ___ (cook), I burnt my hand.", "options": ["cooked", "have cooked", "was cooking"], "answer": 2}
+        ]
+      }
+    }
+  }
+}
