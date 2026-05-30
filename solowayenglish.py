@@ -12,7 +12,6 @@ def generate_table_image(headers, rows, topic):
     fig, ax = plt.subplots(figsize=(10, len(rows) * 0.5 + 1))
     ax.axis('off')
     
-    # Создаём таблицу
     table = ax.table(
         cellText=rows,
         colLabels=headers,
@@ -21,15 +20,13 @@ def generate_table_image(headers, rows, topic):
         colWidths=[0.2, 0.3, 0.3, 0.2]
     )
     
-    # Стилизуем
     table.auto_set_font_size(False)
     table.set_fontsize(10)
     table.scale(1, 1.5)
     
-    # Цвета
     for (i, j), cell in table.get_celld().items():
         cell.set_edgecolor('#2c3e50')
-        if i == 0:  # Заголовки
+        if i == 0:
             cell.set_facecolor('#3498db')
             cell.set_text_props(color='white', weight='bold')
         elif i % 2 == 0:
@@ -40,7 +37,6 @@ def generate_table_image(headers, rows, topic):
     plt.title(topic, fontsize=14, weight='bold', pad=20)
     plt.tight_layout()
     
-    # Сохраняем в буфер
     buf = io.BytesIO()
     plt.savefig(buf, format='png', dpi=150, bbox_inches='tight')
     buf.seek(0)
@@ -52,7 +48,6 @@ async def show_explanation(update: Update, context: ContextTypes.DEFAULT_TYPE, l
     topics = TOPICS[level][category]
     topic = topics[int(idx)]
     
-    # Ищем объяснение
     expl_data = None
     try:
         for cat in TESTS.get(level, {}):
@@ -68,32 +63,32 @@ async def show_explanation(update: Update, context: ContextTypes.DEFAULT_TYPE, l
         await update.callback_query.answer("❌ Теория пока не добавлена", show_alert=True)
         return
     
-    # Генерируем картинку
     buf = generate_table_image(expl_data["headers"], expl_data["rows"], topic)
     
     keyboard = [[InlineKeyboardButton("🔙 К теме", callback_data=f"topic_{level}|{category}|{idx}")]]
     reply_markup = InlineKeyboardMarkup(keyboard)
     
-    # Отправляем фото
-    await update.callback_query.message.reply_photo(
+    try:
+        await update.callback_query.message.delete()
+    except:
+        pass
+    
+    await update.effective_chat.send_photo(
         photo=buf,
         caption=f"📖 {topic}",
         reply_markup=reply_markup
     )
-    await update.callback_query.message.delete()
 
 TOKEN = "8681728801:AAHYuSN_UtHSe4w6F3uOLXwoaL0dSGjuF9k"
 
 DB_PATH = "/data/english.db"
 
-# Загружаем тесты из JSON
 try:
     with open("test.json", "r", encoding="utf-8") as f:
         TESTS = json.load(f)
 except:
     TESTS = {}
 
-# ===== ВСЕ ТЕМЫ (без изменений) =====
 TOPICS = {
     "A1 (Beginner)": {
         "Грамматика": [
@@ -326,7 +321,6 @@ def has_test(level, topic):
         pass
     return False
 
-
 def find_topic_index(level, category, topic_name):
     if level in TOPICS and category in TOPICS[level]:
         topics = TOPICS[level][category]
@@ -377,15 +371,35 @@ async def show_categories(update: Update, context: ContextTypes.DEFAULT_TYPE, le
         reply_markup=reply_markup
     )
 
-async def show_topics(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category):
+async def show_topics(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, page=0):
     topics = TOPICS[level][category]
     progress = get_progress(update.effective_user.id, level)
     
+    per_page = 8
+    total_pages = (len(topics) + per_page - 1) // per_page
+    
+    if page < 0:
+        page = 0
+    if page >= total_pages:
+        page = total_pages - 1
+    
+    start_idx = page * per_page
+    end_idx = min(start_idx + per_page, len(topics))
+    
     keyboard = []
-    for idx, topic in enumerate(topics):
+    for idx in range(start_idx, end_idx):
+        topic = topics[idx]
         done = progress.get(topic, 0)
-        emoji = "✅" if done else "⬜"
+        emoji = "OK" if done else "--"
         keyboard.append([InlineKeyboardButton(f"{emoji} {topic}", callback_data=f"topic_{level}|{category}|{idx}")])
+    
+    nav_row = []
+    if page > 0:
+        nav_row.append(InlineKeyboardButton("◀️", callback_data=f"page_{level}|{category}|{page-1}"))
+    nav_row.append(InlineKeyboardButton(f"{page+1}/{total_pages}", callback_data="noop"))
+    if page < total_pages - 1:
+        nav_row.append(InlineKeyboardButton("▶️", callback_data=f"page_{level}|{category}|{page+1}"))
+    keyboard.append(nav_row)
     
     keyboard.append([InlineKeyboardButton("🔙 Назад", callback_data=f"level_{level}")])
     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -396,7 +410,7 @@ async def show_topics(update: Update, context: ContextTypes.DEFAULT_TYPE, level,
     bar = "🟩" * (percent // 10) + "⬜" * (10 - percent // 10)
     
     await update.callback_query.edit_message_text(
-        f"📚 {level} → {category}\n\n{bar} {done}/{total} ({percent}%)\n\nНажми на тему чтобы открыть меню:",
+        f"📚 {level} → {category}\n\n{bar} {done}/{total} ({percent}%)\n\nСтр. {page+1}/{total_pages}:",
         reply_markup=reply_markup
     )
 
@@ -406,10 +420,8 @@ async def show_topic_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, le
     progress = get_progress(update.effective_user.id, level)
     done = progress.get(topic, 0)
     
-    status = "✅ Пройдена" if done else "⬜ Не пройдена"
+    status = "OK Пройдена" if done else "-- Не пройдена"
     
-    # Проверяем есть ли объяснение
-        # Проверяем есть ли объяснение
     has_expl = False
     try:
         for cat in TESTS.get(level, {}):
@@ -422,25 +434,23 @@ async def show_topic_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, le
         pass
     
     keyboard = [
-        [InlineKeyboardButton("✅ Отметить как пройденное" if not done else "❌ Снять отметку", 
+        [InlineKeyboardButton("OK Отметить" if not done else "X Снять отметку", 
                               callback_data=f"tog_{level}|{category}|{idx}")],
     ]
     
     if has_expl:
-        keyboard.append([InlineKeyboardButton("📖 Теория", callback_data=f"expl_{level}|{category}|{idx}")])
+        keyboard.append([InlineKeyboardButton("Теория", callback_data=f"expl_{level}|{category}|{idx}")])
     
     if has_test(level, topic):
-        keyboard.append([InlineKeyboardButton("📝 Пройти тест (8 вопросов)", callback_data=f"test_{level}|{category}|{idx}")])
+        keyboard.append([InlineKeyboardButton("Пройти тест (8 вопросов)", callback_data=f"test_{level}|{category}|{idx}")])
     
-    keyboard.append([InlineKeyboardButton("🔙 Назад", callback_data=f"cat_{level}|{category}")])
+    keyboard.append([InlineKeyboardButton("Назад", callback_data=f"cat_{level}|{category}")])
     reply_markup = InlineKeyboardMarkup(keyboard)
     
     await update.callback_query.edit_message_text(
         f"📚 {topic}\n\n{status}\n\nВыбери действие:",
         reply_markup=reply_markup
     )
-
-
 
 async def start_test(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
     topics = TOPICS[level][category]
@@ -503,13 +513,14 @@ async def handle_answer(update: Update, context: ContextTypes.DEFAULT_TYPE, answ
     
     question = test["questions"][test["current"]]
     correct = question["answer"]
+    correct_ans = question["options"][correct]
     
     if answer_idx == correct:
         test["score"] += 1
-        await update.callback_query.answer("✅ Правильно!")
+        await update.callback_query.answer(f"✅ Правильно! ({correct_ans})")
     else:
-        correct_ans = question["options"][correct]
-        await update.callback_query.answer(f"❌ Неправильно! Правильно: {correct_ans}")
+        your_ans = question["options"][answer_idx]
+        await update.callback_query.answer(f"❌ Твой ответ: {your_ans}. Правильно: {correct_ans}", show_alert=True)
     
     test["current"] += 1
     
@@ -621,11 +632,15 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif data.startswith("cat_"):
         parts = data[4:].split("|")
         level, category = parts[0], parts[1]
-        await show_topics(update, context, level, category)
+        await show_topics(update, context, level, category, 0)
     elif data.startswith("topic_"):
         parts = data[6:].split("|")
         level, category, idx = parts[0], parts[1], parts[2]
         await show_topic_menu(update, context, level, category, idx)
+    elif data.startswith("page_"):
+        parts = data[5:].split("|")
+        level, category, page = parts[0], parts[1], int(parts[2])
+        await show_topics(update, context, level, category, page)
     elif data.startswith("expl_"):
         parts = data[5:].split("|")
         level, category, idx = parts[0], parts[1], parts[2]
