@@ -817,7 +817,7 @@
     }
   },
     "A2 (Elementary)": {
-    "Грамматика": {\
+    "Грамматика": {
       "explanation": {
           "headers": ["Время", "Местоимение", "Форма", "Пример"],
           "rows": [
@@ -1098,7 +1098,7 @@
         ]
       },
       "Модальные глаголы (must, have to, should, may, might, could)": {
-        п"explanation": {
+        "explanation": {
           "headers": ["Глагол", "Значение", "Форма", "Пример"],
           "rows": [
             ["must", "Должен (личное убеждение)", "must + V1", "I must call my mum today"],
@@ -2011,5 +2011,4 @@
       }
     }
   }
-}
 }
