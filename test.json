@@ -2,6 +2,19 @@
   "A1 (Beginner)": {
     "Грамматика": {
       "Глагол to be (am/is/are)": {
+        "explanation": {
+          "headers": ["Время", "Местоимение", "Форма", "Пример"],
+          "rows": [
+            ["Present", "I", "am", "I am a student"],
+            ["Present", "He / She / It", "is", "She is smart"],
+            ["Present", "You / We / They", "are", "We are happy"],
+            ["", "", "", ""],
+            ["✅ Утв.", "❌ Отрицание", "❓ Вопрос", ""],
+            ["I am", "I am not", "Am I?", ""],
+            ["He is", "He isn't", "Is he?", ""],
+            ["We are", "We aren't", "Are we?", ""]
+          ]
+        },
         "questions": [
           {"q": "I ___ a student.", "options": ["am", "is", "are"], "answer": 0},
           {"q": "She ___ my sister.", "options": ["am", "is", "are"], "answer": 1},
@@ -14,6 +27,19 @@
         ]
       },
       "Личные местоимения (I, you, he, she, it, we, they)": {
+        "explanation": {
+          "headers": ["Тип", "Местоимение", "Перевод", "Пример"],
+          "rows": [
+            ["Ед.ч.", "I", "я", "I like coffee."],
+            ["Ед.ч.", "you", "ты / Вы", "You are my friend."],
+            ["Ед.ч.", "he", "он", "He is a doctor."],
+            ["Ед.ч.", "she", "она", "She sings well."],
+            ["Ед.ч.", "it", "он/она/оно (для предметов)", "It is a cat."],
+            ["Мн.ч.", "we", "мы", "We are happy."],
+            ["Мн.ч.", "you", "вы", "You are late."],
+            ["Мн.ч.", "they", "они", "They live in London."]
+          ]
+        },
         "questions": [
           {"q": "(My father) ___ is tall.", "options": ["She", "He", "It"], "answer": 1},
           {"q": "(Anna and I) ___ are friends.", "options": ["We", "They", "You"], "answer": 0},
@@ -25,7 +51,20 @@
           {"q": "(The teachers) ___ are busy.", "options": ["They", "She", "He"], "answer": 0}
         ]
       },
-      "Объектные местоимения (me, him, her, us, them)": {
+       "Объектные местоимения (me, him, her, us, them)": {
+        "explanation": {
+          "headers": ["Тип", "Местоимение (кто?)", "Объектная форма (кого? кому?)", "Пример"],
+          "rows": [
+            ["Ед.ч.", "I", "me", "Look at me."],
+            ["Ед.ч.", "You", "you", "I love you."],
+            ["Ед.ч.", "He", "him", "Call him."],
+            ["Ед.ч.", "She", "her", "Tell her."],
+            ["Ед.ч.", "It", "it", "Take it."],
+            ["Мн.ч.", "We", "us", "Wait for us."],
+            ["Мн.ч.", "You", "you", "I see you."],
+            ["Мн.ч.", "They", "them", "Help them."]
+          ]
+        },
         "questions": [
           {"q": "Look at ___ (я).", "options": ["I", "me", "my"], "answer": 1},
           {"q": "Listen to ___ (он).", "options": ["him", "his", "he"], "answer": 0},
@@ -37,7 +76,19 @@
           {"q": "Please wait for ___ (мы).", "options": ["our", "we", "us"], "answer": 2}
         ]
       },
-      "Притяжательные местоимения (my/mine, your/yours)": {
+       "Притяжательные местоимения (my/mine, your/yours)": {
+        "explanation": {
+          "headers": ["Личное", "Прилагательное (перед сущ.)", "Существительное (замена)", "Пример"],
+          "rows": [
+            ["I (я)", "my", "mine", "my book → This book is mine"],
+            ["you (ты/вы)", "your", "yours", "your pen → The pen is yours"],
+            ["he (он)", "his", "his", "his car → The car is his"],
+            ["she (она)", "her", "hers", "her bag → The bag is hers"],
+            ["it (оно)", "its", "— (не используется)", "its color"],
+            ["we (мы)", "our", "ours", "our house → The house is ours"],
+            ["they (они)", "their", "theirs", "their toys → The toys are theirs"]
+          ]
+        },
         "questions": [
           {"q": "This is ___ book. (я)", "options": ["my", "mine", "me"], "answer": 0},
           {"q": "The pen is ___. (я)", "options": ["my", "mine", "me"], "answer": 1},
@@ -50,6 +101,19 @@
         ]
       },
       "Указательные местоимения (this, that, these, those)": {
+        "explanation": {
+          "headers": ["Число", "Близко (here)", "Далеко (there)", "Пример"],
+          "rows": [
+            ["Ед. число", "this (этот, эта, это)", "that (тот, та, то)", "This is my book. / That is your car."],
+            ["Мн. число", "these (эти)", "those (те)", "These are apples. / Those are stars."],
+            ["", "", "", ""],
+            ["❓ Вопрос", "✅ Утверждение", "➖ Отрицание", ""],
+            ["Is this your pen?", "This is my pen.", "This isn't my pen.", ""],
+            ["Is that your car?", "That is my car.", "That isn't my car.", ""],
+            ["Are these yours?", "These are mine.", "These aren't mine.", ""],
+            ["Are those yours?", "Those are mine.", "Those aren't mine.", ""]
+          ]
+        },
         "questions": [
           {"q": "(Близко, ед.ч.) ___ is a pen.", "options": ["This", "That", "Those"], "answer": 0},
           {"q": "(Далеко, мн.ч.) ___ are mountains.", "options": ["This", "These", "Those"], "answer": 2},
