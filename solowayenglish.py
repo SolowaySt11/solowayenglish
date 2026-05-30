@@ -3,6 +3,7 @@ from telegram.ext import Application, CommandHandler, CallbackQueryHandler, Mess
 import sqlite3
 import os
 import json
+from tabulate import tabulate
 
 TOKEN = "8681728801:AAHYuSN_UtHSe4w6F3uOLXwoaL0dSGjuF9k"
 
@@ -15,7 +16,7 @@ try:
 except:
     TESTS = {}
 
-# ===== ВСЕ ТЕМЫ =====
+# ===== ВСЕ ТЕМЫ (без изменений) =====
 TOPICS = {
     "A1 (Beginner)": {
         "Грамматика": [
@@ -240,7 +241,6 @@ def save_test_result(user_id, level, category, topic, score, total):
     conn.close()
 
 def has_test(level, topic):
-    """Проверяет есть ли тест для данной темы"""
     try:
         for cat in TESTS.get(level, {}):
             if topic in TESTS[level][cat]:
@@ -249,14 +249,28 @@ def has_test(level, topic):
         pass
     return False
 
+def get_explanation(level, topic):
+    """Получает объяснение и форматирует через tabulate"""
+    try:
+        for cat in TESTS.get(level, {}):
+            if topic in TESTS[level][cat]:
+                expl = TESTS[level][cat][topic].get("explanation")
+                if expl and isinstance(expl, dict):
+                    headers = expl.get("headers", [])
+                    rows = expl.get("rows", [])
+                    if headers and rows:
+                        return tabulate(rows, headers=headers, tablefmt="grid")
+    except:
+        pass
+    return None
+
 def find_topic_index(level, category, topic_name):
-    """Находит индекс темы в списке TOPICS"""
     if level in TOPICS and category in TOPICS[level]:
         topics = TOPICS[level][category]
         for idx, topic in enumerate(topics):
             if topic == topic_name:
                 return idx
-    return 0  # Если не нашли, возвращаем 0
+    return 0
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if "authenticated" not in context.user_data:
@@ -331,12 +345,17 @@ async def show_topic_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, le
     
     status = "✅ Пройдена" if done else "⬜ Не пройдена"
     
+    # Проверяем есть ли объяснение
+    has_expl = get_explanation(level, topic) is not None
+    
     keyboard = [
         [InlineKeyboardButton("✅ Отметить как пройденное" if not done else "❌ Снять отметку", 
                               callback_data=f"tog_{level}|{category}|{idx}")],
     ]
     
-    # Проверяем есть ли тест
+    if has_expl:
+        keyboard.append([InlineKeyboardButton("📖 Теория", callback_data=f"expl_{level}|{category}|{idx}")])
+    
     if has_test(level, topic):
         keyboard.append([InlineKeyboardButton("📝 Пройти тест (8 вопросов)", callback_data=f"test_{level}|{category}|{idx}")])
     
@@ -348,18 +367,36 @@ async def show_topic_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, le
         reply_markup=reply_markup
     )
 
+async def show_explanation(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
+    topics = TOPICS[level][category]
+    topic = topics[int(idx)]
+    
+    expl = get_explanation(level, topic)
+    
+    if not expl:
+        await update.callback_query.answer("❌ Теория пока не добавлена", show_alert=True)
+        return
+    
+    keyboard = [[InlineKeyboardButton("🔙 К теме", callback_data=f"topic_{level}|{category}|{idx}")]]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    await update.callback_query.edit_message_text(
+        f"📖 *{topic}*\n\n<pre>{expl}</pre>",
+        reply_markup=reply_markup,
+        parse_mode="HTML"
+    )
+
 async def start_test(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
     topics = TOPICS[level][category]
     topic = topics[int(idx)]
     
-    # Ищем тест
     test_data = None
     for cat in TESTS.get(level, {}):
-        if topic in TESTS[level][cat]:
+        if topic in TESTS[level][cat] and "questions" in TESTS[level][cat][topic]:
             test_data = TESTS[level][cat][topic]
             break
     
-    if not test_data:
+    if not test_data or "questions" not in test_data:
         await update.callback_query.answer("❌ Тест не найден", show_alert=True)
         return
     
@@ -420,7 +457,6 @@ async def handle_answer(update: Update, context: ContextTypes.DEFAULT_TYPE, answ
     
     test["current"] += 1
     
-    # Проверяем, последний ли это был вопрос
     if test["current"] >= len(test["questions"]):
         await finish_test(update, context)
     else:
@@ -451,7 +487,6 @@ async def finish_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
         emoji = "💪"
         comment = "Нужно подучить эту тему. Не сдавайся!"
     
-    # Находим индекс темы
     idx = find_topic_index(test["level"], test["category"], test["topic"])
     
     keyboard = [
@@ -469,7 +504,6 @@ async def finish_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
         parse_mode="Markdown"
     )
     
-    # Сохраняем данные теста для кнопок, но очищаем после показа результатов
     del context.user_data["test"]
 
 async def toggle_topic_handler(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
@@ -536,6 +570,10 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         parts = data[6:].split("|")
         level, category, idx = parts[0], parts[1], parts[2]
         await show_topic_menu(update, context, level, category, idx)
+    elif data.startswith("expl_"):
+        parts = data[5:].split("|")
+        level, category, idx = parts[0], parts[1], parts[2]
+        await show_explanation(update, context, level, category, idx)
     elif data.startswith("tog_"):
         parts = data[4:].split("|")
         level, category, idx = parts[0], parts[1], parts[2]
