@@ -362,10 +362,7 @@
           {"q": "I ___ dinner at 7 pm.", "options": ["have", "do", "make"], "answer": 0},
           {"q": "I ___ to bed at 10 pm.", "options": ["have", "get", "go"], "answer": 2}
         ]
-      }
-    }
-  }
-}
+      },
       "Порядок слов в утверждении (SVO)": {
         "questions": [
           {"q": "like / I / pizza.", "options": ["Like I pizza.", "I like pizza.", "Pizza I like."], "answer": 1},
@@ -486,3 +483,7 @@
           {"q": "He ___ does his homework. (часто)", "options": ["often", "never", "sometimes"], "answer": 0}
         ]
       }
+    }
+  }
+}
+
