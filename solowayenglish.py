@@ -249,6 +249,15 @@ def has_test(level, topic):
         pass
     return False
 
+def find_topic_index(level, category, topic_name):
+    """Находит индекс темы в списке TOPICS"""
+    if level in TOPICS and category in TOPICS[level]:
+        topics = TOPICS[level][category]
+        for idx, topic in enumerate(topics):
+            if topic == topic_name:
+                return idx
+    return 0  # Если не нашли, возвращаем 0
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if "authenticated" not in context.user_data:
         await update.message.reply_text("🔐 Привет! Введи свой ник:")
@@ -396,6 +405,7 @@ async def show_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def handle_answer(update: Update, context: ContextTypes.DEFAULT_TYPE, answer_idx):
     test = context.user_data.get("test")
     if not test:
+        await update.callback_query.answer("Тест не найден. Начните заново.")
         return
     
     question = test["questions"][test["current"]]
@@ -410,7 +420,7 @@ async def handle_answer(update: Update, context: ContextTypes.DEFAULT_TYPE, answ
     
     test["current"] += 1
     
-    # ПРИНУДИТЕЛЬНАЯ проверка — последний ли это был вопрос?
+    # Проверяем, последний ли это был вопрос
     if test["current"] >= len(test["questions"]):
         await finish_test(update, context)
     else:
@@ -441,9 +451,12 @@ async def finish_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
         emoji = "💪"
         comment = "Нужно подучить эту тему. Не сдавайся!"
     
+    # Находим индекс темы
+    idx = find_topic_index(test["level"], test["category"], test["topic"])
+    
     keyboard = [
-        [InlineKeyboardButton("🔄 Пройти ещё раз", callback_data=f"test_{test['level']}|{test['category']}|{test['topic']}")],
-        [InlineKeyboardButton("🔙 К теме", callback_data=f"topic_{test['level']}|{test['category']}|{test['topic']}")]
+        [InlineKeyboardButton("🔄 Пройти ещё раз", callback_data=f"test_{test['level']}|{test['category']}|{idx}")],
+        [InlineKeyboardButton("🔙 К теме", callback_data=f"topic_{test['level']}|{test['category']}|{idx}")]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     
@@ -456,6 +469,7 @@ async def finish_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
         parse_mode="Markdown"
     )
     
+    # Сохраняем данные теста для кнопок, но очищаем после показа результатов
     del context.user_data["test"]
 
 async def toggle_topic_handler(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
