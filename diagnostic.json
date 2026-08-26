@@ -1,0 +1,40 @@
+{
+  "questions": [
+    {"q": "I ___ a student.", "options": ["am", "is", "are"], "answer": 0, "level": "A1"},
+    {"q": "She ___ my sister.", "options": ["am", "is", "are"], "answer": 1, "level": "A1"},
+    {"q": "They ___ happy.", "options": ["am", "is", "are"], "answer": 2, "level": "A1"},
+    {"q": "My mother ___ at home.", "options": ["am", "is", "are"], "answer": 1, "level": "A1"},
+    {"q": "I ___ coffee every morning.", "options": ["drink", "drinks", "drinking"], "answer": 0, "level": "A1"},
+    {"q": "Look! It ___ raining.", "options": ["is", "are", "am"], "answer": 0, "level": "A2"},
+    {"q": "We ___ to school by bus.", "options": ["goes", "go", "gos"], "answer": 1, "level": "A2"},
+    {"q": "I ___ to music an hour ago.", "options": ["listened", "listen", "listens"], "answer": 0, "level": "A2"},
+    {"q": "She ___ in London last year.", "options": ["is", "were", "was"], "answer": 2, "level": "A2"},
+    {"q": "I have ___ milk.", "options": ["some", "any", "no"], "answer": 0, "level": "A2"},
+    {"q": "I have lived here ___ 2015.", "options": ["for", "since", "during"], "answer": 1, "level": "A2"},
+    {"q": "She has ___ visited London. She loved it.", "options": ["ever", "never", "just"], "answer": 2, "level": "A2"},
+    {"q": "If you heat ice, it ___.", "options": ["melts", "melted", "will melt"], "answer": 0, "level": "B1"},
+    {"q": "The office ___ cleaned every evening.", "options": ["is", "are", "was"], "answer": 0, "level": "B1"},
+    {"q": "You ___ smoke here. It's forbidden.", "options": ["don't have to", "mustn't", "shouldn't"], "answer": 1, "level": "B1"},
+    {"q": "I used to ___ meat, but now I'm a vegetarian.", "options": ["eat", "eating", "ate"], "answer": 0, "level": "B1"},
+    {"q": "If I ___ rich, I would travel the world.", "options": ["am", "were", "had been"], "answer": 1, "level": "B1"},
+    {"q": "She is used to ___ early every day.", "options": ["get up", "getting up", "got up"], "answer": 1, "level": "B1"},
+    {"q": "I remember ___ the door before leaving.", "options": ["to lock", "locking", "lock"], "answer": 1, "level": "B1"},
+    {"q": "If she had studied harder, she ___ the exam.", "options": ["would pass", "would have passed", "will pass"], "answer": 1, "level": "B1"},
+    {"q": "The project _____ by next Friday.", "options": ["completes", "will have been completed", "will complete"], "answer": 1, "level": "B2"},
+    {"q": "Not only _____ late, but he also forgot the report.", "options": ["did he arrive", "he arrived", "he did arrive"], "answer": 0, "level": "B2"},
+    {"q": "I suggest that he _____ a doctor.", "options": ["sees", "see", "saw"], "answer": 1, "level": "B2"},
+    {"q": "The weather was terrible. _____, we went for a walk.", "options": ["Nonetheless", "Whereas", "Hence"], "answer": 0, "level": "B2"},
+    {"q": "Had I known, I _____ come.", "options": ["would have", "would", "will"], "answer": 0, "level": "B2"},
+    {"q": "It was John _____ called you.", "options": ["which", "who", "whom"], "answer": 1, "level": "B2"},
+    {"q": "He looks exhausted. He _____ all night.", "options": ["must have worked", "should have worked", "might work"], "answer": 0, "level": "B2"},
+    {"q": "Only after I left _____ I realise my mistake.", "options": ["did", "had", "was"], "answer": 0, "level": "B2"},
+    {"q": "She admitted _____ the money.", "options": ["to steal", "having stolen", "stealing"], "answer": 1, "level": "B2"},
+    {"q": "The new bridge _____ at the moment.", "options": ["is building", "is being built", "built"], "answer": 1, "level": "B2"}
+  ],
+  "levels": {
+    "A1": {"min": 0, "max": 10, "label": "A1 (Beginner)", "recommend": "Начни с темы 'Глагол to be (am/is/are)'"},
+    "A2": {"min": 11, "max": 18, "label": "A2 (Elementary)", "recommend": "Начни с темы 'Past Continuous (I was doing)'"},
+    "B1": {"min": 19, "max": 24, "label": "B1 (Intermediate)", "recommend": "Начни с темы 'Past Perfect (I had done)'"},
+    "B2": {"min": 25, "max": 30, "label": "B2 (Upper-Intermediate)", "recommend": "Начни с темы 'Все времена (активный и пассивный залог)'"}
+  }
+}
