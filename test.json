@@ -2493,125 +2493,1363 @@
     },
     "Лексика": {
       "Путешествия и транспорт": {
-        "questions": [
-          {"q": "You need to show your ___ at the gate to board the plane.", "options": ["luggage", "boarding pass", "platform"], "answer": 1},
-          {"q": "The train to London leaves from ___ number 5.", "options": ["platform", "terminal", "gate"], "answer": 0},
-          {"q": "I have one suitcase. Do I need to check my ___?", "options": ["ticket", "luggage", "seat"], "answer": 1},
-          {"q": "The plane ___ was very smooth. We arrived on time.", "options": ["flight", "journey", "travel"], "answer": 0},
-          {"q": "Let's take a taxi from the ___ to the city center.", "options": ["station", "airport", "platform"], "answer": 1},
-          {"q": "What time is the ___? We need to be at the airport two hours before.", "options": ["departure", "arrival", "delay"], "answer": 0},
-          {"q": "You can buy a ___ ticket, because you won't come back.", "options": ["return", "single", "first-class"], "answer": 1},
-          {"q": "Keep your ___ with you at all times during the flight.", "options": ["hand luggage", "suitcase", "train"], "answer": 0}
-        ]
-      },
+  "vocabulary": [
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["journey", "путешествие / поездка"],
+        ["trip", "поездка"],
+        ["tour", "тур / экскурсия"],
+        ["cruise", "круиз"],
+        ["flight", "полёт / рейс"],
+        ["voyage", "морское путешествие"],
+        ["holiday / vacation", "отпуск / каникулы"],
+        ["business trip", "командировка"],
+        ["package holiday", "путёвка / турпакет"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["coach", "автобус (междугородный)"],
+        ["ferry", "паром"],
+        ["helicopter", "вертолёт"],
+        ["yacht", "яхта"],
+        ["scooter", "скутер"],
+        ["underground / subway / tube", "метро"],
+        ["cable car", "канатная дорога"],
+        ["tram", "трамвай"],
+        ["express train", "скоростной поезд / экспресс"],
+        ["sleeper train", "спальный поезд"],
+        ["bicycle lane", "велосипедная дорожка"],
+        ["one-way street", "улица с односторонним движением"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["departure", "отправление / вылет"],
+        ["arrival", "прибытие"],
+        ["gate", "выход (на посадку)"],
+        ["runway", "взлётно-посадочная полоса"],
+        ["terminal", "терминал"],
+        ["check-in", "регистрация"],
+        ["boarding pass", "посадочный талон"],
+        ["luggage / baggage", "багаж"],
+        ["hand luggage / carry-on", "ручная кладь"],
+        ["suitcase", "чемодан"],
+        ["rucksack / backpack", "рюкзак (туристический)"],
+        ["trolley", "тележка (для багажа)"],
+        ["passport", "загранпаспорт"],
+        ["visa", "виза"],
+        ["customs", "таможня"],
+        ["security", "служба безопасности"],
+        ["duty-free", "беспошлинный магазин"],
+        ["platform", "платформа (на вокзале)"],
+        ["ticket office", "билетная касса"],
+        ["timetable", "расписание"],
+        ["delay", "задержка"],
+        ["cancel / cancellation", "отмена"],
+        ["boarding", "посадка"],
+        ["land", "приземляться"],
+        ["take off", "взлетать"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["hotel", "отель"],
+        ["hostel", "хостел"],
+        ["guesthouse", "гостевой дом"],
+        ["campsite", "кемпинг"],
+        ["resort", "курорт"],
+        ["single room", "одноместный номер"],
+        ["double room", "двухместный номер (с одной кроватью)"],
+        ["twin room", "двухместный номер (с двумя кроватями)"],
+        ["suite", "номер-люкс"],
+        ["key card", "ключ-карта"],
+        ["reception", "ресепшн"],
+        ["booking / reservation", "бронирование"],
+        ["to book / to reserve", "бронировать"],
+        ["check-in", "заселение"],
+        ["check-out", "выселение"],
+        ["room service", "обслуживание в номере"],
+        ["porter", "носильщик"],
+        ["elevator / lift", "лифт"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["direction", "направление"],
+        ["route", "маршрут"],
+        ["destination", "пункт назначения"],
+        ["map", "карта"],
+        ["GPS / satnav", "навигатор"],
+        ["sign", "указатель"],
+        ["turning", "поворот"],
+        ["roundabout", "кольцевая развязка"],
+        ["pavement / sidewalk", "тротуар"],
+        ["pedestrian", "пешеход"],
+        ["pedestrian zone", "пешеходная зона"],
+        ["one-way", "одностороннее движение"],
+        ["speed limit", "ограничение скорости"],
+        ["traffic jam", "пробка"],
+        ["rush hour", "час пик"]
+      ]
+    },
+    {
+      "headers": ["Слово / Фраза", "Перевод"],
+      "rows": [
+        ["to travel", "путешествовать"],
+        ["to arrive", "прибывать"],
+        ["to depart", "отправляться"],
+        ["to board", "садиться (на борт)"],
+        ["to get on", "садиться (в автобус / поезд)"],
+        ["to get off", "выходить (из автобуса / поезда)"],
+        ["to get in", "садиться (в машину / такси)"],
+        ["to get out of", "выходить (из машины / такси)"],
+        ["to miss", "пропустить / опоздать (на транспорт)"],
+        ["to catch", "успеть (на транспорт)"],
+        ["to change", "делать пересадку"],
+        ["to pack", "упаковывать вещи"],
+        ["to unpack", "распаковывать вещи"],
+        ["to explore", "исследовать"],
+        ["to sightsee", "осматривать достопримечательности"],
+        ["to book a ticket", "заказать билет"],
+        ["to check in", "зарегистрироваться"],
+        ["to take a taxi", "взять такси"],
+        ["to drive", "вести машину"],
+        ["to park", "парковаться"],
+        ["to ask for directions", "спросить дорогу"]
+      ]
+    },
+    {
+      "headers": ["Фраза", "Перевод"],
+      "rows": [
+        ["How can I get to...?", "Как мне добраться до...?"],
+        ["Is it far?", "Это далеко?"],
+        ["How long does it take?", "Сколько времени это занимает?"],
+        ["Which platform does the train leave from?", "С какой платформы отправляется поезд?"],
+        ["What time does it arrive?", "Во сколько оно прибывает?"],
+        ["I'd like a ticket to..., please.", "Мне нужен билет до..., пожалуйста."],
+        ["Single or return?", "В один конец или туда и обратно?"],
+        ["Can I have a map of the city?", "Можно карту города?"],
+        ["Where is the nearest hotel?", "Где ближайший отель?"],
+        ["I've got a reservation.", "У меня есть бронирование."],
+        ["I'm here on holiday / business.", "Я здесь в отпуске / по работе."],
+        ["Have a nice trip!", "Счастливого пути!"]
+      ]
+    }
+  ],
+  "questions": [
+    {"q": "You need to show your ___ at the gate to board the plane.", "options": ["luggage", "boarding pass", "platform"], "answer": 1},
+    {"q": "The train to London leaves from ___ number 5.", "options": ["platform", "terminal", "gate"], "answer": 0},
+    {"q": "I have one suitcase. Do I need to check my ___?", "options": ["ticket", "luggage", "seat"], "answer": 1},
+    {"q": "The plane ___ was very smooth. We arrived on time.", "options": ["flight", "journey", "travel"], "answer": 0},
+    {"q": "Let's take a taxi from the ___ to the city center.", "options": ["station", "airport", "platform"], "answer": 1},
+    {"q": "What time is the ___? We need to be at the airport two hours before.", "options": ["departure", "arrival", "delay"], "answer": 0},
+    {"q": "You can buy a ___ ticket, because you won't come back.", "options": ["return", "single", "first-class"], "answer": 1},
+    {"q": "Keep your ___ with you at all times during the flight.", "options": ["hand luggage", "suitcase", "train"], "answer": 0}
+  ]
+}
       "Еда и заказ в кафе": {
-        "questions": [
-          {"q": "I'll have the grilled chicken for the main ___.", "options": ["dessert", "dish", "starter"], "answer": 1},
-          {"q": "Are you ready to ___, madam?", "options": ["order", "bill", "pay"], "answer": 0},
-          {"q": "I don't eat meat. Do you have any ___ options?", "options": ["spicy", "sweet", "vegetarian"], "answer": 2},
-          {"q": "Could we see the wine ___, please?", "options": ["menu", "list", "book"], "answer": 1},
-          {"q": "For my ___, I'll have the mushroom soup.", "options": ["dessert", "starter", "main course"], "answer": 1},
-          {"q": "Can I have the ___? I'd like to pay by card.", "options": ["bill", "menu", "receipt"], "answer": 0},
-          {"q": "This chocolate cake is a perfect ___.", "options": ["starter", "dessert", "dish"], "answer": 1},
-          {"q": "I asked for a ___ steak, but this is medium.", "options": ["well-done", "rare", "extra"], "answer": 0}
-        ]
-      },
+  "vocabulary": [
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["menu", "меню"],
+        ["dish", "блюдо"],
+        ["starter / appetizer", "закуска"],
+        ["main course", "основное блюдо"],
+        ["side dish", "гарнир"],
+        ["dessert", "десерт"],
+        ["beverage / drink", "напиток"],
+        ["meal", "приём пищи"],
+        ["snack", "перекус"],
+        ["fast food", "фастфуд"],
+        ["home-made", "домашний (приготовленный дома)"],
+        ["fresh", "свежий"],
+        ["frozen", "замороженный"],
+        ["boiled", "варёный"],
+        ["fried", "жареный"],
+        ["roasted", "жареный (в духовке)"],
+        ["grilled", "жареный на гриле"],
+        ["baked", "запечённый"],
+        ["steamed", "приготовленный на пару"],
+        ["raw", "сырой"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["beef", "говядина"],
+        ["pork", "свинина"],
+        ["lamb", "баранина"],
+        ["veal", "телятина"],
+        ["seafood", "морепродукты"],
+        ["shrimp / prawn", "креветка"],
+        ["crab", "краб"],
+        ["mussels", "мидии"],
+        ["oysters", "устрицы"],
+        ["salmon", "лосось"],
+        ["tuna", "тунец"],
+        ["cod", "треска"],
+        ["trout", "форель"],
+        ["sausage", "колбаса / сосиска"],
+        ["bacon", "бекон"],
+        ["ham", "ветчина"],
+        ["turkey", "индейка"],
+        ["duck", "утка"],
+        ["goose", "гусь"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["flour", "мука"],
+        ["butter", "масло (сливочное)"],
+        ["oil", "масло (растительное)"],
+        ["vinegar", "уксус"],
+        ["mustard", "горчица"],
+        ["ketchup", "кетчуп"],
+        ["mayonnaise", "майонез"],
+        ["sauce", "соус"],
+        ["dressing", "заправка (для салата)"],
+        ["spices", "специи"],
+        ["pepper", "перец"],
+        ["garlic", "чеснок"],
+        ["ginger", "имбирь"],
+        ["herbs", "зелень / травы"],
+        ["yeast", "дрожжи"],
+        ["baking powder", "разрыхлитель"],
+        ["vanilla", "ваниль"],
+        ["cinnamon", "корица"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["waiter / waitress", "официант / официантка"],
+        ["chef", "шеф-повар"],
+        ["order", "заказ"],
+        ["to order", "заказывать"],
+        ["bill / check", "счёт"],
+        ["tip", "чаевые"],
+        ["reservation", "бронирование (столика)"],
+        ["table", "стол"],
+        ["table for two", "столик на двоих"],
+        ["window seat", "место у окна"],
+        ["non-smoking area", "место для некурящих"],
+        ["special", "фирменное блюдо"],
+        ["today's special", "блюдо дня"],
+        ["set menu", "комплексный обед"],
+        ["buffet", "шведский стол"],
+        ["takeaway", "еда на вынос"],
+        ["delivery", "доставка"]
+      ]
+    },
+    {
+      "headers": ["Фраза", "Перевод"],
+      "rows": [
+        ["I'd like to book a table for..., please.", "Я хотел бы забронировать столик на..., пожалуйста."],
+        ["Can I have a menu, please?", "Можно мне меню, пожалуйста?"],
+        ["What do you recommend?", "Что вы посоветуете?"],
+        ["I'll have the...", "Я возьму..."],
+        ["Could I have the bill, please?", "Можно счёт, пожалуйста?"],
+        ["Is the tip included?", "Чаевые включены?"],
+        ["I'd like to order, please.", "Я хотел бы заказать, пожалуйста."],
+        ["Could you bring me..., please?", "Вы не могли бы принести мне..., пожалуйста?"],
+        ["I'm allergic to...", "У меня аллергия на..."],
+        ["I'm vegetarian.", "Я вегетарианец."],
+        ["I don't eat meat.", "Я не ем мясо."],
+        ["How spicy is it?", "Насколько это остро?"],
+        ["Can I have it without...?", "Можно это без...?"],
+        ["This is delicious!", "Это очень вкусно!"],
+        ["Could we have some more...?", "Можно нам ещё...?"]
+      ]
+    }
+  ],
+  "questions": [
+    {"q": "I'll have the grilled chicken for the main ___.", "options": ["dessert", "dish", "course"], "answer": 2},
+    {"q": "Are you ready to ___, madam?", "options": ["order", "bill", "pay"], "answer": 0},
+    {"q": "I don't eat meat. Do you have any ___ options?", "options": ["spicy", "sweet", "vegetarian"], "answer": 2},
+    {"q": "Could we see the wine ___, please?", "options": ["menu", "list", "book"], "answer": 1},
+    {"q": "For my ___, I'll have the mushroom soup.", "options": ["dessert", "starter", "main course"], "answer": 1},
+    {"q": "Can I have the ___? I'd like to pay by card.", "options": ["bill", "menu", "receipt"], "answer": 0},
+    {"q": "This chocolate cake is a perfect ___.", "options": ["starter", "dessert", "dish"], "answer": 1},
+    {"q": "I asked for a ___ steak, but this is medium.", "options": ["well-done", "rare", "extra"], "answer": 0}
+  ]
+}
       "Внешность и характер": {
-        "questions": [
-          {"q": "My sister is quite ___. She blushes when she meets new people.", "options": ["confident", "shy", "outgoing"], "answer": 1},
-          {"q": "He is a very ___ man. He can easily lift heavy boxes.", "options": ["tall", "slim", "strong"], "answer": 2},
-          {"q": "She has beautiful ___ hair that reaches her shoulders.", "options": ["curly", "straight", "long"], "answer": 2},
-          {"q": "He is very ___. He always says 'please' and 'thank you.'", "options": ["polite", "funny", "serious"], "answer": 0},
-          {"q": "My grandfather doesn't have much hair. He is ___.", "options": ["bald", "blonde", "slim"], "answer": 0},
-          {"q": "Our boss is very ___. He controls everything we do.", "options": ["generous", "bossy", "brave"], "answer": 1},
-          {"q": "She has got freckles and ___ skin.", "options": ["pale", "overweight", "beard"], "answer": 0},
-          {"q": "He is very ___. He always makes people laugh.", "options": ["honest", "reliable", "funny"], "answer": 2}
-        ]
-      },
+  "vocabulary": [
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["appearance", "внешность"],
+        ["height", "рост"],
+        ["build", "телосложение"],
+        ["tall", "высокий"],
+        ["short", "низкий / невысокий"],
+        ["medium height", "среднего роста"],
+        ["slim", "стройный"],
+        ["thin", "худой"],
+        ["plump", "полный (в меру)"],
+        ["overweight", "с избыточным весом"],
+        ["muscular", "мускулистый"],
+        ["well-built", "хорошо сложённый"],
+        ["skinny", "очень худой / тощий"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["hair", "волосы"],
+        ["bald", "лысый"],
+        ["blonde / fair", "светлые / белокурые"],
+        ["brunette", "шатенка / брюнетка"],
+        ["red hair / ginger", "рыжие волосы"],
+        ["dark hair", "тёмные волосы"],
+        ["grey hair", "седые волосы"],
+        ["straight hair", "прямые волосы"],
+        ["curly hair", "вьющиеся волосы"],
+        ["wavy hair", "волнистые волосы"],
+        ["long hair", "длинные волосы"],
+        ["short hair", "короткие волосы"],
+        ["shoulder-length", "до плеч"],
+        ["ponytail", "хвост (причёска)"],
+        ["plait / braid", "коса"],
+        ["beard", "борода"],
+        ["moustache", "усы"],
+        ["sideburns", "бакенбарды"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["eyes", "глаза"],
+        ["blue eyes", "голубые глаза"],
+        ["green eyes", "зелёные глаза"],
+        ["brown eyes", "карие глаза"],
+        ["grey eyes", "серые глаза"],
+        ["hazel eyes", "ореховые глаза"],
+        ["dark eyes", "тёмные глаза"],
+        ["big eyes", "большие глаза"],
+        ["small eyes", "маленькие глаза"],
+        ["face", "лицо"],
+        ["round face", "круглое лицо"],
+        ["oval face", "овальное лицо"],
+        ["square face", "квадратное лицо"],
+        ["freckles", "веснушки"],
+        ["wrinkles", "морщины"],
+        ["scar", "шрам"],
+        ["tattoo", "татуировка"],
+        ["piercing", "пирсинг"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["age", "возраст"],
+        ["young", "молодой"],
+        ["middle-aged", "среднего возраста"],
+        ["elderly", "пожилой"],
+        ["old", "старый"],
+        ["teenager", "подросток"],
+        ["in his / her 20s", "в возрасте 20-29 лет"],
+        ["in his / her 30s", "в возрасте 30-39 лет"],
+        ["look like", "выглядеть как"],
+        ["look young", "выглядеть молодым"],
+        ["look old", "выглядеть старым"],
+        ["look tired", "выглядеть уставшим"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["personality", "характер"],
+        ["trait", "черта (характера)"],
+        ["kind", "добрый"],
+        ["nice", "хороший / милый"],
+        ["friendly", "дружелюбный"],
+        ["outgoing / sociable", "общительный"],
+        ["talkative", "разговорчивый"],
+        ["quiet", "тихий"],
+        ["shy", "застенчивый"],
+        ["confident", "уверенный в себе"],
+        ["selfish", "эгоистичный"],
+        ["generous", "щедрый"],
+        ["mean / stingy", "жадный / скупой"],
+        ["polite", "вежливый"],
+        ["rude", "грубый"],
+        ["honest", "честный"],
+        ["dishonest", "нечестный"],
+        ["reliable", "надёжный"],
+        ["unreliable", "ненадёжный"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["hard-working", "трудолюбивый"],
+        ["lazy", "ленивый"],
+        ["ambitious", "амбициозный"],
+        ["determined", "решительный"],
+        ["patient", "терпеливый"],
+        ["impatient", "нетерпеливый"],
+        ["sensitive", "чувствительный / ранимый"],
+        ["optimistic", "оптимистичный"],
+        ["pessimistic", "пессимистичный"],
+        ["positive", "позитивный"],
+        ["negative", "негативный"],
+        ["happy", "счастливый"],
+        ["sad", "грустный"],
+        ["cheerful", "жизнерадостный"],
+        ["serious", "серьёзный"],
+        ["funny", "смешной / забавный"],
+        ["humorous", "юмористичный"],
+        ["boring", "скучный"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["brave", "храбрый"],
+        ["cowardly", "трусливый"],
+        ["smart / clever", "умный"],
+        ["intelligent", "интеллигентный"],
+        ["stupid", "глупый"],
+        ["wise", "мудрый"],
+        ["creative", "креативный"],
+        ["talented", "талантливый"],
+        ["active", "активный"],
+        ["calm", "спокойный"],
+        ["nervous", "нервный"],
+        ["stressed", "под давлением / напряжённый"],
+        ["relaxed", "расслабленный"],
+        ["responsible", "ответственный"],
+        ["irresponsible", "безответственный"],
+        ["loyal", "преданный / верный"]
+      ]
+    }
+  ],
+  "questions": [
+    {"q": "My sister is quite ___. She blushes when she meets new people.", "options": ["confident", "shy", "outgoing"], "answer": 1},
+    {"q": "He is a very ___ man. He can easily lift heavy boxes.", "options": ["tall", "slim", "strong"], "answer": 2},
+    {"q": "She has beautiful ___ hair that reaches her shoulders.", "options": ["curly", "straight", "long"], "answer": 2},
+    {"q": "He is very ___. He always says 'please' and 'thank you.'", "options": ["polite", "funny", "serious"], "answer": 0},
+    {"q": "My grandfather doesn't have much hair. He is ___.", "options": ["bald", "blonde", "slim"], "answer": 0},
+    {"q": "Our boss is very ___. He controls everything we do.", "options": ["generous", "bossy", "brave"], "answer": 1},
+    {"q": "She has got freckles and ___ skin.", "options": ["pale", "overweight", "beard"], "answer": 0},
+    {"q": "He is very ___. He always makes people laugh.", "options": ["honest", "reliable", "funny"], "answer": 2}
+  ]
+}
       "Семья и отношения": {
-        "questions": [
-          {"q": "I ___ well with my younger brother. We never fight.", "options": ["get on", "argue", "fall out"], "answer": 0},
-          {"q": "My ___ are all coming to my wedding: aunts, uncles, and cousins.", "options": ["colleagues", "flatmates", "relatives"], "answer": 2},
-          {"q": "Her parents are divorced. She lives with her mother and her ___, who is now her father.", "options": ["stepfather", "nephew", "brother-in-law"], "answer": 0},
-          {"q": "We had a terrible ___ about money last night.", "options": ["argument", "relationship", "mood"], "answer": 0},
-          {"q": "My sister and I have a lot in ___. We both like the same music.", "options": ["common", "touch", "relationship"], "answer": 0},
-          {"q": "He is an only child. He doesn't have any ___.", "options": ["siblings", "grandparents", "parents"], "answer": 0},
-          {"q": "She is my mother's sister. She is my ___.", "options": ["niece", "cousin", "aunt"], "answer": 2},
-          {"q": "They ___ out over who broke the window.", "options": ["got", "fell", "argued"], "answer": 1}
-        ]
-      },
+  "vocabulary": [
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["family", "семья"],
+        ["relative", "родственник"],
+        ["close relative", "близкий родственник"],
+        ["distant relative", "дальний родственник"],
+        ["immediate family", "ближайшие родственники"],
+        ["extended family", "расширенная семья (все родственники)"],
+        ["single-parent family", "неполная семья"],
+        ["nuclear family", "нуклеарная семья (родители + дети)"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["parents", "родители"],
+        ["mother / mum (брит.) / mom (амер.)", "мама"],
+        ["father / dad", "папа"],
+        ["stepmother", "мачеха"],
+        ["stepfather", "отчим"],
+        ["step-parent", "приёмный родитель"],
+        ["adoptive parents", "приёмные родители"],
+        ["biological parents", "биологические родители"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["brother", "брат"],
+        ["sister", "сестра"],
+        ["siblings", "братья и сёстры"],
+        ["half-brother", "единокровный / единоутробный брат"],
+        ["half-sister", "единокровная / единоутробная сестра"],
+        ["stepbrother", "сводный брат"],
+        ["stepsister", "сводная сестра"],
+        ["twin brother", "брат-близнец"],
+        ["twin sister", "сестра-близнец"],
+        ["only child", "единственный ребёнок в семье"],
+        ["eldest", "старший (в семье)"],
+        ["youngest", "младший (в семье)"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["grandparents", "бабушка и дедушка"],
+        ["grandmother / grandma", "бабушка"],
+        ["grandfather / grandpa", "дедушка"],
+        ["great-grandmother", "прабабушка"],
+        ["great-grandfather", "прадедушка"],
+        ["grandson", "внук"],
+        ["granddaughter", "внучка"],
+        ["grandchildren", "внуки"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["aunt", "тётя"],
+        ["uncle", "дядя"],
+        ["cousin", "двоюродный брат / сестра"],
+        ["niece", "племянница"],
+        ["nephew", "племянник"],
+        ["godmother", "крёстная мать"],
+        ["godfather", "крёстный отец"],
+        ["godson", "крёстный сын"],
+        ["goddaughter", "крёстная дочь"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["husband", "муж"],
+        ["wife", "жена"],
+        ["spouse", "супруг / супруга"],
+        ["partner", "партнёр"],
+        ["boyfriend", "парень (возлюбленный)"],
+        ["girlfriend", "девушка (возлюбленная)"],
+        ["fiancé", "жених"],
+        ["fiancée", "невеста"],
+        ["ex-husband", "бывший муж"],
+        ["ex-wife", "бывшая жена"],
+        ["widower", "вдовец"],
+        ["widow", "вдова"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["marriage", "брак / супружество"],
+        ["wedding", "свадьба"],
+        ["married", "женатый / замужем"],
+        ["single", "холост / не замужем"],
+        ["engaged", "помолвленный"],
+        ["divorced", "разведённый"],
+        ["separated", "в разводе (в процессе)"],
+        ["common-law partner", "гражданский муж / жена"],
+        ["living together", "живущие вместе"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["relationship", "отношения"],
+        ["close relationship", "близкие отношения"],
+        ["get on well", "хорошо ладить"],
+        ["get along", "ладить"],
+        ["get on with", "ладить с"],
+        ["argue", "ссориться / спорить"],
+        ["quarrel", "ссора"],
+        ["make up", "помириться"],
+        ["fall out", "поссориться"],
+        ["break up", "расстаться"],
+        ["split up", "разойтись"],
+        ["support", "поддерживать"],
+        ["respect", "уважать"],
+        ["trust", "доверять"]
+      ]
+    }
+  ],
+  "questions": [
+    {"q": "I ___ well with my younger brother. We never fight.", "options": ["get on", "argue", "fall out"], "answer": 0},
+    {"q": "My ___ are all coming to my wedding: aunts, uncles, and cousins.", "options": ["colleagues", "flatmates", "relatives"], "answer": 2},
+    {"q": "Her parents are divorced. She lives with her mother and her ___, who is now her father.", "options": ["stepfather", "nephew", "brother-in-law"], "answer": 0},
+    {"q": "We had a terrible ___ about money last night.", "options": ["argument", "relationship", "mood"], "answer": 0},
+    {"q": "My sister and I have a lot in ___. We both like the same music.", "options": ["common", "touch", "relationship"], "answer": 0},
+    {"q": "He is an only child. He doesn't have any ___.", "options": ["siblings", "grandparents", "parents"], "answer": 0},
+    {"q": "She is my mother's sister. She is my ___.", "options": ["niece", "cousin", "aunt"], "answer": 2},
+    {"q": "They ___ out over who broke the window.", "options": ["got", "fell", "argued"], "answer": 1}
+  ]
+}
       "Образование и экзамены": {
-        "questions": [
-          {"q": "I need to study hard to pass my final ___.", "options": ["exams", "grades", "subjects"], "answer": 0},
-          {"q": "My favourite ___ at school is History.", "options": ["degree", "grade", "subject"], "answer": 2},
-          {"q": "He got a high ___ in English because he studied a lot.", "options": ["exam", "lesson", "grade"], "answer": 2},
-          {"q": "If you ___ the exam, you can take it again next month.", "options": ["fail", "pass", "study"], "answer": 0},
-          {"q": "At university, students attend ___ every day.", "options": ["grades", "lectures", "degrees"], "answer": 1},
-          {"q": "I did my ___ at home before we discussed it in class.", "options": ["homework", "housework", "grades"], "answer": 0},
-          {"q": "She wants to get a ___ in Medicine.", "options": ["degree", "subject", "exam"], "answer": 0},
-          {"q": "We have a two-month summer ___ from university.", "options": ["semester", "break", "detention"], "answer": 1}
-        ]
-      },
+  "vocabulary": [
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["education", "образование"],
+        ["school", "школа"],
+        ["primary school", "начальная школа"],
+        ["secondary school", "средняя школа"],
+        ["high school", "старшая школа"],
+        ["college", "колледж"],
+        ["university", "университет"],
+        ["graduate school", "аспирантура / магистратура"],
+        ["state school", "государственная школа"],
+        ["private school", "частная школа"],
+        ["boarding school", "школа-интернат"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["student", "студент / ученик"],
+        ["pupil", "ученик (школьник)"],
+        ["graduate", "выпускник"],
+        ["undergraduate", "студент бакалавриата"],
+        ["postgraduate", "аспирант / магистрант"],
+        ["foreign student", "иностранный студент"],
+        ["classmate", "одноклассник / одногруппник"],
+        ["teacher", "учитель"],
+        ["professor", "профессор"],
+        ["lecturer", "лектор / преподаватель"],
+        ["tutor", "репетитор"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["subject", "предмет"],
+        ["Maths (Mathematics)", "математика"],
+        ["English", "английский язык"],
+        ["Literature", "литература"],
+        ["History", "история"],
+        ["Geography", "география"],
+        ["Biology", "биология"],
+        ["Chemistry", "химия"],
+        ["Physics", "физика"],
+        ["IT (Information Technology)", "информатика"],
+        ["PE (Physical Education)", "физкультура"],
+        ["Art", "рисование / ИЗО"],
+        ["Music", "музыка"],
+        ["Science", "естествознание"],
+        ["Foreign language", "иностранный язык"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["lesson", "урок"],
+        ["lecture", "лекция"],
+        ["seminar", "семинар"],
+        ["class", "класс / занятие"],
+        ["break", "перемена"],
+        ["timetable", "расписание"],
+        ["school year", "учебный год"],
+        ["semester", "семестр"],
+        ["term", "четверть / триместр"],
+        ["holidays", "каникулы"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["homework", "домашнее задание"],
+        ["project", "проект"],
+        ["presentation", "презентация"],
+        ["essay", "эссе / сочинение"],
+        ["report", "доклад"],
+        ["assignment", "задание"],
+        ["research", "исследование"],
+        ["coursework", "курсовая работа"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["exam", "экзамен"],
+        ["test", "тест / контрольная"],
+        ["quiz", "викторина / короткий тест"],
+        ["final exam", "выпускной экзамен"],
+        ["entrance exam", "вступительный экзамен"],
+        ["oral exam", "устный экзамен"],
+        ["written exam", "письменный экзамен"],
+        ["pass", "сдать"],
+        ["fail", "провалить / не сдать"],
+        ["take an exam", "сдавать экзамен"],
+        ["pass an exam", "сдать экзамен"],
+        ["fail an exam", "провалить экзамен"],
+        ["retake", "пересдавать"],
+        ["grade / mark", "оценка"],
+        ["score", "балл"],
+        ["results", "результаты"],
+        ["certificate", "сертификат"],
+        ["diploma", "диплом"],
+        ["degree", "степень / диплом о высшем образовании"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["library", "библиотека"],
+        ["classroom", "класс"],
+        ["laboratory", "лаборатория"],
+        ["canteen", "столовая"],
+        ["gym", "спортзал"],
+        ["playground", "игровая площадка"],
+        ["campus", "кампус / территория университета"],
+        ["hall", "актовый зал / холл"],
+        ["office", "кабинет"],
+        ["headmaster / headteacher", "директор (школы)"],
+        ["principal", "директор (школы/колледжа)"],
+        ["dean", "декан"]
+      ]
+    },
+    {
+      "headers": ["Слово / Фраза", "Перевод"],
+      "rows": [
+        ["to study", "учиться"],
+        ["to learn", "учить / изучать"],
+        ["to teach", "преподавать"],
+        ["to revise", "повторять (материал)"],
+        ["to prepare for", "готовиться к"],
+        ["to take notes", "делать заметки"],
+        ["to do research", "заниматься исследованием"],
+        ["to graduate from", "окончить (учебное заведение)"],
+        ["to apply to", "подавать заявление в"],
+        ["to enroll in", "зачисляться в"],
+        ["to major in", "специализироваться в (в вузе)"]
+      ]
+    }
+  ],
+  "questions": [
+    {"q": "I need to study hard to pass my final ___.", "options": ["exams", "grades", "subjects"], "answer": 0},
+    {"q": "My favourite ___ at school is History.", "options": ["degree", "grade", "subject"], "answer": 2},
+    {"q": "He got a high ___ in English because he studied a lot.", "options": ["exam", "lesson", "grade"], "answer": 2},
+    {"q": "If you ___ the exam, you can take it again next month.", "options": ["fail", "pass", "study"], "answer": 0},
+    {"q": "At university, students attend ___ every day.", "options": ["grades", "lectures", "degrees"], "answer": 1},
+    {"q": "I did my ___ at home before we discussed it in class.", "options": ["homework", "housework", "grades"], "answer": 0},
+    {"q": "She wants to get a ___ in Medicine.", "options": ["degree", "subject", "exam"], "answer": 0},
+    {"q": "We have a two-month summer ___ from university.", "options": ["semester", "break", "detention"], "answer": 1}
+  ]
+}
       "Работа и профессии": {
-        "questions": [
-          {"q": "He works 40 hours a week. He has a ___ job.", "options": ["full-time", "part-time", "salary"], "answer": 0},
-          {"q": "She was out of work for a year, but now she is employed again. She is no longer ___.", "options": ["retired", "unemployed", "full-time"], "answer": 1},
-          {"q": "My ___ is very good. I earn enough to save money.", "options": ["salary", "uniform", "contract"], "answer": 0},
-          {"q": "I got a new job, so I need to ___ this contract.", "options": ["fire", "hire", "sign"], "answer": 2},
-          {"q": "He will ___ from his job when he is 65.", "options": ["retire", "fire", "apply"], "answer": 0},
-          {"q": "She ___ an interesting job online and sent her CV.", "options": ["applied for", "retired from", "resigned"], "answer": 0},
-          {"q": "A good job should offer opportunities for a ___.", "options": ["promotion", "application", "interview"], "answer": 0},
-          {"q": "You need to prepare a good ___ with your personal details and experience.", "options": ["CV", "covering letter", "contract"], "answer": 0}
-        ]
-      },
+  "vocabulary": [
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["job", "работа (должность)"],
+        ["work", "работа (процесс)"],
+        ["profession", "профессия"],
+        ["career", "карьера"],
+        ["occupation", "род занятий"],
+        ["employment", "занятость / трудоустройство"],
+        ["unemployment", "безработица"],
+        ["full-time job", "полная занятость"],
+        ["part-time job", "частичная занятость"],
+        ["temporary job", "временная работа"],
+        ["permanent job", "постоянная работа"],
+        ["well-paid", "хорошо оплачиваемый"],
+        ["low-paid", "низкооплачиваемый"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["teacher", "учитель"],
+        ["doctor", "врач"],
+        ["nurse", "медсестра"],
+        ["engineer", "инженер"],
+        ["architect", "архитектор"],
+        ["lawyer", "юрист"],
+        ["accountant", "бухгалтер"],
+        ["manager", "менеджер"],
+        ["director", "директор"],
+        ["secretary", "секретарь"],
+        ["receptionist", "администратор"],
+        ["sales assistant", "продавец"],
+        ["shop assistant", "продавец в магазине"],
+        ["waiter / waitress", "официант / официантка"],
+        ["chef", "шеф-повар"],
+        ["pilot", "пилот"],
+        ["flight attendant", "бортпроводник"],
+        ["police officer", "полицейский"],
+        ["firefighter", "пожарный"],
+        ["soldier", "солдат"],
+        ["driver", "водитель"],
+        ["builder", "строитель"],
+        ["electrician", "электрик"],
+        ["plumber", "сантехник"],
+        ["mechanic", "механик"],
+        ["journalist", "журналист"],
+        ["photographer", "фотограф"],
+        ["designer", "дизайнер"],
+        ["artist", "художник"],
+        ["musician", "музыкант"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["office", "офис"],
+        ["factory", "фабрика / завод"],
+        ["hospital", "больница"],
+        ["school", "школа"],
+        ["restaurant", "ресторан"],
+        ["shop", "магазин"],
+        ["bank", "банк"],
+        ["construction site", "стройплощадка"],
+        ["site", "объект / место работы"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["salary", "зарплата (оклад)"],
+        ["wages", "зарплата (почасовая)"],
+        ["income", "доход"],
+        ["pay", "оплата"],
+        ["overtime", "сверхурочные"],
+        ["bonus", "премия / бонус"],
+        ["benefits", "льготы / дополнительные выплаты"],
+        ["pension", "пенсия"],
+        ["tax", "налог"],
+        ["apply for a job", "подавать заявление о приёме на работу"],
+        ["CV / resume", "резюме"],
+        ["interview", "собеседование"],
+        ["job offer", "предложение о работе"],
+        ["contract", "контракт"],
+        ["to hire", "нанимать"],
+        ["to fire", "увольнять"],
+        ["to resign", "уволиться по собственному желанию"],
+        ["to retire", "выйти на пенсию"]
+      ]
+    },
+    {
+      "headers": ["Слово / Фраза", "Перевод"],
+      "rows": [
+        ["to work", "работать"],
+        ["to earn", "зарабатывать"],
+        ["to get a job", "найти работу"],
+        ["to lose a job", "потерять работу"],
+        ["to leave a job", "уйти с работы"],
+        ["to change a job", "сменить работу"],
+        ["full-time", "полный рабочий день"],
+        ["part-time", "неполный рабочий день"],
+        ["flexible hours", "гибкий график"],
+        ["shift work", "посменная работа"],
+        ["working hours", "рабочие часы"],
+        ["colleagues", "коллеги"],
+        ["boss", "начальник"],
+        ["staff", "персонал"],
+        ["team", "команда"],
+        ["experience", "опыт"],
+        ["qualifications", "квалификация"],
+        ["skills", "навыки"]
+      ]
+    }
+  ],
+  "questions": [
+    {"q": "He works 40 hours a week. He has a ___ job.", "options": ["full-time", "part-time", "salary"], "answer": 0},
+    {"q": "She was out of work for a year, but now she is employed again. She is no longer ___.", "options": ["retired", "unemployed", "full-time"], "answer": 1},
+    {"q": "My ___ is very good. I earn enough to save money.", "options": ["salary", "uniform", "contract"], "answer": 0},
+    {"q": "I got a new job, so I need to ___ this contract.", "options": ["fire", "hire", "sign"], "answer": 2},
+    {"q": "He will ___ from his job when he is 65.", "options": ["retire", "fire", "apply"], "answer": 0},
+    {"q": "She ___ an interesting job online and sent her CV.", "options": ["applied for", "retired from", "resigned"], "answer": 0},
+    {"q": "A good job should offer opportunities for a ___.", "options": ["promotion", "application", "interview"], "answer": 0},
+    {"q": "You need to prepare a good ___ with your personal details and experience.", "options": ["CV", "covering letter", "contract"], "answer": 0}
+  ]
+}
       "Город и ориентация": {
-        "questions": [
-          {"q": "The hospital is ___ the post office. You can't miss it, they face each other.", "options": ["between", "opposite", "in front of"], "answer": 1},
-          {"q": "Walk ___ the main square and you'll see the fountain.", "options": ["through", "opposite", "between"], "answer": 0},
-          {"q": "Turn right at the ___ and then walk straight.", "options": ["traffic lights", "bridge", "roundabout"], "answer": 0},
-          {"q": "The library is on the ___ of Park Street and Queen's Road.", "options": ["corner", "pedestrian", "roundabout"], "answer": 0},
-          {"q": "Go over the ___ to cross the river.", "options": ["bridge", "stairs", "pavement"], "answer": 0},
-          {"q": "It's on the second floor. You can take the ___ or the stairs.", "options": ["block", "lift", "pavement"], "answer": 1},
-          {"q": "This street has a lot of ___ shops. You can't drive here.", "options": ["pedestrian", "dangerous", "crowded"], "answer": 0},
-          {"q": "Turn right just after the church. You can't ___ it.", "options": ["miss", "find", "look"], "answer": 0}
-        ]
-      },
+  "vocabulary": [
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["city centre / downtown", "центр города"],
+        ["suburb", "пригород"],
+        ["district", "район"],
+        ["area", "район / область"],
+        ["neighbourhood", "квартал / микрорайон"],
+        ["street", "улица"],
+        ["avenue", "проспект"],
+        ["lane", "переулок"],
+        ["square", "площадь"],
+        ["bridge", "мост"],
+        ["traffic lights", "светофор"],
+        ["crossing", "переход"],
+        ["zebra crossing", "пешеходный переход"],
+        ["roundabout", "кольцевая развязка"],
+        ["corner", "угол"],
+        ["block", "квартал (между улицами)"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["left", "налево"],
+        ["right", "направо"],
+        ["straight ahead / straight on", "прямо"],
+        ["opposite", "напротив"],
+        ["next to / beside", "рядом с"],
+        ["near", "близко"],
+        ["far", "далеко"],
+        ["between", "между"],
+        ["behind", "за / позади"],
+        ["in front of", "перед"],
+        ["on the corner", "на углу"],
+        ["at the end of", "в конце"],
+        ["on the left / right", "слева / справа"],
+        ["turn left / right", "повернуть налево / направо"],
+        ["go straight", "идти прямо"],
+        ["take the first / second turning", "повернуть на первом / втором повороте"],
+        ["cross the road", "перейти дорогу"],
+        ["walk along", "идти вдоль"],
+        ["head towards", "направиться к"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["map", "карта"],
+        ["GPS", "навигатор"],
+        ["sign / signpost", "указатель"],
+        ["direction", "направление"],
+        ["route", "маршрут"],
+        ["destination", "место назначения"],
+        ["address", "адрес"],
+        ["postcode", "почтовый индекс"],
+        ["landmark", "ориентир"],
+        ["tourist information", "туристический информационный центр"],
+        ["guide", "гид / путеводитель"],
+        ["guided tour", "экскурсия с гидом"]
+      ]
+    },
+    {
+      "headers": ["Фраза", "Перевод"],
+      "rows": [
+        ["Excuse me, how do I get to...?", "Извините, как мне пройти к...?"],
+        ["Where is the nearest...?", "Где ближайший...?"],
+        ["Could you show me on the map?", "Можете показать мне на карте?"],
+        ["How far is it?", "Как далеко это?"],
+        ["Is it walking distance?", "Можно дойти пешком?"],
+        ["Is it far from here?", "Это далеко отсюда?"],
+        ["It's about 10 minutes on foot.", "Примерно 10 минут пешком."],
+        ["You can take bus number...", "Вы можете сесть на автобус номер..."],
+        ["You need to change at...", "Вам нужно сделать пересадку на..."],
+        ["It's just around the corner.", "Это прямо за углом."],
+        ["I'm looking for this address.", "Я ищу этот адрес."],
+        ["Is there a car park nearby?", "Есть ли рядом парковка?"],
+        ["Can I park here?", "Можно мне здесь припарковаться?"]
+      ]
+    }
+  ],
+  "questions": [
+    {"q": "The hospital is ___ the post office. You can't miss it, they face each other.", "options": ["between", "opposite", "in front of"], "answer": 1},
+    {"q": "Walk ___ the main square and you'll see the fountain.", "options": ["through", "opposite", "between"], "answer": 0},
+    {"q": "Turn right at the ___ and then walk straight.", "options": ["traffic lights", "bridge", "roundabout"], "answer": 0},
+    {"q": "The library is on the ___ of Park Street and Queen's Road.", "options": ["corner", "pedestrian", "roundabout"], "answer": 0},
+    {"q": "Go over the ___ to cross the river.", "options": ["bridge", "stairs", "pavement"], "answer": 0},
+    {"q": "It's on the second floor. You can take the ___ or the stairs.", "options": ["block", "lift", "pavement"], "answer": 1},
+    {"q": "This street has a lot of ___ shops. You can't drive here.", "options": ["pedestrian", "dangerous", "crowded"], "answer": 0},
+    {"q": "Turn right just after the church. You can't ___ it.", "options": ["miss", "find", "look"], "answer": 0}
+  ]
+}
       "Погода и времена года": {
-        "questions": [
-          {"q": "According to the weather ___, it will rain tomorrow.", "options": ["degree", "forecast", "storm"], "answer": 1},
-          {"q": "The temperature is 25 ___ Celsius today. It's very hot.", "options": ["degrees", "storms", "forecasts"], "answer": 0},
-          {"q": "The ___ was so loud during the storm that I couldn't sleep.", "options": ["lightning", "thunder", "rain"], "answer": 1},
-          {"q": "It's freezing cold. The temperature is below ___.", "options": ["zero", "hot", "humidity"], "answer": 0},
-          {"q": "Be careful driving. There is thick ___ this morning and you can't see the road well.", "options": ["fog", "wind", "ice"], "answer": 0},
-          {"q": "It's a nice day. The sky is ___.", "options": ["clear", "rainy", "stormy"], "answer": 0},
-          {"q": "The sun is shining, but it's quite ___. You need a coat.", "options": ["chill", "chilly", "heat"], "answer": 1},
-          {"q": "There was a heavy snowstorm, or ___, last night.", "options": ["blizzard", "hurricane", "flood"], "answer": 0}
-        ]
-      },
+  "vocabulary": [
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["weather forecast", "прогноз погоды"],
+        ["temperature", "температура"],
+        ["degrees", "градусы"],
+        ["above zero", "выше нуля"],
+        ["below zero", "ниже нуля"],
+        ["sunshine", "солнечный свет"],
+        ["sunrise", "восход солнца"],
+        ["sunset", "закат"],
+        ["rainfall", "количество осадков"],
+        ["humidity", "влажность"],
+        ["atmosphere", "атмосфера"],
+        ["climate", "климат"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["rain", "дождь"],
+        ["shower", "ливень"],
+        ["drizzle", "морось"],
+        ["snow", "снег"],
+        ["snowstorm", "метель"],
+        ["blizzard", "пурга"],
+        ["sleet", "дождь со снегом"],
+        ["hail", "град"],
+        ["thunderstorm", "гроза"],
+        ["lightning", "молния"],
+        ["thunder", "гром"],
+        ["fog", "туман"],
+        ["mist", "дымка"],
+        ["ice", "лёд"],
+        ["frost", "мороз"],
+        ["wind", "ветер"],
+        ["gale", "штормовой ветер"],
+        ["storm", "шторм"],
+        ["hurricane", "ураган"],
+        ["tornado", "торнадо"],
+        ["flood", "наводнение"],
+        ["drought", "засуха"],
+        ["heatwave", "волна жары"],
+        ["cold snap", "похолодание"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["spring", "весна"],
+        ["summer", "лето"],
+        ["autumn / fall", "осень"],
+        ["winter", "зима"],
+        ["mild", "мягкий (о погоде)"],
+        ["changeable", "переменчивый"],
+        ["unpredictable", "непредсказуемый"],
+        ["seasonal", "сезонный"]
+      ]
+    },
+    {
+      "headers": ["Слово / Фраза", "Перевод"],
+      "rows": [
+        ["It's raining cats and dogs.", "Льёт как из ведра."],
+        ["It's scorching hot.", "Невыносимо жарко."],
+        ["It's bitterly cold.", "Сильный мороз."],
+        ["The temperature has dropped.", "Температура упала."],
+        ["The temperature has risen.", "Температура поднялась."],
+        ["The sky is cloudy.", "Небо облачное."],
+        ["The sun is shining brightly.", "Солнце ярко светит."],
+        ["The wind is blowing strongly.", "Сильный ветер дует."],
+        ["I hope the weather clears up.", "Надеюсь, погода наладится."],
+        ["The weather is improving.", "Погода улучшается."],
+        ["The weather is getting worse.", "Погода ухудшается."]
+      ]
+    }
+  ],
+  "questions": [
+    {"q": "According to the weather ___, it will rain tomorrow.", "options": ["degree", "forecast", "storm"], "answer": 1},
+    {"q": "The temperature is 25 ___ Celsius today. It's very hot.", "options": ["degrees", "storms", "forecasts"], "answer": 0},
+    {"q": "The ___ was so loud during the storm that I couldn't sleep.", "options": ["lightning", "thunder", "rain"], "answer": 1},
+    {"q": "It's freezing cold. The temperature is below ___.", "options": ["zero", "hot", "humidity"], "answer": 0},
+    {"q": "Be careful driving. There is thick ___ this morning and you can't see the road well.", "options": ["fog", "wind", "ice"], "answer": 0},
+    {"q": "It's a nice day. The sky is ___.", "options": ["clear", "rainy", "stormy"], "answer": 0},
+    {"q": "The sun is shining, but it's quite ___. You need a coat.", "options": ["chill", "chilly", "heat"], "answer": 1},
+    {"q": "There was a heavy snowstorm, or ___, last night.", "options": ["blizzard", "hurricane", "flood"], "answer": 0}
+  ]
+}
       "Покупки и одежда": {
-        "questions": [
-          {"q": "Can I ___ on these jeans? I'm not sure they fit me.", "options": ["try", "fit", "wear"], "answer": 0},
-          {"q": "This jacket is too big. I need a smaller ___.", "options": ["size", "cash", "price"], "answer": 0},
-          {"q": "Can I pay by ___ card?", "options": ["credit", "cash", "size"], "answer": 0},
-          {"q": "These shoes don't ___ me. They are too tight.", "options": ["fit", "suit", "try"], "answer": 0},
-          {"q": "Do you have any ___ for returning clothes?", "options": ["cash", "discounts", "sales"], "answer": 1},
-          {"q": "I'd like to pay in ___, not by card.", "options": ["cash", "receipt", "coins"], "answer": 0},
-          {"q": "There is a big ___ in the shop today. Everything is 50% off.", "options": ["sale", "queue", "bargain"], "answer": 0},
-          {"q": "Always keep the ___ in case you need to take the item back.", "options": ["receipt", "note", "discount"], "answer": 0}
-        ]
-      },
+  "vocabulary": [
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["shop / store", "магазин"],
+        ["department store", "универмаг"],
+        ["shopping centre / mall", "торговый центр"],
+        ["boutique", "бутик"],
+        ["market", "рынок"],
+        ["online shopping", "онлайн-покупки"],
+        ["window shopping", "рассматривание витрин"],
+        ["customer", "покупатель"],
+        ["sales assistant", "продавец"],
+        ["checkout", "касса"],
+        ["trolley / cart", "тележка для покупок"],
+        ["basket", "корзина"],
+        ["bag", "сумка / пакет"],
+        ["receipt", "чек"],
+        ["refund", "возврат денег"],
+        ["exchange", "обмен товара"],
+        ["discount", "скидка"],
+        ["sale", "распродажа"],
+        ["special offer", "специальное предложение"],
+        ["bargain", "выгодная покупка"],
+        ["price", "цена"],
+        ["cost", "стоимость"],
+        ["value", "ценность"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["cash", "наличные"],
+        ["credit card", "кредитная карта"],
+        ["debit card", "дебетовая карта"],
+        ["mobile payment", "мобильный платёж"],
+        ["to pay", "платить"],
+        ["to buy / to purchase", "покупать"],
+        ["to sell", "продавать"],
+        ["to cost", "стоить"],
+        ["to spend", "тратить"],
+        ["to save", "экономить"],
+        ["cheap", "дешёвый"],
+        ["expensive", "дорогой"],
+        ["affordable", "доступный по цене"],
+        ["overpriced", "слишком дорогой"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["clothes", "одежда"],
+        ["top", "верх"],
+        ["bottom", "низ"],
+        ["jacket", "куртка / пиджак"],
+        ["coat", "пальто"],
+        ["sweater / jumper", "свитер"],
+        ["hoodie", "худи"],
+        ["cardigan", "кардиган"],
+        ["shirt", "рубашка"],
+        ["blouse", "блузка"],
+        ["T-shirt", "футболка"],
+        ["trousers", "брюки"],
+        ["jeans", "джинсы"],
+        ["shorts", "шорты"],
+        ["skirt", "юбка"],
+        ["dress", "платье"],
+        ["suit", "костюм"],
+        ["tie", "галстук"],
+        ["belt", "ремень"],
+        ["socks", "носки"],
+        ["tights", "колготки"],
+        ["underwear", "нижнее бельё"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["shoes", "обувь"],
+        ["trainers / sneakers", "кроссовки"],
+        ["boots", "сапоги / ботинки"],
+        ["sandals", "сандалии"],
+        ["flip-flops", "сланцы / шлёпанцы"],
+        ["high heels", "туфли на каблуке"],
+        ["hat", "шляпа"],
+        ["cap", "кепка"],
+        ["scarf", "шарф"],
+        ["gloves", "перчатки"],
+        ["mittens", "варежки"],
+        ["sunglasses", "солнцезащитные очки"],
+        ["watch", "часы"],
+        ["jewellery", "украшения"],
+        ["ring", "кольцо"],
+        ["necklace", "ожерелье"],
+        ["bracelet", "браслет"],
+        ["earrings", "серьги"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["size", "размер"],
+        ["fitting room / changing room", "примерочная"],
+        ["to try on", "примерять"],
+        ["to fit", "подходить (по размеру)"],
+        ["to suit", "идти (по цвету/фасону)"],
+        ["look good on", "хорошо смотреться на"],
+        ["loose", "свободный"],
+        ["tight", "тесный"],
+        ["colour", "цвет"],
+        ["pattern", "рисунок / узор"],
+        ["plain", "однотонный"],
+        ["striped", "полосатый"],
+        ["checked", "клетчатый"],
+        ["spotted", "в горошек"],
+        ["floral", "цветочный"],
+        ["material / fabric", "материал"],
+        ["cotton", "хлопок"],
+        ["wool", "шерсть"],
+        ["leather", "кожа"],
+        ["silk", "шёлк"],
+        ["synthetic", "синтетический"],
+        ["stylish", "стильный"],
+        ["fashionable", "модный"],
+        ["old-fashioned", "старомодный"],
+        ["casual", "повседневный"],
+        ["formal", "официальный"],
+        ["smart", "нарядный / элегантный"]
+      ]
+    },
+    {
+      "headers": ["Фраза", "Перевод"],
+      "rows": [
+        ["How much does it cost?", "Сколько это стоит?"],
+        ["How much is it?", "Сколько это стоит?"],
+        ["Can I try it on?", "Можно примерить?"],
+        ["Where is the fitting room?", "Где примерочная?"],
+        ["Do you have this in a larger size?", "У вас есть это на размер больше?"],
+        ["Do you have this in a smaller size?", "У вас есть это на размер меньше?"],
+        ["Do you have this in another colour?", "У вас есть это в другом цвете?"],
+        ["I'll take it.", "Я возьму это."],
+        ["I'm just looking, thanks.", "Я просто смотрю, спасибо."],
+        ["Can I pay by card?", "Можно оплатить картой?"],
+        ["Can I have a receipt, please?", "Можно мне чек, пожалуйста?"],
+        ["I'd like to return this.", "Я хотел бы вернуть это."],
+        ["It doesn't fit me.", "Оно мне не подходит."],
+        ["Do you have a loyalty card?", "У вас есть карта постоянного клиента?"],
+        ["Is there a sale on?", "У вас сейчас распродажа?"]
+      ]
+    }
+  ],
+  "questions": [
+    {"q": "Can I ___ on these jeans? I'm not sure they fit me.", "options": ["try", "fit", "wear"], "answer": 0},
+    {"q": "This jacket is too big. I need a smaller ___.", "options": ["size", "cash", "price"], "answer": 0},
+    {"q": "Can I pay by ___ card?", "options": ["credit", "cash", "size"], "answer": 0},
+    {"q": "These shoes don't ___ me. They are too tight.", "options": ["fit", "suit", "try"], "answer": 0},
+    {"q": "Do you have any ___ for returning clothes?", "options": ["cash", "discounts", "sales"], "answer": 1},
+    {"q": "I'd like to pay in ___, not by card.", "options": ["cash", "receipt", "coins"], "answer": 0},
+    {"q": "There is a big ___ in the shop today. Everything is 50% off.", "options": ["sale", "queue", "bargain"], "answer": 0},
+    {"q": "Always keep the ___ in case you need to take the item back.", "options": ["receipt", "note", "discount"], "answer": 0}
+  ]
+}
       "Здоровье и тело": {
-        "questions": [
-          {"q": "I have a terrible ___. I should take an aspirin.", "options": ["headache", "appointment", "fever"], "answer": 0},
-          {"q": "You are very hot. I think you have a ___.", "options": ["fever", "ankle", "pharmacy"], "answer": 0},
-          {"q": "I need to make an ___ with the dentist.", "options": ["appointment", "prescription", "ache"], "answer": 0},
-          {"q": "My throat ___. I think I'm catching a cold.", "options": ["hurts", "breaks", "runs"], "answer": 0},
-          {"q": "The doctor gave me a ___ for some medicine.", "options": ["prescription", "appointment", "fever"], "answer": 0},
-          {"q": "You can buy this medicine at any ___.", "options": ["appointment", "pharmacy", "hospital"], "answer": 1},
-          {"q": "I fell while playing football and now my ___ is swollen.", "options": ["ankle", "chest", "thumb"], "answer": 0},
-          {"q": "He needs to lose weight, so he has a special ___.", "options": ["diet", "ache", "appointment"], "answer": 0}
-        ]
-      }
+  "vocabulary": [
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["head", "голова"],
+        ["face", "лицо"],
+        ["neck", "шея"],
+        ["shoulder", "плечо"],
+        ["arm", "рука"],
+        ["elbow", "локоть"],
+        ["wrist", "запястье"],
+        ["hand", "кисть руки"],
+        ["finger", "палец (руки)"],
+        ["thumb", "большой палец"],
+        ["chest", "грудь"],
+        ["back", "спина"],
+        ["stomach", "живот"],
+        ["waist", "талия"],
+        ["hip", "бедро"],
+        ["leg", "нога"],
+        ["knee", "колено"],
+        ["ankle", "щиколотка"],
+        ["foot", "стопа"],
+        ["toe", "палец (ноги)"],
+        ["skin", "кожа"],
+        ["bone", "кость"],
+        ["muscle", "мышца"],
+        ["heart", "сердце"],
+        ["lung", "лёгкое"],
+        ["brain", "мозг"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["health", "здоровье"],
+        ["healthy", "здоровый"],
+        ["unhealthy", "нездоровый"],
+        ["fit", "в хорошей физической форме"],
+        ["sick / ill", "больной"],
+        ["to be in good shape", "быть в хорошей форме"],
+        ["to be out of shape", "быть не в форме"],
+        ["well", "хорошо себя чувствовать"],
+        ["unwell", "плохо себя чувствовать"],
+        ["symptom", "симптом"],
+        ["pain", "боль"],
+        ["ache", "боль (тупая)"],
+        ["fever / temperature", "температура"],
+        ["cough", "кашель"],
+        ["cold", "простуда"],
+        ["flu", "грипп"],
+        ["allergy", "аллергия"],
+        ["headache", "головная боль"],
+        ["stomach ache", "боль в животе"],
+        ["toothache", "зубная боль"],
+        ["backache", "боль в спине"],
+        ["sore throat", "боль в горле"],
+        ["rash", "сыпь"],
+        ["bruise", "синяк"],
+        ["swelling", "отёк"],
+        ["burn", "ожог"],
+        ["cut", "порез"]
+      ]
+    },
+    {
+      "headers": ["Слово", "Перевод"],
+      "rows": [
+        ["doctor", "врач"],
+        ["GP (general practitioner)", "терапевт"],
+        ["specialist", "специалист"],
+        ["dentist", "стоматолог"],
+        ["surgeon", "хирург"],
+        ["nurse", "медсестра"],
+        ["pharmacist", "фармацевт"],
+        ["hospital", "больница"],
+        ["clinic", "поликлиника"],
+        ["surgery", "хирургия / кабинет врача"],
+        ["emergency room / A&E", "приёмный покой"],
+        ["ambulance", "скорая помощь"],
+        ["appointment", "запись (к врачу)"],
+        ["prescription", "рецепт"],
+        ["medicine", "лекарство"],
+        ["tablet / pill", "таблетка"],
+        ["injection", "инъекция"],
+        ["treatment", "лечение"],
+        ["operation", "операция"],
+        ["examination", "осмотр"],
+        ["blood test", "анализ крови"],
+        ["X-ray", "рентген"],
+        ["scan", "сканирование"],
+        ["vaccination", "вакцинация"]
+      ]
+    },
+    {
+      "headers": ["Глагол / Фраза", "Перевод"],
+      "rows": [
+        ["to hurt", "болеть"],
+        ["to ache", "ныть / болеть"],
+        ["to be allergic to", "иметь аллергию на"],
+        ["to sneeze", "чихать"],
+        ["to cough", "кашлять"],
+        ["to have a temperature", "иметь температуру"],
+        ["to feel sick", "чувствовать тошноту"],
+        ["to feel dizzy", "чувствовать головокружение"],
+        ["to break a bone", "сломать кость"],
+        ["to sprain", "растянуть (связки)"],
+        ["to injure", "получить травму"],
+        ["to recover", "выздоравливать"],
+        ["to get better", "поправляться"],
+        ["to get worse", "ухудшаться"],
+        ["to be in pain", "испытывать боль"],
+        ["to take medicine", "принимать лекарство"],
+        ["to see a doctor", "пойти к врачу"],
+        ["to call an ambulance", "вызвать скорую"]
+      ]
+    },
+    {
+      "headers": ["Фраза", "Перевод"],
+      "rows": [
+        ["What's the matter?", "Что случилось?"],
+        ["What's wrong?", "Что случилось?"],
+        ["I don't feel well.", "Я плохо себя чувствую."],
+        ["I've got a headache.", "У меня болит голова."],
+        ["I've got a sore throat.", "У меня болит горло."],
+        ["I feel dizzy.", "У меня кружится голова."],
+        ["I feel sick.", "Меня тошнит."],
+        ["I need to see a doctor.", "Мне нужно к врачу."],
+        ["Can you call a doctor?", "Можете вызвать врача?"],
+        ["Where is the nearest hospital?", "Где ближайшая больница?"],
+        ["How long have you had this?", "Как долго у вас это?"],
+        ["I've had it for three days.", "У меня это три дня."],
+        ["Do you have any allergies?", "У вас есть аллергия?"],
+        ["I'm allergic to penicillin.", "У меня аллергия на пенициллин."]
+      ]
+    }
+  ],
+  "questions": [
+    {"q": "I have a terrible ___. I should take an aspirin.", "options": ["headache", "appointment", "fever"], "answer": 0},
+    {"q": "You are very hot. I think you have a ___.", "options": ["fever", "ankle", "pharmacy"], "answer": 0},
+    {"q": "I need to make an ___ with the dentist.", "options": ["appointment", "prescription", "ache"], "answer": 0},
+    {"q": "My throat ___. I think I'm catching a cold.", "options": ["hurts", "breaks", "runs"], "answer": 0},
+    {"q": "The doctor gave me a ___ for some medicine.", "options": ["prescription", "appointment", "fever"], "answer": 0},
+    {"q": "You can buy this medicine at any ___.", "options": ["appointment", "pharmacy", "hospital"], "answer": 1},
+    {"q": "I fell while playing football and now my ___ is swollen.", "options": ["ankle", "chest", "thumb"], "answer": 0},
+    {"q": "He needs to lose weight, so he has a special ___.", "options": ["diet", "ache", "appointment"], "answer": 0}
+  ]
+}
     }
   },
   "B1 (Intermediate)": {
