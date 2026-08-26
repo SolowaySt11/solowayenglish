@@ -210,7 +210,6 @@ def save_test_result(user_id, level, category, topic, score, total):
     conn.close()
 
 def has_test(level, topic):
-    """Проверяет, есть ли тест для данной темы"""
     try:
         for cat in TESTS.get(level, {}):
             if topic in TESTS[level][cat]:
@@ -220,7 +219,6 @@ def has_test(level, topic):
     return False
 
 def find_topic_index(level, category, topic_name):
-    """Находит индекс темы в списке"""
     if level in TOPICS and category in TOPICS[level]:
         topics = TOPICS[level][category]
         for idx, topic in enumerate(topics):
@@ -229,7 +227,6 @@ def find_topic_index(level, category, topic_name):
     return 0
 
 def get_explanation(level, topic):
-    """Извлекает explanation из JSON"""
     try:
         for cat in TESTS.get(level, {}):
             if topic in TESTS[level][cat]:
@@ -241,7 +238,6 @@ def get_explanation(level, topic):
     return None
 
 def get_test_questions(level, topic):
-    """Извлекает вопросы для теста из JSON"""
     try:
         for cat in TESTS.get(level, {}):
             if topic in TESTS[level][cat]:
@@ -277,30 +273,110 @@ def generate_table_image(headers, rows, topic):
     return buf
 
 async def show_explanation(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
-    """Показывает таблицу с теорией"""
+    """Показывает таблицу с теорией (работает и для грамматики, и для лексики)"""
     topics = TOPICS[level][category]
     topic = topics[int(idx)]
-    expl_data = get_explanation(level, topic)
     
-    if not expl_data or not isinstance(expl_data, dict):
+    # Собираем все таблицы
+    tables = []
+    try:
+        for cat in TESTS.get(level, {}):
+            if topic in TESTS[level][cat]:
+                data = TESTS[level][cat][topic]
+                if isinstance(data, dict):
+                    if "explanation" in data:
+                        tables.append(data["explanation"])
+                    elif "vocabulary" in data:
+                        vocab_list = data["vocabulary"]
+                        if isinstance(vocab_list, list):
+                            for item in vocab_list:
+                                if isinstance(item, dict) and "headers" in item and "rows" in item:
+                                    tables.append(item)
+    except Exception as e:
+        print(f"Ошибка при загрузке теории: {e}")
+    
+    if not tables:
         await update.callback_query.answer("❌ Теория пока не добавлена", show_alert=True)
         return
     
-    headers = expl_data.get("headers", [])
-    rows = expl_data.get("rows", [])
+    # Сохраняем все таблицы в контекст
+    context.user_data["expl_tables"] = tables
+    context.user_data["expl_topic"] = topic
+    context.user_data["expl_level"] = level
+    context.user_data["expl_category"] = category
+    context.user_data["expl_idx"] = idx
+    context.user_data["expl_current"] = 0
+    
+    await show_explanation_table(update, context)
+
+async def show_explanation_table(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает текущую таблицу из списка"""
+    tables = context.user_data.get("expl_tables", [])
+    current = context.user_data.get("expl_current", 0)
+    topic = context.user_data.get("expl_topic", "")
+    level = context.user_data.get("expl_level", "")
+    category = context.user_data.get("expl_category", "")
+    idx = context.user_data.get("expl_idx", 0)
+    
+    if not tables or current >= len(tables):
+        await update.callback_query.answer("❌ Нет данных", show_alert=True)
+        return
+    
+    table = tables[current]
+    headers = table.get("headers", [])
+    rows = table.get("rows", [])
     
     if not headers or not rows:
-        await update.callback_query.answer("❌ Теория пока не добавлена", show_alert=True)
+        await update.callback_query.answer("❌ Данные отсутствуют", show_alert=True)
         return
     
-    buf = generate_table_image(headers, rows, topic)
-    keyboard = [[InlineKeyboardButton("🔙 К теме", callback_data=f"topic_{level}|{category}|{idx}")]]
+    # Ограничиваем количество строк, чтобы таблица не была слишком большой
+    if len(rows) > 30:
+        rows = rows[:30]
+    
+    buf = generate_table_image(headers, rows, f"{topic} ({current+1}/{len(tables)})")
+    
+    keyboard = []
+    nav_row = []
+    if current > 0:
+        nav_row.append(InlineKeyboardButton("◀️ Назад", callback_data="expl_prev"))
+    if current < len(tables) - 1:
+        nav_row.append(InlineKeyboardButton("Вперёд ▶️", callback_data="expl_next"))
+    if nav_row:
+        keyboard.append(nav_row)
+    keyboard.append([InlineKeyboardButton("🔙 К теме", callback_data=f"topic_{level}|{category}|{idx}")])
     reply_markup = InlineKeyboardMarkup(keyboard)
+    
     try:
         await update.callback_query.message.delete()
     except:
         pass
-    await update.effective_chat.send_photo(photo=buf, caption=f"📖 {topic}", reply_markup=reply_markup)
+    await update.effective_chat.send_photo(
+        photo=buf, 
+        caption=f"📖 {topic} ({current+1}/{len(tables)})", 
+        reply_markup=reply_markup
+    )
+
+async def show_explanation_next(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Переключает на следующую таблицу"""
+    current = context.user_data.get("expl_current", 0)
+    tables = context.user_data.get("expl_tables", [])
+    if current + 1 < len(tables):
+        context.user_data["expl_current"] = current + 1
+        await show_explanation_table(update, context)
+    else:
+        await update.callback_query.answer("Это последняя таблица", show_alert=True)
+
+async def show_explanation_prev(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Переключает на предыдущую таблицу"""
+    current = context.user_data.get("expl_current", 0)
+    if current > 0:
+        context.user_data["expl_current"] = current - 1
+        await show_explanation_table(update, context)
+    else:
+        await update.callback_query.answer("Это первая таблица", show_alert=True)
+
+# ===== ОСНОВНЫЕ ХЕНДЛЕРЫ =====
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if "authenticated" not in context.user_data:
@@ -370,7 +446,6 @@ async def show_topics(update: Update, context: ContextTypes.DEFAULT_TYPE, level,
     )
 
 async def show_topic_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
-    """Показывает меню для конкретной темы"""
     topics = TOPICS[level][category]
     topic = topics[int(idx)]
     progress = get_progress(update.effective_user.id, level)
@@ -394,7 +469,6 @@ async def show_topic_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, le
     )
 
 async def start_test(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
-    """Запускает тест по теме"""
     topics = TOPICS[level][category]
     topic = topics[int(idx)]
     questions = get_test_questions(level, topic)
@@ -554,6 +628,10 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await show_total_progress(update, context)
     elif data == "noop":
         pass
+    elif data == "expl_next":
+        await show_explanation_next(update, context)
+    elif data == "expl_prev":
+        await show_explanation_prev(update, context)
     elif data.startswith("level_"):
         await show_categories(update, context, data[6:])
     elif data.startswith("cat_"):
