@@ -1,0 +1,520 @@
+{
+  "Путешествия и культура": {
+    "vocabulary": [
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["passport", "загранпаспорт"],
+          ["visa", "виза"],
+          ["currency", "валюта"],
+          ["exchange rate", "обменный курс"],
+          ["souvenir", "сувенир"],
+          ["local customs", "местные обычаи"],
+          ["culture shock", "культурный шок"],
+          ["heritage", "наследие"],
+          ["landmark", "достопримечательность"],
+          ["itinerary", "маршрут / план поездки"],
+          ["accommodation", "жильё / размещение"],
+          ["tourist attraction", "туристическая достопримечательность"],
+          ["guided tour", "экскурсия с гидом"],
+          ["travel agency", "туристическое агентство"],
+          ["adventure", "приключение"]
+        ]
+      },
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["abroad", "за границей"],
+          ["overseas", "заморский / за границу"],
+          ["domestic", "внутренний (о рейсах)"],
+          ["destination", "место назначения"],
+          ["excursion", "экскурсия"],
+          ["cruise", "круиз"],
+          ["hiking", "пеший туризм"],
+          ["backpacking", "поход с рюкзаком"],
+          ["resort", "курорт"],
+          ["hostel", "хостел"],
+          ["guesthouse", "гостевой дом"],
+          ["bed and breakfast", "гостиница с завтраком"],
+          ["all-inclusive", "всё включено"],
+          ["package holiday", "туристический пакет / путёвка"]
+        ]
+      }
+    ],
+    "questions": [
+      {"q": "You need a valid _____ to travel abroad.", "options": ["loan", "passport", "budget"], "answer": 1},
+      {"q": "They prefer to stay in a _____ rather than a hotel.", "options": ["hostel", "symptom", "degree"], "answer": 0},
+      {"q": "We decided to _____ the local cuisine on our trip.", "options": ["sample", "invest", "fire"], "answer": 0},
+      {"q": "The tour includes _____ to all the main museums.", "options": ["admission", "promotion", "insurance"], "answer": 0},
+      {"q": "She brought back a beautiful _____ from Italy.", "options": ["souvenir", "budget", "interview"], "answer": 0},
+      {"q": "It's important to respect local _____ when visiting another country.", "options": ["customs", "salaries", "deadlines"], "answer": 0},
+      {"q": "Let's _____ a car for the weekend trip.", "options": ["rent", "earn", "resign"], "answer": 0},
+      {"q": "The city has an impressive skyline and vibrant _____.", "options": ["scholarship", "culture", "treatment"], "answer": 1}
+    ]
+  },
+  "Технологии и интернет": {
+    "vocabulary": [
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["device", "устройство"],
+          ["gadget", "гаджет"],
+          ["software", "программное обеспечение"],
+          ["hardware", "аппаратное обеспечение"],
+          ["application / app", "приложение"],
+          ["website", "сайт"],
+          ["browser", "браузер"],
+          ["search engine", "поисковая система"],
+          ["social media", "социальные сети"],
+          ["online", "онлайн"],
+          ["offline", "офлайн"],
+          ["download", "скачивать"],
+          ["upload", "загружать"],
+          ["update", "обновление / обновлять"]
+        ]
+      },
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["password", "пароль"],
+          ["username", "имя пользователя"],
+          ["account", "аккаунт"],
+          ["privacy", "конфиденциальность"],
+          ["security", "безопасность"],
+          ["virus", "вирус"],
+          ["malware", "вредоносное ПО"],
+          ["spam", "спам"],
+          ["phishing", "фишинг"],
+          ["encryption", "шифрование"],
+          ["backup", "резервная копия"],
+          ["cloud storage", "облачное хранилище"],
+          ["bandwidth", "пропускная способность"],
+          ["streaming", "потоковое вещание"]
+        ]
+      }
+    ],
+    "questions": [
+      {"q": "I need to _____ the latest version of the app.", "options": ["download", "upload", "resign"], "answer": 0},
+      {"q": "Make sure your password is _____ to protect your account.", "options": ["secure", "outdated", "viral"], "answer": 0},
+      {"q": "The video went _____ and got millions of views overnight.", "options": ["viral", "cyber", "manual"], "answer": 0},
+      {"q": "A lot of companies store their data in the _____.", "options": ["cloud", "virus", "screen"], "answer": 0},
+      {"q": "My laptop keeps crashing; I think it has a _____.", "options": ["browser", "virus", "gadget"], "answer": 1},
+      {"q": "She has a popular blog with thousands of _____.", "options": ["devices", "subscribers", "symptoms"], "answer": 1},
+      {"q": "The website isn't working; the server might be _____.", "options": ["down", "artificial", "encrypted"], "answer": 0},
+      {"q": "Don't click on that link — it could be a _____ scam.", "options": ["phishing", "streaming", "bandwidth"], "answer": 0}
+    ]
+  },
+  "Экология и окружающая среда": {
+    "vocabulary": [
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["environment", "окружающая среда"],
+          ["climate", "климат"],
+          ["global warming", "глобальное потепление"],
+          ["greenhouse effect", "парниковый эффект"],
+          ["carbon footprint", "углеродный след"],
+          ["renewable energy", "возобновляемая энергия"],
+          ["fossil fuels", "ископаемое топливо"],
+          ["pollution", "загрязнение"],
+          ["air quality", "качество воздуха"],
+          ["deforestation", "вырубка лесов"],
+          ["extinction", "вымирание"],
+          ["endangered species", "исчезающие виды"],
+          ["recycling", "переработка"],
+          ["waste", "отходы"],
+          ["sustainable", "устойчивый / экологичный"]
+        ]
+      },
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["conserve", "сохранять"],
+          ["protect", "защищать"],
+          ["pollute", "загрязнять"],
+          ["emit", "выбрасывать (в атмосферу)"],
+          ["reduce", "сокращать"],
+          ["reuse", "использовать повторно"],
+          ["recycle", "перерабатывать"],
+          ["dispose of", "избавляться от"],
+          ["dump", "сбрасывать (мусор)"],
+          ["wildlife", "дикая природа"],
+          ["habitat", "среда обитания"],
+          ["ecosystem", "экосистема"],
+          ["green", "зелёный (экологичный)"],
+          ["eco-friendly", "экологичный"]
+        ]
+      }
+    ],
+    "questions": [
+      {"q": "We should use less plastic to reduce our carbon _____.", "options": ["footprint", "disaster", "loan"], "answer": 0},
+      {"q": "Many species are at risk of _____ due to deforestation.", "options": ["extinction", "pollution", "evolution"], "answer": 0},
+      {"q": "Solar and wind are examples of _____ energy.", "options": ["renewable", "fossil", "nuclear"], "answer": 0},
+      {"q": "The company was fined for dumping _____ waste into the river.", "options": ["toxic", "organic", "sustainable"], "answer": 0},
+      {"q": "_____ warming is causing glaciers to melt at an alarming rate.", "options": ["Global", "Climate", "Ozone"], "answer": 0},
+      {"q": "We need to protect the _____ for future generations.", "options": ["environment", "salary", "interview"], "answer": 0},
+      {"q": "A thick layer of _____ in the atmosphere traps heat.", "options": ["greenhouse gases", "recycling bins", "solar panels"], "answer": 0},
+      {"q": "You should separate your rubbish so it can be _____.", "options": ["recycled", "wasted", "polluted"], "answer": 0}
+    ]
+  },
+  "Работа и карьера": {
+    "vocabulary": [
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["career", "карьера"],
+          ["job", "работа (должность)"],
+          ["profession", "профессия"],
+          ["occupation", "род занятий"],
+          ["CV / resume", "резюме"],
+          ["cover letter", "сопроводительное письмо"],
+          ["interview", "собеседование"],
+          ["applicant", "соискатель"],
+          ["employer", "работодатель"],
+          ["employee", "сотрудник"],
+          ["colleagues", "коллеги"],
+          ["team", "команда"],
+          ["boss", "начальник"]
+        ]
+      },
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["full-time", "полная занятость"],
+          ["part-time", "частичная занятость"],
+          ["flexible hours", "гибкий график"],
+          ["remote work", "удалённая работа"],
+          ["salary", "зарплата"],
+          ["wages", "заработная плата (почасовая)"],
+          ["bonus", "премия"],
+          ["benefits", "льготы"],
+          ["promotion", "повышение"],
+          ["raise", "прибавка к зарплате"],
+          ["qualifications", "квалификация"],
+          ["experience", "опыт"],
+          ["skills", "навыки"]
+        ]
+      }
+    ],
+    "questions": [
+      {"q": "Before the interview, you should update your _____.", "options": ["CV", "tax", "symptom"], "answer": 0},
+      {"q": "She applied for a _____ at the university.", "options": ["position", "salary", "loan"], "answer": 0},
+      {"q": "He earns a very competitive _____.", "options": ["salary", "budget", "investment"], "answer": 0},
+      {"q": "The manager decided to _____ an employee for repeated lateness.", "options": ["fire", "promote", "resign"], "answer": 0},
+      {"q": "After five years, she finally got a _____ to team leader.", "options": ["promotion", "bankruptcy", "treatment"], "answer": 0},
+      {"q": "It's common to be nervous during a job _____.", "options": ["interview", "budget", "insurance"], "answer": 0},
+      {"q": "He decided to _____ from his job due to stress.", "options": ["resign", "hire", "fire"], "answer": 0},
+      {"q": "To apply, please send your CV and a cover _____.", "options": ["letter", "money", "tax"], "answer": 0}
+    ]
+  },
+  "Образование": {
+    "vocabulary": [
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["education", "образование"],
+          ["primary school", "начальная школа"],
+          ["secondary school", "средняя школа"],
+          ["high school", "старшая школа"],
+          ["college", "колледж"],
+          ["university", "университет"],
+          ["graduate", "выпускник"],
+          ["degree", "степень"],
+          ["scholarship", "стипендия"],
+          ["tuition", "плата за обучение"],
+          ["student loan", "студенческий кредит"],
+          ["undergraduate", "студент бакалавриата"],
+          ["postgraduate", "аспирант / магистрант"]
+        ]
+      },
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["subject", "предмет"],
+          ["curriculum", "учебный план"],
+          ["semester", "семестр"],
+          ["term", "триместр / четверть"],
+          ["assignment", "задание"],
+          ["coursework", "курсовая работа"],
+          ["dissertation", "диссертация"],
+          ["lecture", "лекция"],
+          ["seminar", "семинар"],
+          ["tutorial", "консультация с преподавателем"],
+          ["campus", "кампус"],
+          ["deadline", "крайний срок"],
+          ["plagiarism", "плагиат"]
+        ]
+      }
+    ],
+    "questions": [
+      {"q": "She got a _____ to study at a prestigious university.", "options": ["scholarship", "loan", "symptom"], "answer": 0},
+      {"q": "He has a master's _____ in Economics.", "options": ["degree", "budget", "interview"], "answer": 0},
+      {"q": "I plan to attend _____ to study medicine.", "options": ["university", "salary", "promotion"], "answer": 0},
+      {"q": "You have to write a 10,000-word _____ for your Master's.", "options": ["dissertation", "CV", "tax"], "answer": 0},
+      {"q": "The course includes online _____ every Tuesday.", "options": ["lectures", "treatments", "investments"], "answer": 0},
+      {"q": "She is a _____ student from Brazil.", "options": ["foreign", "toxic", "viral"], "answer": 0},
+      {"q": "The _____ for this course is two years.", "options": ["duration", "salary", "insurance"], "answer": 0},
+      {"q": "They took out a student _____ to pay for their tuition.", "options": ["loan", "tax", "grant"], "answer": 0}
+    ]
+  },
+  "Здоровье и медицина": {
+    "vocabulary": [
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["health", "здоровье"],
+          ["symptom", "симптом"],
+          ["diagnosis", "диагноз"],
+          ["treatment", "лечение"],
+          ["prescription", "рецепт"],
+          ["medication", "лекарство"],
+          ["therapy", "терапия"],
+          ["surgery", "операция / хирургия"],
+          ["appointment", "запись (к врачу)"],
+          ["insurance", "страховка"],
+          ["GP", "терапевт"],
+          ["specialist", "специалист"],
+          ["surgeon", "хирург"],
+          ["nurse", "медсестра"]
+        ]
+      },
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["allergy", "аллергия"],
+          ["infection", "инфекция"],
+          ["inflammation", "воспаление"],
+          ["injury", "травма"],
+          ["fever", "температура"],
+          ["pain", "боль"],
+          ["ache", "тупая боль"],
+          ["cough", "кашель"],
+          ["sneeze", "чихание"],
+          ["dizzy", "головокружение"],
+          ["swollen", "опухший"],
+          ["recover", "выздоравливать"],
+          ["prevent", "предотвращать"],
+          ["vaccine", "вакцина"]
+        ]
+      }
+    ],
+    "questions": [
+      {"q": "A sore throat and fever are common _____ of flu.", "options": ["symptoms", "treatments", "scholarships"], "answer": 0},
+      {"q": "The doctor prescribed a new _____ for the infection.", "options": ["treatment", "symptom", "budget"], "answer": 0},
+      {"q": "I have private medical _____ in case of emergencies.", "options": ["insurance", "loan", "promotion"], "answer": 0},
+      {"q": "You should make an _____ to see a specialist.", "options": ["appointment", "investment", "interview"], "answer": 0},
+      {"q": "A balanced diet and regular exercise are essential for good _____.", "options": ["health", "salary", "degree"], "answer": 0},
+      {"q": "The nurse checked my blood _____.", "options": ["pressure", "tax", "culture"], "answer": 0},
+      {"q": "She was rushed to the emergency _____ after the accident.", "options": ["room", "interview", "budget"], "answer": 0},
+      {"q": "This cream will help the wound _____ faster.", "options": ["heal", "fire", "resign"], "answer": 0}
+    ]
+  },
+  "Медиа и новости": {
+    "vocabulary": [
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["media", "средства массовой информации"],
+          ["journalism", "журналистика"],
+          ["headlines", "заголовки"],
+          ["source", "источник"],
+          ["article", "статья"],
+          ["report", "репортаж / доклад"],
+          ["interview", "интервью"],
+          ["broadcast", "трансляция"],
+          ["press", "пресса"],
+          ["coverage", "освещение (в СМИ)"],
+          ["tabloid", "таблоид / жёлтая пресса"],
+          ["journalist", "журналист"],
+          ["reporter", "репортёр"],
+          ["anchor", "ведущий новостей"]
+        ]
+      },
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["blog", "блог"],
+          ["podcast", "подкаст"],
+          ["stream", "стрим / потоковое вещание"],
+          ["subscribe", "подписаться"],
+          ["follow", "следить"],
+          ["like", "лайк"],
+          ["share", "поделиться"],
+          ["comment", "комментарий"],
+          ["trend", "тренд"],
+          ["fake news", "фейковые новости"],
+          ["bias", "предвзятость"],
+          ["censor", "цензурировать"],
+          ["reliable", "надёжный"],
+          ["breaking news", "срочные новости"]
+        ]
+      }
+    ],
+    "questions": [
+      {"q": "The story made the _____ of every newspaper.", "options": ["headlines", "deadlines", "symptoms"], "answer": 0},
+      {"q": "Reporters should always check their _____ before publishing.", "options": ["sources", "budgets", "treatments"], "answer": 0},
+      {"q": "She works as a _____ for a local TV station.", "options": ["journalist", "patient", "accountant"], "answer": 0},
+      {"q": "The article was written from a biased _____.", "options": ["perspective", "scholarship", "symptom"], "answer": 0},
+      {"q": "Many people get their news from social _____ now.", "options": ["media", "interviews", "loans"], "answer": 0},
+      {"q": "The newspaper issued a _____ for the incorrect information.", "options": ["correction", "promotion", "investment"], "answer": 0},
+      {"q": "Breaking _____: earthquake hits the coast.", "options": ["news", "culture", "tax"], "answer": 0},
+      {"q": "I listen to a weekly _____ about true crime.", "options": ["podcast", "CV", "insurance"], "answer": 0}
+    ]
+  },
+  "Отношения и общение": {
+    "vocabulary": [
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["relationship", "отношения"],
+          ["friendship", "дружба"],
+          ["acquaintance", "знакомый"],
+          ["colleague", "коллега"],
+          ["partner", "партнёр"],
+          ["soulmate", "родственная душа"],
+          ["trust", "доверие"],
+          ["respect", "уважение"],
+          ["support", "поддержка"],
+          ["communication", "общение"],
+          ["interaction", "взаимодействие"],
+          ["conflict", "конфликт"],
+          ["argument", "спор"],
+          ["compromise", "компромисс"]
+        ]
+      },
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["get along with", "ладить с"],
+          ["fall out with", "поссориться с"],
+          ["make up", "помириться"],
+          ["break up", "расстаться"],
+          ["rely on", "полагаться на"],
+          ["confide in", "доверять секрет"],
+          ["apologise", "извиниться"],
+          ["forgive", "простить"],
+          ["appreciate", "ценить"],
+          ["misunderstand", "неправильно понять"],
+          ["communicate", "общаться"],
+          ["express", "выражать"],
+          ["listen", "слушать"],
+          ["understand", "понимать"]
+        ]
+      }
+    ],
+    "questions": [
+      {"q": "Trust is the foundation of any strong _____.", "options": ["relationship", "budget", "treatment"], "answer": 0},
+      {"q": "We had a big _____ over money but quickly made up.", "options": ["argument", "scholarship", "symptom"], "answer": 0},
+      {"q": "They got _____ last year after dating for six months.", "options": ["married", "fired", "promoted"], "answer": 0},
+      {"q": "He finds it hard to _____ his emotions.", "options": ["express", "invest", "download"], "answer": 0},
+      {"q": "She is my _____ friend — we've known each other since kindergarten.", "options": ["closest", "viral", "sustainable"], "answer": 0},
+      {"q": "Good _____ is key to a healthy marriage.", "options": ["communication", "salary", "pollution"], "answer": 0},
+      {"q": "They decided to _____ after a long conversation.", "options": ["compromise", "fire", "resign"], "answer": 0},
+      {"q": "He complimented her on her _____ and kindness.", "options": ["honesty", "tax", "gadget"], "answer": 0}
+    ]
+  },
+  "Искусство и литература": {
+    "vocabulary": [
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["art", "искусство"],
+          ["artist", "художник"],
+          ["painter", "живописец"],
+          ["sculpture", "скульптура"],
+          ["exhibition", "выставка"],
+          ["gallery", "галерея"],
+          ["museum", "музей"],
+          ["masterpiece", "шедевр"],
+          ["portrait", "портрет"],
+          ["landscape", "пейзаж"],
+          ["abstract", "абстрактное искусство"],
+          ["contemporary", "современный"],
+          ["classic", "классический"]
+        ]
+      },
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["literature", "литература"],
+          ["novel", "роман"],
+          ["poem", "стихотворение"],
+          ["poetry", "поэзия"],
+          ["author", "автор"],
+          ["writer", "писатель"],
+          ["poet", "поэт"],
+          ["plot", "сюжет"],
+          ["character", "персонаж"],
+          ["setting", "место действия"],
+          ["theme", "тема"],
+          ["genre", "жанр"],
+          ["fiction", "художественная литература"],
+          ["non-fiction", "документальная литература"],
+          ["bestseller", "бестселлер"]
+        ]
+      }
+    ],
+    "questions": [
+      {"q": "The _____ painted the landscape in watercolours.", "options": ["artist", "author", "journalist"], "answer": 0},
+      {"q": "Her latest novel became a _____ immediately.", "options": ["bestseller", "sculpture", "portrait"], "answer": 0},
+      {"q": "The gallery is hosting an _____ of modern art.", "options": ["exhibition", "investment", "interview"], "answer": 0},
+      {"q": "The book is set in a _____ world with dragons and magic.", "options": ["fictional", "renewable", "toxic"], "answer": 0},
+      {"q": "Shakespeare is widely regarded as a literary _____.", "options": ["genius", "patient", "applicant"], "answer": 0},
+      {"q": "I prefer reading _____ because I enjoy real stories.", "options": ["non-fiction", "poetry", "fantasy"], "answer": 0},
+      {"q": "The sculpture is made of _____.", "options": ["marble", "budget", "symptom"], "answer": 0},
+      {"q": "The play received standing _____ from the audience.", "options": ["ovation", "loan", "tax"], "answer": 0}
+    ]
+  },
+  "Финансы и деньги": {
+    "vocabulary": [
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["money", "деньги"],
+          ["cash", "наличные"],
+          ["coin", "монета"],
+          ["note / bill", "банкнота"],
+          ["credit card", "кредитная карта"],
+          ["debit card", "дебетовая карта"],
+          ["bank account", "банковский счёт"],
+          ["balance", "баланс"],
+          ["income", "доход"],
+          ["expenses", "расходы"],
+          ["budget", "бюджет"],
+          ["savings", "сбережения"],
+          ["debt", "долг"],
+          ["loan", "кредит / заём"]
+        ]
+      },
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["investment", "инвестиция"],
+          ["profit", "прибыль"],
+          ["loss", "убыток"],
+          ["tax", "налог"],
+          ["salary", "зарплата"],
+          ["wage", "почасовая оплата"],
+          ["benefits", "льготы"],
+          ["pension", "пенсия"],
+          ["insurance", "страховка"],
+          ["bill", "счёт (за услуги)"],
+          ["receipt", "чек"],
+          ["refund", "возврат денег"],
+          ["discount", "скидка"],
+          ["interest", "процент (по кредиту / вкладу)"]
+        ]
+      }
+    ],
+    "questions": [
+      {"q": "We need to stick to our _____ this month.", "options": ["budget", "loan", "symptom"], "answer": 0},
+      {"q": "He took out a _____ to buy a new car.", "options": ["loan", "tax", "CV"], "answer": 0},
+      {"q": "She made a wise _____ in the stock market.", "options": ["investment", "promotion", "treatment"], "answer": 0},
+      {"q": "Everyone has to pay income _____ on their salary.", "options": ["tax", "budget", "insurance"], "answer": 0},
+      {"q": "The company declared _____ after huge losses.", "options": ["bankruptcy", "scholarship", "culture"], "answer": 0},
+      {"q": "We opened a joint savings _____ for our wedding.", "options": ["account", "interview", "art"], "answer": 0},
+      {"q": "Inflation has caused the _____ of living to rise sharply.", "options": ["cost", "salary", "degree"], "answer": 0},
+      {"q": "He transferred the money via online _____.", "options": ["banking", "media", "article"], "answer": 0}
+    ]
+  }
+}
