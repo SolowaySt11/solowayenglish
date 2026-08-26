@@ -1,0 +1,412 @@
+{
+  "Past Perfect (I had done)": {
+    "explanation": {
+      "headers": ["Случай", "Формула", "Пример"],
+      "rows": [
+        ["Действие закончилось ДО другого в прошлом", "had + V3 (ed)", "I had finished my homework before my mum came."],
+        ["Причина/результат в прошлом", "had + V3 (ed)", "She was tired because she had worked hard."],
+        ["Опыт до определённого момента в прошлом", "had + V3 (ed)", "I had never seen such a beautiful sunset before that day."],
+        ["", "", ""],
+        [" Утв.", "I had played", "He had gone"],
+        [" Отриц.", "I hadn't played", "He hadn't gone"],
+        [" Вопрос", "Had I played?", "Had he gone?"]
+      ]
+    },
+    "questions": [
+      {"q": "When we arrived at the cinema, the film _____.", "options": ["already started", "had already started", "has already started"], "answer": 1},
+      {"q": "She didn't recognize him because she _____ him before.", "options": ["didn't meet", "hadn't met", "hasn't met"], "answer": 1},
+      {"q": "After they _____ dinner, they watched TV.", "options": ["had finished", "finished", "have finished"], "answer": 0},
+      {"q": "I realized I _____ my keys at home.", "options": ["had left", "left", "was leaving"], "answer": 0},
+      {"q": "The ground was wet because it _____ all night.", "options": ["rained", "had rained", "was raining"], "answer": 1},
+      {"q": "He _____ never _____ such a beautiful sunset before that day.", "options": ["had ... seen", "did ... see", "has ... seen"], "answer": 0},
+      {"q": "By the time the police arrived, the thief _____.", "options": ["escaped", "had escaped", "has escaped"], "answer": 1},
+      {"q": "She told me she _____ the report yet.", "options": ["didn't finish", "hadn't finished", "wasn't finishing"], "answer": 1}
+    ]
+  },
+  "Past Perfect vs Past Simple": {
+    "explanation": {
+      "headers": ["Время", "Когда использовать", "Форма", "Пример"],
+      "rows": [
+        ["Past Perfect", "Действие, которое было ПЕРВЫМ (старшее)", "had + V3", "I had eaten breakfast when he called."],
+        ["Past Simple", "Действие, которое было ВТОРЫМ (младшее)", "V2 / Ved", "I ate breakfast at 8 am."],
+        ["Past Perfect", "Причина в прошлом", "had + V3", "I was tired because I hadn't slept well."],
+        ["Past Simple", "Факт в прошлом (хронология)", "V2 / Ved", "I slept well last night."]
+      ]
+    },
+    "questions": [
+      {"q": "After she _____ the letter, she posted it.", "options": ["had written", "wrote", "has written"], "answer": 0},
+      {"q": "He _____ me that he had lost my number.", "options": ["had told", "told", "was telling"], "answer": 1},
+      {"q": "When I _____ home, my family had already eaten.", "options": ["had got", "got", "was getting"], "answer": 1},
+      {"q": "The meeting _____ by the time I arrived.", "options": ["ended", "had ended", "has ended"], "answer": 1},
+      {"q": "She _____ the book before she saw the film adaptation.", "options": ["had read", "read", "was reading"], "answer": 0},
+      {"q": "I didn't want to go to the cinema because I _____ the movie twice.", "options": ["saw", "had seen", "have seen"], "answer": 1},
+      {"q": "They _____ the project before the deadline.", "options": ["had completed", "completed", "have completed"], "answer": 1},
+      {"q": "We _____ for hours before we finally found the hotel.", "options": ["walked", "had walked", "have walked"], "answer": 1}
+    ]
+  },
+  "Present Perfect Continuous (углублённо)": {
+    "explanation": {
+      "headers": ["Случай", "Формула", "Пример"],
+      "rows": [
+        ["Действие началось в прошлом и ВСЁ ЕЩЁ длится", "have/has been + Ving", "I have been studying English for 5 years."],
+        ["Действие только что закончилось, ВИДЕН РЕЗУЛЬТАТ", "have/has been + Ving", "My hands are dirty. I have been working in the garden."],
+        ["Акцент на ДЛИТЕЛЬНОСТИ процесса", "have/has been + Ving", "I'm tired. I have been running all morning."],
+        ["", "", ""],
+        [" Утв.", "I have been waiting", "He has been waiting"],
+        [" Отриц.", "I haven't been waiting", "He hasn't been waiting"],
+        [" Вопрос", "Have I been waiting?", "Has he been waiting?"]
+      ]
+    },
+    "questions": [
+      {"q": "She's exhausted because she _____ all morning.", "options": ["has been working", "worked", "had been working"], "answer": 0},
+      {"q": "How long _____ English?", "options": ["are you learning", "have you been learning", "you have been learning"], "answer": 1},
+      {"q": "The ground is wet. It _____.", "options": ["has been raining", "rained", "had rained"], "answer": 0},
+      {"q": "I _____ this book for weeks and I'm still not finished.", "options": ["read", "have been reading", "have read"], "answer": 1},
+      {"q": "We _____ here since 2010.", "options": ["are living", "have been living", "live"], "answer": 1},
+      {"q": "He _____ for the bus for half an hour and it still hasn't come.", "options": ["waits", "has been waiting", "waited"], "answer": 1},
+      {"q": "My eyes hurt. I _____ at a screen all day.", "options": ["stared", "have been staring", "have stared"], "answer": 1},
+      {"q": "She _____ the same salary for five years and is getting frustrated.", "options": ["earns", "has been earning", "earned"], "answer": 1}
+    ]
+  },
+  "Future Continuous (I will be doing)": {
+    "explanation": {
+      "headers": ["Случай", "Формула", "Пример"],
+      "rows": [
+        ["Действие будет В ПРОЦЕССЕ в определённый момент в будущем", "will be + Ving", "At 8 pm tomorrow, I will be watching a film."],
+        ["Действие, которое будет происходить в будущем как фон", "will be + Ving", "This time next week, I'll be lying on the beach."],
+        ["Вежливый вопрос о планах (не просим сделать, а спрашиваем)", "Will you be + Ving", "Will you be using the car tomorrow?"],
+        ["", "", ""],
+        [" Утв.", "I will be working", "He will be working"],
+        [" Отриц.", "I won't be working", "He won't be working"],
+        [" Вопрос", "Will I be working?", "Will he be working?"]
+      ]
+    },
+    "questions": [
+      {"q": "This time tomorrow I _____ to London.", "options": ["will be flying", "will fly", "am flying"], "answer": 0},
+      {"q": "At 8 p.m. tonight, she _____ her exam.", "options": ["will be taking", "will take", "takes"], "answer": 0},
+      {"q": "Don't call between 7 and 8 — we _____ dinner.", "options": ["will be having", "will have", "have"], "answer": 0},
+      {"q": "In the future, people _____ electric cars everywhere.", "options": ["will be driving", "will drive", "drive"], "answer": 0},
+      {"q": "He _____ at the office when you arrive.", "options": ["will be waiting", "will be working", "will work"], "answer": 1},
+      {"q": "This weekend they _____ their new house.", "options": ["will paint", "will be painting", "paint"], "answer": 1},
+      {"q": "I _____ my favourite show at 9 p.m. tomorrow.", "options": ["will be watching", "will watch", "watch"], "answer": 0},
+      {"q": "Will you _____ the report at noon? I need it by 1 p.m.", "options": ["be still writing", "still be writing", "write"], "answer": 1}
+    ]
+  },
+  "Future Perfect (I will have done)": {
+    "explanation": {
+      "headers": ["Случай", "Формула", "Пример"],
+      "rows": [
+        ["Действие ЗАВЕРШИТСЯ К определённому моменту в будущем", "will have + V3", "I will have finished this book by Friday."],
+        ["Акцент на РЕЗУЛЬТАТЕ к моменту в будущем", "will have + V3", "By 2030, scientists will have found a cure."],
+        ["", "", ""],
+        [" Утв.", "I will have finished", "He will have finished"],
+        [" Отриц.", "I won't have finished", "He won't have finished"],
+        [" Вопрос", "Will I have finished?", "Will he have finished?"]
+      ]
+    },
+    "questions": [
+      {"q": "By next year, she _____ from university.", "options": ["will have graduated", "will graduate", "will be graduating"], "answer": 0},
+      {"q": "They _____ the project by Friday.", "options": ["will finish", "will have finished", "will be finishing"], "answer": 1},
+      {"q": "By the time you arrive, I _____ everything ready.", "options": ["get", "will have got", "will be getting"], "answer": 1},
+      {"q": "In ten years' time, we _____ fossil fuels completely.", "options": ["will stop using", "will have stopped using", "stop using"], "answer": 1},
+      {"q": "He hopes he _____ a promotion by the end of the year.", "options": ["will have received", "will receive", "receives"], "answer": 0},
+      {"q": "I _____ this book by next Monday.", "options": ["will read", "will have read", "read"], "answer": 1},
+      {"q": "Will you _____ the email before the meeting starts?", "options": ["have sent", "send", "be sending"], "answer": 0},
+      {"q": "By 2030, scientists _____ a cure for the disease.", "options": ["find", "will have found", "are finding"], "answer": 1}
+    ]
+  },
+  "Условные предложения 2 и 3 типа": {
+    "explanation": {
+      "headers": ["Тип", "Значение", "Формула", "Пример"],
+      "rows": [
+        ["Type 2", "Нереальная ситуация В НАСТОЯЩЕМ", "If + Past Simple, would + V1", "If I were rich, I would travel the world."],
+        ["Type 2", "Совет (если бы я был на твоём месте)", "If I were you, I would...", "If I were you, I'd accept the offer."],
+        ["Type 3", "Нереальная ситуация В ПРОШЛОМ", "If + Past Perfect, would have + V3", "If she had studied harder, she would have passed the exam."],
+        ["Type 3", "Сожаление о прошлом", "If + Past Perfect, would have + V3", "If I hadn't overslept, I wouldn't have missed the bus."]
+      ]
+    },
+    "questions": [
+      {"q": "If I _____ rich, I would travel the world.", "options": ["am", "were", "had been"], "answer": 1},
+      {"q": "If she had studied harder, she _____ the exam.", "options": ["would pass", "would have passed", "will pass"], "answer": 1},
+      {"q": "They _____ if they had known about the traffic.", "options": ["would leave earlier", "would have left earlier", "left earlier"], "answer": 1},
+      {"q": "If he spoke English, he _____ a better job.", "options": ["could get", "could have got", "got"], "answer": 0},
+      {"q": "We _____ the match if our best player hadn't been injured.", "options": ["would have won", "won", "would win"], "answer": 0},
+      {"q": "If I _____ you, I'd accept the offer.", "options": ["had been", "am", "were"], "answer": 2},
+      {"q": "She _____ her flight if she hadn't overslept.", "options": ["wouldn't miss", "wouldn't have missed", "didn't miss"], "answer": 1},
+      {"q": "If people _____ more responsible, the planet would be cleaner.", "options": ["had been", "were", "are"], "answer": 1}
+    ]
+  },
+  "Сослагательное наклонение (I wish… / If only…)": {
+    "explanation": {
+      "headers": ["Конструкция", "Значение", "Форма", "Пример"],
+      "rows": [
+        ["I wish + Past Simple", "Хочу, чтобы было по-другому СЕЙЧАС", "wish + V2", "I wish I knew how to swim."],
+        ["I wish + would", "Хочу, чтобы кто-то ИЗМЕНИЛ ПОВЕДЕНИЕ", "wish + would + V1", "I wish you would stop interrupting me."],
+        ["I wish + Past Perfect", "Сожаление о ПРОШЛОМ", "wish + had + V3", "I wish I had accepted that job offer."],
+        ["If only + Past Simple", "Если бы только... (сейчас)", "If only + V2", "If only I had more time."],
+        ["If only + Past Perfect", "Если бы только... (в прошлом)", "If only + had + V3", "If only I had listened to you."]
+      ]
+    },
+    "questions": [
+      {"q": "I wish I _____ how to swim.", "options": ["know", "knew", "have known"], "answer": 1},
+      {"q": "If only she _____ earlier yesterday.", "options": ["comes", "had come", "came"], "answer": 1},
+      {"q": "We wish we _____ a bigger house.", "options": ["have", "had", "will have"], "answer": 1},
+      {"q": "I wish you _____ interrupting me all the time.", "options": ["stop", "would stop", "stopped"], "answer": 1},
+      {"q": "If only I _____ that job offer last year.", "options": ["had accepted", "accepted", "would accept"], "answer": 0},
+      {"q": "She wishes she _____ so much homework right now.", "options": ["doesn't have", "didn't have", "hadn't had"], "answer": 1},
+      {"q": "I wish it _____ raining. It's been three days!", "options": ["stops", "would stop", "stopped"], "answer": 1},
+      {"q": "They wish they _____ the warning.", "options": ["had heeded", "heeded", "would heed"], "answer": 0}
+    ]
+  },
+  "Конструкция be/get used to + ing": {
+    "explanation": {
+      "headers": ["Конструкция", "Значение", "Форма", "Пример"],
+      "rows": [
+        ["be used to + Ving", "Привык к чему-то (состояние)", "be + used to + Ving", "I am used to getting up early."],
+        ["get used to + Ving", "Привыкаю к чему-то (процесс)", "get + used to + Ving", "It took me a while to get used to driving on the left."],
+        ["", "", "", ""],
+        [" Утв.", "I am used to working late.", "He is used to the noise."],
+        [" Отриц.", "I'm not used to working late.", "He isn't used to the noise."],
+        [" Вопрос", "Are you used to working late?", "Is he used to the noise?"]
+      ]
+    },
+    "questions": [
+      {"q": "She is used to _____ early every day.", "options": ["get up", "getting up", "got up"], "answer": 1},
+      {"q": "It took me a while to get used to _____ on the left.", "options": ["drive", "driving", "drove"], "answer": 1},
+      {"q": "I _____ the noise now — it doesn't bother me.", "options": ["am used to", "used to", "get used to"], "answer": 0},
+      {"q": "He isn't used to _____ so much responsibility.", "options": ["having", "have", "had"], "answer": 0},
+      {"q": "Have you got used to _____ in a big city yet?", "options": ["living", "live", "lived"], "answer": 0},
+      {"q": "She _____ work long hours, so she doesn't mind.", "options": ["used to", "is used to", "gets used to"], "answer": 1},
+      {"q": "I can't get used to _____ contact lenses.", "options": ["wearing", "wear", "wore"], "answer": 0},
+      {"q": "They will have to get used to _____ less free time.", "options": ["have", "having", "had"], "answer": 1}
+    ]
+  },
+  "Герундий и инфинитив (remember to do vs remember doing)": {
+    "explanation": {
+      "headers": ["Глагол", "Смысл с герундием (Ving)", "Смысл с инфинитивом (to V1)"],
+      "rows": [
+        ["remember", "remember doing = помнить, что ДЕЛАЛ", "remember to do = не ЗАБЫТЬ сделать"],
+        ["forget", "forget doing = забыть, что ДЕЛАЛ", "forget to do = забыть СДЕЛАТЬ"],
+        ["stop", "stop doing = ПЕРЕСТАТЬ делать", "stop to do = ОСТАНОВИТЬСЯ, чтобы сделать"],
+        ["regret", "regret doing = сожалеть о том, что СДЕЛАЛ", "regret to do = сожалеть, что ДЕЛАЕШЬ (сообщать)"],
+        ["try", "try doing = ПОПРОБОВАТЬ (как способ)", "try to do = ПОСТАРАТЬСЬ (усилие)"],
+        ["go on", "go on doing = ПРОДОЛЖАТЬ делать", "go on to do = ПЕРЕЙТИ К следующему действию"]
+      ]
+    },
+    "questions": [
+      {"q": "I remember _____ the door before leaving.", "options": ["to lock", "locking", "lock"], "answer": 1},
+      {"q": "Remember _____ milk on your way home.", "options": ["buying", "to buy", "buy"], "answer": 1},
+      {"q": "He stopped _____ a coffee on his way to work.", "options": ["drinking", "to drink", "drink"], "answer": 1},
+      {"q": "She stopped _____ coffee because it kept her awake.", "options": ["to drink", "drinking", "drink"], "answer": 1},
+      {"q": "I regret _____ you that your application was unsuccessful.", "options": ["telling", "to tell", "tell"], "answer": 1},
+      {"q": "He regrets _____ so rude to her yesterday.", "options": ["to be", "being", "be"], "answer": 1},
+      {"q": "I'll never forget _____ the ocean for the first time.", "options": ["seeing", "to see", "see"], "answer": 0},
+      {"q": "Don't forget _____ the report before the meeting.", "options": ["sending", "to send", "send"], "answer": 1}
+    ]
+  },
+  "Модальные глаголы в прошлом (must have, might have)": {
+    "explanation": {
+      "headers": ["Глагол", "Значение", "Форма", "Пример"],
+      "rows": [
+        ["must have", "Уверенность на 95% (точно было)", "must have + V3", "He looks exhausted. He must have worked all night."],
+        ["might / may have", "Возможность на 50% (может быть)", "might have + V3", "She might not have seen the email."],
+        ["could have", "Возможность на 70% (могло быть)", "could have + V3", "The kids could have eaten the cake."],
+        ["should have", "Совет/упрек о прошлом (надо было)", "should have + V3", "You should have asked your parents."],
+        ["would have", "Условное действие (сделал бы)", "would have + V3", "I would have come if I had known."],
+        ["", "", "", ""],
+        [" Отрицание", "can't have / couldn't have", "Не могло быть (уверенность на 95%, что НЕ)"],
+        ["", "", "He can't have left. His car is here."]
+      ]
+    },
+    "questions": [
+      {"q": "He looks exhausted. He _____ all night.", "options": ["must have worked", "should have worked", "might work"], "answer": 0},
+      {"q": "She _____ the email; she never checks spam.", "options": ["might not have seen", "mustn't see", "shouldn't have seen"], "answer": 0},
+      {"q": "You _____ your parents before making that decision.", "options": ["must have asked", "should have asked", "might have asked"], "answer": 1},
+      {"q": "The cake is gone. The kids _____ it.", "options": ["could have eaten", "should have eaten", "must eat"], "answer": 0},
+      {"q": "It _____ very difficult to quit smoking, but he managed.", "options": ["must have been", "should be", "might be"], "answer": 0},
+      {"q": "You _____ so much money on that bag — it's a fake!", "options": ["mustn't spend", "shouldn't have spent", "might not spend"], "answer": 1},
+      {"q": "The phone rang, but it _____ my mother, she usually texts.", "options": ["must have been", "might not have been", "should have been"], "answer": 1},
+      {"q": "They arrived early. They _____ a taxi instead of the bus.", "options": ["could have taken", "must take", "should take"], "answer": 0}
+    ]
+  },
+  "Пассивный залог (все времена)": {
+    "explanation": {
+      "headers": ["Время", "Актив", "Пассив", "Пример"],
+      "rows": [
+        ["Present Simple", "write", "am/is/are written", "Letters are written every day."],
+        ["Past Simple", "wrote", "was/were written", "The letter was written yesterday."],
+        ["Present Continuous", "is writing", "is being written", "The letter is being written now."],
+        ["Past Continuous", "was writing", "was being written", "The letter was being written when I came."],
+        ["Present Perfect", "has written", "has been written", "The letter has been written."],
+        ["Past Perfect", "had written", "had been written", "The letter had been written before I came."],
+        ["Future Simple", "will write", "will be written", "The letter will be written tomorrow."],
+        ["Future Perfect", "will have written", "will have been written", "The letter will have been written by 5 pm."],
+        ["Modals", "must write", "must be written", "The letter must be written today."]
+      ]
+    },
+    "questions": [
+      {"q": "The company _____ in 2005.", "options": ["founded", "was founded", "has founded"], "answer": 1},
+      {"q": "The emails _____ yet.", "options": ["haven't been sent", "weren't sent", "didn't send"], "answer": 0},
+      {"q": "A new shopping centre _____ at the moment.", "options": ["is being built", "is built", "builds"], "answer": 0},
+      {"q": "The results _____ tomorrow morning.", "options": ["will be announced", "are announced", "announce"], "answer": 0},
+      {"q": "The Mona Lisa _____ by Leonardo da Vinci.", "options": ["was painted", "painted", "has painted"], "answer": 0},
+      {"q": "The room _____ before the guests arrived.", "options": ["had been cleaned", "was cleaning", "has been cleaned"], "answer": 0},
+      {"q": "The project _____ by next Friday.", "options": ["completes", "will have been completed", "will complete"], "answer": 1},
+      {"q": "A lot of coffee _____ in Brazil.", "options": ["is produced", "produces", "produced"], "answer": 0}
+    ]
+  },
+  "Косвенная речь (вопросы, просьбы, приказы)": {
+    "explanation": {
+      "headers": ["Тип", "Прямая речь", "Косвенная речь", "Пример"],
+      "rows": [
+        ["Утверждение", "I am tired.", "He said (that) he was tired.", "Он сказал, что устал."],
+        ["Утверждение", "I like coffee.", "She said (that) she liked coffee.", "Она сказала, что любит кофе."],
+        ["Вопрос Yes/No", "Do you like tea?", "He asked if I liked tea.", "Он спросил, люблю ли я чай."],
+        ["Вопрос Wh-", "Where do you live?", "She asked where I lived.", "Она спросила, где я живу."],
+        ["Просьба", "Please help me.", "He asked me to help him.", "Он попросил помочь ему."],
+        ["Приказ", "Sit down!", "The teacher told us to sit down.", "Учитель сказал нам сесть."],
+        ["Запрет", "Don't touch!", "She told me not to touch.", "Она сказала мне не трогать."]
+      ]
+    },
+    "questions": [
+      {"q": "He asked me where _____.", "options": ["I was going", "was I going", "I am going"], "answer": 0},
+      {"q": "She told me _____ the documents.", "options": ["to send", "send", "sending"], "answer": 0},
+      {"q": "The officer ordered the crowd _____.", "options": ["to disperse", "disperse", "dispersed"], "answer": 0},
+      {"q": "She asked if I _____ the meeting.", "options": ["attended", "had attended", "have attended"], "answer": 1},
+      {"q": "He wanted to know what time the train _____.", "options": ["leaves", "did leave", "left"], "answer": 2},
+      {"q": "My boss asked me _____ the report on his desk.", "options": ["if I have seen", "if I had seen", "did I see"], "answer": 1},
+      {"q": "She told her son _____ the door.", "options": ["to not slam", "not to slam", "don't slam"], "answer": 1},
+      {"q": "They asked us whether we _____ at the hotel before.", "options": ["stay", "had stayed", "have stayed"], "answer": 1}
+    ]
+  },
+  "Определительные придаточные (who, which, that, whose)": {
+    "explanation": {
+      "headers": ["Местоимение", "Для кого/чего", "Пример"],
+      "rows": [
+        ["who", "Для ЛЮДЕЙ (подлежащее)", "The woman who lives next door is a doctor."],
+        ["which", "Для ПРЕДМЕТОВ и ЖИВОТНЫХ", "The book which I'm reading is fascinating."],
+        ["that", "Для ЛЮДЕЙ и ПРЕДМЕТОВ (универсально)", "The book that I'm reading is fascinating."],
+        ["whose", "Для ПРИНАДЛЕЖНОСТИ (чей)", "The man whose car was stolen is my neighbour."],
+        ["whom", "Для ЛЮДЕЙ (дополнение, формально)", "The person whom I met was very kind."],
+        ["where", "Для МЕСТА", "The town where I grew up has changed a lot."],
+        ["when", "Для ВРЕМЕНИ", "The day when we met was sunny."],
+        ["why", "Для ПРИЧИНЫ", "The reason why he left is still unclear."]
+      ]
+    },
+    "questions": [
+      {"q": "The woman _____ lives next door is a doctor.", "options": ["which", "who", "whose"], "answer": 1},
+      {"q": "That's the restaurant _____ we first met.", "options": ["which", "where", "whose"], "answer": 1},
+      {"q": "I need a phone _____ battery lasts all day.", "options": ["which", "whose", "who"], "answer": 1},
+      {"q": "The book _____ I'm reading is fascinating.", "options": ["who", "that", "where"], "answer": 1},
+      {"q": "The man _____ car was stolen is my neighbour.", "options": ["who", "which", "whose"], "answer": 2},
+      {"q": "The town _____ I grew up has changed a lot.", "options": ["where", "which", "whose"], "answer": 0},
+      {"q": "Students _____ study hard usually succeed.", "options": ["which", "whose", "who"], "answer": 2},
+      {"q": "The reason _____ he left is still unclear.", "options": ["why", "which", "where"], "answer": 0}
+    ]
+  },
+  "Артикли (углублённо, включая нулевой артикль)": {
+    "explanation": {
+      "headers": ["Артикль", "Когда используем", "Пример"],
+      "rows": [
+        ["a / an", "Неопределённый (впервые/неважно какой)", "I saw a dog. (впервые)"],
+        ["the", "Определённый (уже знаем/единственный)", "The dog was black. (уже знаем)"],
+        ["— (нулевой)", "С именами собственными", "Russia, London, John"],
+        ["— (нулевой)", "С неисчисляемыми в общем смысле", "Water is wet. Love is important."],
+        ["— (нулевой)", "С едой в общем смысле", "I like pizza. (вообще)"],
+        ["— (нулевой)", "С видами спорта", "I play football."],
+        ["— (нулевой)", "С учебными предметами", "I study Maths."],
+        ["the", "С уникальными вещами", "the sun, the moon, the world"],
+        ["the", "С названиями морей/океанов/рек", "the Atlantic Ocean, the Thames"],
+        ["the", "С названиями групп островов/гор", "the Bahamas, the Alps"],
+        ["— (нулевой)", "С названиями озёр", "Lake Baikal"],
+        ["— (нулевой)", "С названиями гор", "Mount Everest"]
+      ]
+    },
+    "questions": [
+      {"q": "_____ Mount Everest is the highest peak in the world.", "options": ["The", "A", "– (нулевой артикль)"], "answer": 2},
+      {"q": "_____ happiness is more important than money.", "options": ["The", "A", "–"], "answer": 2},
+      {"q": "She has _____ MBA from Harvard.", "options": ["an", "a", "–"], "answer": 0},
+      {"q": "We visited _____ Netherlands last summer.", "options": ["–", "the", "a"], "answer": 1},
+      {"q": "_____ poor need more support from the government.", "options": ["–", "The", "A"], "answer": 1},
+      {"q": "He plays _____ piano beautifully.", "options": ["–", "the", "a"], "answer": 1},
+      {"q": "I saw _____ dog in the park. _____ dog was chasing a ball.", "options": ["a / The", "a / A", "the / A"], "answer": 0},
+      {"q": "_____ Lake Baikal is in Siberia.", "options": ["The", "–", "A"], "answer": 1}
+    ]
+  },
+  "Предлоги (углублённо: despite, in spite of, due to)": {
+    "explanation": {
+      "headers": ["Предлог", "Значение", "Формула", "Пример"],
+      "rows": [
+        ["despite", "Несмотря на", "despite + сущ./Ving", "Despite the rain, we went for a walk."],
+        ["in spite of", "Несмотря на", "in spite of + сущ./Ving", "In spite of the rain, we went for a walk."],
+        ["due to", "Из-за (причина)", "due to + сущ.", "The flight was cancelled due to bad weather."],
+        ["according to", "Согласно", "according to + сущ.", "According to the report, sales have increased."],
+        ["because of", "Из-за", "because of + сущ.", "We stayed home because of the rain."],
+        ["although", "Хотя (союз + предложение)", "although + подл. + сказ.", "Although it rained, we went for a walk."]
+      ]
+    },
+    "questions": [
+      {"q": "_____ the rain, we went for a walk.", "options": ["Despite", "Due to", "According to"], "answer": 0},
+      {"q": "The flight was cancelled _____ bad weather.", "options": ["despite", "in spite of", "due to"], "answer": 2},
+      {"q": "_____ the report, sales have increased.", "options": ["Despite", "According to", "Due to"], "answer": 1},
+      {"q": "She got the job _____ her lack of experience.", "options": ["in spite of", "due to", "according to"], "answer": 0},
+      {"q": "_____ the heavy traffic, we arrived on time.", "options": ["Despite", "Due to", "According to"], "answer": 0},
+      {"q": "The event was postponed _____ the strike.", "options": ["in spite of", "due to", "according to"], "answer": 1},
+      {"q": "_____ his doctor, he should rest more.", "options": ["In spite of", "According to", "Due to"], "answer": 1},
+      {"q": "He passed the exam _____ not studying much.", "options": ["due to", "in spite of", "according to"], "answer": 1}
+    ]
+  },
+  "Фразовые глаголы (get up, turn on, look for, give up)": {
+    "explanation": {
+      "headers": ["Глагол", "Значение", "Пример"],
+      "rows": [
+        ["get up", "вставать", "I get up at 7 am."],
+        ["turn on", "включать", "Can you turn on the light?"],
+        ["turn off", "выключать", "Turn off the TV."],
+        ["look for", "искать", "I'm looking for my keys."],
+        ["give up", "сдаваться / бросать", "Don't give up! He gave up smoking."],
+        ["run out of", "заканчиваться", "We've run out of milk."],
+        ["look after", "присматривать", "She looks after her younger brother."],
+        ["look forward to", "с нетерпением ждать", "I look forward to seeing you."],
+        ["take off", "снимать (одежду)", "Take off your coat."],
+        ["put on", "надевать", "Put on your hat."],
+        ["turn up", "появляться", "He turned up late."],
+        ["find out", "выяснить", "I need to find out the truth."]
+      ]
+    },
+    "questions": [
+      {"q": "I usually _____ at 7 a.m.", "options": ["get up", "turn on", "give up"], "answer": 0},
+      {"q": "Can you _____ the light? It's dark in here.", "options": ["get up", "turn on", "run out of"], "answer": 1},
+      {"q": "She is _____ her keys. She can't find them.", "options": ["giving up", "running out of", "looking for"], "answer": 2},
+      {"q": "Don't _____! Keep trying and you'll succeed.", "options": ["give up", "get up", "turn on"], "answer": 0},
+      {"q": "We've _____ milk. Can you buy some?", "options": ["looked for", "run out of", "turned on"], "answer": 1},
+      {"q": "He finally _____ smoking after 20 years.", "options": ["got up", "turned on", "gave up"], "answer": 2},
+      {"q": "What time did you _____ this morning?", "options": ["give up", "get up", "run out of"], "answer": 1},
+      {"q": "I'm _____ a new job at the moment.", "options": ["running out of", "looking for", "giving up"], "answer": 1}
+    ]
+  },
+  "Инверсия (Never have I seen…)": {
+    "explanation": {
+      "headers": ["Конструкция", "Значение", "Пример"],
+      "rows": [
+        ["Never + have/has + подл. + V3", "Никогда... (эмоционально)", "Never have I seen such a beautiful sunset."],
+        ["Not only + всп. гл. + подл. + гл.", "Не только... но и...", "Not only did he arrive late, but he also forgot the report."],
+        ["Rarely + всп. гл. + подл. + гл.", "Редко...", "Rarely have we had so much rain in July."],
+        ["Under no circumstances + всп. гл. + подл. + гл.", "Ни при каких обстоятельствах...", "Under no circumstances should you enter the building."],
+        ["Hardly + had + подл. + V3", "Едва... как...", "Hardly had I entered the room when the phone rang."],
+        ["So + прил. + be + подл.", "Настолько..., что...", "So exhausted was she that she fell asleep immediately."],
+        ["Only after + сущ./предложение + всп. гл.", "Только после...", "Only after the meeting did I learn the truth."]
+      ]
+    },
+    "questions": [
+      {"q": "Never _____ such a beautiful sunset.", "options": ["I have seen", "have I seen", "did I saw"], "answer": 1},
+      {"q": "Not only _____ late, but he also forgot the report.", "options": ["did he arrive", "he arrived", "he did arrive"], "answer": 0},
+      {"q": "Rarely _____ so much rain in July.", "options": ["we have had", "have we had", "had we have"], "answer": 1},
+      {"q": "Under no circumstances _____ the building during an alarm.", "options": ["you should enter", "should you enter", "you enter"], "answer": 1},
+      {"q": "Hardly _____ the room when the phone rang.", "options": ["had I entered", "I had entered", "did I entered"], "answer": 0},
+      {"q": "Little _____ that he would become famous one day.", "options": ["did she know", "she knew", "knew she"], "answer": 0},
+      {"q": "So exhausted _____ that she fell asleep immediately.", "options": ["was she", "she was", "did she"], "answer": 0},
+      {"q": "Only after the meeting _____ the truth.", "options": ["did I learn", "I learned", "I did learn"], "answer": 0}
+    ]
+  }
+}
