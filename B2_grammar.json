@@ -1,0 +1,242 @@
+{
+  "Все времена (активный и пассивный залог)": {
+    "explanation": {
+      "headers": ["Время", "Актив", "Пассив", "Пример (Актив → Пассив)"],
+      "rows": [
+        ["Present Simple", "V1 / V-s", "am/is/are + V3", "They build houses → Houses are built."],
+        ["Present Continuous", "am/is/are + Ving", "am/is/are + being + V3", "They are building a house → A house is being built."],
+        ["Past Simple", "V2 / Ved", "was/were + V3", "They built a house → A house was built."],
+        ["Past Continuous", "was/were + Ving", "was/were + being + V3", "They were building a house → A house was being built."],
+        ["Present Perfect", "have/has + V3", "have/has + been + V3", "They have built a house → A house has been built."],
+        ["Past Perfect", "had + V3", "had + been + V3", "They had built a house → A house had been built."],
+        ["Future Simple", "will + V1", "will + be + V3", "They will build a house → A house will be built."],
+        ["Future Perfect", "will have + V3", "will have + been + V3", "They will have built a house → A house will have been built."],
+        ["Modals", "can/must + V1", "can/must + be + V3", "They must build a house → A house must be built."],
+        ["Perfect Modals", "must have + V3", "must have + been + V3", "They must have built a house → A house must have been built."]
+      ]
+    },
+    "questions": [
+      {"q": "The new bridge _____ at the moment.", "options": ["is building", "is being built", "built"], "answer": 1},
+      {"q": "By the time we arrive, the dinner _____.", "options": ["will have been cooked", "will be cooked", "is cooked"], "answer": 0},
+      {"q": "This problem _____ yesterday before the boss came.", "options": ["had been solved", "was solved", "has been solved"], "answer": 0},
+      {"q": "These documents _____ yet. Please wait.", "options": ["haven't been signed", "weren't signed", "aren't signed"], "answer": 0},
+      {"q": "The exhibition _____ by the time we got there.", "options": ["has already been opened", "had already been opened", "was already opened"], "answer": 1},
+      {"q": "All the food _____ by the end of the party.", "options": ["will have been eaten", "will be eaten", "is eaten"], "answer": 0},
+      {"q": "The house _____ for two years, but nobody lives there.", "options": ["has been built", "had been built", "was built"], "answer": 0},
+      {"q": "The car _____ to the garage now.", "options": ["is being taken", "is taken", "was taken"], "answer": 0}
+    ]
+  },
+  "Все условные предложения (смешанные типы)": {
+    "explanation": {
+      "headers": ["Тип", "Значение", "Формула", "Пример"],
+      "rows": [
+        ["Zero (0)", "Всегда правда (законы природы)", "If + P.S., P.S.", "If you heat water, it boils."],
+        ["First (1)", "Реальное будущее (вероятно)", "If + P.S., will + V1", "If it rains, I will stay home."],
+        ["Second (2)", "Нереальное настоящее (гипотеза)", "If + P.S., would + V1", "If I were a bird, I would fly."],
+        ["Third (3)", "Нереальное прошлое (сожаление)", "If + P.P., would have + V3", "If I had known, I would have come."],
+        ["Mixed (2+3)", "Условие в прошлом → результат в настоящем", "If + P.P., would + V1", "If I had taken that job, I would be rich now."],
+        ["Mixed (3+2)", "Условие в настоящем → результат в прошлом", "If + P.S., would have + V3", "If I weren't so lazy, I would have finished it yesterday."]
+      ]
+    },
+    "questions": [
+      {"q": "If I _____ you, I would accept the offer.", "options": ["am", "were", "had been"], "answer": 1},
+      {"q": "If she _____ harder, she would have passed the exam.", "options": ["studied", "had studied", "would study"], "answer": 1},
+      {"q": "If I hadn't missed the bus, I _____ late for work now.", "options": ["wouldn't be", "wouldn't have been", "am not"], "answer": 0},
+      {"q": "He would be a millionaire now if he _____ that company.", "options": ["invested in", "had invested in", "would invest in"], "answer": 1},
+      {"q": "If I _____ so tired, I would have helped you yesterday.", "options": ["weren't", "hadn't been", "wasn't"], "answer": 1},
+      {"q": "If you heat ice, it _____.", "options": ["melts", "would melt", "melted"], "answer": 0},
+      {"q": "If I _____ her, I will tell her the news.", "options": ["saw", "see", "had seen"], "answer": 1},
+      {"q": "If she _____ the map, they wouldn't have got lost.", "options": ["had used", "used", "would use"], "answer": 0}
+    ]
+  },
+  "Сослагательное наклонение после suggest, recommend, insist": {
+    "explanation": {
+      "headers": ["Глагол", "Формула", "Пример"],
+      "rows": [
+        ["suggest", "suggest + that + подл. + (should) + V1", "I suggest that he (should) see a doctor."],
+        ["recommend", "recommend + that + подл. + (should) + V1", "I recommend that she (should) apply for the job."],
+        ["insist", "insist + that + подл. + (should) + V1", "She insists that he (should) be present."],
+        ["", "Можно без 'that'", "I suggest he see a doctor."],
+        ["", "В неформальной речи можно 'should'", "I suggest that he should see a doctor."],
+        ["", "После suggest/recommend можно + Ving", "I suggest seeing a doctor."]
+      ]
+    },
+    "questions": [
+      {"q": "I suggest that he _____ a doctor.", "options": ["sees", "see", "saw"], "answer": 1},
+      {"q": "She insists that we _____ early.", "options": ["arrive", "arrives", "arrived"], "answer": 0},
+      {"q": "I recommend that she _____ for the job.", "options": ["applies", "apply", "applied"], "answer": 1},
+      {"q": "The doctor suggested that I _____ more exercise.", "options": ["do", "did", "does"], "answer": 0},
+      {"q": "My boss insists that the report _____ by Friday.", "options": ["is finished", "be finished", "was finished"], "answer": 1},
+      {"q": "I suggest _____ to the cinema tonight.", "options": ["go", "to go", "going"], "answer": 2},
+      {"q": "She recommended _____ early.", "options": ["to leave", "leaving", "leave"], "answer": 1},
+      {"q": "They insisted that we _____ them for dinner.", "options": ["join", "joined", "would join"], "answer": 0}
+    ]
+  },
+  "Модальные глаголы для выражения предположений": {
+    "explanation": {
+      "headers": ["Глагол", "Вероятность", "Пример (настоящее)", "Пример (прошлое)"],
+      "rows": [
+        ["must", "95% (уверен)", "He must be at home.", "He must have left."],
+        ["can't", "95% (уверен, что НЕ)", "He can't be at home.", "He can't have left."],
+        ["may", "50% (возможно)", "He may be at home.", "He may have left."],
+        ["might", "30% (менее вероятно)", "He might be at home.", "He might have left."],
+        ["could", "70% (возможно)", "He could be at home.", "He could have left."],
+        ["should", "90% (ожидание)", "He should be at home by now.", "He should have arrived by now."]
+      ]
+    },
+    "questions": [
+      {"q": "His room is dark. He _____ at home.", "options": ["mustn't be", "can't be", "mightn't be"], "answer": 1},
+      {"q": "She's been studying all night. She _____ tired.", "options": ["must be", "can be", "should be"], "answer": 0},
+      {"q": "The phone is ringing. It _____ John — he said he'd call.", "options": ["might be", "must be", "can't be"], "answer": 1},
+      {"q": "I'm not sure, but I _____ come to the party.", "options": ["must", "might", "should"], "answer": 1},
+      {"q": "The cake is gone. The kids _____ it.", "options": ["must have eaten", "might have eaten", "should have eaten"], "answer": 0},
+      {"q": "She _____ the message — she never checks her emails.", "options": ["must not have seen", "might not have seen", "couldn't have seen"], "answer": 0},
+      {"q": "He said he would be here by 6. He _____ at any minute.", "options": ["must arrive", "should arrive", "could arrive"], "answer": 1},
+      {"q": "The train is delayed. It _____ due to the weather.", "options": ["could be", "must be", "should be"], "answer": 0}
+    ]
+  },
+  "Инверсия в условных предложениях (Had I known…)": {
+    "explanation": {
+      "headers": ["Тип", "Обычный вариант", "Инверсия", "Пример"],
+      "rows": [
+        ["Type 3 (прошлое)", "If I had known...", "Had I known...", "Had I known, I would have come."],
+        ["Type 2 (настоящее)", "If I were...", "Were I...", "Were I you, I would accept."],
+        ["Type 1 (будущее)", "If you should need...", "Should you need...", "Should you need help, call me."],
+        ["Type 3 (прошлое)", "If she had studied...", "Had she studied...", "Had she studied, she would have passed."]
+      ]
+    },
+    "questions": [
+      {"q": "_____ I known, I would have come.", "options": ["If", "Had", "Should"], "answer": 1},
+      {"q": "_____ I you, I would accept the offer.", "options": ["If", "Were", "Had"], "answer": 1},
+      {"q": "_____ she studied harder, she would have passed.", "options": ["If", "Had", "Should"], "answer": 1},
+      {"q": "_____ you need any help, just call me.", "options": ["Had", "Were", "Should"], "answer": 2},
+      {"q": "_____ we arrived earlier, we would have seen him.", "options": ["Had", "If", "Should"], "answer": 0},
+      {"q": "_____ I taller, I would play basketball.", "options": ["Were", "Had", "Should"], "answer": 0},
+      {"q": "_____ I seen her, I would have told her.", "options": ["Were", "Had", "Should"], "answer": 1},
+      {"q": "_____ he call, tell him I'm busy.", "options": ["Had", "Were", "Should"], "answer": 2}
+    ]
+  },
+  "Эмфатические конструкции (It is … that… / What … is…)": {
+    "explanation": {
+      "headers": ["Конструкция", "Когда используем", "Пример"],
+      "rows": [
+        ["It is/was + N + that/who", "Выделяем подлежащее", "It was John who called you."],
+        ["It is/was + N + that", "Выделяем объект", "It was the money that I needed."],
+        ["It is/was + обстоятельство + that", "Выделяем обстоятельство", "It was yesterday that I saw her."],
+        ["What + подл. + V + is + N", "Выделяем объект (эмфаза)", "What I need is a break."],
+        ["What + подл. + V + is to + V", "Выделяем цель", "What I want is to sleep."],
+        ["All + подл. + V + is + N", "Выделяем единственное", "All I want is a cup of coffee."]
+      ]
+    },
+    "questions": [
+      {"q": "It was John _____ called you.", "options": ["which", "who", "whom"], "answer": 1},
+      {"q": "It was the money _____ I needed.", "options": ["who", "which", "whom"], "answer": 1},
+      {"q": "It was yesterday _____ I saw her.", "options": ["when", "that", "which"], "answer": 1},
+      {"q": "What I need _____ a break.", "options": ["is", "are", "was"], "answer": 0},
+      {"q": "What I want _____ to sleep.", "options": ["is", "are", "was"], "answer": 0},
+      {"q": "All I want _____ a cup of coffee.", "options": ["is", "are", "was"], "answer": 0},
+      {"q": "It was the teacher _____ helped me.", "options": ["which", "who", "whom"], "answer": 1},
+      {"q": "What she does _____ to help others.", "options": ["is", "are", "was"], "answer": 0}
+    ]
+  },
+  "Сложные союзы (nonetheless, whereas, thereby, hence)": {
+    "explanation": {
+      "headers": ["Союз", "Значение", "Пример"],
+      "rows": [
+        ["nonetheless", "тем не менее (формально)", "The weather was terrible. Nonetheless, we went for a walk."],
+        ["whereas", "в то время как (контраст)", "He is rich, whereas his brother is poor."],
+        ["thereby", "тем самым (результат)", "She studied hard, thereby passing the exam."],
+        ["hence", "следовательно (вывод)", "He was late, hence the delay."],
+        ["thus", "таким образом (результат)", "The plan failed, thus we had to start again."],
+        ["nevertheless", "тем не менее", "It was raining. Nevertheless, we went out."],
+        ["furthermore", "более того", "The idea is good. Furthermore, it's cheap."]
+      ]
+    },
+    "questions": [
+      {"q": "The weather was terrible. _____, we went for a walk.", "options": ["Nonetheless", "Whereas", "Hence"], "answer": 0},
+      {"q": "He is rich, _____ his brother is poor.", "options": ["nonetheless", "whereas", "hence"], "answer": 1},
+      {"q": "She studied hard, _____ passing the exam.", "options": ["thereby", "whereas", "hence"], "answer": 0},
+      {"q": "He was late, _____ the delay.", "options": ["thereby", "whereas", "hence"], "answer": 2},
+      {"q": "The plan failed, _____ we had to start again.", "options": ["nonetheless", "whereas", "thus"], "answer": 2},
+      {"q": "It was raining. _____, we went out.", "options": ["Nevertheless", "Whereas", "Hence"], "answer": 0},
+      {"q": "The idea is good. _____, it's cheap.", "options": ["Nonetheless", "Furthermore", "Hence"], "answer": 1},
+      {"q": "He's very busy; _____, he always finds time for his family.", "options": ["nonetheless", "whereas", "hence"], "answer": 0}
+    ]
+  },
+  "Фразовые глаголы (углублённо, с несколькими значениями)": {
+    "explanation": {
+      "headers": ["Глагол", "Значение 1", "Значение 2", "Примеры"],
+      "rows": [
+        ["take off", "снимать (одежду)", "взлетать", "Take off your coat. The plane took off."],
+        ["put on", "надевать", "ставить (пьесу)", "Put on your hat. They put on a play."],
+        ["go through", "просматривать", "переживать", "Go through the documents. She's going through a hard time."],
+        ["get over", "пережить", "переболеть", "She got over the breakup. I need to get over my cold."],
+        ["turn out", "оказаться", "выйти (результат)", "It turned out to be a lie. The cake turned out well."],
+        ["bring up", "воспитывать", "поднимать (тему)", "She brought up three children. Why did you bring that up?"],
+        ["come across", "наткнуться", "производить впечатление", "I came across an old photo. She comes across as shy."],
+        ["break down", "сломаться", "потерять контроль", "My car broke down. She broke down in tears."]
+      ]
+    },
+    "questions": [
+      {"q": "The plane _____ at 7 am.", "options": ["took off", "put on", "got over"], "answer": 0},
+      {"q": "She _____ three children alone.", "options": ["brought up", "came across", "broke down"], "answer": 0},
+      {"q": "I _____ an old photo while cleaning.", "options": ["came across", "went through", "took off"], "answer": 0},
+      {"q": "She _____ in tears when she heard the news.", "options": ["broke down", "got over", "came across"], "answer": 0},
+      {"q": "My car _____ on the highway.", "options": ["went through", "broke down", "took off"], "answer": 1},
+      {"q": "It _____ to be a mistake.", "options": ["turned out", "came across", "got over"], "answer": 0},
+      {"q": "Why did you _____ that topic?", "options": ["bring up", "get over", "go through"], "answer": 0},
+      {"q": "She _____ as very confident.", "options": ["comes across", "breaks down", "turns out"], "answer": 0}
+    ]
+  },
+  "Сложные герундиальные и инфинитивные обороты": {
+    "explanation": {
+      "headers": ["Конструкция", "Формула", "Пример"],
+      "rows": [
+        ["Complex Object (сложное дополнение)", "want/expect + подл. + to + V1", "I want you to help me."],
+        ["Complex Object (с чувствами)", "like/love/hate + подл. + to + V1", "I hate him to be late."],
+        ["Сложное подлежащее", "It is + прил. + for + подл. + to + V1", "It is important for you to study."],
+        ["Герундий с предлогом", "preposition + Ving", "He is good at running."],
+        ["Perfect Infinitive", "to have + V3", "She seems to have forgotten."],
+        ["Passive Infinitive", "to be + V3", "He wants to be hired."],
+        ["Perfect Gerund", "having + V3", "He admitted having lied."],
+        ["Passive Gerund", "being + V3", "He hates being told what to do."]
+      ]
+    },
+    "questions": [
+      {"q": "I want you _____ me.", "options": ["help", "to help", "helping"], "answer": 1},
+      {"q": "She seems _____ the keys.", "options": ["to lose", "to have lost", "losing"], "answer": 1},
+      {"q": "He admitted _____ the money.", "options": ["to steal", "having stolen", "stealing"], "answer": 1},
+      {"q": "It is important for you _____.", "options": ["study", "to study", "studying"], "answer": 1},
+      {"q": "He is good at _____.", "options": ["run", "to run", "running"], "answer": 2},
+      {"q": "She hates _____ what to do.", "options": ["to tell", "telling", "being told"], "answer": 2},
+      {"q": "He wants _____ for the job.", "options": ["hire", "to be hired", "hiring"], "answer": 1},
+      {"q": "I like you _____ honest.", "options": ["to be", "being", "be"], "answer": 0}
+    ]
+  },
+  "Пунктуация и стилистика": {
+    "explanation": {
+      "headers": ["Правило", "Пример правильного", "Пример НЕПРАВИЛЬНОГО"],
+      "rows": [
+        ["Запятая перед союзом в сложном предложении", "I like tea, but I prefer coffee.", "I like tea but I prefer coffee."],
+        ["Запятая после вводного слова", "However, I agree with you.", "However I agree with you."],
+        ["Запятая в придаточных определительных", "My brother, who lives in London, is a doctor.", "My brother who lives in London is a doctor."],
+        ["Точка с запятой", "I love coffee; it keeps me awake.", "I love coffee, it keeps me awake."],
+        ["Двоеточие перед списком", "I need: milk, eggs, bread.", "I need milk, eggs, bread."],
+        ["Апостроф для принадлежности", "John's car", "Johns car"],
+        ["Апостроф для сокращений", "It's raining = It is raining", "Its raining"],
+        ["Восклицательный знак (не злоупотреблять!)", "What a beautiful day!", "I need to buy milk!"],
+        ["Вопросительный знак", "Are you coming?", "Are you coming."]
+      ]
+    },
+    "questions": [
+      {"q": "I like tea _____ I prefer coffee.", "options": [", but", "but", "; but"], "answer": 0},
+      {"q": "_____ I agree with you.", "options": ["However,", "However", ", However"], "answer": 0},
+      {"q": "My brother _____ who lives in London _____ is a doctor.", "options": [", ... ,", "…", " — ... — "], "answer": 0},
+      {"q": "I love coffee _____ it keeps me awake.", "options": [";", ",", ":"], "answer": 0},
+      {"q": "It's raining = _____ raining.", "options": ["It is", "Its", "It has"], "answer": 0},
+      {"q": "John's car = the car of _____", "options": ["John", "Johns", "John'"], "answer": 0},
+      {"q": "What a beautiful day _____", "options": [".", "!", "?"], "answer": 1},
+      {"q": "Are you coming _____", "options": [".", "!", "?"], "answer": 2}
+    ]
+  }
+}
