@@ -5,6 +5,8 @@ import os
 import json
 import matplotlib.pyplot as plt
 import io
+import hashlib  # для хэширования паролей
+import re
 
 TOKEN = "8681728801:AAFNkjp2eeIZ3KYEOnpXgIu3IowwERXSEWM"
 DB_PATH = "/data/english.db"
@@ -22,13 +24,11 @@ def load_all_tests():
         "B2 (Upper-Intermediate)": "B2"
     }
     
-    # Путь к папке с ботом (где лежит solowayenglish.py)
     base_path = os.path.dirname(__file__)
     
     for level_name, level_key in level_map.items():
         TESTS[level_name] = {}
         
-        # Загружаем грамматику
         grammar_file = os.path.join(base_path, f"{level_key}_grammar.json")
         if os.path.exists(grammar_file):
             try:
@@ -43,7 +43,6 @@ def load_all_tests():
             print(f"⚠️ Файл не найден: {grammar_file}")
             TESTS[level_name]["Грамматика"] = {}
         
-        # Загружаем лексику
         vocabulary_file = os.path.join(base_path, f"{level_key}_vocabulary.json")
         if os.path.exists(vocabulary_file):
             try:
@@ -60,11 +59,9 @@ def load_all_tests():
     
     return TESTS
 
-# Загружаем все тесты
 print("📂 Загрузка JSON файлов...")
 TESTS = load_all_tests()
 
-# Проверка загрузки
 print("\n📊 Загруженные данные:")
 for level in TESTS:
     print(f"  📚 {level}:")
@@ -220,23 +217,83 @@ TOPICS = {
     }
 }
 
-ALLOWED_USERS = {
-    "Соловей": "2011",
-}
-
-# ===== ФУНКЦИИ =====
+# ===== БАЗА ДАННЫХ =====
 
 def init_db():
     try:
         os.makedirs("/data", exist_ok=True)
     except:
         pass
+    
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
-    c.execute("""CREATE TABLE IF NOT EXISTS progress (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, level TEXT, category TEXT, topic TEXT, done INTEGER DEFAULT 0, UNIQUE(user_id, level, topic))""")
-    c.execute("""CREATE TABLE IF NOT EXISTS test_results (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, level TEXT, category TEXT, topic TEXT, score INTEGER, total INTEGER, date TEXT)""")
+    
+    # Таблица пользователей
+    c.execute("""CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL,
+        is_admin INTEGER DEFAULT 0
+    )""")
+    
+    # Таблица прогресса
+    c.execute("""CREATE TABLE IF NOT EXISTS progress (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        level TEXT,
+        category TEXT,
+        topic TEXT,
+        done INTEGER DEFAULT 0,
+        UNIQUE(user_id, level, topic)
+    )""")
+    
+    # Таблица результатов тестов
+    c.execute("""CREATE TABLE IF NOT EXISTS test_results (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        level TEXT,
+        category TEXT,
+        topic TEXT,
+        score INTEGER,
+        total INTEGER,
+        date TEXT
+    )""")
+    
+    # Создаём админа, если его нет
+    c.execute("SELECT * FROM users WHERE username = 'admin'")
+    if not c.fetchone():
+        admin_password = hashlib.sha256("admin123".encode()).hexdigest()
+        c.execute("INSERT INTO users (username, password, is_admin) VALUES (?, ?, ?)", 
+                  ("admin", admin_password, 1))
+        print("✅ Создан аккаунт администратора (логин: admin, пароль: admin123)")
+    
     conn.commit()
     conn.close()
+
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
+def get_user(username):
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute("SELECT id, username, password, is_admin FROM users WHERE username = ?", (username,))
+    user = c.fetchone()
+    conn.close()
+    return user
+
+def create_user(username, password):
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        hashed = hash_password(password)
+        c.execute("INSERT INTO users (username, password, is_admin) VALUES (?, ?, 0)", 
+                  (username, hashed))
+        user_id = c.lastrowid
+        conn.commit()
+        conn.close()
+        return user_id
+    except sqlite3.IntegrityError:
+        return None
 
 def get_progress(user_id, level):
     conn = sqlite3.connect(DB_PATH)
@@ -249,14 +306,17 @@ def get_progress(user_id, level):
 def toggle_topic(user_id, level, category, topic):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
-    c.execute("SELECT done FROM progress WHERE user_id = ? AND level = ? AND topic = ?", (user_id, level, topic))
+    c.execute("SELECT done FROM progress WHERE user_id = ? AND level = ? AND topic = ?", 
+              (user_id, level, topic))
     row = c.fetchone()
     if row:
         new_status = 0 if row[0] else 1
-        c.execute("UPDATE progress SET done = ? WHERE user_id = ? AND level = ? AND topic = ?", (new_status, user_id, level, topic))
+        c.execute("UPDATE progress SET done = ? WHERE user_id = ? AND level = ? AND topic = ?", 
+                  (new_status, user_id, level, topic))
     else:
         new_status = 1
-        c.execute("INSERT INTO progress (user_id, level, category, topic, done) VALUES (?, ?, ?, ?, ?)", (user_id, level, category, topic, 1))
+        c.execute("INSERT INTO progress (user_id, level, category, topic, done) VALUES (?, ?, ?, ?, ?)", 
+                  (user_id, level, category, topic, 1))
     conn.commit()
     conn.close()
     return new_status
@@ -264,12 +324,14 @@ def toggle_topic(user_id, level, category, topic):
 def save_test_result(user_id, level, category, topic, score, total):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
-    c.execute("INSERT INTO test_results (user_id, level, category, topic, score, total, date) VALUES (?, ?, ?, ?, ?, ?, datetime('now'))", (user_id, level, category, topic, score, total))
+    c.execute("INSERT INTO test_results (user_id, level, category, topic, score, total, date) VALUES (?, ?, ?, ?, ?, ?, datetime('now'))", 
+              (user_id, level, category, topic, score, total))
     conn.commit()
     conn.close()
 
+# ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
+
 def has_test(level, topic):
-    """Проверяет, есть ли тест для данной темы"""
     try:
         if level not in TESTS:
             return False
@@ -277,12 +339,11 @@ def has_test(level, topic):
             if topic in TESTS[level][cat]:
                 if "questions" in TESTS[level][cat][topic]:
                     return True
-    except Exception as e:
-        print(f"❌ Ошибка в has_test: {e}")
+    except:
+        pass
     return False
 
 def find_topic_index(level, category, topic_name):
-    """Находит индекс темы в списке"""
     if level in TOPICS and category in TOPICS[level]:
         topics = TOPICS[level][category]
         for idx, topic in enumerate(topics):
@@ -314,110 +375,159 @@ def generate_table_image(headers, rows, topic):
     plt.close()
     return buf
 
-async def show_explanation(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
-    """Показывает таблицу с теорией"""
-    topics = TOPICS[level][category]
-    topic = topics[int(idx)]
-    expl_data = None
-    try:
-        if level in TESTS:
-            for cat in TESTS[level]:
-                if topic in TESTS[level][cat]:
-                    expl = TESTS[level][cat][topic].get("explanation")
-                    if expl and isinstance(expl, dict):
-                        expl_data = expl
-                        break
-    except Exception as e:
-        print(f"❌ Ошибка в show_explanation: {e}")
-    
-    if not expl_data:
-        await update.callback_query.answer("❌ Теория пока не добавлена", show_alert=True)
-        return
-    
-    buf = generate_table_image(expl_data["headers"], expl_data["rows"], topic)
-    keyboard = [[InlineKeyboardButton("🔙 К теме", callback_data=f"topic_{level}|{category}|{idx}")]]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    try:
-        await update.callback_query.message.delete()
-    except:
-        pass
-    await update.effective_chat.send_photo(photo=buf, caption=f"📖 {topic}", reply_markup=reply_markup)
-
-async def show_vocabulary(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
-    """Показывает таблицу со словами"""
-    topics = TOPICS[level][category]
-    topic = topics[int(idx)]
-    vocab_data = None
-    try:
-        if level in TESTS:
-            for cat in TESTS[level]:
-                if topic in TESTS[level][cat]:
-                    vocab = TESTS[level][cat][topic].get("vocabulary")
-                    if vocab:
-                        vocab_data = vocab
-                        break
-    except Exception as e:
-        print(f"❌ Ошибка в show_vocabulary: {e}")
-    
-    if not vocab_data:
-        await update.callback_query.answer("❌ Словарь пока не добавлен", show_alert=True)
-        return
-    
-    # Проверяем, словарь это массив или объект
-    if isinstance(vocab_data, list):
-        # Если массив - показываем все таблицы
-        for i, table in enumerate(vocab_data):
-            buf = generate_table_image(table["headers"], table["rows"], f"{topic} (часть {i+1})")
-            try:
-                if i == 0:
-                    await update.callback_query.message.delete()
-            except:
-                pass
-            await update.effective_chat.send_photo(
-                photo=buf, 
-                caption=f"📚 {topic} - Словарь" if i == 0 else "",
-                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 К теме", callback_data=f"topic_{level}|{category}|{idx}")]]) if i == len(vocab_data) - 1 else None
-            )
-    else:
-        # Если один объект
-        buf = generate_table_image(vocab_data["headers"], vocab_data["rows"], f"📚 {topic}")
-        try:
-            await update.callback_query.message.delete()
-        except:
-            pass
-        await update.effective_chat.send_photo(
-            photo=buf, 
-            caption=f"📚 {topic} - Словарь",
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 К теме", callback_data=f"topic_{level}|{category}|{idx}")]])
-        )
+# ===== ОСНОВНЫЕ ОБРАБОТЧИКИ =====
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if "authenticated" not in context.user_data:
-        await update.message.reply_text("🔐 Привет! Введи свой ник:")
-        context.user_data["awaiting_username"] = True
-        return
-    await show_levels(update, context)
+    """Стартовое меню — вход или регистрация"""
+    keyboard = [
+        [InlineKeyboardButton("🔑 Войти", callback_data="login")],
+        [InlineKeyboardButton("📝 Зарегистрироваться", callback_data="register")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    await update.message.reply_text(
+        "👋 *Добро пожаловать в Soloway English Tracker!*\n\n"
+        "У тебя уже есть аккаунт? Войди или зарегистрируйся!",
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
+
+async def show_login(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+    await query.edit_message_text(
+        "🔑 *Вход*\n\n"
+        "Введи свой *логин* (первым сообщением) и *пароль* (вторым сообщением).\n\n"
+        "Пример:\n"
+        "`username`\n"
+        "`password`",
+        parse_mode="Markdown"
+    )
+    context.user_data["awaiting_login"] = True
+
+async def show_register(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+    await query.edit_message_text(
+        "📝 *Регистрация*\n\n"
+        "Придумай *логин* и *пароль*.\n\n"
+        "Логин должен содержать только буквы и цифры (мин. 3 символа).\n"
+        "Пароль — минимум 4 символа.\n\n"
+        "Введи их в двух сообщениях:\n"
+        "1. *Логин*\n"
+        "2. *Пароль*",
+        parse_mode="Markdown"
+    )
+    context.user_data["awaiting_register"] = True
+
+async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = update.effective_user.id
+    text = update.message.text.strip()
+    
+    # Вход
+    if context.user_data.get("awaiting_login"):
+        if not context.user_data.get("login_username"):
+            context.user_data["login_username"] = text
+            await update.message.reply_text("✅ Логин сохранён! Теперь введи пароль:")
+        else:
+            username = context.user_data.get("login_username")
+            password = text
+            user = get_user(username)
+            
+            if user and user[2] == hash_password(password):
+                context.user_data["authenticated"] = True
+                context.user_data["user_id"] = user[0]
+                context.user_data["username"] = user[1]
+                context.user_data["is_admin"] = user[3]
+                context.user_data.pop("awaiting_login", None)
+                context.user_data.pop("login_username", None)
+                
+                await update.message.reply_text(f"✅ Добро пожаловать, {username}! 🎉")
+                await show_levels(update, context)
+            else:
+                context.user_data.pop("awaiting_login", None)
+                context.user_data.pop("login_username", None)
+                await update.message.reply_text("❌ Неверный логин или пароль. Попробуй /start")
+    
+    # Регистрация
+    elif context.user_data.get("awaiting_register"):
+        if not context.user_data.get("reg_username"):
+            if re.match(r'^[a-zA-Z0-9_]{3,}$', text):
+                context.user_data["reg_username"] = text
+                await update.message.reply_text("✅ Логин подходит! Теперь введи пароль (мин. 4 символа):")
+            else:
+                await update.message.reply_text("❌ Логин должен содержать минимум 3 буквы или цифры. Попробуй ещё раз:")
+        else:
+            username = context.user_data.get("reg_username")
+            password = text
+            
+            if len(password) < 4:
+                await update.message.reply_text("❌ Пароль должен быть минимум 4 символа. Попробуй ещё раз:")
+                return
+            
+            new_user_id = create_user(username, password)
+            if new_user_id:
+                context.user_data["authenticated"] = True
+                context.user_data["user_id"] = new_user_id
+                context.user_data["username"] = username
+                context.user_data["is_admin"] = 0
+                context.user_data.pop("awaiting_register", None)
+                context.user_data.pop("reg_username", None)
+                
+                await update.message.reply_text(f"✅ Аккаунт создан! Добро пожаловать, {username}! 🎉")
+                await show_levels(update, context)
+            else:
+                context.user_data.pop("awaiting_register", None)
+                context.user_data.pop("reg_username", None)
+                await update.message.reply_text("❌ Пользователь с таким логином уже существует. Попробуй /start")
 
 async def show_levels(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает уровни"""
+    user_id = context.user_data.get("user_id")
+    if not user_id:
+        await start(update, context)
+        return
+    
     keyboard = [
         [InlineKeyboardButton("📚 A1 (Beginner)", callback_data="level_A1 (Beginner)")],
         [InlineKeyboardButton("📚 A2 (Elementary)", callback_data="level_A2 (Elementary)")],
         [InlineKeyboardButton("📚 B1 (Intermediate)", callback_data="level_B1 (Intermediate)")],
         [InlineKeyboardButton("📚 B2 (Upper-Intermediate)", callback_data="level_B2 (Upper-Intermediate)")],
         [InlineKeyboardButton("📊 Общий прогресс", callback_data="total_progress")],
+        [InlineKeyboardButton("🚪 Выйти", callback_data="logout")]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    text = "🎓 *Soloway English Tracker*\n\nВыбери уровень:"
-    if update.message:
-        await update.message.reply_text(text, reply_markup=reply_markup, parse_mode="Markdown")
-    else:
+    text = f"🎓 *Soloway English Tracker*\n\n👤 {context.user_data.get('username')}\n\nВыбери уровень:"
+    
+    if update.callback_query:
         await update.callback_query.edit_message_text(text, reply_markup=reply_markup, parse_mode="Markdown")
+    else:
+        await update.message.reply_text(text, reply_markup=reply_markup, parse_mode="Markdown")
+
+async def logout(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Выход из аккаунта"""
+    context.user_data.clear()
+    await update.callback_query.answer("🚪 Выход...")
+    keyboard = [
+        [InlineKeyboardButton("🔑 Войти", callback_data="login")],
+        [InlineKeyboardButton("📝 Зарегистрироваться", callback_data="register")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    await update.callback_query.edit_message_text(
+        "👋 Ты вышел из аккаунта.\n\nЧтобы продолжить, войди или зарегистрируйся:",
+        reply_markup=reply_markup
+    )
 
 async def show_categories(update: Update, context: ContextTypes.DEFAULT_TYPE, level):
+    """Показывает категории"""
+    user_id = context.user_data.get("user_id")
+    if not user_id:
+        await start(update, context)
+        return
+    
     categories = list(TOPICS[level].keys())
     keyboard = []
     for cat in categories:
-        progress = get_progress(update.effective_user.id, level)
+        progress = get_progress(user_id, level)
         total = len(TOPICS[level][cat])
         done = sum(1 for topic in TOPICS[level][cat] if progress.get(topic, 0))
         keyboard.append([InlineKeyboardButton(f"{cat} ({done}/{total})", callback_data=f"cat_{level}|{cat}")])
@@ -426,8 +536,14 @@ async def show_categories(update: Update, context: ContextTypes.DEFAULT_TYPE, le
     await update.callback_query.edit_message_text(f"📚 {level}\n\nВыбери категорию:", reply_markup=reply_markup)
 
 async def show_topics(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, page=0):
+    """Показывает темы"""
+    user_id = context.user_data.get("user_id")
+    if not user_id:
+        await start(update, context)
+        return
+    
     topics = TOPICS[level][category]
-    progress = get_progress(update.effective_user.id, level)
+    progress = get_progress(user_id, level)
     per_page = 8
     total_pages = (len(topics) + per_page - 1) // per_page
     if page < 0: page = 0
@@ -460,13 +576,17 @@ async def show_topics(update: Update, context: ContextTypes.DEFAULT_TYPE, level,
 
 async def show_topic_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
     """Показывает меню для конкретной темы"""
+    user_id = context.user_data.get("user_id")
+    if not user_id:
+        await start(update, context)
+        return
+    
     topics = TOPICS[level][category]
     topic = topics[int(idx)]
-    progress = get_progress(update.effective_user.id, level)
+    progress = get_progress(user_id, level)
     done = progress.get(topic, 0)
     status = "✅ Пройдена" if done else "⬜ Не пройдена"
     
-    # Проверяем наличие теории (для грамматики)
     has_expl = False
     try:
         if level in TESTS:
@@ -479,7 +599,6 @@ async def show_topic_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, le
     except:
         pass
     
-    # Проверяем наличие словаря (для лексики)
     has_vocab = False
     try:
         if level in TESTS:
@@ -508,8 +627,87 @@ async def show_topic_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, le
         reply_markup=reply_markup
     )
 
+async def show_explanation(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
+    """Показывает таблицу с теорией"""
+    topics = TOPICS[level][category]
+    topic = topics[int(idx)]
+    expl_data = None
+    try:
+        if level in TESTS:
+            for cat in TESTS[level]:
+                if topic in TESTS[level][cat]:
+                    expl = TESTS[level][cat][topic].get("explanation")
+                    if expl and isinstance(expl, dict):
+                        expl_data = expl
+                        break
+    except:
+        pass
+    
+    if not expl_data:
+        await update.callback_query.answer("❌ Теория пока не добавлена", show_alert=True)
+        return
+    
+    buf = generate_table_image(expl_data["headers"], expl_data["rows"], topic)
+    keyboard = [[InlineKeyboardButton("🔙 К теме", callback_data=f"topic_{level}|{category}|{idx}")]]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    try:
+        await update.callback_query.message.delete()
+    except:
+        pass
+    await update.effective_chat.send_photo(photo=buf, caption=f"📖 {topic}", reply_markup=reply_markup)
+
+async def show_vocabulary(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
+    """Показывает словарь"""
+    topics = TOPICS[level][category]
+    topic = topics[int(idx)]
+    vocab_data = None
+    try:
+        if level in TESTS:
+            for cat in TESTS[level]:
+                if topic in TESTS[level][cat]:
+                    vocab = TESTS[level][cat][topic].get("vocabulary")
+                    if vocab:
+                        vocab_data = vocab
+                        break
+    except:
+        pass
+    
+    if not vocab_data:
+        await update.callback_query.answer("❌ Словарь пока не добавлен", show_alert=True)
+        return
+    
+    if isinstance(vocab_data, list):
+        for i, table in enumerate(vocab_data):
+            buf = generate_table_image(table["headers"], table["rows"], f"{topic} (часть {i+1})")
+            try:
+                if i == 0:
+                    await update.callback_query.message.delete()
+            except:
+                pass
+            await update.effective_chat.send_photo(
+                photo=buf,
+                caption=f"📚 {topic} - Словарь" if i == 0 else "",
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 К теме", callback_data=f"topic_{level}|{category}|{idx}")]]) if i == len(vocab_data) - 1 else None
+            )
+    else:
+        buf = generate_table_image(vocab_data["headers"], vocab_data["rows"], f"📚 {topic}")
+        try:
+            await update.callback_query.message.delete()
+        except:
+            pass
+        await update.effective_chat.send_photo(
+            photo=buf,
+            caption=f"📚 {topic} - Словарь",
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 К теме", callback_data=f"topic_{level}|{category}|{idx}")]])
+        )
+
 async def start_test(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
-    """Запускает тест по теме"""
+    """Запускает тест"""
+    user_id = context.user_data.get("user_id")
+    if not user_id:
+        await start(update, context)
+        return
+    
     topics = TOPICS[level][category]
     topic = topics[int(idx)]
     test_data = None
@@ -520,8 +718,8 @@ async def start_test(update: Update, context: ContextTypes.DEFAULT_TYPE, level, 
                     if "questions" in TESTS[level][cat][topic]:
                         test_data = TESTS[level][cat][topic]
                         break
-    except Exception as e:
-        print(f"❌ Ошибка в start_test: {e}")
+    except:
+        pass
     
     if not test_data or "questions" not in test_data:
         await update.callback_query.answer("❌ Тест не найден", show_alert=True)
@@ -535,7 +733,8 @@ async def start_test(update: Update, context: ContextTypes.DEFAULT_TYPE, level, 
         "questions": questions,
         "current": 0,
         "score": 0,
-        "user_answers": []
+        "user_answers": [],
+        "user_id": user_id
     }
     await show_question(update, context)
 
@@ -594,7 +793,7 @@ async def finish_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
     score = test["score"]
     total = len(test["questions"])
     percent = int(score / total * 100)
-    user_id = update.effective_user.id
+    user_id = test["user_id"]
     save_test_result(user_id, test["level"], test["category"], test["topic"], score, total)
     
     if percent == 100:
@@ -636,15 +835,23 @@ async def finish_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
     del context.user_data["test"]
 
 async def toggle_topic_handler(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
+    user_id = context.user_data.get("user_id")
+    if not user_id:
+        await start(update, context)
+        return
+    
     topics = TOPICS[level][category]
     topic = topics[int(idx)]
-    user_id = update.effective_user.id
     new_status = toggle_topic(user_id, level, category, topic)
     await update.callback_query.answer(f"{'✅ Отмечено!' if new_status else '❌ Снято!'}")
     await show_topic_menu(update, context, level, category, idx)
 
 async def show_total_progress(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user_id = update.effective_user.id
+    user_id = context.user_data.get("user_id")
+    if not user_id:
+        await start(update, context)
+        return
+    
     text = "📊 *Общий прогресс*\n\n"
     total_all = done_all = 0
     for level in TOPICS:
@@ -662,6 +869,34 @@ async def show_total_progress(update: Update, context: ContextTypes.DEFAULT_TYPE
         text += f"{bar} {level}: {level_done}/{level_total} ({percent}%)\n"
     total_percent = int(done_all / total_all * 100) if total_all > 0 else 0
     text += f"\n🎯 *Всего: {done_all}/{total_all} ({total_percent}%)*"
+    
+    # Если админ — добавляем кнопку управления пользователями
+    keyboard = [[InlineKeyboardButton("🔙 Назад", callback_data="back_to_levels")]]
+    if context.user_data.get("is_admin"):
+        keyboard.append([InlineKeyboardButton("👥 Управление пользователями", callback_data="admin_users")])
+    
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    await update.callback_query.edit_message_text(text, reply_markup=reply_markup, parse_mode="Markdown")
+
+# ===== АДМИН-ФУНКЦИИ =====
+
+async def admin_users(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает список пользователей (только для админа)"""
+    if not context.user_data.get("is_admin"):
+        await update.callback_query.answer("❌ Нет доступа", show_alert=True)
+        return
+    
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute("SELECT id, username, is_admin FROM users ORDER BY id")
+    users = c.fetchall()
+    conn.close()
+    
+    text = "👥 *Список пользователей*\n\n"
+    for user in users:
+        role = "👑 Админ" if user[2] else "👤 Пользователь"
+        text += f"ID: {user[0]} | {user[1]} — {role}\n"
+    
     keyboard = [[InlineKeyboardButton("🔙 Назад", callback_data="back_to_levels")]]
     reply_markup = InlineKeyboardMarkup(keyboard)
     await update.callback_query.edit_message_text(text, reply_markup=reply_markup, parse_mode="Markdown")
@@ -670,13 +905,19 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     data = query.data
-    if "authenticated" not in context.user_data:
-        await query.edit_message_text("🔐 Сначала авторизуйся: /start")
-        return
+    
     if data == "back_to_levels":
         await show_levels(update, context)
     elif data == "total_progress":
         await show_total_progress(update, context)
+    elif data == "logout":
+        await logout(update, context)
+    elif data == "login":
+        await show_login(update, context)
+    elif data == "register":
+        await show_register(update, context)
+    elif data == "admin_users":
+        await admin_users(update, context)
     elif data == "noop":
         pass
     elif data.startswith("level_"):
@@ -704,29 +945,6 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await start_test(update, context, parts[0], parts[1], parts[2])
     elif data.startswith("ans_"):
         await handle_answer(update, context, int(data[4:]))
-
-async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if context.user_data.get("awaiting_username"):
-        username = update.message.text.strip()
-        if username in ALLOWED_USERS:
-            context.user_data["temp_username"] = username
-            context.user_data["awaiting_username"] = False
-            context.user_data["awaiting_password"] = True
-            await update.message.reply_text("🔑 Введи пароль:")
-        else:
-            await update.message.reply_text("❌ Неверный ник.")
-        return
-    if context.user_data.get("awaiting_password"):
-        password = update.message.text.strip()
-        if ALLOWED_USERS.get(context.user_data.get("temp_username")) == password:
-            context.user_data["authenticated"] = True
-            context.user_data.pop("temp_username", None)
-            context.user_data.pop("awaiting_password", None)
-            await update.message.reply_text("✅ Доступ разрешён!")
-            await show_levels(update, context)
-        else:
-            context.user_data.clear()
-            await update.message.reply_text("❌ Неверный пароль. /start")
 
 def main():
     init_db()
