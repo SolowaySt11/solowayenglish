@@ -493,6 +493,7 @@ async def show_levels(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("📚 A2 (Elementary)", callback_data="level_A2 (Elementary)")],
         [InlineKeyboardButton("📚 B1 (Intermediate)", callback_data="level_B1 (Intermediate)")],
         [InlineKeyboardButton("📚 B2 (Upper-Intermediate)", callback_data="level_B2 (Upper-Intermediate)")],
+        [InlineKeyboardButton("🎯 ОГЭ", callback_data="oge_menu")],
         [InlineKeyboardButton("📊 Общий прогресс", callback_data="total_progress")],
         [InlineKeyboardButton("🚪 Выйти", callback_data="logout")]
     ]
@@ -656,6 +657,36 @@ async def show_explanation(update: Update, context: ContextTypes.DEFAULT_TYPE, l
     except:
         pass
     await update.effective_chat.send_photo(photo=buf, caption=f"📖 {topic}", reply_markup=reply_markup)
+async def oge_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает меню ОГЭ с разделами"""
+    keyboard = [
+        [InlineKeyboardButton("🎧 1. Аудирование (скоро)", callback_data="oge_audio")],
+        [InlineKeyboardButton("📖 2. Работа с текстом", callback_data="oge_reading")],
+        [InlineKeyboardButton("📝 3. Словообразование", callback_data="oge_word_formation")],
+        [InlineKeyboardButton("✉️ 4. Письмо (скоро)", callback_data="oge_letter")],
+        [InlineKeyboardButton("📖 5. Чтение текста (скоро)", callback_data="oge_text_reading")],
+        [InlineKeyboardButton("🎤 6. Монолог (скоро)", callback_data="oge_monologue")],
+        [InlineKeyboardButton("📱 7. Electronic Assistant (скоро)", callback_data="oge_assistant")],
+        [InlineKeyboardButton("🔙 Назад", callback_data="back_to_levels")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    if update.callback_query:
+        await update.callback_query.edit_message_text(
+            "🎯 *ОГЭ — подготовка к экзамену*\n\n"
+            "Выбери раздел для тренировки:\n"
+            "🔹 *Активные разделы:* Работа с текстом, Словообразование\n"
+            "🔸 *Остальные разделы* — скоро появятся!",
+            reply_markup=reply_markup,
+            parse_mode="Markdown"
+        )
+    else:
+        await update.message.reply_text(
+            "🎯 *ОГЭ — подготовка к экзамену*\n\n"
+            "Выбери раздел для тренировки:",
+            reply_markup=reply_markup,
+            parse_mode="Markdown"
+        )
 
 async def show_vocabulary(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
     """Показывает словарь"""
@@ -897,7 +928,7 @@ async def show_diagnostic_question(update: Update, context: ContextTypes.DEFAULT
     )
 
 async def handle_diagnostic_answer(update: Update, context: ContextTypes.DEFAULT_TYPE, answer_idx):
-    """Обрабатывает ответ на диагностический вопрос"""
+    """Обрабатывает ответ на вопрос"""
     diag = context.user_data.get("diagnostic")
     if not diag:
         return
@@ -1078,11 +1109,37 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif data.startswith("ans_"):
         await handle_answer(update, context, int(data[4:]))
     elif data == "diagnostic":
-       await start_diagnostic(update, context)
+        await start_diagnostic(update, context)
     elif data == "diag_restart":
-       await start_diagnostic(update, context)
+        await start_diagnostic(update, context)
     elif data.startswith("diag_ans_"):
-       await handle_diagnostic_answer(update, context, int(data[9:]))
+        await handle_diagnostic_answer(update, context, int(data[9:]))
+    elif data == "oge_menu":
+        await oge_menu(update, context)
+    elif data == "oge_audio":
+        await update.callback_query.answer("🎧 Аудирование пока в разработке!", show_alert=True)
+    elif data == "oge_letter":
+        await update.callback_query.answer("✉️ Письмо пока в разработке!", show_alert=True)
+    elif data == "oge_text_reading":
+        await update.callback_query.answer("📖 Чтение текста пока в разработке!", show_alert=True)
+    elif data == "oge_monologue":
+        await update.callback_query.answer("🎤 Монолог пока в разработке!", show_alert=True)
+    elif data == "oge_assistant":
+        await update.callback_query.answer("📱 Electronic Assistant пока в разработке!", show_alert=True)
+    elif data == "oge_reading":
+        await start_oge_reading(update, context)
+    elif data.startswith("oge_show_text_"):
+        text_id = data[14:]
+        await show_oge_text(update, context, text_id)
+    elif data.startswith("oge_start_questions_"):
+        text_id = data[21:]
+        await start_oge_questions(update, context, text_id)
+    elif data.startswith("oge_ans_"):
+    # Формат: oge_ans_A_0
+        parts = data[8:].split("_")
+        answer_letter = parts[0]
+        q_index = int(parts[1])
+        await handle_oge_reading_answer(update, context, answer_letter, q_index)
 
 def main():
     init_db()
@@ -1092,6 +1149,227 @@ def main():
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_messages))
     print("🎓 Soloway English Tracker запущен...")
     app.run_polling()
+# ===== ОГЭ: РАБОТА С ТЕКСТОМ =====
+
+def load_oge_reading():
+    """Загружает задания для раздела 'Работа с текстом'"""
+    try:
+        with open("oge_reading.json", "r", encoding="utf-8") as f:
+            return json.load(f)
+    except:
+        return None
+
+async def start_oge_reading(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает список текстов для чтения"""
+    data = load_oge_reading()
+    if not data:
+        await update.callback_query.answer("❌ Задания пока не загружены", show_alert=True)
+        return
+    
+    texts = data["texts"]
+    keyboard = []
+    for text in texts:
+        # Показываем только ID и название, чтобы не перегружать
+        display_name = f"{text['id'].replace('oge_text_', '')}. {text['title']}"
+        keyboard.append([InlineKeyboardButton(f"📄 {display_name}", callback_data=f"oge_show_text_{text['id']}")])
+    keyboard.append([InlineKeyboardButton("🔙 Назад", callback_data="oge_menu")])
+    
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    await update.callback_query.edit_message_text(
+        "📖 *Работа с текстом (True/False/Not Stated)*\n\n"
+        "Выбери текст для выполнения заданий. "
+        "Тебе нужно будет сопоставить вопросы (1–7) с абзацами (A–F). "
+        "Один вопрос останется без ответа!",
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
+
+async def show_oge_text(update: Update, context: ContextTypes.DEFAULT_TYPE, text_id):
+    """Показывает текст и начинает опрос"""
+    data = load_oge_reading()
+    if not data:
+        await update.callback_query.answer("❌ Ошибка загрузки", show_alert=True)
+        return
+    
+    # Ищем нужный текст
+    selected_text = None
+    for text in data["texts"]:
+        if text["id"] == text_id:
+            selected_text = text
+            break
+    
+    if not selected_text:
+        await update.callback_query.answer("❌ Текст не найден", show_alert=True)
+        return
+    
+    # Сохраняем в контекст
+    context.user_data["oge_text_session"] = {
+        "text_data": selected_text,
+        "current_question": 0,
+        "score": 0,
+        "user_answers": [],
+        "questions": selected_text["questions"]
+    }
+    
+    # Отправляем текст большим сообщением (с разбивкой, чтобы не крашить телеграм)
+    text_message = f"📖 *{selected_text['title']}*\n\n"
+    text_message += f"_{selected_text['text']}_\n\n"
+    text_message += "👇 Теперь ответь на вопросы, выбирая букву A, B, C, D, E или F.\n"
+    text_message += "Внимание: один вопрос останется без ответа!"
+
+    await update.callback_query.edit_message_text(
+        text_message,
+        parse_mode="Markdown"
+    )
+    
+    # Отдельно отправляем клавиатуру для перехода к вопросам
+    keyboard = [[InlineKeyboardButton("▶️ Начать отвечать на вопросы", callback_data=f"oge_start_questions_{text_id}")]]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    await update.effective_chat.send_message(
+        "Готов(а) начать? Жми на кнопку! 🚀",
+        reply_markup=reply_markup
+    )
+
+async def start_oge_questions(update: Update, context: ContextTypes.DEFAULT_TYPE, text_id):
+    """Запускает процесс ответа на вопросы"""
+    await show_oge_question(update, context)
+
+async def show_oge_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает текущий вопрос"""
+    session = context.user_data.get("oge_text_session")
+    if not session:
+        await update.callback_query.answer("❌ Сессия не найдена, попробуй выбрать текст заново", show_alert=True)
+        return
+    
+    current = session["current_question"]
+    questions = session["questions"]
+    
+    if current >= len(questions):
+        await finish_oge_reading(update, context)
+        return
+    
+    question_data = questions[current]
+    q_text = question_data["q"]
+    
+    # Проверяем, есть ли ответ в вопросе (если пустая строка, значит вопроса нет в тексте)
+    if question_data["answer"] == "":
+        # Пропускаем этот вопрос и переходим к следующему
+        session["current_question"] += 1
+        await show_oge_question(update, context)
+        return
+    
+    # Создаем клавиатуру с буквами A-F
+    keyboard = [
+        [InlineKeyboardButton("A", callback_data=f"oge_ans_A_{current}"),
+         InlineKeyboardButton("B", callback_data=f"oge_ans_B_{current}"),
+         InlineKeyboardButton("C", callback_data=f"oge_ans_C_{current}")],
+        [InlineKeyboardButton("D", callback_data=f"oge_ans_D_{current}"),
+         InlineKeyboardButton("E", callback_data=f"oge_ans_E_{current}"),
+         InlineKeyboardButton("F", callback_data=f"oge_ans_F_{current}")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    await update.callback_query.edit_message_text(
+        f"❓ *Вопрос {current+1} из {len(questions)}*\n\n"
+        f"{q_text}\n\n"
+        f"Выбери букву соответствующего абзаца (A–F):",
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
+
+async def handle_oge_reading_answer(update: Update, context: ContextTypes.DEFAULT_TYPE, answer_letter, q_index):
+    """Обрабатывает ответ на вопрос"""
+    session = context.user_data.get("oge_text_session")
+    if not session:
+        await update.callback_query.answer("❌ Сессия устарела, начни заново", show_alert=True)
+        return
+    
+    # Проверяем, что индекс актуален
+    if q_index != session["current_question"]:
+        await update.callback_query.answer("⏳ Ты уже ответил(а) на этот вопрос!", show_alert=True)
+        return
+    
+    question_data = session["questions"][q_index]
+    correct_answer = question_data["answer"]
+    is_correct = (answer_letter == correct_answer)
+    
+    if is_correct:
+        session["score"] += 1
+        await update.callback_query.answer(f"✅ Правильно! Ответ: {correct_answer}")
+    else:
+        await update.callback_query.answer(f"❌ Неправильно! Правильно: {correct_answer}", show_alert=True)
+    
+    session["user_answers"].append({
+        "question": question_data["q"],
+        "user_answer": answer_letter,
+        "correct_answer": correct_answer,
+        "is_correct": is_correct
+    })
+    
+    session["current_question"] += 1
+    
+    # Переход к следующему вопросу или завершение
+    if session["current_question"] >= len(session["questions"]):
+        await finish_oge_reading(update, context)
+    else:
+        # Проверяем, не пустой ли следующий вопрос
+        next_q = session["questions"][session["current_question"]]
+        if next_q["answer"] == "":
+            # Пропускаем пустой вопрос
+            session["current_question"] += 1
+            if session["current_question"] >= len(session["questions"]):
+                await finish_oge_reading(update, context)
+            else:
+                await show_oge_question(update, context)
+        else:
+            await show_oge_question(update, context)
+
+async def finish_oge_reading(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Завершает раздел 'Работа с текстом'"""
+    session = context.user_data.get("oge_text_session")
+    if not session:
+        return
+    
+    # Проверяем, есть ли вопросы с ответами
+    valid_questions = [q for q in session["questions"] if q["answer"] != ""]
+    total_valid = len(valid_questions)
+    
+    # Пересчитываем очки за правильные ответы
+    score = session["score"]
+    percent = int(score / total_valid * 100) if total_valid > 0 else 0
+    
+    if percent == 100:
+        emoji, comment = "🏆", "Отлично! Ты идеально справился(ась) с текстом!"
+    elif percent >= 75:
+        emoji, comment = "🎉", "Хороший результат! Так держать!"
+    elif percent >= 50:
+        emoji, comment = "📚", "Неплохо! Но стоит перечитать текст внимательнее."
+    else:
+        emoji, comment = "💪", "Нужно больше практики! Попробуй ещё раз."
+    
+    # Детали ошибок
+    details = ""
+    for i, ans in enumerate(session["user_answers"]):
+        icon = "✅" if ans["is_correct"] else "❌"
+        details += f"{i+1}. {ans['question']}\n"
+        details += f"   {icon} Твой ответ: {ans['user_answer']} (Правильно: {ans['correct_answer']})\n\n"
+    
+    keyboard = [
+        [InlineKeyboardButton("🔄 Попробовать другой текст", callback_data="oge_reading")],
+        [InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    await update.callback_query.edit_message_text(
+        f"{emoji} *Результат!*\n\n"
+        f"📊 Правильных ответов: {score}/{total_valid} ({percent}%)\n\n"
+        f"{comment}\n\n"
+        f"📋 *Подробно:*\n{details}",
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
+    
+    del context.user_data["oge_text_session"]
 
 if __name__ == "__main__":
     main()
