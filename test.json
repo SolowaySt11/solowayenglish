@@ -51,7 +51,7 @@
           {"q": "(The teachers) ___ are busy.", "options": ["They", "She", "He"], "answer": 0}
         ]
       },
-       "Объектные местоимения (me, him, her, us, them)": {
+      "Объектные местоимения (me, him, her, us, them)": {
         "explanation": {
           "headers": ["Тип", "Местоимение (кто?)", "Объектная форма (кого? кому?)", "Пример"],
           "rows": [
@@ -76,7 +76,7 @@
           {"q": "Please wait for ___ (мы).", "options": ["our", "we", "us"], "answer": 2}
         ]
       },
-       "Притяжательные местоимения (my/mine, your/yours)": {
+      "Притяжательные местоимения (my/mine, your/yours)": {
         "explanation": {
           "headers": ["Личное", "Прилагательное (перед сущ.)", "Существительное (замена)", "Пример"],
           "rows": [
@@ -255,7 +255,7 @@
             ["He is reading", "He isn't reading", "Is he reading?", ""],
             ["We are reading", "We aren't reading", "Are we reading?", ""]
           ]
-       },
+        },
         "questions": [
           {"q": "I ___ reading a book now.", "options": ["am", "is", "are"], "answer": 0},
           {"q": "She ___ cooking dinner.", "options": ["is", "are", "am"], "answer": 0},
@@ -408,7 +408,7 @@
           {"q": "I am ___ to cook dinner.", "options": ["go", "going", "gone"], "answer": 1}
         ]
       },
-            "Порядок слов в утверждении (SVO)": {
+      "Порядок слов в утверждении (SVO)": {
         "explanation": {
           "headers": ["Тип", "Порядок слов", "Формула", "Пример"],
           "rows": [
@@ -667,10 +667,131 @@
           {"q": "She ___ goes shopping at the weekend. (иногда)", "options": ["never", "sometimes", "always"], "answer": 1},
           {"q": "He ___ does his homework. (часто)", "options": ["often", "never", "sometimes"], "answer": 0}
         ]
-      },
-      
+      }
+    },
     "Лексика": {
       "Цифры, числа, даты, время": {
+        "vocabulary": [
+          {
+            "headers": ["Число", "Английский", "Перевод"],
+            "rows": [
+              ["0", "zero", "ноль"],
+              ["1", "one", "один"],
+              ["2", "two", "два"],
+              ["3", "three", "три"],
+              ["4", "four", "четыре"],
+              ["5", "five", "пять"],
+              ["6", "six", "шесть"],
+              ["7", "seven", "семь"],
+              ["8", "eight", "восемь"],
+              ["9", "nine", "девять"],
+              ["10", "ten", "десять"],
+              ["11", "eleven", "одиннадцать"],
+              ["12", "twelve", "двенадцать"],
+              ["13", "thirteen", "тринадцать"],
+              ["14", "fourteen", "четырнадцать"],
+              ["15", "fifteen", "пятнадцать"],
+              ["16", "sixteen", "шестнадцать"],
+              ["17", "seventeen", "семнадцать"],
+              ["18", "eighteen", "восемнадцать"],
+              ["19", "nineteen", "девятнадцать"]
+            ]
+          },
+          {
+            "headers": ["Число", "Английский", "Перевод"],
+            "rows": [
+              ["20", "twenty", "двадцать"],
+              ["21", "twenty-one", "двадцать один"],
+              ["30", "thirty", "тридцать"],
+              ["40", "forty", "сорок"],
+              ["50", "fifty", "пятьдесят"],
+              ["60", "sixty", "шестьдесят"],
+              ["70", "seventy", "семьдесят"],
+              ["80", "eighty", "восемьдесят"],
+              ["90", "ninety", "девяносто"],
+              ["100", "one hundred", "сто"],
+              ["1000", "one thousand", "тысяча"]
+            ]
+          },
+          {
+            "headers": ["Слово", "Сокращение", "Перевод"],
+            "rows": [
+              ["first", "1st", "первый"],
+              ["second", "2nd", "второй"],
+              ["third", "3rd", "третий"],
+              ["fourth", "4th", "четвертый"],
+              ["fifth", "5th", "пятый"],
+              ["sixth", "6th", "шестой"],
+              ["seventh", "7th", "седьмой"],
+              ["eighth", "8th", "восьмой"],
+              ["ninth", "9th", "девятый"],
+              ["tenth", "10th", "десятый"],
+              ["eleventh", "11th", "одиннадцатый"],
+              ["twelfth", "12th", "двенадцатый"],
+              ["thirteenth", "13th", "тринадцатый"],
+              ["twentieth", "20th", "двадцатый"],
+              ["twenty-first", "21st", "двадцать первый"]
+            ]
+          },
+          {
+            "headers": ["Английский", "Перевод"],
+            "rows": [
+              ["January", "Январь"],
+              ["February", "Февраль"],
+              ["March", "Март"],
+              ["April", "Апрель"],
+              ["May", "Май"],
+              ["June", "Июнь"],
+              ["July", "Июль"],
+              ["August", "Август"],
+              ["September", "Сентябрь"],
+              ["October", "Октябрь"],
+              ["November", "Ноябрь"],
+              ["December", "Декабрь"]
+            ]
+          },
+          {
+            "headers": ["Английский", "Перевод"],
+            "rows": [
+              ["Monday", "Понедельник"],
+              ["Tuesday", "Вторник"],
+              ["Wednesday", "Среда"],
+              ["Thursday", "Четверг"],
+              ["Friday", "Пятница"],
+              ["Saturday", "Суббота"],
+              ["Sunday", "Воскресенье"],
+              ["spring", "весна"],
+              ["summer", "лето"],
+              ["autumn / fall", "осень"],
+              ["winter", "зима"]
+            ]
+          },
+          {
+            "headers": ["Слово", "Перевод"],
+            "rows": [
+              ["o'clock", "ровно (час)"],
+              ["half", "половина"],
+              ["quarter", "четверть"],
+              ["past", "после (для минут 1-30)"],
+              ["to", "до (для минут 31-59)"],
+              ["morning", "утро (5-12)"],
+              ["afternoon", "день (12-18)"],
+              ["evening", "вечер (18-23)"],
+              ["night", "ночь (23-5)"]
+            ]
+          },
+          {
+            "headers": ["Время", "Способ 1", "Способ 2"],
+            "rows": [
+              ["3:00", "three", "three o'clock"],
+              ["3:15", "three fifteen", "a quarter past three"],
+              ["3:30", "three thirty", "half past three"],
+              ["3:45", "three forty-five", "a quarter to four"],
+              ["3:20", "three twenty", "twenty past three"],
+              ["3:50", "three fifty", "ten to four"]
+            ]
+          }
+        ],
         "questions": [
           {"q": "15", "options": ["fifty", "fifteen", "five"], "answer": 1},
           {"q": "100", "options": ["one thousand", "one hundred", "ten"], "answer": 1},
@@ -683,6 +804,46 @@
         ]
       },
       "Дни недели, месяцы, времена года": {
+        "vocabulary": [
+          {
+            "headers": ["Слово", "Перевод"],
+            "rows": [
+              ["Monday", "Понедельник"],
+              ["Tuesday", "Вторник"],
+              ["Wednesday", "Среда"],
+              ["Thursday", "Четверг"],
+              ["Friday", "Пятница"],
+              ["Saturday", "Суббота"],
+              ["Sunday", "Воскресенье"]
+            ]
+          },
+          {
+            "headers": ["Слово", "Перевод"],
+            "rows": [
+              ["January", "Январь"],
+              ["February", "Февраль"],
+              ["March", "Март"],
+              ["April", "Апрель"],
+              ["May", "Май"],
+              ["June", "Июнь"],
+              ["July", "Июль"],
+              ["August", "Август"],
+              ["September", "Сентябрь"],
+              ["October", "Октябрь"],
+              ["November", "Ноябрь"],
+              ["December", "Декабрь"]
+            ]
+          },
+          {
+            "headers": ["Слово", "Перевод"],
+            "rows": [
+              ["spring", "весна"],
+              ["summer", "лето"],
+              ["autumn / fall", "осень"],
+              ["winter", "зима"]
+            ]
+          }
+        ],
         "questions": [
           {"q": "What is the first month of the year?", "options": ["February", "January", "December"], "answer": 1},
           {"q": "What day comes after Tuesday?", "options": ["Monday", "Wednesday", "Thursday"], "answer": 1},
@@ -695,6 +856,55 @@
         ]
       },
       "Семья (mother, father, sister, brother)": {
+        "vocabulary": [
+          {
+            "headers": ["Слово", "Перевод"],
+            "rows": [
+              ["mother / mom (амер.) / mum (брит.)", "мама"],
+              ["father / dad", "папа"],
+              ["parents", "родители"],
+              ["sister", "сестра"],
+              ["brother", "брат"],
+              ["siblings", "братья и сестры"],
+              ["daughter", "дочь"],
+              ["son", "сын"],
+              ["children", "дети"],
+              ["child", "ребенок"]
+            ]
+          },
+          {
+            "headers": ["Слово", "Перевод"],
+            "rows": [
+              ["grandmother / grandma", "бабушка"],
+              ["grandfather / grandpa", "дедушка"],
+              ["grandparents", "бабушка и дедушка"],
+              ["grandson", "внук"],
+              ["granddaughter", "внучка"],
+              ["grandchildren", "внуки"]
+            ]
+          },
+          {
+            "headers": ["Слово", "Перевод"],
+            "rows": [
+              ["aunt", "тетя"],
+              ["uncle", "дядя"],
+              ["cousin", "двоюродный брат / сестра"],
+              ["niece", "племянница"],
+              ["nephew", "племянник"]
+            ]
+          },
+          {
+            "headers": ["Слово", "Перевод"],
+            "rows": [
+              ["wife", "жена"],
+              ["husband", "муж"],
+              ["spouse", "супруг / супруга"],
+              ["family", "семья"],
+              ["relative", "родственник"],
+              ["friend", "друг"]
+            ]
+          }
+        ],
         "questions": [
           {"q": "Your mother's husband is your ___.", "options": ["uncle", "father", "brother"], "answer": 1},
           {"q": "Your father's daughter is your ___.", "options": ["sister", "aunt", "mother"], "answer": 0},
@@ -707,6 +917,71 @@
         ]
       },
       "Дом и комната (furniture, rooms)": {
+        "vocabulary": [
+          {
+            "headers": ["Слово", "Перевод"],
+            "rows": [
+              ["house", "дом (здание)"],
+              ["home", "дом (жилье)"],
+              ["flat / apartment", "квартира"],
+              ["room", "комната"],
+              ["living room", "гостиная"],
+              ["bedroom", "спальня"],
+              ["kitchen", "кухня"],
+              ["bathroom", "ванная комната"],
+              ["toilet", "туалет"],
+              ["hall", "коридор / холл"],
+              ["dining room", "столовая"],
+              ["garden", "сад"]
+            ]
+          },
+          {
+            "headers": ["Слово", "Перевод"],
+            "rows": [
+              ["door", "дверь"],
+              ["window", "окно"],
+              ["wall", "стена"],
+              ["floor", "пол / этаж"],
+              ["ceiling", "потолок"],
+              ["roof", "крыша"],
+              ["stairs", "лестница"],
+              ["key", "ключ"]
+            ]
+          },
+          {
+            "headers": ["Слово", "Перевод"],
+            "rows": [
+              ["bed", "кровать"],
+              ["table", "стол"],
+              ["chair", "стул"],
+              ["sofa / couch", "диван"],
+              ["armchair", "кресло"],
+              ["desk", "письменный стол"],
+              ["wardrobe", "шкаф (для одежды)"],
+              ["cupboard", "шкаф (для посуды)"],
+              ["shelf", "полка"],
+              ["mirror", "зеркало"]
+            ]
+          },
+          {
+            "headers": ["Слово", "Перевод"],
+            "rows": [
+              ["lamp", "лампа"],
+              ["picture", "картина"],
+              ["clock", "часы (настенные)"],
+              ["carpet", "ковер"],
+              ["curtain", "штора / занавеска"],
+              ["fridge / refrigerator", "холодильник"],
+              ["cooker / stove", "плита"],
+              ["microwave", "микроволновая печь"],
+              ["sink", "раковина"],
+              ["bath", "ванна"],
+              ["shower", "душ"],
+              ["TV", "телевизор"],
+              ["computer", "компьютер"]
+            ]
+          }
+        ],
         "questions": [
           {"q": "We sleep in the ___.", "options": ["bathroom", "kitchen", "bedroom"], "answer": 2},
           {"q": "A sofa is usually in the ___.", "options": ["bedroom", "living room", "bathroom"], "answer": 1},
@@ -719,18 +994,133 @@
         ]
       },
       "Еда и напитки (food, drink)": {
+        "vocabulary": {
+          "headers": ["Слово", "Перевод"],
+          "rows": [
+            ["breakfast", "завтрак"],
+            ["lunch", "обед"],
+            ["dinner", "ужин"],
+            ["meal", "еда, прием пищи"],
+            ["bread", "хлеб"],
+            ["cake", "торт, кекс"],
+            ["cookie", "печенье"],
+            ["egg", "яйцо"],
+            ["fish", "рыба"],
+            ["fruit", "фрукты"],
+            ["ice cream", "мороженое"],
+            ["meat", "мясо"],
+            ["pizza", "пицца"],
+            ["rice", "рис"],
+            ["salad", "салат"],
+            ["sandwich", "сэндвич, бутерброд"],
+            ["soup", "суп"],
+            ["vegetable(s)", "овощ(и)"],
+            ["chicken", "курица"],
+            ["pasta", "паста, макароны"],
+            ["coffee", "кофе"],
+            ["juice", "сок"],
+            ["tea", "чай"],
+            ["water", "вода"],
+            ["milk", "молоко"],
+            ["hungry", "голодный"],
+            ["thirsty", "испытывающий жажду"],
+            ["delicious", "очень вкусный"],
+            ["sweet(s)", "сладкий / сладости"],
+            ["apple", "яблоко"],
+            ["banana", "банан"],
+            ["orange", "апельсин"],
+            ["tomato", "помидор"],
+            ["potato", "картофель"],
+            ["onion", "лук"],
+            ["cheese", "сыр"],
+            ["sugar", "сахар"],
+            ["salt", "соль"],
+            ["chocolate", "шоколад"],
+            ["jam", "джем, варенье"],
+            ["honey", "мед"],
+            ["plate", "тарелка"],
+            ["cup", "чашка"],
+            ["knife", "нож"],
+            ["fork", "вилка"],
+            ["spoon", "ложка"],
+            ["eat", "есть"],
+            ["drink", "пить"],
+            ["cook", "готовить"]
+          ]
+        },
         "questions": [
-          {"q": "We get this from a cow.", "options": ["eggs", "milk", "bread"], "answer": 1},
-          {"q": "A red fruit, not a vegetable.", "options": ["potato", "tomato", "cucumber"], "answer": 1},
-          {"q": "A drink from fruit.", "options": ["bread", "juice", "butter"], "answer": 1},
-          {"q": "The meat of a pig.", "options": ["beef", "chicken", "pork"], "answer": 2},
-          {"q": "A yellow dairy product.", "options": ["cheese", "fish", "pasta"], "answer": 0},
-          {"q": "Rice, pasta and bread are types of ___.", "options": ["vegetables", "meat", "carbohydrates"], "answer": 2},
-          {"q": "A very cold, sweet food.", "options": ["soup", "ice cream", "tea"], "answer": 1},
-          {"q": "We need this to live, it's clear.", "options": ["milk", "water", "coffee"], "answer": 1}
+          {"q": "What do we call the first meal of the day?", "options": ["lunch", "breakfast", "dinner"], "answer": 1},
+          {"q": "Which of these is a drink?", "options": ["bread", "juice", "rice"], "answer": 1},
+          {"q": "What is a very cold, sweet food that you eat in summer?", "options": ["soup", "ice cream", "salad"], "answer": 1},
+          {"q": "We get this white liquid from cows.", "options": ["water", "juice", "milk"], "answer": 2},
+          {"q": "What do you use to cut food?", "options": ["fork", "knife", "spoon"], "answer": 1},
+          {"q": "What do you put in coffee to make it sweet?", "options": ["salt", "sugar", "pepper"], "answer": 1},
+          {"q": "What do you call a meal you eat in the evening?", "options": ["breakfast", "lunch", "dinner"], "answer": 2},
+          {"q": "Which word describes the feeling when you want to eat?", "options": ["thirsty", "hungry", "delicious"], "answer": 1}
         ]
       },
       "Одежда и цвета (clothes, colours)": {
+        "vocabulary": [
+          {
+            "headers": ["Слово", "Перевод"],
+            "rows": [
+              ["clothes", "одежда"],
+              ["shirt", "рубашка"],
+              ["T-shirt", "футболка"],
+              ["blouse", "блузка"],
+              ["trousers", "брюки"],
+              ["jeans", "джинсы"],
+              ["shorts", "шорты"],
+              ["skirt", "юбка"],
+              ["dress", "платье"],
+              ["jacket", "куртка / пиджак"],
+              ["coat", "пальто"],
+              ["sweater / jumper", "свитер / джемпер"],
+              ["hoodie", "худи"],
+              ["suit", "костюм"]
+            ]
+          },
+          {
+            "headers": ["Слово", "Перевод"],
+            "rows": [
+              ["tie", "галстук"],
+              ["belt", "ремень"],
+              ["socks", "носки"],
+              ["shoes", "туфли / обувь"],
+              ["trainers / sneakers", "кроссовки"],
+              ["boots", "сапоги / ботинки"],
+              ["sandals", "сандалии"],
+              ["hat", "шляпа / шапка"],
+              ["cap", "кепка"],
+              ["scarf", "шарф"],
+              ["gloves", "перчатки"],
+              ["underwear", "нижнее белье"],
+              ["pyjamas / pajamas", "пижама"],
+              ["uniform", "униформа"]
+            ]
+          },
+          {
+            "headers": ["Слово", "Перевод"],
+            "rows": [
+              ["black", "черный"],
+              ["white", "белый"],
+              ["red", "красный"],
+              ["blue", "синий / голубой"],
+              ["green", "зеленый"],
+              ["yellow", "желтый"],
+              ["orange", "оранжевый"],
+              ["purple", "фиолетовый"],
+              ["pink", "розовый"],
+              ["brown", "коричневый"],
+              ["grey / gray", "серый"],
+              ["gold", "золотой"],
+              ["silver", "серебряный"],
+              ["dark", "темный"],
+              ["light", "светлый"],
+              ["bright", "яркий"]
+            ]
+          }
+        ],
         "questions": [
           {"q": "What do you wear on your feet?", "options": ["gloves", "socks", "hat"], "answer": 1},
           {"q": "What is the colour of the sky?", "options": ["green", "blue", "yellow"], "answer": 1},
@@ -743,6 +1133,64 @@
         ]
       },
       "Школа и школьные предметы": {
+        "vocabulary": [
+          {
+            "headers": ["Слово", "Перевод"],
+            "rows": [
+              ["school", "школа"],
+              ["classroom", "классная комната"],
+              ["teacher", "учитель"],
+              ["student / pupil", "ученик"],
+              ["class", "класс (группа)"],
+              ["lesson", "урок"],
+              ["break", "перемена"],
+              ["timetable / schedule", "расписание"],
+              ["homework", "домашнее задание"],
+              ["test", "контрольная работа / тест"],
+              ["exam", "экзамен"],
+              ["mark / grade", "оценка"]
+            ]
+          },
+          {
+            "headers": ["Слово", "Перевод"],
+            "rows": [
+              ["schoolbag / backpack", "школьный рюкзак"],
+              ["pen", "ручка"],
+              ["pencil", "карандаш"],
+              ["rubber / eraser", "ластик"],
+              ["ruler", "линейка"],
+              ["sharpener", "точилка"],
+              ["book", "книга"],
+              ["textbook", "учебник"],
+              ["notebook", "тетрадь"],
+              ["dictionary", "словарь"],
+              ["board", "доска"],
+              ["desk", "парта"],
+              ["chair", "стул"],
+              ["computer", "компьютер"]
+            ]
+          },
+          {
+            "headers": ["Слово", "Перевод"],
+            "rows": [
+              ["Maths / Mathematics", "математика"],
+              ["English", "английский язык"],
+              ["Russian", "русский язык"],
+              ["Literature", "литература"],
+              ["History", "история"],
+              ["Geography", "география"],
+              ["Biology", "биология"],
+              ["Chemistry", "химия"],
+              ["Physics", "физика"],
+              ["PE (Physical Education)", "физкультура"],
+              ["Art", "рисование / изобразительное искусство"],
+              ["Music", "музыка"],
+              ["IT (Information Technology)", "информатика"],
+              ["Science", "естествознание / наука"],
+              ["Foreign language", "иностранный язык"]
+            ]
+          }
+        ],
         "questions": [
           {"q": "We study numbers in ___.", "options": ["Math", "English", "Art"], "answer": 0},
           {"q": "We read stories in ___.", "options": ["Science", "Literature", "Geography"], "answer": 1},
@@ -815,7 +1263,8 @@
         ]
       }
     }
-  },
+  }
+}
     "A2 (Elementary)": {
     "Грамматика": {
       "Past Continuous (I was doing)": {
