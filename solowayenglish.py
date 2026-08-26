@@ -212,6 +212,7 @@ def save_test_result(user_id, level, category, topic, score, total):
     conn.close()
 
 def has_test(level, topic):
+    """Проверяет, есть ли тест для данной темы"""
     try:
         for cat in TESTS.get(level, {}):
             if topic in TESTS[level][cat]:
@@ -221,6 +222,7 @@ def has_test(level, topic):
     return False
 
 def find_topic_index(level, category, topic_name):
+    """Находит индекс темы в списке"""
     if level in TOPICS and category in TOPICS[level]:
         topics = TOPICS[level][category]
         for idx, topic in enumerate(topics):
@@ -253,6 +255,7 @@ def generate_table_image(headers, rows, topic):
     return buf
 
 async def show_explanation(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
+    """Показывает таблицу с теорией"""
     topics = TOPICS[level][category]
     topic = topics[int(idx)]
     expl_data = None
@@ -339,14 +342,19 @@ async def show_topics(update: Update, context: ContextTypes.DEFAULT_TYPE, level,
     done = sum(1 for t in topics if progress.get(t, 0))
     percent = int(done / total * 100) if total > 0 else 0
     bar = "🟩" * (percent // 10) + "⬜" * (10 - percent // 10)
-    await update.callback_query.edit_message_text(f"📚 {level} → {category}\n\n{bar} {done}/{total} ({percent}%)\n\nСтр. {page+1}/{total_pages}:", reply_markup=reply_markup)
+    await update.callback_query.edit_message_text(
+        f"📚 {level} → {category}\n\n{bar} {done}/{total} ({percent}%)\n\nСтр. {page+1}/{total_pages}:",
+        reply_markup=reply_markup
+    )
 
 async def show_topic_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
+    """Показывает меню для конкретной темы"""
     topics = TOPICS[level][category]
     topic = topics[int(idx)]
     progress = get_progress(update.effective_user.id, level)
     done = progress.get(topic, 0)
     status = "✅ Пройдена" if done else "⬜ Не пройдена"
+    
     has_expl = False
     try:
         for cat in TESTS.get(level, {}):
@@ -357,6 +365,7 @@ async def show_topic_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, le
                     break
     except:
         pass
+    
     keyboard = [
         [InlineKeyboardButton("✅ Отметить" if not done else "❌ Снять отметку", callback_data=f"tog_{level}|{category}|{idx}")],
     ]
@@ -366,9 +375,13 @@ async def show_topic_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, le
         keyboard.append([InlineKeyboardButton("📝 Пройти тест (8 вопросов)", callback_data=f"test_{level}|{category}|{idx}")])
     keyboard.append([InlineKeyboardButton("🔙 Назад", callback_data=f"cat_{level}|{category}")])
     reply_markup = InlineKeyboardMarkup(keyboard)
-    await update.callback_query.edit_message_text(f"📚 {topic}\n\n{status}\n\nВыбери действие:", reply_markup=reply_markup)
+    await update.callback_query.edit_message_text(
+        f"📚 {topic}\n\n{status}\n\nВыбери действие:",
+        reply_markup=reply_markup
+    )
 
 async def start_test(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
+    """Запускает тест по теме"""
     topics = TOPICS[level][category]
     topic = topics[int(idx)]
     test_data = None
@@ -380,39 +393,65 @@ async def start_test(update: Update, context: ContextTypes.DEFAULT_TYPE, level, 
         await update.callback_query.answer("❌ Тест не найден", show_alert=True)
         return
     questions = test_data["questions"]
-    context.user_data["test"] = {"level": level, "category": category, "topic": topic, "questions": questions, "current": 0, "score": 0, "user_answers": []}
+    context.user_data["test"] = {
+        "level": level,
+        "category": category,
+        "topic": topic,
+        "questions": questions,
+        "current": 0,
+        "score": 0,
+        "user_answers": []
+    }
     await show_question(update, context)
 
 async def show_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
     test = context.user_data.get("test")
     if not test: return
     q_num = test["current"]
-    if q_num >= len(test["questions"]): await finish_test(update, context); return
+    if q_num >= len(test["questions"]):
+        await finish_test(update, context)
+        return
     question = test["questions"][q_num]
     options = question["options"]
     keyboard = []
     for i, opt in enumerate(options):
         keyboard.append([InlineKeyboardButton(f"{chr(97+i)}) {opt}", callback_data=f"ans_{i}")])
     reply_markup = InlineKeyboardMarkup(keyboard)
-    await update.callback_query.edit_message_text(f"📝 *Тест: {test['topic']}*\n\nВопрос {q_num + 1}/{len(test['questions'])}:\n\n*{question['q']}*", reply_markup=reply_markup, parse_mode="Markdown")
+    await update.callback_query.edit_message_text(
+        f"📝 *Тест: {test['topic']}*\n\nВопрос {q_num + 1}/{len(test['questions'])}:\n\n*{question['q']}*",
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
 
 async def handle_answer(update: Update, context: ContextTypes.DEFAULT_TYPE, answer_idx):
     test = context.user_data.get("test")
-    if not test: await update.callback_query.answer("Тест не найден."); return
+    if not test:
+        await update.callback_query.answer("Тест не найден.")
+        return
     question = test["questions"][test["current"]]
     correct = question["answer"]
     correct_ans = question["options"][correct]
     user_answer = question["options"][answer_idx]
     is_correct = (answer_idx == correct)
-    test["user_answers"].append({"question": question["q"], "user_answer": user_answer, "correct_answer": correct_ans, "is_correct": is_correct})
+    test["user_answers"].append({
+        "question": question["q"],
+        "user_answer": user_answer,
+        "correct_answer": correct_ans,
+        "is_correct": is_correct
+    })
     if is_correct:
         test["score"] += 1
         await update.callback_query.answer(f"✅ Правильно! ({correct_ans})")
     else:
-        await update.callback_query.answer(f"❌ Твой ответ: {user_answer}. Правильно: {correct_ans}", show_alert=True)
+        await update.callback_query.answer(
+            f"❌ Твой ответ: {user_answer}. Правильно: {correct_ans}",
+            show_alert=True
+        )
     test["current"] += 1
-    if test["current"] >= len(test["questions"]): await finish_test(update, context)
-    else: await show_question(update, context)
+    if test["current"] >= len(test["questions"]):
+        await finish_test(update, context)
+    else:
+        await show_question(update, context)
 
 async def finish_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
     test = context.user_data.get("test")
@@ -422,18 +461,35 @@ async def finish_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
     percent = int(score / total * 100)
     user_id = update.effective_user.id
     save_test_result(user_id, test["level"], test["category"], test["topic"], score, total)
-    if percent == 100: emoji, comment = "🏆", "Идеально!"
-    elif percent >= 75: emoji, comment = "🎉", "Хороший результат!"
-    elif percent >= 50: emoji, comment = "📚", "Неплохо! Но стоит повторить."
-    else: emoji, comment = "💪", "Нужно подучить."
+    
+    if percent == 100:
+        emoji, comment = "🏆", "Идеально!"
+    elif percent >= 75:
+        emoji, comment = "🎉", "Хороший результат!"
+    elif percent >= 50:
+        emoji, comment = "📚", "Неплохо! Но стоит повторить."
+    else:
+        emoji, comment = "💪", "Нужно подучить."
+    
     wrong_answers = [ans for ans in test["user_answers"] if not ans["is_correct"]]
     idx = find_topic_index(test["level"], test["category"], test["topic"])
-    keyboard = [[InlineKeyboardButton("🔄 Пройти ещё раз", callback_data=f"test_{test['level']}|{test['category']}|{idx}")], [InlineKeyboardButton("🔙 К теме", callback_data=f"topic_{test['level']}|{test['category']}|{idx}")]]
+    
+    keyboard = [
+        [InlineKeyboardButton("🔄 Пройти ещё раз", callback_data=f"test_{test['level']}|{test['category']}|{idx}")],
+        [InlineKeyboardButton("🔙 К теме", callback_data=f"topic_{test['level']}|{test['category']}|{idx}")]
+    ]
     reply_markup = InlineKeyboardMarkup(keyboard)
+    
     result_text = f"{emoji} *Тест завершён!*\n\n📝 {test['topic']}\n📊 Результат: {score}/{total} ({percent}%)\n\n{comment}"
     if wrong_answers:
         result_text += f"\n\n❌ *Ошибки: {len(wrong_answers)} из {total}*"
-    await update.callback_query.edit_message_text(result_text, reply_markup=reply_markup, parse_mode="Markdown")
+    
+    await update.callback_query.edit_message_text(
+        result_text,
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
+    
     if wrong_answers:
         for i in range(0, len(wrong_answers), 2):
             chunk = wrong_answers[i:i+2]
@@ -441,6 +497,7 @@ async def finish_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
             for j, wrong in enumerate(chunk, i+1):
                 error_text += f"{j}. *{wrong['question']}*\n   ❌ Ваш ответ: {wrong['user_answer']}\n   ✅ Правильно: {wrong['correct_answer']}\n\n"
             await update.effective_chat.send_message(error_text, parse_mode="Markdown")
+    
     del context.user_data["test"]
 
 async def toggle_topic_handler(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
@@ -461,7 +518,8 @@ async def show_total_progress(update: Update, context: ContextTypes.DEFAULT_TYPE
         level_done = 0
         for cat in TOPICS[level]:
             for topic in TOPICS[level][cat]:
-                if progress.get(topic, 0): level_done += 1
+                if progress.get(topic, 0):
+                    level_done += 1
         total_all += level_total
         done_all += level_done
         percent = int(level_done / level_total * 100) if level_total > 0 else 0
@@ -480,10 +538,14 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if "authenticated" not in context.user_data:
         await query.edit_message_text("🔐 Сначала авторизуйся: /start")
         return
-    if data == "back_to_levels": await show_levels(update, context)
-    elif data == "total_progress": await show_total_progress(update, context)
-    elif data == "noop": pass
-    elif data.startswith("level_"): await show_categories(update, context, data[6:])
+    if data == "back_to_levels":
+        await show_levels(update, context)
+    elif data == "total_progress":
+        await show_total_progress(update, context)
+    elif data == "noop":
+        pass
+    elif data.startswith("level_"):
+        await show_categories(update, context, data[6:])
     elif data.startswith("cat_"):
         parts = data[4:].split("|")
         await show_topics(update, context, parts[0], parts[1], 0)
@@ -502,7 +564,8 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif data.startswith("test_"):
         parts = data[5:].split("|")
         await start_test(update, context, parts[0], parts[1], parts[2])
-    elif data.startswith("ans_"): await handle_answer(update, context, int(data[4:]))
+    elif data.startswith("ans_"):
+        await handle_answer(update, context, int(data[4:]))
 
 async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if context.user_data.get("awaiting_username"):
