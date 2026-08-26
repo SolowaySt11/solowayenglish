@@ -488,6 +488,7 @@ async def show_levels(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
     
     keyboard = [
+        [InlineKeyboardButton("🎯 Тест на уровень (30 вопросов)", callback_data="diagnostic")],
         [InlineKeyboardButton("📚 A1 (Beginner)", callback_data="level_A1 (Beginner)")],
         [InlineKeyboardButton("📚 A2 (Elementary)", callback_data="level_A2 (Elementary)")],
         [InlineKeyboardButton("📚 B1 (Intermediate)", callback_data="level_B1 (Intermediate)")],
@@ -845,6 +846,137 @@ async def toggle_topic_handler(update: Update, context: ContextTypes.DEFAULT_TYP
     new_status = toggle_topic(user_id, level, category, topic)
     await update.callback_query.answer(f"{'✅ Отмечено!' if new_status else '❌ Снято!'}")
     await show_topic_menu(update, context, level, category, idx)
+# ===== ДИАГНОСТИКА =====
+
+def load_diagnostic():
+    """Загружает диагностический тест"""
+    try:
+        with open("diagnostic.json", "r", encoding="utf-8") as f:
+            return json.load(f)
+    except:
+        return None
+
+async def start_diagnostic(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Запускает диагностический тест"""
+    diagnostic_data = load_diagnostic()
+    if not diagnostic_data:
+        await update.callback_query.answer("❌ Диагностика пока не доступна", show_alert=True)
+        return
+    
+    questions = diagnostic_data["questions"]
+    context.user_data["diagnostic"] = {
+        "questions": questions,
+        "current": 0,
+        "score": 0,
+        "answers": []
+    }
+    await show_diagnostic_question(update, context)
+
+async def show_diagnostic_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает вопрос диагностики"""
+    diag = context.user_data.get("diagnostic")
+    if not diag:
+        return
+    
+    q_num = diag["current"]
+    if q_num >= len(diag["questions"]):
+        await finish_diagnostic(update, context)
+        return
+    
+    question = diag["questions"][q_num]
+    options = question["options"]
+    keyboard = []
+    for i, opt in enumerate(options):
+        keyboard.append([InlineKeyboardButton(f"{chr(97+i)}) {opt}", callback_data=f"diag_ans_{i}")])
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    await update.callback_query.edit_message_text(
+        f"🎯 *Диагностический тест*\n\nВопрос {q_num + 1}/{len(diag['questions'])}:\n\n*{question['q']}*",
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
+
+async def handle_diagnostic_answer(update: Update, context: ContextTypes.DEFAULT_TYPE, answer_idx):
+    """Обрабатывает ответ на диагностический вопрос"""
+    diag = context.user_data.get("diagnostic")
+    if not diag:
+        return
+    
+    question = diag["questions"][diag["current"]]
+    correct = question["answer"]
+    is_correct = (answer_idx == correct)
+    
+    if is_correct:
+        diag["score"] += 1
+    
+    diag["answers"].append({
+        "question": question["q"],
+        "correct": is_correct,
+        "level": question["level"]
+    })
+    
+    diag["current"] += 1
+    
+    if diag["current"] >= len(diag["questions"]):
+        await finish_diagnostic(update, context)
+    else:
+        await show_diagnostic_question(update, context)
+
+async def finish_diagnostic(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Завершает диагностику и показывает результат"""
+    diag = context.user_data.get("diagnostic")
+    if not diag:
+        return
+    
+    score = diag["score"]
+    total = len(diag["questions"])
+    
+    # Считаем уровень
+    level_counts = {"A1": 0, "A2": 0, "B1": 0, "B2": 0}
+    for ans in diag["answers"]:
+        if ans["correct"]:
+            level_counts[ans["level"]] += 1
+    
+    # Определяем основной уровень
+    diagnostic_data = load_diagnostic()
+    levels = diagnostic_data["levels"]
+    
+    main_level = "A1"
+    if score >= 25:
+        main_level = "B2"
+    elif score >= 19:
+        main_level = "B1"
+    elif score >= 11:
+        main_level = "A2"
+    
+    level_info = levels[main_level]
+    
+    # Результат
+    result_text = (
+        f"📊 *Результат диагностики*\n\n"
+        f"✅ Правильных ответов: {score}/{total}\n"
+        f"🎯 *Твой уровень: {level_info['label']}*\n\n"
+        f"📌 *Рекомендация:*\n{level_info['recommend']}\n\n"
+        f"📈 *Детали:*\n"
+        f"  A1: {level_counts['A1']} правильных\n"
+        f"  A2: {level_counts['A2']} правильных\n"
+        f"  B1: {level_counts['B1']} правильных\n"
+        f"  B2: {level_counts['B2']} правильных\n"
+    )
+    
+    keyboard = [
+        [InlineKeyboardButton("📚 Перейти к обучению", callback_data="back_to_levels")],
+        [InlineKeyboardButton("🔄 Пройти заново", callback_data="diag_restart")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    await update.callback_query.edit_message_text(
+        result_text,
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
+    
+    del context.user_data["diagnostic"]
 
 async def show_total_progress(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = context.user_data.get("user_id")
@@ -945,6 +1077,12 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await start_test(update, context, parts[0], parts[1], parts[2])
     elif data.startswith("ans_"):
         await handle_answer(update, context, int(data[4:]))
+    elif data == "diagnostic":
+       await start_diagnostic(update, context)
+    elif data == "diag_restart":
+       await start_diagnostic(update, context)
+    elif data.startswith("diag_ans_"):
+       await handle_diagnostic_answer(update, context, int(data[9:]))
 
 def main():
     init_db()
