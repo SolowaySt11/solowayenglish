@@ -9,13 +9,70 @@ import io
 TOKEN = "8681728801:AAFNkjp2eeIZ3KYEOnpXgIu3IowwERXSEWM"
 DB_PATH = "/data/english.db"
 
-# Загружаем JSON
-try:
-    with open("test.json", "r", encoding="utf-8") as f:
-        TESTS = json.load(f)
-except:
-    TESTS = {}
+# ===== ЗАГРУЗКА ВСЕХ JSON ФАЙЛОВ =====
 
+def load_all_tests():
+    """Загружает все JSON файлы из папки telegram_bot"""
+    TESTS = {}
+    
+    level_map = {
+        "A1 (Beginner)": "A1",
+        "A2 (Elementary)": "A2",
+        "B1 (Intermediate)": "B1",
+        "B2 (Upper-Intermediate)": "B2"
+    }
+    
+    # Путь к папке с ботом (где лежит solowayenglish.py)
+    base_path = os.path.dirname(__file__)
+    
+    for level_name, level_key in level_map.items():
+        TESTS[level_name] = {}
+        
+        # Загружаем грамматику
+        grammar_file = os.path.join(base_path, f"{level_key}_grammar.json")
+        if os.path.exists(grammar_file):
+            try:
+                with open(grammar_file, "r", encoding="utf-8") as f:
+                    grammar_data = json.load(f)
+                    TESTS[level_name]["Грамматика"] = grammar_data
+                print(f"✅ Загружена грамматика для {level_name}")
+            except Exception as e:
+                print(f"❌ Ошибка загрузки {grammar_file}: {e}")
+                TESTS[level_name]["Грамматика"] = {}
+        else:
+            print(f"⚠️ Файл не найден: {grammar_file}")
+            TESTS[level_name]["Грамматика"] = {}
+        
+        # Загружаем лексику
+        vocabulary_file = os.path.join(base_path, f"{level_key}_vocabulary.json")
+        if os.path.exists(vocabulary_file):
+            try:
+                with open(vocabulary_file, "r", encoding="utf-8") as f:
+                    vocab_data = json.load(f)
+                    TESTS[level_name]["Лексика"] = vocab_data
+                print(f"✅ Загружена лексика для {level_name}")
+            except Exception as e:
+                print(f"❌ Ошибка загрузки {vocabulary_file}: {e}")
+                TESTS[level_name]["Лексика"] = {}
+        else:
+            print(f"⚠️ Файл не найден: {vocabulary_file}")
+            TESTS[level_name]["Лексика"] = {}
+    
+    return TESTS
+
+# Загружаем все тесты
+print("📂 Загрузка JSON файлов...")
+TESTS = load_all_tests()
+
+# Проверка загрузки
+print("\n📊 Загруженные данные:")
+for level in TESTS:
+    print(f"  📚 {level}:")
+    for cat in TESTS[level]:
+        topics = TESTS[level][cat]
+        print(f"    📂 {cat}: {len(topics)} тем")
+
+# ===== TOPICS (полный список) =====
 TOPICS = {
     "A1 (Beginner)": {
         "Грамматика": [
@@ -35,6 +92,8 @@ TOPICS = {
             "Past Simple (неправильные глаголы, топ-20)",
             "Future Simple (will)",
             "Конструкция to be going to",
+            "Предлоги места (in, on, under, next to, behind)",
+            "Предлоги времени (at, on, in)",
             "Порядок слов в утверждении (SVO)",
             "Общие вопросы (Do you…? Is he…?)",
             "Специальные вопросы (What, Where, When)",
@@ -44,7 +103,7 @@ TOPICS = {
             "Конструкция like + ing",
             "Модальный глагол can/can't",
             "There is / There are",
-            "Наречия частоты (always, never, sometimes, often)",
+            "Наречия частоты (always, never, sometimes, often)"
         ],
         "Лексика": [
             "Цифры, числа, даты, время",
@@ -58,8 +117,8 @@ TOPICS = {
             "Описание людей (tall, short, kind, funny)",
             "Город и транспорт (places, prepositions)",
             "Погода (sunny, rainy, hot, cold)",
-            "Повседневные действия (get up, have breakfast, go to school)",
-        ],
+            "Повседневные действия (get up, have breakfast, go to school)"
+        ]
     },
     "A2 (Elementary)": {
         "Грамматика": [
@@ -85,7 +144,7 @@ TOPICS = {
             "Условные предложения 0 и 1 типа",
             "Пассивный залог (база: is done, was done)",
             "Вопросы разделительные (You like coffee, don't you?)",
-            "Вопросы косвенные (Can you tell me where…)",
+            "Вопросы косвенные (Can you tell me where…)"
         ],
         "Лексика": [
             "Путешествия и транспорт",
@@ -97,8 +156,8 @@ TOPICS = {
             "Город и ориентация",
             "Погода и времена года",
             "Покупки и одежда",
-            "Здоровье и тело",
-        ],
+            "Здоровье и тело"
+        ]
     },
     "B1 (Intermediate)": {
         "Грамматика": [
@@ -118,7 +177,7 @@ TOPICS = {
             "Артикли (углублённо, включая нулевой артикль)",
             "Предлоги (углублённо: despite, in spite of, due to)",
             "Фразовые глаголы (get up, turn on, look for, give up)",
-            "Инверсия (Never have I seen…)",
+            "Инверсия (Never have I seen…)"
         ],
         "Лексика": [
             "Путешествия и культура",
@@ -130,8 +189,8 @@ TOPICS = {
             "Медиа и новости",
             "Отношения и общение",
             "Искусство и литература",
-            "Финансы и деньги",
-        ],
+            "Финансы и деньги"
+        ]
     },
     "B2 (Upper-Intermediate)": {
         "Грамматика": [
@@ -144,7 +203,7 @@ TOPICS = {
             "Сложные союзы (nonetheless, whereas, thereby, hence)",
             "Фразовые глаголы (углублённо, с несколькими значениями)",
             "Сложные герундиальные и инфинитивные обороты",
-            "Пунктуация и стилистика",
+            "Пунктуация и стилистика"
         ],
         "Лексика": [
             "Бизнес и экономика",
@@ -156,9 +215,9 @@ TOPICS = {
             "Культура и традиции (глубоко)",
             "Маркетинг и реклама",
             "Переговоры и убеждение",
-            "Реферирование и пересказ",
-        ],
-    },
+            "Реферирование и пересказ"
+        ]
+    }
 }
 
 ALLOWED_USERS = {
@@ -210,43 +269,26 @@ def save_test_result(user_id, level, category, topic, score, total):
     conn.close()
 
 def has_test(level, topic):
+    """Проверяет, есть ли тест для данной темы"""
     try:
-        for cat in TESTS.get(level, {}):
+        if level not in TESTS:
+            return False
+        for cat in TESTS[level]:
             if topic in TESTS[level][cat]:
-                return True
-    except:
-        pass
+                if "questions" in TESTS[level][cat][topic]:
+                    return True
+    except Exception as e:
+        print(f"❌ Ошибка в has_test: {e}")
     return False
 
 def find_topic_index(level, category, topic_name):
+    """Находит индекс темы в списке"""
     if level in TOPICS and category in TOPICS[level]:
         topics = TOPICS[level][category]
         for idx, topic in enumerate(topics):
             if topic == topic_name:
                 return idx
     return 0
-
-def get_explanation(level, topic):
-    try:
-        for cat in TESTS.get(level, {}):
-            if topic in TESTS[level][cat]:
-                data = TESTS[level][cat][topic]
-                if isinstance(data, dict) and "explanation" in data:
-                    return data["explanation"]
-    except:
-        pass
-    return None
-
-def get_test_questions(level, topic):
-    try:
-        for cat in TESTS.get(level, {}):
-            if topic in TESTS[level][cat]:
-                data = TESTS[level][cat][topic]
-                if isinstance(data, dict) and "questions" in data:
-                    return data["questions"]
-    except:
-        pass
-    return None
 
 def generate_table_image(headers, rows, topic):
     fig, ax = plt.subplots(figsize=(10, len(rows) * 0.5 + 1))
@@ -273,110 +315,81 @@ def generate_table_image(headers, rows, topic):
     return buf
 
 async def show_explanation(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
-    """Показывает таблицу с теорией (работает и для грамматики, и для лексики)"""
+    """Показывает таблицу с теорией"""
     topics = TOPICS[level][category]
     topic = topics[int(idx)]
-    
-    # Собираем все таблицы
-    tables = []
+    expl_data = None
     try:
-        for cat in TESTS.get(level, {}):
-            if topic in TESTS[level][cat]:
-                data = TESTS[level][cat][topic]
-                if isinstance(data, dict):
-                    if "explanation" in data:
-                        tables.append(data["explanation"])
-                    elif "vocabulary" in data:
-                        vocab_list = data["vocabulary"]
-                        if isinstance(vocab_list, list):
-                            for item in vocab_list:
-                                if isinstance(item, dict) and "headers" in item and "rows" in item:
-                                    tables.append(item)
+        if level in TESTS:
+            for cat in TESTS[level]:
+                if topic in TESTS[level][cat]:
+                    expl = TESTS[level][cat][topic].get("explanation")
+                    if expl and isinstance(expl, dict):
+                        expl_data = expl
+                        break
     except Exception as e:
-        print(f"Ошибка при загрузке теории: {e}")
+        print(f"❌ Ошибка в show_explanation: {e}")
     
-    if not tables:
+    if not expl_data:
         await update.callback_query.answer("❌ Теория пока не добавлена", show_alert=True)
         return
     
-    # Сохраняем все таблицы в контекст
-    context.user_data["expl_tables"] = tables
-    context.user_data["expl_topic"] = topic
-    context.user_data["expl_level"] = level
-    context.user_data["expl_category"] = category
-    context.user_data["expl_idx"] = idx
-    context.user_data["expl_current"] = 0
-    
-    await show_explanation_table(update, context)
-
-async def show_explanation_table(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Показывает текущую таблицу из списка"""
-    tables = context.user_data.get("expl_tables", [])
-    current = context.user_data.get("expl_current", 0)
-    topic = context.user_data.get("expl_topic", "")
-    level = context.user_data.get("expl_level", "")
-    category = context.user_data.get("expl_category", "")
-    idx = context.user_data.get("expl_idx", 0)
-    
-    if not tables or current >= len(tables):
-        await update.callback_query.answer("❌ Нет данных", show_alert=True)
-        return
-    
-    table = tables[current]
-    headers = table.get("headers", [])
-    rows = table.get("rows", [])
-    
-    if not headers or not rows:
-        await update.callback_query.answer("❌ Данные отсутствуют", show_alert=True)
-        return
-    
-    # Ограничиваем количество строк, чтобы таблица не была слишком большой
-    if len(rows) > 30:
-        rows = rows[:30]
-    
-    buf = generate_table_image(headers, rows, f"{topic} ({current+1}/{len(tables)})")
-    
-    keyboard = []
-    nav_row = []
-    if current > 0:
-        nav_row.append(InlineKeyboardButton("◀️ Назад", callback_data="expl_prev"))
-    if current < len(tables) - 1:
-        nav_row.append(InlineKeyboardButton("Вперёд ▶️", callback_data="expl_next"))
-    if nav_row:
-        keyboard.append(nav_row)
-    keyboard.append([InlineKeyboardButton("🔙 К теме", callback_data=f"topic_{level}|{category}|{idx}")])
+    buf = generate_table_image(expl_data["headers"], expl_data["rows"], topic)
+    keyboard = [[InlineKeyboardButton("🔙 К теме", callback_data=f"topic_{level}|{category}|{idx}")]]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    
     try:
         await update.callback_query.message.delete()
     except:
         pass
-    await update.effective_chat.send_photo(
-        photo=buf, 
-        caption=f"📖 {topic} ({current+1}/{len(tables)})", 
-        reply_markup=reply_markup
-    )
+    await update.effective_chat.send_photo(photo=buf, caption=f"📖 {topic}", reply_markup=reply_markup)
 
-async def show_explanation_next(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Переключает на следующую таблицу"""
-    current = context.user_data.get("expl_current", 0)
-    tables = context.user_data.get("expl_tables", [])
-    if current + 1 < len(tables):
-        context.user_data["expl_current"] = current + 1
-        await show_explanation_table(update, context)
+async def show_vocabulary(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
+    """Показывает таблицу со словами"""
+    topics = TOPICS[level][category]
+    topic = topics[int(idx)]
+    vocab_data = None
+    try:
+        if level in TESTS:
+            for cat in TESTS[level]:
+                if topic in TESTS[level][cat]:
+                    vocab = TESTS[level][cat][topic].get("vocabulary")
+                    if vocab:
+                        vocab_data = vocab
+                        break
+    except Exception as e:
+        print(f"❌ Ошибка в show_vocabulary: {e}")
+    
+    if not vocab_data:
+        await update.callback_query.answer("❌ Словарь пока не добавлен", show_alert=True)
+        return
+    
+    # Проверяем, словарь это массив или объект
+    if isinstance(vocab_data, list):
+        # Если массив - показываем все таблицы
+        for i, table in enumerate(vocab_data):
+            buf = generate_table_image(table["headers"], table["rows"], f"{topic} (часть {i+1})")
+            try:
+                if i == 0:
+                    await update.callback_query.message.delete()
+            except:
+                pass
+            await update.effective_chat.send_photo(
+                photo=buf, 
+                caption=f"📚 {topic} - Словарь" if i == 0 else "",
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 К теме", callback_data=f"topic_{level}|{category}|{idx}")]]) if i == len(vocab_data) - 1 else None
+            )
     else:
-        await update.callback_query.answer("Это последняя таблица", show_alert=True)
-
-async def show_explanation_prev(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Переключает на предыдущую таблицу"""
-    current = context.user_data.get("expl_current", 0)
-    if current > 0:
-        context.user_data["expl_current"] = current - 1
-        await show_explanation_table(update, context)
-    else:
-        await update.callback_query.answer("Это первая таблица", show_alert=True)
-
-# ===== ОСНОВНЫЕ ХЕНДЛЕРЫ =====
+        # Если один объект
+        buf = generate_table_image(vocab_data["headers"], vocab_data["rows"], f"📚 {topic}")
+        try:
+            await update.callback_query.message.delete()
+        except:
+            pass
+        await update.effective_chat.send_photo(
+            photo=buf, 
+            caption=f"📚 {topic} - Словарь",
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 К теме", callback_data=f"topic_{level}|{category}|{idx}")]])
+        )
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if "authenticated" not in context.user_data:
@@ -446,19 +459,46 @@ async def show_topics(update: Update, context: ContextTypes.DEFAULT_TYPE, level,
     )
 
 async def show_topic_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
+    """Показывает меню для конкретной темы"""
     topics = TOPICS[level][category]
     topic = topics[int(idx)]
     progress = get_progress(update.effective_user.id, level)
     done = progress.get(topic, 0)
     status = "✅ Пройдена" if done else "⬜ Не пройдена"
     
-    has_expl = get_explanation(level, topic) is not None
+    # Проверяем наличие теории (для грамматики)
+    has_expl = False
+    try:
+        if level in TESTS:
+            for cat in TESTS[level]:
+                if topic in TESTS[level][cat]:
+                    expl = TESTS[level][cat][topic].get("explanation")
+                    if expl and isinstance(expl, dict):
+                        has_expl = True
+                        break
+    except:
+        pass
+    
+    # Проверяем наличие словаря (для лексики)
+    has_vocab = False
+    try:
+        if level in TESTS:
+            for cat in TESTS[level]:
+                if topic in TESTS[level][cat]:
+                    vocab = TESTS[level][cat][topic].get("vocabulary")
+                    if vocab:
+                        has_vocab = True
+                        break
+    except:
+        pass
     
     keyboard = [
         [InlineKeyboardButton("✅ Отметить" if not done else "❌ Снять отметку", callback_data=f"tog_{level}|{category}|{idx}")],
     ]
     if has_expl:
         keyboard.append([InlineKeyboardButton("📖 Теория", callback_data=f"expl_{level}|{category}|{idx}")])
+    if has_vocab:
+        keyboard.append([InlineKeyboardButton("📚 Словарь", callback_data=f"vocab_{level}|{category}|{idx}")])
     if has_test(level, topic):
         keyboard.append([InlineKeyboardButton("📝 Пройти тест (8 вопросов)", callback_data=f"test_{level}|{category}|{idx}")])
     keyboard.append([InlineKeyboardButton("🔙 Назад", callback_data=f"cat_{level}|{category}")])
@@ -469,14 +509,25 @@ async def show_topic_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, le
     )
 
 async def start_test(update: Update, context: ContextTypes.DEFAULT_TYPE, level, category, idx):
+    """Запускает тест по теме"""
     topics = TOPICS[level][category]
     topic = topics[int(idx)]
-    questions = get_test_questions(level, topic)
+    test_data = None
+    try:
+        if level in TESTS:
+            for cat in TESTS[level]:
+                if topic in TESTS[level][cat]:
+                    if "questions" in TESTS[level][cat][topic]:
+                        test_data = TESTS[level][cat][topic]
+                        break
+    except Exception as e:
+        print(f"❌ Ошибка в start_test: {e}")
     
-    if not questions:
+    if not test_data or "questions" not in test_data:
         await update.callback_query.answer("❌ Тест не найден", show_alert=True)
         return
     
+    questions = test_data["questions"]
     context.user_data["test"] = {
         "level": level,
         "category": category,
@@ -628,10 +679,6 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await show_total_progress(update, context)
     elif data == "noop":
         pass
-    elif data == "expl_next":
-        await show_explanation_next(update, context)
-    elif data == "expl_prev":
-        await show_explanation_prev(update, context)
     elif data.startswith("level_"):
         await show_categories(update, context, data[6:])
     elif data.startswith("cat_"):
@@ -646,6 +693,9 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif data.startswith("expl_"):
         parts = data[5:].split("|")
         await show_explanation(update, context, parts[0], parts[1], parts[2])
+    elif data.startswith("vocab_"):
+        parts = data[6:].split("|")
+        await show_vocabulary(update, context, parts[0], parts[1], parts[2])
     elif data.startswith("tog_"):
         parts = data[4:].split("|")
         await toggle_topic_handler(update, context, parts[0], parts[1], parts[2])
