@@ -849,7 +849,7 @@ async def toggle_topic_handler(update: Update, context: ContextTypes.DEFAULT_TYP
 # ===== ДИАГНОСТИКА =====
 
 def load_diagnostic():
-    """Загружает диагностический тест"""
+    """Загружает тест"""
     try:
         with open("diagnostic.json", "r", encoding="utf-8") as f:
             return json.load(f)
@@ -857,7 +857,7 @@ def load_diagnostic():
         return None
 
 async def start_diagnostic(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Запускает диагностический тест"""
+    """Запускает тест"""
     diagnostic_data = load_diagnostic()
     if not diagnostic_data:
         await update.callback_query.answer("❌ Диагностика пока не доступна", show_alert=True)
@@ -891,7 +891,7 @@ async def show_diagnostic_question(update: Update, context: ContextTypes.DEFAULT
     reply_markup = InlineKeyboardMarkup(keyboard)
     
     await update.callback_query.edit_message_text(
-        f"🎯 *Диагностический тест*\n\nВопрос {q_num + 1}/{len(diag['questions'])}:\n\n*{question['q']}*",
+        f"🎯 *Тест на твой уровень*\n\nВопрос {q_num + 1}/{len(diag['questions'])}:\n\n*{question['q']}*",
         reply_markup=reply_markup,
         parse_mode="Markdown"
     )
