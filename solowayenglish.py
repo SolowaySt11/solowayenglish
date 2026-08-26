@@ -35,8 +35,6 @@ TOPICS = {
             "Past Simple (неправильные глаголы, топ-20)",
             "Future Simple (will)",
             "Конструкция to be going to",
-            "Предлоги места (in, on, under, next to, behind)",
-            "Предлоги времени (at, on, in)",
             "Порядок слов в утверждении (SVO)",
             "Общие вопросы (Do you…? Is he…?)",
             "Специальные вопросы (What, Where, When)",
@@ -230,6 +228,30 @@ def find_topic_index(level, category, topic_name):
                 return idx
     return 0
 
+def get_explanation(level, topic):
+    """Извлекает explanation из JSON"""
+    try:
+        for cat in TESTS.get(level, {}):
+            if topic in TESTS[level][cat]:
+                data = TESTS[level][cat][topic]
+                if isinstance(data, dict) and "explanation" in data:
+                    return data["explanation"]
+    except:
+        pass
+    return None
+
+def get_test_questions(level, topic):
+    """Извлекает вопросы для теста из JSON"""
+    try:
+        for cat in TESTS.get(level, {}):
+            if topic in TESTS[level][cat]:
+                data = TESTS[level][cat][topic]
+                if isinstance(data, dict) and "questions" in data:
+                    return data["questions"]
+    except:
+        pass
+    return None
+
 def generate_table_image(headers, rows, topic):
     fig, ax = plt.subplots(figsize=(10, len(rows) * 0.5 + 1))
     ax.axis('off')
@@ -258,20 +280,20 @@ async def show_explanation(update: Update, context: ContextTypes.DEFAULT_TYPE, l
     """Показывает таблицу с теорией"""
     topics = TOPICS[level][category]
     topic = topics[int(idx)]
-    expl_data = None
-    try:
-        for cat in TESTS.get(level, {}):
-            if topic in TESTS[level][cat]:
-                expl = TESTS[level][cat][topic].get("explanation")
-                if expl and isinstance(expl, dict):
-                    expl_data = expl
-                    break
-    except:
-        pass
-    if not expl_data:
+    expl_data = get_explanation(level, topic)
+    
+    if not expl_data or not isinstance(expl_data, dict):
         await update.callback_query.answer("❌ Теория пока не добавлена", show_alert=True)
         return
-    buf = generate_table_image(expl_data["headers"], expl_data["rows"], topic)
+    
+    headers = expl_data.get("headers", [])
+    rows = expl_data.get("rows", [])
+    
+    if not headers or not rows:
+        await update.callback_query.answer("❌ Теория пока не добавлена", show_alert=True)
+        return
+    
+    buf = generate_table_image(headers, rows, topic)
     keyboard = [[InlineKeyboardButton("🔙 К теме", callback_data=f"topic_{level}|{category}|{idx}")]]
     reply_markup = InlineKeyboardMarkup(keyboard)
     try:
@@ -355,16 +377,7 @@ async def show_topic_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, le
     done = progress.get(topic, 0)
     status = "✅ Пройдена" if done else "⬜ Не пройдена"
     
-    has_expl = False
-    try:
-        for cat in TESTS.get(level, {}):
-            if topic in TESTS[level][cat]:
-                expl = TESTS[level][cat][topic].get("explanation")
-                if expl and isinstance(expl, dict):
-                    has_expl = True
-                    break
-    except:
-        pass
+    has_expl = get_explanation(level, topic) is not None
     
     keyboard = [
         [InlineKeyboardButton("✅ Отметить" if not done else "❌ Снять отметку", callback_data=f"tog_{level}|{category}|{idx}")],
@@ -384,15 +397,12 @@ async def start_test(update: Update, context: ContextTypes.DEFAULT_TYPE, level, 
     """Запускает тест по теме"""
     topics = TOPICS[level][category]
     topic = topics[int(idx)]
-    test_data = None
-    for cat in TESTS.get(level, {}):
-        if topic in TESTS[level][cat] and "questions" in TESTS[level][cat][topic]:
-            test_data = TESTS[level][cat][topic]
-            break
-    if not test_data or "questions" not in test_data:
+    questions = get_test_questions(level, topic)
+    
+    if not questions:
         await update.callback_query.answer("❌ Тест не найден", show_alert=True)
         return
-    questions = test_data["questions"]
+    
     context.user_data["test"] = {
         "level": level,
         "category": category,
