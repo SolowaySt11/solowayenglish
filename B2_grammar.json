@@ -1,7 +1,7 @@
 {
   "Все времена (активный и пассивный залог)": {
     "explanation": {
-      "headers": ["Время", "Актив", "Пассив", "Пример (Актив → Пассив)"],
+      "headers": ["Время", "Актив", "Пассив", "Пример"],
       "rows": [
         ["Present Simple", "V1 / V-s", "am/is/are + V3", "They build houses → Houses are built."],
         ["Present Continuous", "am/is/are + Ving", "am/is/are + being + V3", "They are building a house → A house is being built."],
@@ -30,10 +30,10 @@
     "explanation": {
       "headers": ["Тип", "Значение", "Формула", "Пример"],
       "rows": [
-        ["Zero (0)", "Всегда правда (законы природы)", "If + P.S., P.S.", "If you heat water, it boils."],
-        ["First (1)", "Реальное будущее (вероятно)", "If + P.S., will + V1", "If it rains, I will stay home."],
-        ["Second (2)", "Нереальное настоящее (гипотеза)", "If + P.S., would + V1", "If I were a bird, I would fly."],
-        ["Third (3)", "Нереальное прошлое (сожаление)", "If + P.P., would have + V3", "If I had known, I would have come."],
+        ["Zero (0)", "Всегда правда", "If + P.S., P.S.", "If you heat water, it boils."],
+        ["First (1)", "Реальное будущее", "If + P.S., will + V1", "If it rains, I will stay home."],
+        ["Second (2)", "Нереальное настоящее", "If + P.S., would + V1", "If I were a bird, I would fly."],
+        ["Third (3)", "Нереальное прошлое", "If + P.P., would have + V3", "If I had known, I would have come."],
         ["Mixed (2+3)", "Условие в прошлом → результат в настоящем", "If + P.P., would + V1", "If I had taken that job, I would be rich now."],
         ["Mixed (3+2)", "Условие в настоящем → результат в прошлом", "If + P.S., would have + V3", "If I weren't so lazy, I would have finished it yesterday."]
       ]
@@ -123,7 +123,7 @@
         ["It is/was + N + that/who", "Выделяем подлежащее", "It was John who called you."],
         ["It is/was + N + that", "Выделяем объект", "It was the money that I needed."],
         ["It is/was + обстоятельство + that", "Выделяем обстоятельство", "It was yesterday that I saw her."],
-        ["What + подл. + V + is + N", "Выделяем объект (эмфаза)", "What I need is a break."],
+        ["What + подл. + V + is + N", "Выделяем объект", "What I need is a break."],
         ["What + подл. + V + is to + V", "Выделяем цель", "What I want is to sleep."],
         ["All + подл. + V + is + N", "Выделяем единственное", "All I want is a cup of coffee."]
       ]
@@ -192,8 +192,8 @@
     "explanation": {
       "headers": ["Конструкция", "Формула", "Пример"],
       "rows": [
-        ["Complex Object (сложное дополнение)", "want/expect + подл. + to + V1", "I want you to help me."],
-        ["Complex Object (с чувствами)", "like/love/hate + подл. + to + V1", "I hate him to be late."],
+        ["Complex Object", "want/expect + подл. + to + V1", "I want you to help me."],
+        ["Complex Object (чувства)", "like/love/hate + подл. + to + V1", "I hate him to be late."],
         ["Сложное подлежащее", "It is + прил. + for + подл. + to + V1", "It is important for you to study."],
         ["Герундий с предлогом", "preposition + Ving", "He is good at running."],
         ["Perfect Infinitive", "to have + V3", "She seems to have forgotten."],
@@ -217,15 +217,12 @@
     "explanation": {
       "headers": ["Правило", "Пример правильного", "Пример НЕПРАВИЛЬНОГО"],
       "rows": [
-        ["Запятая перед союзом в сложном предложении", "I like tea, but I prefer coffee.", "I like tea but I prefer coffee."],
+        ["Запятая перед союзом", "I like tea, but I prefer coffee.", "I like tea but I prefer coffee."],
         ["Запятая после вводного слова", "However, I agree with you.", "However I agree with you."],
-        ["Запятая в придаточных определительных", "My brother, who lives in London, is a doctor.", "My brother who lives in London is a doctor."],
+        ["Запятая в придаточных", "My brother, who lives in London, is a doctor.", "My brother who lives in London is a doctor."],
         ["Точка с запятой", "I love coffee; it keeps me awake.", "I love coffee, it keeps me awake."],
-        ["Двоеточие перед списком", "I need: milk, eggs, bread.", "I need milk, eggs, bread."],
-        ["Апостроф для принадлежности", "John's car", "Johns car"],
-        ["Апостроф для сокращений", "It's raining = It is raining", "Its raining"],
-        ["Восклицательный знак (не злоупотреблять!)", "What a beautiful day!", "I need to buy milk!"],
-        ["Вопросительный знак", "Are you coming?", "Are you coming."]
+        ["Апостроф принадлежности", "John's car", "Johns car"],
+        ["Апостроф сокращений", "It's raining = It is raining", "Its raining"]
       ]
     },
     "questions": [
@@ -234,9 +231,107 @@
       {"q": "My brother _____ who lives in London _____ is a doctor.", "options": [", ... ,", "…", " — ... — "], "answer": 0},
       {"q": "I love coffee _____ it keeps me awake.", "options": [";", ",", ":"], "answer": 0},
       {"q": "It's raining = _____ raining.", "options": ["It is", "Its", "It has"], "answer": 0},
-      {"q": "John's car = the car of _____", "options": ["John", "Johns", "John'"], "answer": 0},
-      {"q": "What a beautiful day _____", "options": [".", "!", "?"], "answer": 1},
-      {"q": "Are you coming _____", "options": [".", "!", "?"], "answer": 2}
+      {"q": "John's car = the car of _____", "options": ["John", "Johns", "John'"], "answer": 0}
+    ]
+  },
+  "Сложное дополнение (Complex Object)": {
+    "explanation": {
+      "headers": ["Конструкция", "Формула", "Пример"],
+      "rows": [
+        ["want / expect / would like", "want + объект + to + V1", "I want you to help me."],
+        ["make / let (без to)", "make/let + объект + V1", "She made me laugh."],
+        ["see / hear / watch (без to)", "see/hear/watch + объект + V1", "I saw him cross the street."],
+        ["see / hear / watch (с Ving)", "see/hear/watch + объект + Ving", "I saw him crossing the street."]
+      ]
+    },
+    "questions": [
+      {"q": "I want you _____ me.", "options": ["help", "to help", "helping"], "answer": 1},
+      {"q": "She made me _____.", "options": ["to laugh", "laugh", "laughing"], "answer": 1},
+      {"q": "I saw him _____ the street.", "options": ["to cross", "cross", "crossed"], "answer": 1},
+      {"q": "She expected him _____ early.", "options": ["arrive", "to arrive", "arriving"], "answer": 1},
+      {"q": "I heard her _____ a song.", "options": ["sing", "to sing", "sung"], "answer": 0},
+      {"q": "He let me _____ his car.", "options": ["drive", "to drive", "driving"], "answer": 0},
+      {"q": "I watched her _____ the room.", "options": ["leave", "to leave", "leaving"], "answer": 0},
+      {"q": "Would you like me _____ you?", "options": ["help", "to help", "helping"], "answer": 1}
+    ]
+  },
+  "Инверсия (Negative Inversion)": {
+    "explanation": {
+      "headers": ["Конструкция", "Значение", "Пример"],
+      "rows": [
+        ["Not only ... but also", "Не только ... но и", "Not only did she pass, but she also got the highest score."],
+        ["No sooner ... than", "Едва ... как", "No sooner had I arrived than the phone rang."],
+        ["Hardly ... when", "Едва ... как", "Hardly had I started when he interrupted me."],
+        ["Only after", "Только после", "Only after I left did I realise my mistake."]
+      ]
+    },
+    "questions": [
+      {"q": "Not only _____ she pass, but she also got the highest score.", "options": ["did", "was", "had"], "answer": 0},
+      {"q": "No sooner had I arrived than the phone _____.", "options": ["rang", "had rung", "was ringing"], "answer": 0},
+      {"q": "Hardly had I started when he _____ me.", "options": ["interrupted", "had interrupted", "interrupt"], "answer": 0},
+      {"q": "Only after I left _____ I realise my mistake.", "options": ["did", "had", "was"], "answer": 0},
+      {"q": "Not only _____ she late, but she also forgot the report.", "options": ["was", "did", "had"], "answer": 0},
+      {"q": "No sooner _____ I arrived than the train left.", "options": ["had", "did", "was"], "answer": 0}
+    ]
+  },
+  "Запятые и союзы (повторение + сложные случаи)": {
+    "explanation": {
+      "headers": ["Случай", "Пример"],
+      "rows": [
+        ["Определительные придаточные", "My brother, who lives in London, is a doctor."],
+        ["Вводные слова и выражения", "However, I don't agree."],
+        ["Обращения", "John, please come here."],
+        ["Перечисление (однородные члены)", "I like tea, coffee and juice."]
+      ]
+    },
+    "questions": [
+      {"q": "My brother _____ lives in London _____ is a doctor.", "options": [", ... ,", "...", " — ... — "], "answer": 0},
+      {"q": "_____ I don't agree.", "options": ["However,", "However", "However;"], "answer": 0},
+      {"q": "_____ please come here.", "options": ["John,", "John", "John;"], "answer": 0},
+      {"q": "I like tea, coffee _____ juice.", "options": ["and", "or", "but"], "answer": 0}
+    ]
+  },
+  "Местоимения (повторение + все типы)": {
+    "explanation": {
+      "headers": ["Тип", "Пример"],
+      "rows": [
+        ["Личные (I, you, he, she, it, we, they)", "She is my friend."],
+        ["Притяжательные (my, your, his, her, its, our, their)", "This is my book."],
+        ["Объектные (me, you, him, her, it, us, them)", "Give it to me."],
+        ["Возвратные (myself, yourself, himself, herself, itself, ourselves, themselves)", "I hurt myself."],
+        ["Указательные (this, that, these, those)", "This is interesting."],
+        ["Неопределённые (somebody, anybody, nobody, everybody)", "Somebody called you."]
+      ]
+    },
+    "questions": [
+      {"q": "This is _____ book. (я)", "options": ["my", "mine", "me"], "answer": 0},
+      {"q": "Give it to _____. (я)", "options": ["I", "me", "my"], "answer": 1},
+      {"q": "I hurt _____.", "options": ["myself", "me", "my"], "answer": 0},
+      {"q": "This is _____ house. (он)", "options": ["his", "him", "he"], "answer": 0},
+      {"q": "_____ is my friend.", "options": ["She", "Her", "Hers"], "answer": 0},
+      {"q": "_____ called you.", "options": ["Somebody", "Anybody", "Nobody"], "answer": 0}
+    ]
+  },
+  "Предлоги (повторение + сложные случаи)": {
+    "explanation": {
+      "headers": ["Предлог", "Пример"],
+      "rows": [
+        ["at (время)", "at 5 o'clock, at night, at the weekend"],
+        ["on (дни, даты)", "on Monday, on 5th June"],
+        ["in (месяцы, годы, сезоны)", "in July, in 2020, in summer"],
+        ["by (к ... моменту)", "by Friday, by 5 pm"],
+        ["until (до ... момента)", "until Friday, until 5 pm"],
+        ["during (в течение)", "during the lesson, during the night"],
+        ["for (в течение, период)", "for 3 hours, for a long time"],
+        ["since (с ... момента)", "since Monday, since 2019"]
+      ]
+    },
+    "questions": [
+      {"q": "I will be there _____ 5 o'clock.", "options": ["at", "on", "in"], "answer": 0},
+      {"q": "We met _____ Monday.", "options": ["at", "on", "in"], "answer": 1},
+      {"q": "I have lived here _____ 2015.", "options": ["since", "for", "during"], "answer": 0},
+      {"q": "I'll be there _____ Friday.", "options": ["by", "until", "since"], "answer": 0},
+      {"q": "We stayed there _____ the whole summer.", "options": ["during", "for", "since"], "answer": 1}
     ]
   }
 }
