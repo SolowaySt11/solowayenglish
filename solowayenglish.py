@@ -6,7 +6,7 @@ import json
 import matplotlib.pyplot as plt
 import io
 
-TOKEN = "8681728801:AAHYuSN_UtHSe4w6F3uOLXwoaL0dSGjuF9k"
+TOKEN = "8681728801:AAFNkjp2eeIZ3KYEOnpXgIu3IowwERXSEWM"
 DB_PATH = "/data/english.db"
 
 # Загружаем JSON
