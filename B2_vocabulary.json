@@ -1,0 +1,642 @@
+{
+  "Бизнес и экономика": {
+    "vocabulary": [
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["economy", "экономика"],
+          ["market", "рынок"],
+          ["demand", "спрос"],
+          ["supply", "предложение"],
+          ["competition", "конкуренция"],
+          ["consumer", "потребитель"],
+          ["production", "производство"],
+          ["distribution", "распределение"],
+          ["investment", "инвестиция"],
+          ["capital", "капитал"],
+          ["asset", "актив"],
+          ["liability", "обязательство"],
+          ["profit", "прибыль"],
+          ["loss", "убыток"],
+          ["revenue", "выручка"],
+          ["turnover", "оборот"],
+          ["inflation", "инфляция"],
+          ["recession", "рецессия"],
+          ["bankruptcy", "банкротство"],
+          ["merger", "слияние"],
+          ["acquisition", "поглощение"],
+          ["entrepreneur", "предприниматель"],
+          ["shareholder", "акционер"],
+          ["stakeholder", "заинтересованная сторона"],
+          ["blueprint", "план / проект"],
+          ["benchmark", "ориентир / эталон"]
+        ]
+      },
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["launch", "запускать (продукт)"],
+          ["expand", "расширять"],
+          ["invest", "инвестировать"],
+          ["generate", "генерировать (прибыль)"],
+          ["increase", "увеличивать"],
+          ["decrease", "уменьшать"],
+          ["maintain", "поддерживать"],
+          ["compete", "конкурировать"],
+          ["negotiate", "вести переговоры"],
+          ["approve", "утверждать"],
+          ["decline", "отклонять / снижаться"],
+          ["recover", "восстанавливаться"],
+          ["operate", "работать / функционировать"],
+          ["manufacture", "производить"],
+          ["distribute", "распределять"],
+          ["outsource", "передавать на аутсорсинг"],
+          ["downsize", "сокращать штат"],
+          ["restructure", "реструктуризировать"],
+          ["innovate", "внедрять инновации"],
+          ["forecast", "прогнозировать"],
+          ["analyse", "анализировать"],
+          ["evaluate", "оценивать"],
+          ["estimate", "оценивать (приблизительно)"]
+        ]
+      }
+    ],
+    "questions": [
+      {"q": "The company's _____ has increased by 15% this quarter.", "options": ["revenue", "bankruptcy", "recession"], "answer": 0},
+      {"q": "The two companies announced a _____ that will create the largest corporation in Europe.", "options": ["merger", "bankruptcy", "liability"], "answer": 0},
+      {"q": "A good _____ knows how to take risks and build a successful business.", "options": ["entrepreneur", "consumer", "competitor"], "answer": 0},
+      {"q": "Due to the economic _____, many people lost their jobs.", "options": ["recession", "investment", "inflation"], "answer": 0},
+      {"q": "We need to _____ our production costs to stay competitive.", "options": ["decrease", "increase", "expand"], "answer": 0},
+      {"q": "The marketing team is going to _____ the new product next month.", "options": ["launch", "outsource", "downsize"], "answer": 0},
+      {"q": "It's difficult to _____ future sales with complete accuracy.", "options": ["forecast", "negotiate", "manufacture"], "answer": 0},
+      {"q": "The company decided to _____ its operations to Asia to reduce costs.", "options": ["outsource", "expand", "restructure"], "answer": 0}
+    ]
+  },
+  "Наука и технологии": {
+    "vocabulary": [
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["research", "исследование"],
+          ["experiment", "эксперимент"],
+          ["laboratory", "лаборатория"],
+          ["scientist", "учёный"],
+          ["discovery", "открытие"],
+          ["breakthrough", "прорыв"],
+          ["innovation", "инновация"],
+          ["technology", "технология"],
+          ["artificial intelligence", "искусственный интеллект"],
+          ["machine learning", "машинное обучение"],
+          ["data", "данные"],
+          ["algorithm", "алгоритм"],
+          ["database", "база данных"],
+          ["cybersecurity", "кибербезопасность"],
+          ["biotechnology", "биотехнология"],
+          ["genetics", "генетика"],
+          ["quantum", "квантовый"],
+          ["nanotechnology", "нанотехнология"],
+          ["robotics", "робототехника"],
+          ["automation", "автоматизация"]
+        ]
+      },
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["analyse", "анализировать"],
+          ["evaluate", "оценивать"],
+          ["measure", "измерять"],
+          ["observe", "наблюдать"],
+          ["experiment", "экспериментировать"],
+          ["hypothesise", "выдвигать гипотезу"],
+          ["prove", "доказывать"],
+          ["disprove", "опровергать"],
+          ["innovate", "внедрять новое"],
+          ["implement", "внедрять / реализовывать"],
+          ["develop", "разрабатывать"],
+          ["test", "тестировать"],
+          ["calculate", "вычислять"],
+          ["gather", "собирать (данные)"],
+          ["process", "обрабатывать"],
+          ["store", "хранить"],
+          ["retrieve", "извлекать"],
+          ["simulate", "моделировать"],
+          ["adapt", "адаптировать"]
+        ]
+      }
+    ],
+    "questions": [
+      {"q": "The _____ in cancer research could save millions of lives.", "options": ["breakthrough", "algorithm", "automation"], "answer": 0},
+      {"q": "The scientists are going to _____ the experiment again to verify the results.", "options": ["conduct", "store", "retrieve"], "answer": 0},
+      {"q": "_____ is one of the most promising fields in modern medicine.", "options": ["Biotechnology", "Nanotechnology", "Cybersecurity"], "answer": 0},
+      {"q": "The new _____ uses advanced machine learning to predict weather patterns.", "options": ["algorithm", "database", "laboratory"], "answer": 0},
+      {"q": "We need to _____ all the data before making a conclusion.", "options": ["analyse", "store", "hypothesise"], "answer": 0},
+      {"q": "The company is developing _____ to automate the production line.", "options": ["robotics", "genetics", "quantum"], "answer": 0},
+      {"q": "The _____ was conducted in a controlled environment.", "options": ["experiment", "discovery", "breakthrough"], "answer": 0},
+      {"q": "She _____ that the results would be positive, but the experiment proved her wrong.", "options": ["hypothesised", "proved", "implemented"], "answer": 0}
+    ]
+  },
+  "Политика и общество": {
+    "vocabulary": [
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["government", "правительство"],
+          ["policy", "политика (курс)"],
+          ["legislation", "законодательство"],
+          ["parliament", "парламент"],
+          ["democracy", "демократия"],
+          ["election", "выборы"],
+          ["candidate", "кандидат"],
+          ["campaign", "кампания"],
+          ["voter", "избиратель"],
+          ["political party", "политическая партия"],
+          ["ideology", "идеология"],
+          ["opposition", "оппозиция"],
+          ["scandal", "скандал"],
+          ["protest", "протест"],
+          ["movement", "движение"],
+          ["citizen", "гражданин"],
+          ["rights", "права"],
+          ["freedom", "свобода"],
+          ["equality", "равенство"],
+          ["justice", "справедливость"],
+          ["minority", "меньшинство"],
+          ["immigration", "иммиграция"],
+          ["welfare", "социальное обеспечение"]
+        ]
+      },
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["govern", "управлять"],
+          ["legislate", "принимать законы"],
+          ["vote", "голосовать"],
+          ["debate", "дебатировать / обсуждать"],
+          ["represent", "представлять"],
+          ["reform", "реформировать"],
+          ["abolish", "отменять"],
+          ["establish", "устанавливать"],
+          ["promote", "продвигать"],
+          ["protect", "защищать"],
+          ["discriminate", "дискриминировать"],
+          ["protest", "протестовать"],
+          ["campaign", "вести кампанию"],
+          ["tolerate", "терпеть / допускать"],
+          ["participate", "участвовать"],
+          ["contribute", "вносить вклад"]
+        ]
+      }
+    ],
+    "questions": [
+      {"q": "The new _____ aims to reduce carbon emissions by 50%.", "options": ["policy", "scandal", "movement"], "answer": 0},
+      {"q": "_____ is the cornerstone of a free and fair society.", "options": ["Democracy", "Discrimination", "Immigration"], "answer": 0},
+      {"q": "Many _____ went to the streets to express their anger.", "options": ["protesters", "candidates", "opposition"], "answer": 0},
+      {"q": "The government promised to _____ the outdated healthcare system.", "options": ["reform", "abolish", "discriminate"], "answer": 0},
+      {"q": "Everyone should have the right to _____ in political life.", "options": ["participate", "discriminate", "tolerate"], "answer": 0},
+      {"q": "The _____ of slavery was a major turning point in history.", "options": ["abolition", "legislation", "discrimination"], "answer": 0},
+      {"q": "The party is trying to _____ the support of young voters.", "options": ["gain", "abolish", "debate"], "answer": 0},
+      {"q": "The new law _____ discrimination in the workplace.", "options": ["prohibits", "promotes", "represents"], "answer": 0}
+    ]
+  },
+  "Юриспруденция и право": {
+    "vocabulary": [
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["law", "закон"],
+          ["legal", "юридический / законный"],
+          ["illegal", "незаконный"],
+          ["justice", "правосудие / справедливость"],
+          ["court", "суд"],
+          ["judge", "судья"],
+          ["jury", "присяжные"],
+          ["lawyer", "юрист / адвокат"],
+          ["defendant", "подсудимый"],
+          ["prosecutor", "прокурор"],
+          ["plaintiff", "истец"],
+          ["trial", "судебный процесс"],
+          ["evidence", "улика / доказательство"],
+          ["witness", "свидетель"],
+          ["verdict", "вердикт"],
+          ["sentence", "приговор"],
+          ["punishment", "наказание"],
+          ["appeal", "апелляция"],
+          ["corporal punishment", "телесное наказание"],
+          ["criminal law", "уголовное право"],
+          ["civil law", "гражданское право"],
+          ["contract", "контракт"],
+          ["constitutional law", "конституционное право"],
+          ["corruption", "коррупция"]
+        ]
+      },
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["arrest", "арестовывать"],
+          ["accuse", "обвинять"],
+          ["convict", "признавать виновным"],
+          ["acquit", "оправдывать"],
+          ["charge", "предъявлять обвинение"],
+          ["testify", "давать показания"],
+          ["submit", "подавать (документы)"],
+          ["commit", "совершать (преступление)"],
+          ["sentencing", "вынесение приговора"],
+          ["judging", "судопроизводство"],
+          ["defend", "защищать"],
+          ["prosecute", "преследовать в судебном порядке"]
+        ]
+      }
+    ],
+    "questions": [
+      {"q": "The _____ was found guilty and sentenced to ten years in prison.", "options": ["defendant", "plaintiff", "witness"], "answer": 0},
+      {"q": "The _____ presented strong evidence against the suspect.", "options": ["prosecutor", "jury", "judge"], "answer": 0},
+      {"q": "The new law aims to fight _____ in government.", "options": ["corruption", "appeal", "civil law"], "answer": 0},
+      {"q": "The _____ reached a unanimous verdict of not guilty.", "options": ["jury", "defendant", "prosecutor"], "answer": 0},
+      {"q": "She decided to _____ the decision to a higher court.", "options": ["appeal", "submit", "commit"], "answer": 0},
+      {"q": "The _____ was acquitted due to lack of evidence.", "options": ["defendant", "plaintiff", "lawyer"], "answer": 0},
+      {"q": "The crime was _____ in the middle of the night.", "options": ["committed", "testified", "acquitted"], "answer": 0},
+      {"q": "The lawyer will _____ his client in court.", "options": ["defend", "prosecute", "accuse"], "answer": 0}
+    ]
+  },
+  "Психология и саморазвитие": {
+    "vocabulary": [
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["psychology", "психология"],
+          ["mind", "разум / ум"],
+          ["behaviour", "поведение"],
+          ["emotion", "эмоция"],
+          ["motivation", "мотивация"],
+          ["self-esteem", "самооценка"],
+          ["confidence", "уверенность"],
+          ["anxiety", "тревожность"],
+          ["stress", "стресс"],
+          ["depression", "депрессия"],
+          ["addiction", "зависимость"],
+          ["trauma", "травма"],
+          ["therapy", "терапия"],
+          ["counselling", "консультирование"],
+          ["meditation", "медитация"],
+          ["mindfulness", "осознанность"],
+          ["intention", "намерение"],
+          ["growth", "рост"],
+          ["potential", "потенциал"],
+          ["habit", "привычка"],
+          ["goal", "цель"],
+          ["setback", "неудача"],
+          ["resilience", "устойчивость"],
+          ["empathy", "эмпатия"],
+          ["compassion", "сострадание"],
+          ["self-care", "забота о себе"]
+        ]
+      },
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["overcome", "преодолевать"],
+          ["manage", "управлять / справляться"],
+          ["cope with", "справляться с"],
+          ["develop", "развивать"],
+          ["improve", "улучшать"],
+          ["enhance", "усиливать"],
+          ["boost", "повышать"],
+          ["reduce", "снижать"],
+          ["heal", "исцелять"],
+          ["reframe", "переосмысливать"],
+          ["visualise", "визуализировать"],
+          ["set", "ставить (цели)"],
+          ["achieve", "достигать"],
+          ["fail", "терпеть неудачу"],
+          ["try", "пытаться"],
+          ["persevere", "проявлять настойчивость"],
+          ["adapt", "адаптироваться"],
+          ["reflect", "рефлексировать"],
+          ["prioritise", "расставлять приоритеты"]
+        ]
+      }
+    ],
+    "questions": [
+      {"q": "Practising _____ can help you stay calm in stressful situations.", "options": ["mindfulness", "addiction", "trauma"], "answer": 0},
+      {"q": "After the accident, she needed years of _____ to recover.", "options": ["therapy", "meditation", "confrontation"], "answer": 0},
+      {"q": "He has a very high level of _____ and never gives up.", "options": ["resilience", "depression", "anxiety"], "answer": 0},
+      {"q": "I need to _____ my habit of procrastinating.", "options": ["overcome", "enhance", "boost"], "answer": 0},
+      {"q": "Lack of sleep can _____ your ability to focus.", "options": ["reduce", "boost", "enhance"], "answer": 0},
+      {"q": "It's important to _____ realistic goals for yourself.", "options": ["set", "achieve", "fail"], "answer": 0},
+      {"q": "She showed great _____ towards her friend who was struggling.", "options": ["compassion", "anxiety", "depression"], "answer": 0},
+      {"q": "Meditation can help you _____ negative thoughts.", "options": ["reframe", "set", "fail"], "answer": 0}
+    ]
+  },
+  "Глобальные проблемы": {
+    "vocabulary": [
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["globalisation", "глобализация"],
+          ["climate change", "изменение климата"],
+          ["poverty", "бедность"],
+          ["famine", "голод"],
+          ["refugees", "беженцы"],
+          ["conflict", "конфликт"],
+          ["war", "война"],
+          ["terrorism", "терроризм"],
+          ["inequality", "неравенство"],
+          ["discrimination", "дискриминация"],
+          ["pollution", "загрязнение"],
+          ["deforestation", "вырубка лесов"],
+          ["overpopulation", "перенаселение"],
+          ["water scarcity", "нехватка воды"],
+          ["food security", "продовольственная безопасность"],
+          ["human rights", "права человека"],
+          ["sustainable development", "устойчивое развитие"],
+          ["pandemic", "пандемия"],
+          ["epidemic", "эпидемия"],
+          ["economic crisis", "экономический кризис"],
+          ["humanitarian aid", "гуманитарная помощь"]
+        ]
+      },
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["eliminate", "устранять / ликвидировать"],
+          ["reduce", "сокращать"],
+          ["combat", "бороться"],
+          ["tackle", "решать (проблему)"],
+          ["raise awareness", "повышать осведомлённость"],
+          ["support", "поддерживать"],
+          ["prevent", "предотвращать"],
+          ["relieve", "облегчать"],
+          ["provide", "предоставлять"],
+          ["promote", "продвигать"],
+          ["address", "решать (вопрос)"],
+          ["evolve", "эволюционировать"],
+          ["contribute", "вносить вклад"]
+        ]
+      }
+    ],
+    "questions": [
+      {"q": "_____ is one of the most pressing issues of our time.", "options": ["Climate change", "Globalisation", "Terrorism"], "answer": 0},
+      {"q": "Millions of people are living in _____ due to the ongoing conflict.", "options": ["poverty", "war", "famine"], "answer": 0},
+      {"q": "The government needs to _____ more effective measures to combat inequality.", "options": ["implement", "support", "reduce"], "answer": 0},
+      {"q": "Many countries are struggling to provide _____ for the growing number of refugees.", "options": ["humanitarian aid", "food security", "water scarcity"], "answer": 0},
+      {"q": "_____ is a major problem in many developing countries.", "options": ["Overpopulation", "Pandemic", "Globalisation"], "answer": 0},
+      {"q": "The _____ of the rainforest has devastating consequences for the planet.", "options": ["deforestation", "desertification", "pollution"], "answer": 0},
+      {"q": "International organisations are working to _____ the spread of the disease.", "options": ["prevent", "combat", "support"], "answer": 0},
+      {"q": "We must _____ the issue of poverty at the global level.", "options": ["tackle", "prevent", "provide"], "answer": 0}
+    ]
+  },
+  "Культура и традиции (глубоко)": {
+    "vocabulary": [
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["heritage", "наследие"],
+          ["custom", "обычай"],
+          ["tradition", "традиция"],
+          ["ritual", "ритуал"],
+          ["belief", "верование"],
+          ["superstition", "суеверие"],
+          ["ceremony", "церемония"],
+          ["festival", "фестиваль"],
+          ["national identity", "национальная идентичность"],
+          ["cultural diversity", "культурное разнообразие"],
+          ["multiculturalism", "мультикультурализм"],
+          ["folklore", "фольклор"],
+          ["myth", "миф"],
+          ["legend", "легенда"],
+          ["art", "искусство"],
+          ["architecture", "архитектура"],
+          ["cuisine", "кухня"],
+          ["national costume", "национальный костюм"],
+          ["folk music", "народная музыка"],
+          ["traditional dance", "народный танец"],
+          ["craftsmanship", "мастерство"]
+        ]
+      },
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["preserve", "сохранять"],
+          ["pass down", "передавать (из поколения в поколение)"],
+          ["celebrate", "праздновать"],
+          ["perform", "выступать / исполнять"],
+          ["observe", "соблюдать (традицию)"],
+          ["inherit", "наследовать"],
+          ["appreciate", "ценить"],
+          ["respect", "уважать"],
+          ["preserve", "сохранять"],
+          ["revive", "возрождать"],
+          ["embrace", "принимать / охватывать"],
+          ["reject", "отвергать"]
+        ]
+      }
+    ],
+    "questions": [
+      {"q": "It's important to _____ cultural heritage for future generations.", "options": ["preserve", "reject", "embrace"], "answer": 0},
+      {"q": "The _____ has been passed down from generation to generation.", "options": ["tradition", "architecture", "cuisine"], "answer": 0},
+      {"q": "Many young people feel that they are losing their _____.", "options": ["cultural identity", "folklore", "ritual"], "answer": 0},
+      {"q": "The _____ of different cultures enriches our society.", "options": ["multiculturalism", "superstition", "national identity"], "answer": 0},
+      {"q": "The _____ of the new museum was inspired by the local traditions.", "options": ["architecture", "cuisine", "craftsmanship"], "answer": 0},
+      {"q": "She is trying to _____ the tradition of folk music in her community.", "options": ["revive", "reject", "celebrate"], "answer": 0},
+      {"q": "The _____ has been observed in this region for centuries.", "options": ["ritual", "ceremony", "festival"], "answer": 0},
+      {"q": "We should _____ and respect the customs of other cultures.", "options": ["embrace", "reject", "inherit"], "answer": 0}
+    ]
+  },
+  "Маркетинг и реклама": {
+    "vocabulary": [
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["marketing", "маркетинг"],
+          ["advertising", "реклама"],
+          ["brand", "бренд"],
+          ["target audience", "целевая аудитория"],
+          ["consumer", "потребитель"],
+          ["campaign", "кампания"],
+          ["strategy", "стратегия"],
+          ["market research", "исследование рынка"],
+          ["public relations", "связи с общественностью"],
+          ["promotion", "продвижение"],
+          ["launch", "запуск (продукта)"],
+          ["advert", "реклама (ролик)"],
+          ["slogan", "слоган"],
+          ["poster", "плакат"],
+          ["commercial", "телевизионная реклама"],
+          ["influencer", "инфлюенсер"],
+          ["social media", "социальные сети"],
+          ["endorsement", "одобрение / поддержка"],
+          ["customer loyalty", "лояльность клиентов"],
+          ["sales", "продажи"]
+        ]
+      },
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["attract", "привлекать"],
+          ["engage", "вовлекать"],
+          ["influence", "влиять"],
+          ["advertise", "рекламировать"],
+          ["promote", "продвигать"],
+          ["launch", "запускать"],
+          ["target", "нацеливаться на"],
+          ["increase", "увеличивать"],
+          ["boost", "повышать"],
+          ["compete", "конкурировать"],
+          ["differentiate", "отличать"],
+          ["position", "позиционировать"],
+          ["monitor", "отслеживать"],
+          ["measure", "измерять"],
+          ["analyse", "анализировать"],
+          ["expand", "расширять"]
+        ]
+      }
+    ],
+    "questions": [
+      {"q": "The company is running a new _____ to increase brand awareness.", "options": ["campaign", "launch", "promotion"], "answer": 0},
+      {"q": "Our _____ audience is young professionals aged 25-35.", "options": ["target", "slogan", "commercial"], "answer": 0},
+      {"q": "The _____ is at the heart of every successful company.", "options": ["consumer", "advert", "poster"], "answer": 0},
+      {"q": "They used a famous influencer to _____ their new product.", "options": ["promote", "influence", "analyse"], "answer": 0},
+      {"q": "The _____ of the new smartphone was a huge success.", "options": ["launch", "campaign", "marketing"], "answer": 0},
+      {"q": "We need to _____ the effectiveness of our marketing strategy.", "options": ["measure", "target", "launch"], "answer": 0},
+      {"q": "The _____ 'Just Do It' is one of the most famous in the world.", "options": ["slogan", "commercial", "endorsement"], "answer": 0},
+      {"q": "Our goal is to build long-term _____ with our customers.", "options": ["loyalty", "promotion", "public relations"], "answer": 0}
+    ]
+  },
+  "Переговоры и убеждение": {
+    "vocabulary": [
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["negotiation", "переговоры"],
+          ["persuasion", "убеждение"],
+          ["compromise", "компромисс"],
+          ["agreement", "соглашение"],
+          ["disagreement", "разногласие"],
+          ["consensus", "консенсус"],
+          ["argument", "аргумент"],
+          ["debate", "дебаты"],
+          ["proposal", "предложение"],
+          ["offer", "предложение"],
+          ["counteroffer", "встречное предложение"],
+          ["concession", "уступка"],
+          ["deadlock", "тупик"],
+          ["mediator", "посредник"],
+          ["win-win situation", "ситуация выигрыш-выигрыш"],
+          ["trade-off", "компромисс (обмен)"],
+          ["bargaining", "торг"],
+          ["leverage", "рычаг влияния"],
+          ["diplomacy", "дипломатия"],
+          ["tactic", "тактика"],
+          ["strategy", "стратегия"]
+        ]
+      },
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["negotiate", "вести переговоры"],
+          ["persuade", "убеждать"],
+          ["convince", "убеждать"],
+          ["compromise", "идти на компромисс"],
+          ["agree", "соглашаться"],
+          ["disagree", "не соглашаться"],
+          ["propose", "предлагать"],
+          ["reject", "отклонять"],
+          ["accept", "принимать"],
+          ["offer", "предлагать"],
+          ["concede", "уступать"],
+          ["influence", "влиять"],
+          ["argue", "аргументировать"],
+          ["convince", "убеждать"],
+          ["resolve", "разрешать (конфликт)"],
+          ["overcome", "преодолевать"],
+          ["achieve", "достигать"],
+          ["settle", "урегулировать"],
+          ["mediate", "выступать посредником"],
+          ["close the deal", "заключить сделку"]
+        ]
+      }
+    ],
+    "questions": [
+      {"q": "The two sides reached a _____ after hours of negotiations.", "options": ["compromise", "deadlock", "disagreement"], "answer": 0},
+      {"q": "She was very _____ and convinced everyone to support her idea.", "options": ["persuasive", "argumentative", "rejecting"], "answer": 0},
+      {"q": "They failed to reach a _____ and the talks broke down.", "options": ["consensus", "debate", "compromise"], "answer": 0},
+      {"q": "The _____ helped the parties resolve their differences.", "options": ["mediator", "mediator", "leverage"], "answer": 0},
+      {"q": "We need to find a _____ solution that satisfies both parties.", "options": ["win-win", "deadlock", "bargaining"], "answer": 0},
+      {"q": "It's important to _____ your arguments clearly and logically.", "options": ["present", "negotiate", "convince"], "answer": 0},
+      {"q": "The negotiations reached a _____ and no progress was made.", "options": ["deadlock", "compromise", "agreement"], "answer": 0},
+      {"q": "She used her _____ to influence the outcome of the meeting.", "options": ["leverage", "compromise", "agreement"], "answer": 0}
+    ]
+  },
+  "Реферирование и пересказ": {
+    "vocabulary": [
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["summary", "резюме / краткое изложение"],
+          ["paraphrase", "перефразирование"],
+          ["report", "доклад / отчёт"],
+          ["review", "обзор / рецензия"],
+          ["analysis", "анализ"],
+          ["interpretation", "интерпретация"],
+          ["conclusion", "заключение"],
+          ["introduction", "вступление"],
+          ["main idea", "основная мысль"],
+          ["key point", "ключевой момент"],
+          ["argument", "аргумент"],
+          ["evidence", "доказательство"],
+          ["example", "пример"],
+          ["quote", "цитата"],
+          ["citation", "цитирование"],
+          ["reference", "ссылка"],
+          ["source", "источник"],
+          ["perspective", "перспектива / точка зрения"],
+          ["viewpoint", "точка зрения"],
+          ["opinion", "мнение"],
+          ["fact", "факт"],
+          ["bias", "предвзятость"],
+          ["objective", "объективный"],
+          ["subjective", "субъективный"],
+          ["context", "контекст"]
+        ]
+      },
+      {
+        "headers": ["Слово", "Перевод"],
+        "rows": [
+          ["summarise", "суммировать / резюмировать"],
+          ["paraphrase", "перефразировать"],
+          ["report", "докладывать / сообщать"],
+          ["analyse", "анализировать"],
+          ["interpret", "интерпретировать"],
+          ["conclude", "заключать"],
+          ["argue", "утверждать / аргументировать"],
+          ["demonstrate", "демонстрировать"],
+          ["illustrate", "иллюстрировать"],
+          ["explain", "объяснять"],
+          ["compare", "сравнивать"],
+          ["contrast", "противопоставлять"],
+          ["evaluate", "оценивать"],
+          ["critique", "критиковать"],
+          ["cite", "цитировать"],
+          ["refer to", "ссылаться на"],
+          ["highlight", "выделять"],
+          ["emphasise", "подчёркивать"],
+          ["state", "утверждать / излагать"],
+          ["suggest", "предполагать / предлагать"],
+          ["outline", "кратко излагать"],
+          ["discuss", "обсуждать"],
+          ["address", "затрагивать (вопрос)"]
+        ]
+      }
+    ],
+    "questions": [
+      {"q": "Please _____ the main points of the article in a few sentences.", "options": ["summarise", "paraphrase", "analyse"], "answer": 0},
+      {"q": "It's important to _____ your sources when writing an academic paper.", "options": ["cite", "paraphrase", "evaluate"], "answer": 0},
+      {"q": "The author presents a compelling _____ in favour of renewable energy.", "options": ["argument", "summary", "paraphrase"], "answer": 0},
+      {"q": "The _____ of the study suggests that further research is needed.", "options": ["conclusion", "introduction", "analysis"], "answer": 0},
+      {"q": "She _____ the poem in her own words for the class.", "options": ["paraphrased", "summarised", "cited"], "answer": 0},
+      {"q": "The article provides a detailed _____ of the economic situation.", "options": ["analysis", "paraphrase", "summary"], "answer": 0},
+      {"q": "The new policy _____ the importance of sustainable development.", "options": ["emphasises", "paraphrases", "contrasts"], "answer": 0},
+      {"q": "The article presents a _____ view of the situation.", "options": ["subjective", "paraphrased", "summarised"], "answer": 0}
+    ]
+  }
+}
