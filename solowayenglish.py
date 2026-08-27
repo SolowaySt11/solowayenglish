@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import io
 import hashlib
 import re
+
 TOKEN = "8681728801:AAFNkjp2eeIZ3KYEOnpXgIu3IowwERXSEWM"
 DB_PATH = "/data/english.db"
 
@@ -1411,123 +1412,6 @@ async def admin_users(update: Update, context: ContextTypes.DEFAULT_TYPE):
     reply_markup = InlineKeyboardMarkup(keyboard)
     await update.callback_query.edit_message_text(text, reply_markup=reply_markup, parse_mode="Markdown")
 
-# ===== BUTTON CALLBACK =====
-
-async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    query = update.callback_query
-    await query.answer()
-    data = query.data
-    
-    if data == "back_to_levels":
-        await show_levels(update, context)
-    elif data == "total_progress":
-        await show_total_progress(update, context)
-    elif data == "logout":
-        await logout(update, context)
-    elif data == "login":
-        await show_login(update, context)
-    elif data == "register":
-        await show_register(update, context)
-    elif data == "admin_users":
-        await admin_users(update, context)
-    elif data == "noop":
-        pass
-    elif data.startswith("level_"):
-        await show_categories(update, context, data[6:])
-    elif data.startswith("cat_"):
-        parts = data[4:].split("|")
-        await show_topics(update, context, parts[0], parts[1], 0)
-    elif data.startswith("topic_"):
-        parts = data[6:].split("|")
-        await show_topic_menu(update, context, parts[0], parts[1], parts[2])
-    elif data.startswith("page_"):
-        parts = data[5:].split("|")
-        await show_topics(update, context, parts[0], parts[1], int(parts[2]))
-    elif data.startswith("expl_"):
-        parts = data[5:].split("|")
-        await show_explanation(update, context, parts[0], parts[1], parts[2])
-    elif data.startswith("vocab_"):
-        parts = data[6:].split("|")
-        await show_vocabulary(update, context, parts[0], parts[1], parts[2])
-    elif data.startswith("tog_"):
-        parts = data[4:].split("|")
-        await toggle_topic_handler(update, context, parts[0], parts[1], parts[2])
-    elif data.startswith("test_"):
-        parts = data[5:].split("|")
-        await start_test(update, context, parts[0], parts[1], parts[2])
-    elif data.startswith("ans_"):
-        await handle_answer(update, context, int(data[4:]))
-    elif data == "diagnostic":
-        await start_diagnostic(update, context)
-    elif data == "diag_restart":
-        await start_diagnostic(update, context)
-    elif data.startswith("diag_ans_"):
-        await handle_diagnostic_answer(update, context, int(data[9:]))
-    elif data == "oge_menu":
-        await oge_menu(update, context)
-    elif data == "oge_reading":
-        await oge_reading_menu(update, context)
-    elif data == "oge_matching":
-        await start_oge_matching(update, context)
-    elif data == "oge_tfns":  # <- ДОБАВИТЬ ЭТУ СТРОКУ!
-        await start_oge_tfns(update, context)
-    elif data.startswith("oge_match_show_"):
-        text_id = data[15:]
-        await show_oge_matching_text(update, context, text_id)
-    elif data.startswith("oge_match_start_"):
-        await start_oge_matching_questions(update, context)
-    elif data.startswith("oge_match_ans_"):
-        parts = data[14:].split("_")
-        answer_letter = parts[0]
-        q_index = int(parts[1])
-        await handle_oge_matching_answer(update, context, answer_letter, q_index)
-    elif data == "oge_word_formation":
-        await start_oge_word_formation(update, context)
-    elif data.startswith("oge_word_pos_"):
-        parts = data[13:].split("_")
-        pos = parts[0]
-        idx = int(parts[1])
-        await handle_oge_word_pos(update, context, pos, idx)
-    elif data.startswith("oge_tfns_show_"):  # <- ДОБАВИТЬ ЭТУ СТРОКУ!
-        text_id = data[14:]
-        await show_oge_tfns_text(update, context, text_id)
-    elif data.startswith("oge_tfns_start_"):  # <- ДОБАВИТЬ ЭТУ СТРОКУ!
-        await start_oge_tfns_questions(update, context)
-    elif data.startswith("oge_tfns_ans_"):  # <- ДОБАВИТЬ ЭТУ СТРОКУ!
-        parts = data[13:].split("_")
-        answer = parts[0]
-        q_index = int(parts[1])
-        await handle_oge_tfns_answer(update, context, answer, q_index)
-    elif data == "oge_audio":
-        await update.callback_query.answer("🎧 Аудирование пока в разработке!", show_alert=True)
-    elif data == "oge_letter":
-        await update.callback_query.answer("✉️ Письмо пока в разработке!", show_alert=True)
-    elif data == "oge_text_reading":
-        await update.callback_query.answer("📖 Чтение текста пока в разработке!", show_alert=True)
-    elif data == "oge_monologue":
-        await update.callback_query.answer("🎤 Монолог пока в разработке!", show_alert=True)
-    elif data == "oge_assistant":
-        await update.callback_query.answer("📱 Electronic Assistant пока в разработке!", show_alert=True)
-    elif data == "start_audio_choice":
-        await start_audio_choice(update, context)
-    elif data == "audio_choice_restart":
-        await start_audio_choice(update, context)
-    elif data.startswith("audio_choice_ans_"):
-        parts = data[17:].split("_")
-        answer_idx = int(parts[0])
-        q_index = int(parts[1])
-        await handle_audio_choice_answer(update, context, answer_idx, q_index)
-
-# ===== MAIN =====
-
-def main():
-    init_db()
-    app = Application.builder().token(TOKEN).build()
-    app.add_handler(CommandHandler("start", start))
-    app.add_handler(CallbackQueryHandler(button_callback))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_messages))
-    print("🎓 Soloway English Tracker запущен...")
-    app.run_polling()
 # ===== ОГЭ: TRUE / FALSE / NOT STATED =====
 
 def load_oge_tfns():
@@ -1706,13 +1590,18 @@ async def finish_oge_tfns(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
     
     del context.user_data["oge_tfns_session"]
+
 # ===== ОГЭ: АУДИРОВАНИЕ (ЗАДАНИЕ 1 — ВЫБОР ОТВЕТА) =====
 
 def load_audio_choice():
+    """Загружает задания для аудирования"""
     try:
-        with open("oge_audio_choice.json", "r", encoding="utf-8") as f:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        file_path = os.path.join(base_dir, "oge_audio_choice.json")
+        with open(file_path, "r", encoding="utf-8") as f:
             return json.load(f)
-    except:
+    except Exception as e:
+        print(f"❌ Ошибка загрузки oge_audio_choice.json: {e}")
         return None
 
 async def start_audio_choice(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -1722,20 +1611,35 @@ async def start_audio_choice(update: Update, context: ContextTypes.DEFAULT_TYPE)
         await update.callback_query.answer("❌ Задания не загружены", show_alert=True)
         return
     
-    # Отправляем аудио
-    audio_path = os.path.join(os.path.dirname(__file__), "audio", "choice", data["audio_file"])
+    # Используем абсолютный путь к файлу
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    audio_path = os.path.join(base_dir, "audio", "choice", data["audio_file"])
+    
+    # Проверяем существование файла
     if os.path.exists(audio_path):
-        with open(audio_path, "rb") as f:
-            await update.effective_chat.send_voice(
-                voice=f,
-                caption="🎧 *Задание 1. Выбор ответа*\n\n"
-                       "Прослушайте аудио (4 коротких текста A, B, C, D) и ответьте на 4 вопроса.\n"
-                       "Вы услышите запись дважды.",
+        try:
+            with open(audio_path, "rb") as f:
+                await update.effective_chat.send_voice(
+                    voice=f,
+                    caption="🎧 *Задание 1. Выбор ответа*\n\n"
+                           "Прослушайте аудио (4 коротких текста A, B, C, D) и ответьте на 4 вопроса.\n"
+                           "Вы услышите запись дважды.",
+                    parse_mode="Markdown"
+                )
+        except Exception as e:
+            await update.callback_query.edit_message_text(
+                f"❌ Ошибка при отправке аудио: {str(e)}\n\n"
+                f"Путь: `{audio_path}`",
                 parse_mode="Markdown"
             )
+            return
     else:
+        # Показываем полный путь для отладки
         await update.callback_query.edit_message_text(
-            "❌ Аудиофайл не найден! Проверь папку `audio/choice/`",
+            f"❌ Аудиофайл не найден!\n\n"
+            f"Искали: `{audio_path}`\n\n"
+            f"Проверь, что файл `{data['audio_file']}` находится в папке `audio/choice/`\n\n"
+            f"Текущая директория: `{base_dir}`",
             parse_mode="Markdown"
         )
         return
@@ -1853,6 +1757,124 @@ async def finish_audio_choice(update: Update, context: ContextTypes.DEFAULT_TYPE
     )
     
     del context.user_data["audio_choice"]
+
+# ===== BUTTON CALLBACK =====
+
+async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+    data = query.data
+    
+    if data == "back_to_levels":
+        await show_levels(update, context)
+    elif data == "total_progress":
+        await show_total_progress(update, context)
+    elif data == "logout":
+        await logout(update, context)
+    elif data == "login":
+        await show_login(update, context)
+    elif data == "register":
+        await show_register(update, context)
+    elif data == "admin_users":
+        await admin_users(update, context)
+    elif data == "noop":
+        pass
+    elif data.startswith("level_"):
+        await show_categories(update, context, data[6:])
+    elif data.startswith("cat_"):
+        parts = data[4:].split("|")
+        await show_topics(update, context, parts[0], parts[1], 0)
+    elif data.startswith("topic_"):
+        parts = data[6:].split("|")
+        await show_topic_menu(update, context, parts[0], parts[1], parts[2])
+    elif data.startswith("page_"):
+        parts = data[5:].split("|")
+        await show_topics(update, context, parts[0], parts[1], int(parts[2]))
+    elif data.startswith("expl_"):
+        parts = data[5:].split("|")
+        await show_explanation(update, context, parts[0], parts[1], parts[2])
+    elif data.startswith("vocab_"):
+        parts = data[6:].split("|")
+        await show_vocabulary(update, context, parts[0], parts[1], parts[2])
+    elif data.startswith("tog_"):
+        parts = data[4:].split("|")
+        await toggle_topic_handler(update, context, parts[0], parts[1], parts[2])
+    elif data.startswith("test_"):
+        parts = data[5:].split("|")
+        await start_test(update, context, parts[0], parts[1], parts[2])
+    elif data.startswith("ans_"):
+        await handle_answer(update, context, int(data[4:]))
+    elif data == "diagnostic":
+        await start_diagnostic(update, context)
+    elif data == "diag_restart":
+        await start_diagnostic(update, context)
+    elif data.startswith("diag_ans_"):
+        await handle_diagnostic_answer(update, context, int(data[9:]))
+    elif data == "oge_menu":
+        await oge_menu(update, context)
+    elif data == "oge_reading":
+        await oge_reading_menu(update, context)
+    elif data == "oge_matching":
+        await start_oge_matching(update, context)
+    elif data == "oge_tfns":
+        await start_oge_tfns(update, context)
+    elif data.startswith("oge_match_show_"):
+        text_id = data[15:]
+        await show_oge_matching_text(update, context, text_id)
+    elif data.startswith("oge_match_start_"):
+        await start_oge_matching_questions(update, context)
+    elif data.startswith("oge_match_ans_"):
+        parts = data[14:].split("_")
+        answer_letter = parts[0]
+        q_index = int(parts[1])
+        await handle_oge_matching_answer(update, context, answer_letter, q_index)
+    elif data == "oge_word_formation":
+        await start_oge_word_formation(update, context)
+    elif data.startswith("oge_word_pos_"):
+        parts = data[13:].split("_")
+        pos = parts[0]
+        idx = int(parts[1])
+        await handle_oge_word_pos(update, context, pos, idx)
+    elif data.startswith("oge_tfns_show_"):
+        text_id = data[14:]
+        await show_oge_tfns_text(update, context, text_id)
+    elif data.startswith("oge_tfns_start_"):
+        await start_oge_tfns_questions(update, context)
+    elif data.startswith("oge_tfns_ans_"):
+        parts = data[13:].split("_")
+        answer = parts[0]
+        q_index = int(parts[1])
+        await handle_oge_tfns_answer(update, context, answer, q_index)
+    elif data == "oge_audio":
+        await update.callback_query.answer("🎧 Аудирование пока в разработке!", show_alert=True)
+    elif data == "oge_letter":
+        await update.callback_query.answer("✉️ Письмо пока в разработке!", show_alert=True)
+    elif data == "oge_text_reading":
+        await update.callback_query.answer("📖 Чтение текста пока в разработке!", show_alert=True)
+    elif data == "oge_monologue":
+        await update.callback_query.answer("🎤 Монолог пока в разработке!", show_alert=True)
+    elif data == "oge_assistant":
+        await update.callback_query.answer("📱 Electronic Assistant пока в разработке!", show_alert=True)
+    elif data == "start_audio_choice":
+        await start_audio_choice(update, context)
+    elif data == "audio_choice_restart":
+        await start_audio_choice(update, context)
+    elif data.startswith("audio_choice_ans_"):
+        parts = data[17:].split("_")
+        answer_idx = int(parts[0])
+        q_index = int(parts[1])
+        await handle_audio_choice_answer(update, context, answer_idx, q_index)
+
+# ===== MAIN =====
+
+def main():
+    init_db()
+    app = Application.builder().token(TOKEN).build()
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CallbackQueryHandler(button_callback))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_messages))
+    print("🎓 Soloway English Tracker запущен...")
+    app.run_polling()
 
 if __name__ == "__main__":
     main()
