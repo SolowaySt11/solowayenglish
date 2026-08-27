@@ -1499,6 +1499,17 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.callback_query.answer("🎤 Монолог пока в разработке!", show_alert=True)
     elif data == "oge_assistant":
         await update.callback_query.answer("📱 Electronic Assistant пока в разработке!", show_alert=True)
+    elif data.startswith("oge_tfns_show_"):
+        text_id = data[14:]
+        await show_oge_tfns_text(update, context, text_id)
+    elif data.startswith("oge_tfns_start_"):
+        await start_oge_tfns_questions(update, context)
+    elif data.startswith("oge_tfns_ans_"):
+    # Формат: oge_tfns_ans_True_0
+        parts = data[13:].split("_")
+        answer = parts[0]
+        q_index = int(parts[1])
+        await handle_oge_tfns_answer(update, context, answer, q_index)
 
 # ===== MAIN =====
 
@@ -1510,6 +1521,184 @@ def main():
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_messages))
     print("🎓 Soloway English Tracker запущен...")
     app.run_polling()
+# ===== ОГЭ: TRUE / FALSE / NOT STATED =====
+
+def load_oge_tfns():
+    """Загружает задания для раздела True/False/Not Stated"""
+    try:
+        with open("oge_tfns.json", "r", encoding="utf-8") as f:
+            return json.load(f)
+    except:
+        return None
+
+async def start_oge_tfns(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает список текстов для T/F/NS"""
+    data = load_oge_tfns()
+    if not data:
+        await update.callback_query.answer("❌ Файл с заданиями не найден!", show_alert=True)
+        return
+    
+    texts = data["texts"]
+    keyboard = []
+    for text in texts:
+        display_name = f"{text['id'].replace('tfns_', '')}. {text['title']}"
+        keyboard.append([InlineKeyboardButton(f"📄 {display_name}", callback_data=f"oge_tfns_show_{text['id']}")])
+    keyboard.append([InlineKeyboardButton("🔙 Назад", callback_data="oge_reading")])
+    
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    await update.callback_query.edit_message_text(
+        "✅ *True / False / Not Stated*\n\n"
+        "Выбери текст для выполнения заданий.\n"
+        "Тебе нужно будет определить, верны ли утверждения (True/False) "
+        "или информация не упоминается в тексте (Not Stated).",
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
+
+async def show_oge_tfns_text(update: Update, context: ContextTypes.DEFAULT_TYPE, text_id):
+    """Показывает текст и запускает опрос"""
+    data = load_oge_tfns()
+    if not data:
+        await update.callback_query.answer("❌ Ошибка загрузки", show_alert=True)
+        return
+    
+    selected_text = None
+    for text in data["texts"]:
+        if text["id"] == text_id:
+            selected_text = text
+            break
+    
+    if not selected_text:
+        await update.callback_query.answer("❌ Текст не найден", show_alert=True)
+        return
+    
+    context.user_data["oge_tfns_session"] = {
+        "text_data": selected_text,
+        "current_question": 0,
+        "score": 0,
+        "user_answers": [],
+        "statements": selected_text["statements"]
+    }
+    
+    text_message = f"📖 *{selected_text['title']}*\n\n{selected_text['text']}"
+    await update.callback_query.edit_message_text(
+        text_message,
+        parse_mode="Markdown"
+    )
+    
+    keyboard = [[InlineKeyboardButton("▶️ Начать отвечать", callback_data=f"oge_tfns_start_{text_id}")]]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    await update.effective_chat.send_message(
+        "Готов(а)? Нажимай! 🚀",
+        reply_markup=reply_markup
+    )
+
+async def start_oge_tfns_questions(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Запускает процесс ответа на вопросы"""
+    await show_oge_tfns_question(update, context)
+
+async def show_oge_tfns_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает текущее утверждение"""
+    session = context.user_data.get("oge_tfns_session")
+    if not session:
+        await update.callback_query.answer("❌ Сессия не найдена", show_alert=True)
+        return
+    
+    current = session["current_question"]
+    statements = session["statements"]
+    
+    if current >= len(statements):
+        await finish_oge_tfns(update, context)
+        return
+    
+    statement_data = statements[current]
+    statement_text = statement_data["statement"]
+    
+    keyboard = [
+        [InlineKeyboardButton("✅ True", callback_data=f"oge_tfns_ans_True_{current}")],
+        [InlineKeyboardButton("❌ False", callback_data=f"oge_tfns_ans_False_{current}")],
+        [InlineKeyboardButton("❓ Not Stated", callback_data=f"oge_tfns_ans_Not Stated_{current}")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    await update.callback_query.edit_message_text(
+        f"❓ *Утверждение {current+1} из {len(statements)}*\n\n{statement_text}",
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
+
+async def handle_oge_tfns_answer(update: Update, context: ContextTypes.DEFAULT_TYPE, answer, q_index):
+    """Обрабатывает ответ на утверждение"""
+    session = context.user_data.get("oge_tfns_session")
+    if not session:
+        await update.callback_query.answer("❌ Сессия устарела", show_alert=True)
+        return
+    
+    if q_index != session["current_question"]:
+        await update.callback_query.answer("⏳ Уже отвечено!", show_alert=True)
+        return
+    
+    statement_data = session["statements"][q_index]
+    correct_answer = statement_data["answer"]
+    is_correct = (answer == correct_answer)
+    
+    if is_correct:
+        session["score"] += 1
+        await update.callback_query.answer(f"✅ Правильно! {correct_answer}")
+    else:
+        await update.callback_query.answer(f"❌ Правильно: {correct_answer}", show_alert=True)
+    
+    session["user_answers"].append({
+        "statement": statement_data["statement"],
+        "user_answer": answer,
+        "correct_answer": correct_answer,
+        "is_correct": is_correct
+    })
+    
+    session["current_question"] += 1
+    await show_oge_tfns_question(update, context)
+
+async def finish_oge_tfns(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Завершает раздел True/False/Not Stated"""
+    session = context.user_data.get("oge_tfns_session")
+    if not session:
+        return
+    
+    total = len(session["statements"])
+    score = session["score"]
+    percent = int(score / total * 100) if total > 0 else 0
+    
+    if percent == 100:
+        emoji, comment = "🏆", "Идеально! Ты отлично понял(а) текст!"
+    elif percent >= 75:
+        emoji, comment = "🎉", "Хороший результат! Так держать!"
+    elif percent >= 50:
+        emoji, comment = "📚", "Неплохо! Но стоит перечитать текст внимательнее."
+    else:
+        emoji, comment = "💪", "Нужно больше практики! Попробуй ещё раз."
+    
+    details = ""
+    for i, ans in enumerate(session["user_answers"]):
+        icon = "✅" if ans["is_correct"] else "❌"
+        details += f"{i+1}. {ans['statement']}\n"
+        details += f"   {icon} Ты: {ans['user_answer']} | Правильно: {ans['correct_answer']}\n"
+    
+    keyboard = [
+        [InlineKeyboardButton("🔄 Другой текст", callback_data="oge_tfns")],
+        [InlineKeyboardButton("🔙 Назад", callback_data="oge_reading")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    await update.callback_query.edit_message_text(
+        f"{emoji} *Результат!*\n\n"
+        f"📊 {score}/{total} ({percent}%)\n\n"
+        f"{comment}\n\n"
+        f"📋 *Детали:*\n{details}",
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
+    
+    del context.user_data["oge_tfns_session"]
 
 if __name__ == "__main__":
     main()
