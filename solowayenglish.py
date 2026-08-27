@@ -830,7 +830,7 @@ async def oge_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("🎧 2. Аудирование (сопоставление)", callback_data="start_audio_matching")],
         [InlineKeyboardButton("📝 3. Аудирование (заполнение пропусков)", callback_data="start_audio_fill")],
         [InlineKeyboardButton("📖 4. Работа с текстом", callback_data="oge_reading")],
-        [InlineKeyboardButton("📝 5. Словообразование", callback_data="oge_word_formation")],
+        [InlineKeyboardButton("📝 5. Словообразование", callback_data="start_word_formation")],
         [InlineKeyboardButton("✉️ 6. Письмо (скоро)", callback_data="oge_letter")],
         [InlineKeyboardButton("📖 7. Чтение текста (скоро)", callback_data="oge_text_reading")],
         [InlineKeyboardButton("🎤 8. Монолог (скоро)", callback_data="oge_monologue")],
@@ -1599,7 +1599,6 @@ async def finish_oge_tfns(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     del context.user_data["oge_tfns_session"]
 
-# ===== ОГЭ: АУДИРОВАНИЕ (ЗАДАНИЕ 1 — ВЫБОР ОТВЕТА) =====
 
 # ===== ОГЭ: АУДИРОВАНИЕ (ЗАДАНИЕ 1 — ВЫБОР ОТВЕТА) =====
 
