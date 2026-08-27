@@ -2424,18 +2424,6 @@ async def start_word_formation(update: Update, context: ContextTypes.DEFAULT_TYP
     
     # Показываем первый вопрос
     await show_word_formation_question(update, context)
-    
-    # Сохраняем данные в сессию
-    context.user_data["word_formation"] = {
-        "tasks": data["tasks"],
-        "current": 0,
-        "score": 0,
-        "user_answers": [],
-        "total": len(data["tasks"])
-    }
-    
-    # Показываем первый вопрос
-    await show_word_formation_question(update, context)
 
 async def show_word_formation_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Показывает текущее задание по словообразованию"""
@@ -2797,7 +2785,8 @@ async def finish_lexical_grammar_internal(update, context):
     for i, ans in enumerate(session["user_answers"]):
         pos_icon = "✅" if ans.get("is_pos_correct", False) else "❌"
         word_icon = "✅" if ans.get("is_word_correct", False) else "❌"
-        details += f"{i+1}. {ans['question'][:60]}...\n"
+        question_short = ans['question'][:50] + "..." if len(ans['question']) > 50 else ans['question']
+        details += f"{i+1}. {question_short}\n"
         details += f"   Часть речи: {pos_icon} {ans['selected_pos']} (правильно: {ans['correct_pos']})\n"
         details += f"   Слово: {word_icon} {ans.get('user_word', '—')} (правильно: {ans['correct_answer']})\n\n"
     
@@ -2817,10 +2806,21 @@ async def finish_lexical_grammar_internal(update, context):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     
-    if hasattr(update, 'callback_query') and update.callback_query:
-        await update.callback_query.edit_message_text(result_text, reply_markup=reply_markup, parse_mode="Markdown")
-    else:
-        await update.message.reply_text(result_text, reply_markup=reply_markup, parse_mode="Markdown")
+    # Отправляем новое сообщение с результатом
+    await update.effective_chat.send_message(
+        result_text,
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
+    
+    # Удаляем последнее сообщение с вопросом
+    try:
+        if hasattr(update, 'callback_query') and update.callback_query:
+            await update.callback_query.message.delete()
+        elif hasattr(update, 'message') and update.message:
+            await update.message.delete()
+    except:
+        pass
     
     del context.user_data["lexical_grammar"]
     context.user_data["awaiting_lexical_word"] = False
