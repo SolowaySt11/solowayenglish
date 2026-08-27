@@ -2427,17 +2427,10 @@ async def show_word_formation_question(update: Update, context: ContextTypes.DEF
     text += f"{task['question']}\n\n"
     text += "✏️ *Напиши преобразованное слово в чат:*"
     
-    # Если это callback, редактируем сообщение, иначе отправляем новое
     if update.callback_query:
-        await update.callback_query.edit_message_text(
-            text,
-            parse_mode="Markdown"
-        )
+        await update.callback_query.edit_message_text(text)
     else:
-        await update.message.reply_text(
-            text,
-            parse_mode="Markdown"
-        )
+        await update.message.reply_text(text)
     
     context.user_data["awaiting_word_formation"] = True
 
@@ -2499,10 +2492,7 @@ async def show_word_formation_question_from_message(update: Update, context: Con
     text += f"{task['question']}\n\n"
     text += "✏️ *Напиши преобразованное слово в чат:*"
     
-    await update.message.reply_text(
-        text,
-        parse_mode="Markdown"
-    )
+    await update.message.reply_text(text)
     
     context.user_data["awaiting_word_formation"] = True
 
