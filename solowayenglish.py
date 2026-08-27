@@ -2395,6 +2395,32 @@ async def start_word_formation(update: Update, context: ContextTypes.DEFAULT_TYP
         await update.callback_query.answer("❌ Задания не загружены", show_alert=True)
         return
     
+    # Отправляем текст с легендой
+    if "text" in data:
+        await update.callback_query.edit_message_text(
+            f"📖 *Прочитайте текст и преобразуйте слова в скобках:*\n\n{data['text']}",
+            parse_mode="Markdown"
+        )
+        # Отправляем отдельное сообщение с инструкцией
+        await update.effective_chat.send_message(
+            "✏️ *Сейчас будут показаны задания по одному.*\n"
+            "Вам нужно преобразовать слово в скобках так, чтобы оно грамматически соответствовало тексту.\n\n"
+            "Напишите ответ в чат.",
+            parse_mode="Markdown"
+        )
+    
+    # Сохраняем данные в сессию
+    context.user_data["word_formation"] = {
+        "tasks": data["tasks"],
+        "current": 0,
+        "score": 0,
+        "user_answers": [],
+        "total": len(data["tasks"])
+    }
+    
+    # Показываем первый вопрос
+    await show_word_formation_question(update, context)
+    
     # Сохраняем данные в сессию
     context.user_data["word_formation"] = {
         "tasks": data["tasks"],
