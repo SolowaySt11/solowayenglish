@@ -2790,7 +2790,7 @@ async def finish_lexical_grammar_internal(update, context):
         details += f"   Часть речи: {pos_icon} {ans['selected_pos']} (правильно: {ans['correct_pos']})\n"
         details += f"   Слово: {word_icon} {ans.get('user_word', '—')} (правильно: {ans['correct_answer']})\n\n"
     
-    result_text = f"{emoji} *Результат!*\n\n"
+    result_text = f"{emoji} Результат!\n\n"
     result_text += f"📊 {score}/{total} ({percent}%)\n\n"
     result_text += f"{comment}\n\n"
     
@@ -2798,7 +2798,7 @@ async def finish_lexical_grammar_internal(update, context):
     filled = int(percent / 100 * bar_length)
     bar = "🟩" * filled + "⬜" * (bar_length - filled)
     result_text += f"{bar} {percent}%\n\n"
-    result_text += f"📋 *Детали:*\n{details}"
+    result_text += f"📋 Детали:\n{details}"
     
     keyboard = [
         [InlineKeyboardButton("🔄 Пройти заново", callback_data="start_lexical_grammar")],
@@ -2806,11 +2806,10 @@ async def finish_lexical_grammar_internal(update, context):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     
-    # Отправляем новое сообщение с результатом
+    # Отправляем новое сообщение БЕЗ Markdown
     await update.effective_chat.send_message(
         result_text,
-        reply_markup=reply_markup,
-        parse_mode="Markdown"
+        reply_markup=reply_markup
     )
     
     # Удаляем последнее сообщение с вопросом
