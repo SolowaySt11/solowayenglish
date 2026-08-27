@@ -1,0 +1,38 @@
+{
+  "audio_file": "3014.mp3",
+  "rubrics": [
+    "What stops him/her from skiing.",
+    "First skiing experience.",
+    "Why he/she prefers skiing to other sports.",
+    "Professional skiing equipment.",
+    "Ski resort facilities.",
+    "Ski racing competition."
+  ],
+  "speakers": [
+    {
+      "id": "A",
+      "text": "I love sports. But I've never been very extreme. Recently my friend had a ski holiday in the mountains. But I chose to stay at home. First: I hate cold. I don't enjoy staying outdoors longer than half an hour. Second: I found ski boots so heavy and uncomfortable. And the last but the main reason: is that I could fall over and hurt myself.",
+      "correct_rubric": 0
+    },
+    {
+      "id": "B",
+      "text": "I think that winter is the best season of the year and I take every opportunity to do winter sports. I like skiing best of all. First of all it's very exciting to ski down the slope. Lots of people from different places go to skiing and I like to meet new friends. And finally, when you ski you enjoy the wonderful nature, the beautiful landscape and the fresh air of the mountains.",
+      "correct_rubric": 2
+    },
+    {
+      "id": "C",
+      "text": "I sometimes go to the ski resorts with my friends. However, when I first tried this sport it was a great failure. I spent about half an hour putting the boots on! They were heavy, and it was difficult to move in them. Anyway, I got to the hill and fastened the skies and started to slide down! I wasn't able to stop! It was really frightened. At last, I fell over and stopped. Very painful.",
+      "correct_rubric": 1
+    },
+    {
+      "id": "D",
+      "text": "I ski quite serious and I often take part in different competitions: local, national, international. Safety is very important for this sport. Apart from quality skies, good boots are important. They should be strong and high to protect the ankles. The helmet is also necessary. I also wear sport glasses and the skiing mask to protect my face from the sun, the wind and the snow.",
+      "correct_rubric": 3
+    },
+    {
+      "id": "E",
+      "text": "When we go skiing we always stay in one and the same hotel, it's in a very beautiful place in the mountains and sometimes even the international competitions are held there. Apart from several ski centers where we hire skies there are restaurants there and medical center, different souvenir shops and several ski-lifts that can take you up to the top of the mountains very quickly.",
+      "correct_rubric": 4
+    }
+  ]
+}
