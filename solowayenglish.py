@@ -1604,6 +1604,60 @@ def load_audio_choice():
         print(f"❌ Ошибка загрузки oge_audio_choice.json: {e}")
         return None
 
+# ===== ОГЭ: АУДИРОВАНИЕ (ЗАДАНИЕ 1 — ВЫБОР ОТВЕТА) =====
+
+def find_audio_file(filename):
+    """Ищет аудиофайл в разных возможных местах"""
+    # Получаем базовую директорию
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    # Возможные пути для поиска
+    possible_paths = [
+        os.path.join(base_dir, "audio", "choice", filename),      # стандартный путь
+        os.path.join(base_dir, "choice", filename),              # если папка choice в корне
+        os.path.join(base_dir, filename),                         # если файл в корне
+        os.path.join("/app", "audio", "choice", filename),        # для amvera
+        os.path.join("/app", "choice", filename),                # для amvera альтернативный
+        os.path.join("/data", "audio", "choice", filename),      # для amvera с persistent storage
+        os.path.join(os.getcwd(), "audio", "choice", filename),  # из текущей рабочей директории
+        os.path.join(os.getcwd(), "choice", filename),           # альтернативный из рабочей
+    ]
+    
+    # Проверяем каждый путь
+    for path in possible_paths:
+        if os.path.exists(path):
+            print(f"✅ Найден аудиофайл: {path}")
+            return path
+    
+    # Если файл не найден, выводим все проверенные пути для отладки
+    print(f"❌ Аудиофайл {filename} не найден. Проверены пути:")
+    for path in possible_paths:
+        print(f"  - {path} (exists: {os.path.exists(path)})")
+    
+    return None
+
+def load_audio_choice():
+    """Загружает задания для аудирования"""
+    try:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        # Проверяем несколько возможных путей для JSON
+        json_paths = [
+            os.path.join(base_dir, "oge_audio_choice.json"),
+            os.path.join("/app", "oge_audio_choice.json"),
+            os.path.join(os.getcwd(), "oge_audio_choice.json")
+        ]
+        
+        for path in json_paths:
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    return json.load(f)
+        
+        print(f"❌ oge_audio_choice.json не найден. Проверены пути: {json_paths}")
+        return None
+    except Exception as e:
+        print(f"❌ Ошибка загрузки oge_audio_choice.json: {e}")
+        return None
+
 async def start_audio_choice(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Запускает задание 1 по аудированию (выбор ответа)"""
     data = load_audio_choice()
@@ -1611,12 +1665,10 @@ async def start_audio_choice(update: Update, context: ContextTypes.DEFAULT_TYPE)
         await update.callback_query.answer("❌ Задания не загружены", show_alert=True)
         return
     
-    # Используем абсолютный путь к файлу
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    audio_path = os.path.join(base_dir, "audio", "choice", data["audio_file"])
+    # Ищем аудиофайл
+    audio_path = find_audio_file(data["audio_file"])
     
-    # Проверяем существование файла
-    if os.path.exists(audio_path):
+    if audio_path:
         try:
             with open(audio_path, "rb") as f:
                 await update.effective_chat.send_voice(
@@ -1634,11 +1686,15 @@ async def start_audio_choice(update: Update, context: ContextTypes.DEFAULT_TYPE)
             )
             return
     else:
-        # Показываем полный путь для отладки
+        # Показываем информацию для отладки
+        base_dir = os.path.dirname(os.path.abspath(__file__))
         await update.callback_query.edit_message_text(
-            f"❌ Аудиофайл не найден!\n\n"
-            f"Искали: `{audio_path}`\n\n"
-            f"Проверь, что файл `{data['audio_file']}` находится в папке `audio/choice/`\n\n"
+            f"❌ Аудиофайл `{data['audio_file']}` не найден!\n\n"
+            f"Проверь, что файл находится в одной из папок:\n"
+            f"• `{base_dir}/audio/choice/`\n"
+            f"• `/app/audio/choice/`\n"
+            f"• `/app/`\n"
+            f"• `{os.getcwd()}/audio/choice/`\n\n"
             f"Текущая директория: `{base_dir}`",
             parse_mode="Markdown"
         )
@@ -1685,6 +1741,134 @@ async def show_audio_choice_question(update: Update, context: ContextTypes.DEFAU
         parse_mode="Markdown"
     )
 
+async def handle_audio_choice_answer(update: Update, context: ContextTypes.DEFAULT_TYPE, answer_idx, q_index):
+    """Обрабатывает ответ на вопрос"""
+    session = context.user_data.get("audio_choice")
+    if not session:
+        await update.callback_query.answer("❌ Сессия устарела", show_alert=True)
+        return
+    
+    if q_index != session["current"]:
+        await update.callback_query.answer("⏳ Уже отвечено!", show_alert=True)
+        return
+    
+    task = session["tasks"][q_index]
+    is_correct = (answer_idx == task["answer"])
+    
+    if is_correct:
+        session["score"] += 1
+        await update.callback_query.answer("✅ Правильно!")
+    else:
+        correct_text = task["options"][task["answer"]]
+        await update.callback_query.answer(f"❌ Правильно: {correct_text}", show_alert=True)
+    
+    session["user_answers"].append({
+        "question": task["question"],
+        "user_answer": task["options"][answer_idx],
+        "correct_answer": task["options"][task["answer"]],
+        "is_correct": is_correct
+    })
+    
+    session["current"] += 1
+    await show_audio_choice_question(update, context)
+
+async def finish_audio_choice(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Завершает задание 1 по аудированию"""
+    session = context.user_data.get("audio_choice")
+    if not session:
+        return
+    
+    total = len(session["tasks"])
+    score = session["score"]
+    percent = int(score / total * 100) if total > 0 else 0
+    
+    if percent == 100:
+        emoji, comment = "🏆", "Идеально! Ты отлично справился(ась)!"
+    elif percent >= 75:
+        emoji, comment = "🎉", "Хороший результат!"
+    elif percent >= 50:
+        emoji, comment = "📚", "Неплохо, но стоит переслушать аудио."
+    else:
+        emoji, comment = "💪", "Нужно больше практики!"
+    
+    details = ""
+    for i, ans in enumerate(session["user_answers"]):
+        icon = "✅" if ans["is_correct"] else "❌"
+        details += f"{i+1}. {ans['question']}\n"
+        details += f"   {icon} Ты: {ans['user_answer']} | Правильно: {ans['correct_answer']}\n"
+    
+    keyboard = [
+        [InlineKeyboardButton("🔄 Пройти заново", callback_data="audio_choice_restart")],
+        [InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    await update.callback_query.edit_message_text(
+        f"{emoji} *Результат!*\n\n"
+        f"📊 {score}/{total} ({percent}%)\n\n"
+        f"{comment}\n\n"
+        f"📋 *Детали:*\n{details}",
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
+    
+    del context.user_data["audio_choice"]
+async def show_audio_choice_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает текущий вопрос"""
+    session = context.user_data.get("audio_choice")
+    if not session:
+        return
+    
+    current = session["current"]
+    tasks = session["tasks"]
+    
+    if current >= len(tasks):
+        await finish_audio_choice(update, context)
+        return
+    
+    task = tasks[current]
+    
+    keyboard = [
+        [InlineKeyboardButton("1️⃣ " + task["options"][0], callback_data=f"audio_choice_ans_0_{current}")],
+        [InlineKeyboardButton("2️⃣ " + task["options"][1], callback_data=f"audio_choice_ans_1_{current}")],
+        [InlineKeyboardButton("3️⃣ " + task["options"][2], callback_data=f"audio_choice_ans_2_{current}")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    await update.callback_query.edit_message_text(
+        f"❓ *Вопрос {current+1} из {len(tasks)}*\n\n"
+        f"{task['question']}\n\n"
+        f"Выбери вариант ответа:",
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
+async def debug_paths(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Отладочная функция для проверки путей"""
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    cwd = os.getcwd()
+    
+    paths = [
+        ("__file__", base_dir),
+        ("os.getcwd()", cwd),
+        ("audio/choice/8171.mp3", os.path.join(base_dir, "audio", "choice", "8171.mp3")),
+        ("/app/audio/choice/8171.mp3", "/app/audio/choice/8171.mp3"),
+    ]
+    
+    message = "📁 *Отладка путей:*\n\n"
+    for name, path in paths:
+        exists = "✅" if os.path.exists(path) else "❌"
+        message += f"{exists} {name}: `{path}`\n"
+    
+    # Список файлов в директории
+    try:
+        files = os.listdir(base_dir)
+        message += f"\n📂 Файлы в `{base_dir}`:\n"
+        for f in files:
+            message += f"• {f}\n"
+    except:
+        message += "\n❌ Не удалось прочитать директорию"
+    
+    await update.message.reply_text(message, parse_mode="Markdown")
 async def handle_audio_choice_answer(update: Update, context: ContextTypes.DEFAULT_TYPE, answer_idx, q_index):
     """Обрабатывает ответ на вопрос"""
     session = context.user_data.get("audio_choice")
@@ -1873,6 +2057,7 @@ def main():
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CallbackQueryHandler(button_callback))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_messages))
+    app.add_handler(CommandHandler("debug", debug_paths))
     print("🎓 Soloway English Tracker запущен...")
     app.run_polling()
 
