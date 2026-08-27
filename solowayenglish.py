@@ -463,6 +463,9 @@ async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif context.user_data.get("awaiting_word_formation"):
         await handle_word_formation_answer(update, context)
         return
+    elif context.user_data.get("awaiting_lexical_word"):
+        await handle_lexical_word(update, context)
+        return
 
 async def show_levels(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = context.user_data.get("user_id")
@@ -831,10 +834,11 @@ async def oge_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("📝 3. Аудирование (заполнение пропусков)", callback_data="start_audio_fill")],
         [InlineKeyboardButton("📖 4. Работа с текстом", callback_data="oge_reading")],
         [InlineKeyboardButton("📝 5. Словообразование", callback_data="start_word_formation")],
-        [InlineKeyboardButton("✉️ 6. Письмо (скоро)", callback_data="oge_letter")],
-        [InlineKeyboardButton("📖 7. Чтение текста (скоро)", callback_data="oge_text_reading")],
-        [InlineKeyboardButton("🎤 8. Монолог (скоро)", callback_data="oge_monologue")],
-        [InlineKeyboardButton("📱 9. Electronic Assistant (скоро)", callback_data="oge_assistant")],
+        [InlineKeyboardButton("📝 6. Лексико-грамматика", callback_data="start_lexical_grammar")],
+        [InlineKeyboardButton("✉️ 7. Письмо (скоро)", callback_data="oge_letter")],
+        [InlineKeyboardButton("📖 8. Чтение текста (скоро)", callback_data="oge_text_reading")],
+        [InlineKeyboardButton("🎤 9. Монолог (скоро)", callback_data="oge_monologue")],
+        [InlineKeyboardButton("📱 10. Electronic Assistant (скоро)", callback_data="oge_assistant")],
         [InlineKeyboardButton("🔙 Назад", callback_data="back_to_levels")]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -2588,6 +2592,238 @@ async def finish_word_formation_internal(update, context):
     
     del context.user_data["word_formation"]
     context.user_data["awaiting_word_formation"] = False
+
+# ===== ОГЭ: ЛЕКСИКО-ГРАММАТИЧЕСКИЕ ТРАНСФОРМАЦИИ =====
+
+def load_lexical_grammar():
+    """Загружает задания по лексико-грамматическим трансформациям"""
+    try:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        json_paths = [
+            os.path.join(base_dir, "oge_lexical_grammar.json"),
+            os.path.join("/app", "oge_lexical_grammar.json"),
+            os.path.join(os.getcwd(), "oge_lexical_grammar.json")
+        ]
+        
+        for path in json_paths:
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    return json.load(f)
+        
+        print(f"❌ oge_lexical_grammar.json не найден. Проверены пути: {json_paths}")
+        return None
+    except Exception as e:
+        print(f"❌ Ошибка загрузки oge_lexical_grammar.json: {e}")
+        return None
+
+async def start_lexical_grammar(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Запускает задание — лексико-грамматические трансформации"""
+    data = load_lexical_grammar()
+    if not data:
+        await update.callback_query.answer("❌ Задания не загружены", show_alert=True)
+        return
+    
+    context.user_data["lexical_grammar"] = {
+        "tasks": data["tasks"],
+        "current": 0,
+        "score": 0,
+        "user_answers": [],
+        "total": len(data["tasks"])
+    }
+    
+    await show_lexical_question(update, context)
+
+async def show_lexical_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает текущее задание с выбором части речи"""
+    session = context.user_data.get("lexical_grammar")
+    if not session:
+        return
+    
+    current = session["current"]
+    tasks = session["tasks"]
+    
+    if current >= session["total"]:
+        await finish_lexical_grammar(update, context)
+        return
+    
+    task = tasks[current]
+    
+    text = f"📝 *Лексико-грамматическая трансформация*\n\n"
+    text += f"Задание {current + 1} из {session['total']}:\n\n"
+    text += f"{task['question']}\n\n"
+    text += "⬇️ *Сначала выбери часть речи:*"
+    
+    keyboard = [
+        [InlineKeyboardButton("📝 Существительное (noun)", callback_data=f"lg_pos_noun_{current}")],
+        [InlineKeyboardButton("📝 Глагол (verb)", callback_data=f"lg_pos_verb_{current}")],
+        [InlineKeyboardButton("📝 Прилагательное (adjective)", callback_data=f"lg_pos_adjective_{current}")],
+        [InlineKeyboardButton("📝 Наречие (adverb)", callback_data=f"lg_pos_adverb_{current}")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    if update.callback_query:
+        await update.callback_query.edit_message_text(text, reply_markup=reply_markup, parse_mode="Markdown")
+    else:
+        await update.message.reply_text(text, reply_markup=reply_markup, parse_mode="Markdown")
+
+async def handle_lexical_pos(update: Update, context: ContextTypes.DEFAULT_TYPE, pos: str, task_idx: int):
+    """Обрабатывает выбор части речи"""
+    query = update.callback_query
+    session = context.user_data.get("lexical_grammar")
+    if not session:
+        await query.answer("❌ Сессия устарела", show_alert=True)
+        return
+    
+    if task_idx != session["current"]:
+        await query.answer("⏳ Это задание уже выполнено!", show_alert=True)
+        return
+    
+    task = session["tasks"][task_idx]
+    is_pos_correct = (pos == task["part_of_speech"])
+    
+    # Сохраняем ответ по части речи
+    session["user_answers"].append({
+        "question": task["question"],
+        "selected_pos": pos,
+        "correct_pos": task["part_of_speech"],
+        "is_pos_correct": is_pos_correct,
+        "correct_answer": task["answer"]
+    })
+    
+    if is_pos_correct:
+        await query.answer("✅ Часть речи верная! Теперь напиши слово.")
+    else:
+        await query.answer(f"❌ Неправильно! Правильно: {task['part_of_speech']}", show_alert=True)
+    
+    # Переход к вводу слова
+    context.user_data["awaiting_lexical_word"] = True
+    
+    await query.edit_message_text(
+        f"📝 *Введи слово*\n\n"
+        f"Задание {task_idx + 1} из {session['total']}:\n\n"
+        f"{task['question']}\n\n"
+        f"✏️ *Напиши преобразованное слово в чат:*"
+    )
+
+async def handle_lexical_word(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Обрабатывает ввод слова"""
+    word = update.message.text.strip().lower()
+    session = context.user_data.get("lexical_grammar")
+    if not session:
+        await update.message.reply_text("❌ Сессия устарела. Начни заново.")
+        return
+    
+    current = session["current"]
+    if current >= session["total"]:
+        return
+    
+    task = session["tasks"][current]
+    is_word_correct = (word == task["answer"].lower())
+    
+    # Обновляем ответ
+    session["user_answers"][-1]["user_word"] = word
+    session["user_answers"][-1]["is_word_correct"] = is_word_correct
+    
+    if is_word_correct:
+        session["score"] += 1
+        await update.message.reply_text(f"✅ Правильно! '{task['answer']}' — верно!")
+    else:
+        await update.message.reply_text(f"❌ Неправильно. Правильный ответ: {task['answer']}")
+    
+    session["current"] += 1
+    context.user_data["awaiting_lexical_word"] = False
+    
+    if session["current"] >= session["total"]:
+        await finish_lexical_grammar_from_message(update, context)
+    else:
+        await show_lexical_question_from_message(update, context)
+
+async def show_lexical_question_from_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает следующий вопрос (из сообщения)"""
+    session = context.user_data.get("lexical_grammar")
+    if not session:
+        return
+    
+    current = session["current"]
+    tasks = session["tasks"]
+    
+    if current >= session["total"]:
+        await finish_lexical_grammar_from_message(update, context)
+        return
+    
+    task = tasks[current]
+    
+    text = f"📝 *Лексико-грамматическая трансформация*\n\n"
+    text += f"Задание {current + 1} из {session['total']}:\n\n"
+    text += f"{task['question']}\n\n"
+    text += "⬇️ *Сначала выбери часть речи:*"
+    
+    keyboard = [
+        [InlineKeyboardButton("📝 Существительное (noun)", callback_data=f"lg_pos_noun_{current}")],
+        [InlineKeyboardButton("📝 Глагол (verb)", callback_data=f"lg_pos_verb_{current}")],
+        [InlineKeyboardButton("📝 Прилагательное (adjective)", callback_data=f"lg_pos_adjective_{current}")],
+        [InlineKeyboardButton("📝 Наречие (adverb)", callback_data=f"lg_pos_adverb_{current}")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    await update.message.reply_text(text, reply_markup=reply_markup, parse_mode="Markdown")
+
+async def finish_lexical_grammar(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await finish_lexical_grammar_internal(update, context)
+
+async def finish_lexical_grammar_from_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await finish_lexical_grammar_internal(update, context)
+
+async def finish_lexical_grammar_internal(update, context):
+    """Завершает задание"""
+    session = context.user_data.get("lexical_grammar")
+    if not session:
+        return
+    
+    total = session["total"]
+    score = session["score"]
+    percent = int(score / total * 100) if total > 0 else 0
+    
+    if percent == 100:
+        emoji, comment = "🏆", "Идеально! Ты мастер словообразования!"
+    elif percent >= 80:
+        emoji, comment = "🎉", "Отличный результат!"
+    elif percent >= 60:
+        emoji, comment = "📚", "Неплохо! Но стоит повторить."
+    else:
+        emoji, comment = "💪", "Нужно больше практики!"
+    
+    details = ""
+    for i, ans in enumerate(session["user_answers"]):
+        pos_icon = "✅" if ans.get("is_pos_correct", False) else "❌"
+        word_icon = "✅" if ans.get("is_word_correct", False) else "❌"
+        details += f"{i+1}. {ans['question'][:60]}...\n"
+        details += f"   Часть речи: {pos_icon} {ans['selected_pos']} (правильно: {ans['correct_pos']})\n"
+        details += f"   Слово: {word_icon} {ans.get('user_word', '—')} (правильно: {ans['correct_answer']})\n\n"
+    
+    result_text = f"{emoji} *Результат!*\n\n"
+    result_text += f"📊 {score}/{total} ({percent}%)\n\n"
+    result_text += f"{comment}\n\n"
+    
+    bar_length = 10
+    filled = int(percent / 100 * bar_length)
+    bar = "🟩" * filled + "⬜" * (bar_length - filled)
+    result_text += f"{bar} {percent}%\n\n"
+    result_text += f"📋 *Детали:*\n{details}"
+    
+    keyboard = [
+        [InlineKeyboardButton("🔄 Пройти заново", callback_data="start_lexical_grammar")],
+        [InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    if hasattr(update, 'callback_query') and update.callback_query:
+        await update.callback_query.edit_message_text(result_text, reply_markup=reply_markup, parse_mode="Markdown")
+    else:
+        await update.message.reply_text(result_text, reply_markup=reply_markup, parse_mode="Markdown")
+    
+    del context.user_data["lexical_grammar"]
+    context.user_data["awaiting_lexical_word"] = False
 # ===== BUTTON CALLBACK =====
 
 async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -2707,6 +2943,13 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await handle_matching_answer(update, context, rubric_idx, speaker_idx)
     elif data == "start_word_formation":
         await start_word_formation(update, context)
+    elif data == "start_lexical_grammar":
+        await start_lexical_grammar(update, context)
+    elif data.startswith("lg_pos_"):
+        parts = data[7:].split("_")
+        pos = parts[0]
+        task_idx = int(parts[1])
+        await handle_lexical_pos(update, context, pos, task_idx)
     
 
 # ===== MAIN =====
