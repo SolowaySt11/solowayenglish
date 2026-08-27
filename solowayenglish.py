@@ -457,6 +457,9 @@ async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif context.user_data.get("awaiting_oge_word"):
         await handle_oge_word_input(update, context)
         return
+    elif context.user_data.get("awaiting_fill_answer"):
+        await handle_fill_answer(update, context)
+        return
 
 async def show_levels(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = context.user_data.get("user_id")
@@ -2098,6 +2101,267 @@ async def finish_matching(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
     
     del context.user_data["audio_matching"]
+
+# ===== ОГЭ: АУДИРОВАНИЕ (ЗАДАНИЕ 3 — ЗАПОЛНЕНИЕ ПРОПУСКОВ) =====
+
+def load_audio_fill():
+    """Загружает задания для заполнения пропусков"""
+    try:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        json_paths = [
+            os.path.join(base_dir, "oge_audio_fill.json"),
+            os.path.join("/app", "oge_audio_fill.json"),
+            os.path.join(os.getcwd(), "oge_audio_fill.json")
+        ]
+        
+        for path in json_paths:
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    return json.load(f)
+        
+        print(f"❌ oge_audio_fill.json не найден. Проверены пути: {json_paths}")
+        return None
+    except Exception as e:
+        print(f"❌ Ошибка загрузки oge_audio_fill.json: {e}")
+        return None
+
+def find_audio_file_fill(filename):
+    """Ищет аудиофайл для задания 3"""
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    possible_paths = [
+        os.path.join(base_dir, "audio", "fill", filename),
+        os.path.join(base_dir, "fill", filename),
+        os.path.join(base_dir, filename),
+        os.path.join("/app", "audio", "fill", filename),
+        os.path.join("/app", "fill", filename),
+        os.path.join("/data", "audio", "fill", filename),
+        os.path.join(os.getcwd(), "audio", "fill", filename),
+        os.path.join(os.getcwd(), "fill", filename),
+    ]
+    
+    for path in possible_paths:
+        if os.path.exists(path):
+            print(f"✅ Найден аудиофайл: {path}")
+            return path
+    
+    print(f"❌ Аудиофайл {filename} не найден. Проверены пути:")
+    for path in possible_paths:
+        print(f"  - {path} (exists: {os.path.exists(path)})")
+    
+    return None
+
+async def start_audio_fill(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Запускает задание 3 — заполнение пропусков"""
+    data = load_audio_fill()
+    if not data:
+        await update.callback_query.answer("❌ Задания не загружены", show_alert=True)
+        return
+    
+    # Отправляем аудио
+    audio_path = find_audio_file_fill(data["audio_file"])
+    
+    if audio_path:
+        try:
+            with open(audio_path, "rb") as f:
+                await update.effective_chat.send_voice(
+                    voice=f,
+                    caption="🎧 *Задание 3. Заполнение пропусков*\n\n"
+                           "Прослушайте интервью и заполните пропуски в предложениях.\n"
+                           "Впишите не более одного слова (без артиклей).\n"
+                           "Числа записывайте буквами.\n"
+                           "Вы услышите запись дважды.",
+                    parse_mode="Markdown"
+                )
+        except Exception as e:
+            await update.callback_query.edit_message_text(
+                f"❌ Ошибка при отправке аудио: {str(e)}\n\n"
+                f"Путь: `{audio_path}`",
+                parse_mode="Markdown"
+            )
+            return
+    else:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        await update.callback_query.edit_message_text(
+            f"❌ Аудиофайл `{data['audio_file']}` не найден!\n\n"
+            f"Проверь, что файл находится в папке `audio/fill/`\n\n"
+            f"Текущая директория: `{base_dir}`",
+            parse_mode="Markdown"
+        )
+        return
+    
+    # Сохраняем данные в сессию
+    context.user_data["audio_fill"] = {
+        "tasks": data["tasks"],
+        "current": 0,
+        "score": 0,
+        "user_answers": [],
+        "total": len(data["tasks"])
+    }
+    
+    # Показываем первый вопрос
+    await show_fill_question(update, context)
+
+async def show_fill_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает текущий вопрос для заполнения"""
+    session = context.user_data.get("audio_fill")
+    if not session:
+        return
+    
+    current = session["current"]
+    tasks = session["tasks"]
+    
+    if current >= session["total"]:
+        await finish_fill(update, context)
+        return
+    
+    task = tasks[current]
+    
+    # Показываем вопрос с пропуском
+    text = f"📝 *Заполнение пропусков*\n\n"
+    text += f"Вопрос {current + 1} из {session['total']}:\n\n"
+    text += f"*{task['question']}*\n\n"
+    text += "✏️ *Напиши слово в чат:*"
+    
+    await update.callback_query.edit_message_text(
+        text,
+        parse_mode="Markdown"
+    )
+    
+    # Устанавливаем флаг ожидания ответа
+    context.user_data["awaiting_fill_answer"] = True
+
+async def handle_fill_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Обрабатывает ответ на заполнение пропуска"""
+    session = context.user_data.get("audio_fill")
+    if not session:
+        await update.message.reply_text("❌ Сессия устарела. Начни заново.")
+        return
+    
+    current = session["current"]
+    if current >= session["total"]:
+        return
+    
+    user_word = update.message.text.strip()
+    task = session["tasks"][current]
+    
+    # Сравниваем ответ (регистронезависимо)
+    is_correct = user_word.lower() == task["answer"].lower()
+    
+    if is_correct:
+        session["score"] += 1
+        await update.message.reply_text(f"✅ Правильно! Ответ: {task['answer']}")
+    else:
+        await update.message.reply_text(f"❌ Неправильно. Правильный ответ: {task['answer']}")
+    
+    session["user_answers"].append({
+        "question": task["question"],
+        "user_answer": user_word,
+        "correct_answer": task["answer"],
+        "is_correct": is_correct
+    })
+    
+    session["current"] += 1
+    context.user_data["awaiting_fill_answer"] = False
+    
+    if session["current"] >= session["total"]:
+        await finish_fill_from_message(update, context)
+    else:
+        await show_fill_question_from_message(update, context)
+
+async def show_fill_question_from_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает следующий вопрос после ответа"""
+    session = context.user_data.get("audio_fill")
+    if not session:
+        return
+    
+    current = session["current"]
+    tasks = session["tasks"]
+    
+    if current >= session["total"]:
+        await finish_fill_from_message(update, context)
+        return
+    
+    task = tasks[current]
+    
+    text = f"📝 *Заполнение пропусков*\n\n"
+    text += f"Вопрос {current + 1} из {session['total']}:\n\n"
+    text += f"*{task['question']}*\n\n"
+    text += "✏️ *Напиши слово в чат:*"
+    
+    await update.message.reply_text(
+        text,
+        parse_mode="Markdown"
+    )
+    
+    context.user_data["awaiting_fill_answer"] = True
+
+async def finish_fill(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Завершает задание 3 (из callback)"""
+    await finish_fill_internal(update, context)
+
+async def finish_fill_from_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Завершает задание 3 (из сообщения)"""
+    await finish_fill_internal(update, context)
+
+async def finish_fill_internal(update, context):
+    """Внутренняя функция завершения задания 3"""
+    session = context.user_data.get("audio_fill")
+    if not session:
+        return
+    
+    total = session["total"]
+    score = session["score"]
+    percent = int(score / total * 100) if total > 0 else 0
+    
+    if percent == 100:
+        emoji, comment = "🏆", "Идеально! Ты отлично справился(ась)!"
+    elif percent >= 75:
+        emoji, comment = "🎉", "Хороший результат!"
+    elif percent >= 50:
+        emoji, comment = "📚", "Неплохо! Но стоит переслушать аудио."
+    else:
+        emoji, comment = "💪", "Нужно больше практики!"
+    
+    details = ""
+    for i, ans in enumerate(session["user_answers"]):
+        icon = "✅" if ans["is_correct"] else "❌"
+        details += f"{i+1}. {ans['question']}\n"
+        details += f"   {icon} Ты: {ans['user_answer']} | Правильно: {ans['correct_answer']}\n"
+    
+    result_text = f"{emoji} *Результат!*\n\n"
+    result_text += f"📊 {score}/{total} ({percent}%)\n\n"
+    result_text += f"{comment}\n\n"
+    
+    bar_length = 10
+    filled = int(percent / 100 * bar_length)
+    bar = "🟩" * filled + "⬜" * (bar_length - filled)
+    result_text += f"{bar} {percent}%\n\n"
+    
+    result_text += f"📋 *Детали:*\n{details}"
+    
+    keyboard = [
+        [InlineKeyboardButton("🔄 Пройти заново", callback_data="start_audio_fill")],
+        [InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    # Определяем, откуда пришёл вызов
+    if hasattr(update, 'callback_query') and update.callback_query:
+        await update.callback_query.edit_message_text(
+            result_text,
+            reply_markup=reply_markup,
+            parse_mode="Markdown"
+        )
+    else:
+        await update.message.reply_text(
+            result_text,
+            reply_markup=reply_markup,
+            parse_mode="Markdown"
+        )
+    
+    del context.user_data["audio_fill"]
+    context.user_data["awaiting_fill_answer"] = False
 # ===== BUTTON CALLBACK =====
 
 async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -2208,6 +2472,8 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await handle_audio_choice_answer(update, context, answer_idx, q_index)
     elif data == "start_audio_matching":
         await start_audio_matching(update, context)
+    elif data == "start_audio_fill":
+        await start_audio_fill(update, context)
     elif data.startswith("matching_ans_"):
         parts = data[13:].split("_")
         rubric_idx = int(parts[0])
