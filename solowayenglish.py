@@ -225,6 +225,19 @@ def init_db():
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     
+    # Проверяем, есть ли уже колонка telegram_id
+    c.execute("PRAGMA table_info(users)")
+    columns = [col[1] for col in c.fetchall()]
+    
+    if "telegram_id" not in columns:
+        # Добавляем колонку БЕЗ UNIQUE
+        c.execute("ALTER TABLE users ADD COLUMN telegram_id INTEGER")
+        print("✅ Добавлена колонка telegram_id")
+        
+        # Создаём новый индекс для уникальности (только для не-NULL значений)
+        c.execute("CREATE UNIQUE INDEX IF NOT EXISTS idx_telegram_id ON users(telegram_id) WHERE telegram_id IS NOT NULL")
+        print("✅ Создан уникальный индекс для telegram_id")
+    
     c.execute("""CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         telegram_id INTEGER UNIQUE,
@@ -254,13 +267,6 @@ def init_db():
         date TEXT
     )""")
     
-    # Проверяем, есть ли уже колонка telegram_id
-    c.execute("PRAGMA table_info(users)")
-    columns = [col[1] for col in c.fetchall()]
-    if "telegram_id" not in columns:
-        c.execute("ALTER TABLE users ADD COLUMN telegram_id INTEGER UNIQUE")
-        print("✅ Добавлена колонка telegram_id")
-    
     c.execute("SELECT * FROM users WHERE username = 'admin'")
     if not c.fetchone():
         admin_password = hashlib.sha256("admin123".encode()).hexdigest()
@@ -270,7 +276,6 @@ def init_db():
     
     conn.commit()
     conn.close()
-
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
