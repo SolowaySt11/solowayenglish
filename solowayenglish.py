@@ -1593,6 +1593,8 @@ async def finish_oge_tfns(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # ===== ОГЭ: АУДИРОВАНИЕ (ЗАДАНИЕ 1 — ВЫБОР ОТВЕТА) =====
 
+# ===== ОГЭ: АУДИРОВАНИЕ (ЗАДАНИЕ 1 — ВЫБОР ОТВЕТА) =====
+
 def find_audio_file(filename):
     """Ищет аудиофайл в разных возможных местах"""
     base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -1680,54 +1682,81 @@ async def start_audio_choice(update: Update, context: ContextTypes.DEFAULT_TYPE)
         )
         return
     
+    # Сохраняем все вопросы в сессию
     context.user_data["audio_choice"] = {
         "tasks": data["tasks"],
         "current": 0,
         "score": 0,
-        "user_answers": []
+        "user_answers": [],
+        "total": len(data["tasks"])
     }
     
-    await show_audio_choice_question(update, context)
+    # Показываем все вопросы сразу
+    await show_all_audio_questions(update, context)
 
-async def show_audio_choice_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Показывает текущий вопрос"""
+async def show_all_audio_questions(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает все 4 вопроса сразу с кнопками для ответа"""
     session = context.user_data.get("audio_choice")
     if not session:
         return
     
-    current = session["current"]
     tasks = session["tasks"]
+    current = session["current"]
     
-    if current >= len(tasks):
-        await finish_audio_choice(update, context)
-        return
+    # Формируем текст со всеми вопросами
+    text = "🎧 *Задание 1. Выбор ответа*\n\n"
+    text += "Ответь на все 4 вопроса. На каждый вопрос выбери один вариант:\n\n"
     
-    task = tasks[current]
+    for i, task in enumerate(tasks):
+        status = "✅" if i < current else "⬜"
+        text += f"{status} *Вопрос {i+1}:* {task['question']}\n"
+        for j, opt in enumerate(task["options"]):
+            text += f"   {chr(97+j)}) {opt}\n"
+        text += "\n"
     
-    keyboard = [
-        [InlineKeyboardButton("1️⃣ " + task["options"][0], callback_data=f"audio_choice_ans_0_{current}")],
-        [InlineKeyboardButton("2️⃣ " + task["options"][1], callback_data=f"audio_choice_ans_1_{current}")],
-        [InlineKeyboardButton("3️⃣ " + task["options"][2], callback_data=f"audio_choice_ans_2_{current}")]
-    ]
+    # Создаём кнопки для каждого вопроса
+    keyboard = []
+    for i in range(len(tasks)):
+        if i < current:
+            # Вопрос уже отвечен - показываем зелёную галочку
+            keyboard.append([InlineKeyboardButton(f"✅ Вопрос {i+1} (отвечен)", callback_data=f"audio_choice_noop")])
+        else:
+            # Вопрос ещё не отвечен - показываем кнопку с вариантами
+            row = []
+            for j in range(3):
+                row.append(InlineKeyboardButton(
+                    f"{chr(97+j)}", 
+                    callback_data=f"audio_choice_ans_{j}_{i}"
+                ))
+            keyboard.append([InlineKeyboardButton(f"❓ Вопрос {i+1}:", callback_data=f"audio_choice_noop")] + row)
+    
+    # Кнопка для перезапуска
+    keyboard.append([InlineKeyboardButton("🔄 Пройти заново", callback_data="audio_choice_restart")])
+    keyboard.append([InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")])
+    
     reply_markup = InlineKeyboardMarkup(keyboard)
     
     await update.callback_query.edit_message_text(
-        f"❓ *Вопрос {current+1} из {len(tasks)}*\n\n"
-        f"{task['question']}\n\n"
-        f"Выбери вариант ответа:",
+        text,
         reply_markup=reply_markup,
         parse_mode="Markdown"
     )
 
 async def handle_audio_choice_answer(update: Update, context: ContextTypes.DEFAULT_TYPE, answer_idx, q_index):
-    """Обрабатывает ответ на вопрос"""
+    """Обрабатывает ответ на вопрос и показывает обновлённый список"""
     session = context.user_data.get("audio_choice")
     if not session:
         await update.callback_query.answer("❌ Сессия устарела", show_alert=True)
         return
     
+    # Проверяем, что вопрос ещё не отвечен
+    if q_index < session["current"]:
+        await update.callback_query.answer("⏳ Этот вопрос уже отвечен!", show_alert=True)
+        return
+    
+    # Проверяем, что это правильный вопрос по порядку
     if q_index != session["current"]:
-        await update.callback_query.answer("⏳ Уже отвечено!", show_alert=True)
+        await update.callback_query.answer(f"❌ Отвечай на вопросы по порядку! Сейчас вопрос {session['current'] + 1}", show_alert=True)
         return
     
     task = session["tasks"][q_index]
@@ -1748,7 +1777,13 @@ async def handle_audio_choice_answer(update: Update, context: ContextTypes.DEFAU
     })
     
     session["current"] += 1
-    await show_audio_choice_question(update, context)
+    
+    # Проверяем, все ли вопросы отвечены
+    if session["current"] >= session["total"]:
+        await finish_audio_choice(update, context)
+    else:
+        # Обновляем список вопросов
+        await show_all_audio_questions(update, context)
 
 async def finish_audio_choice(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Завершает задание 1 по аудированию"""
@@ -1756,7 +1791,7 @@ async def finish_audio_choice(update: Update, context: ContextTypes.DEFAULT_TYPE
     if not session:
         return
     
-    total = len(session["tasks"])
+    total = session["total"]
     score = session["score"]
     percent = int(score / total * 100) if total > 0 else 0
     
@@ -1775,6 +1810,19 @@ async def finish_audio_choice(update: Update, context: ContextTypes.DEFAULT_TYPE
         details += f"{i+1}. {ans['question']}\n"
         details += f"   {icon} Ты: {ans['user_answer']} | Правильно: {ans['correct_answer']}\n"
     
+    # Создаём красивую таблицу результатов
+    result_text = f"{emoji} *Результат!*\n\n"
+    result_text += f"📊 {score}/{total} ({percent}%)\n\n"
+    result_text += f"{comment}\n\n"
+    
+    # Добавляем прогресс-бар
+    bar_length = 10
+    filled = int(percent / 100 * bar_length)
+    bar = "🟩" * filled + "⬜" * (bar_length - filled)
+    result_text += f"{bar} {percent}%\n\n"
+    
+    result_text += f"📋 *Детали:*\n{details}"
+    
     keyboard = [
         [InlineKeyboardButton("🔄 Пройти заново", callback_data="audio_choice_restart")],
         [InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")]
@@ -1782,10 +1830,7 @@ async def finish_audio_choice(update: Update, context: ContextTypes.DEFAULT_TYPE
     reply_markup = InlineKeyboardMarkup(keyboard)
     
     await update.callback_query.edit_message_text(
-        f"{emoji} *Результат!*\n\n"
-        f"📊 {score}/{total} ({percent}%)\n\n"
-        f"{comment}\n\n"
-        f"📋 *Детали:*\n{details}",
+        result_text,
         reply_markup=reply_markup,
         parse_mode="Markdown"
     )
@@ -1818,7 +1863,6 @@ async def debug_paths(update: Update, context: ContextTypes.DEFAULT_TYPE):
         message += "\n❌ Не удалось прочитать директорию"
     
     await update.message.reply_text(message, parse_mode="Markdown")
-
 # ===== BUTTON CALLBACK =====
 
 async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -1920,11 +1964,14 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await start_audio_choice(update, context)
     elif data == "audio_choice_restart":
         await start_audio_choice(update, context)
+    elif data == "audio_choice_noop":
+        await query.answer()
     elif data.startswith("audio_choice_ans_"):
         parts = data[17:].split("_")
         answer_idx = int(parts[0])
         q_index = int(parts[1])
         await handle_audio_choice_answer(update, context, answer_idx, q_index)
+    
 
 # ===== MAIN =====
 
