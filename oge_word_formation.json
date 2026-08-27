@@ -1,0 +1,49 @@
+{
+  "tasks": [
+    {
+      "id": "wf_1",
+      "question": "The Hare came forward and said that he was the ___________ (FAST) of all the animals.",
+      "answer": "fastest"
+    },
+    {
+      "id": "wf_2",
+      "question": "\"If I run at full speed, no one ________ (CATCH) me\", he boasted.",
+      "answer": "willcatch"
+    },
+    {
+      "id": "wf_3",
+      "question": "The Tortoise answered ________ (HE) quietly, \"I want to race.\"",
+      "answer": "him"
+    },
+    {
+      "id": "wf_4",
+      "question": "\"I wish I _________ (HAVE) a stronger competitor.\"",
+      "answer": "had"
+    },
+    {
+      "id": "wf_5",
+      "question": "Her hat ________ (MAKE) of yellow straw and suited her very much.",
+      "answer": "wasmade"
+    },
+    {
+      "id": "wf_6",
+      "question": "Soon he stopped and, to show the Tortoise his disrespect, he _________ (LIE) down to have a nap.",
+      "answer": "lay"
+    },
+    {
+      "id": "wf_7",
+      "question": "He _____________ (NOT/NOTICE) when he fell asleep.",
+      "answer": "didnotnotice"
+    },
+    {
+      "id": "wf_8",
+      "question": "When the Hare awoke from his nap, he saw the Tortoise just near the winning-post. There _________ (BE) no time for him to save the race.",
+      "answer": "was"
+    },
+    {
+      "id": "wf_9",
+      "question": "In a second, the Tortoise crossed the line, turned back to the Hare and exclaimed \"Wow! I ___________ (WIN)!\"",
+      "answer": "havewon"
+    }
+  ]
+}

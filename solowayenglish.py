@@ -460,6 +460,9 @@ async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif context.user_data.get("awaiting_fill_answer"):
         await handle_fill_answer(update, context)
         return
+    elif context.user_data.get("awaiting_word_formation"):
+        await handle_word_formation_answer(update, context)
+        return
 
 async def show_levels(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = context.user_data.get("user_id")
@@ -826,12 +829,12 @@ async def oge_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("🎧 1. Аудирование (выбор ответа)", callback_data="start_audio_choice")],
         [InlineKeyboardButton("🎧 2. Аудирование (сопоставление)", callback_data="start_audio_matching")],
         [InlineKeyboardButton("📝 3. Аудирование (заполнение пропусков)", callback_data="start_audio_fill")],
-        [InlineKeyboardButton("📖 2. Работа с текстом", callback_data="oge_reading")],
-        [InlineKeyboardButton("📝 3. Словообразование", callback_data="oge_word_formation")],
-        [InlineKeyboardButton("✉️ 4. Письмо (скоро)", callback_data="oge_letter")],
-        [InlineKeyboardButton("📖 5. Чтение текста (скоро)", callback_data="oge_text_reading")],
-        [InlineKeyboardButton("🎤 6. Монолог (скоро)", callback_data="oge_monologue")],
-        [InlineKeyboardButton("📱 7. Electronic Assistant (скоро)", callback_data="oge_assistant")],
+        [InlineKeyboardButton("📖 4. Работа с текстом", callback_data="oge_reading")],
+        [InlineKeyboardButton("📝 5. Словообразование", callback_data="oge_word_formation")],
+        [InlineKeyboardButton("✉️ 6. Письмо (скоро)", callback_data="oge_letter")],
+        [InlineKeyboardButton("📖 7. Чтение текста (скоро)", callback_data="oge_text_reading")],
+        [InlineKeyboardButton("🎤 8. Монолог (скоро)", callback_data="oge_monologue")],
+        [InlineKeyboardButton("📱 9. Electronic Assistant (скоро)", callback_data="oge_assistant")],
         [InlineKeyboardButton("🔙 Назад", callback_data="back_to_levels")]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -2362,6 +2365,214 @@ async def finish_fill_internal(update, context):
     
     del context.user_data["audio_fill"]
     context.user_data["awaiting_fill_answer"] = False
+
+# ===== ОГЭ: СЛОВООБРАЗОВАНИЕ (ЛЕКСИКО-ГРАММАТИЧЕСКИЕ ТРАНСФОРМАЦИИ) =====
+
+def load_oge_word_formation_new():
+    """Загружает задания по словообразованию"""
+    try:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        json_paths = [
+            os.path.join(base_dir, "oge_word_formation.json"),
+            os.path.join("/app", "oge_word_formation.json"),
+            os.path.join(os.getcwd(), "oge_word_formation.json")
+        ]
+        
+        for path in json_paths:
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    return json.load(f)
+        
+        print(f"❌ oge_word_formation.json не найден. Проверены пути: {json_paths}")
+        return None
+    except Exception as e:
+        print(f"❌ Ошибка загрузки oge_word_formation.json: {e}")
+        return None
+
+async def start_word_formation(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Запускает задание 4 — словообразование"""
+    data = load_oge_word_formation_new()
+    if not data:
+        await update.callback_query.answer("❌ Задания не загружены", show_alert=True)
+        return
+    
+    # Сохраняем данные в сессию
+    context.user_data["word_formation"] = {
+        "tasks": data["tasks"],
+        "current": 0,
+        "score": 0,
+        "user_answers": [],
+        "total": len(data["tasks"])
+    }
+    
+    # Показываем первый вопрос
+    await show_word_formation_question(update, context)
+
+async def show_word_formation_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает текущее задание по словообразованию"""
+    session = context.user_data.get("word_formation")
+    if not session:
+        return
+    
+    current = session["current"]
+    tasks = session["tasks"]
+    
+    if current >= session["total"]:
+        await finish_word_formation(update, context)
+        return
+    
+    task = tasks[current]
+    
+    text = f"📝 *Словообразование*\n\n"
+    text += f"Задание {current + 1} из {session['total']}:\n\n"
+    text += f"{task['question']}\n\n"
+    text += "✏️ *Напиши преобразованное слово в чат:*"
+    
+    # Если это callback, редактируем сообщение, иначе отправляем новое
+    if update.callback_query:
+        await update.callback_query.edit_message_text(
+            text,
+            parse_mode="Markdown"
+        )
+    else:
+        await update.message.reply_text(
+            text,
+            parse_mode="Markdown"
+        )
+    
+    context.user_data["awaiting_word_formation"] = True
+
+async def handle_word_formation_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Обрабатывает ответ на словообразование"""
+    session = context.user_data.get("word_formation")
+    if not session:
+        await update.message.reply_text("❌ Сессия устарела. Начни заново.")
+        return
+    
+    current = session["current"]
+    if current >= session["total"]:
+        return
+    
+    user_answer = update.message.text.strip()
+    task = session["tasks"][current]
+    
+    # Сравниваем ответ (регистронезависимо, убираем пробелы)
+    is_correct = user_answer.lower() == task["answer"].lower()
+    
+    if is_correct:
+        session["score"] += 1
+        await update.message.reply_text(f"✅ Правильно! Ответ: {task['answer']}")
+    else:
+        await update.message.reply_text(f"❌ Неправильно. Правильный ответ: {task['answer']}")
+    
+    session["user_answers"].append({
+        "question": task["question"],
+        "user_answer": user_answer,
+        "correct_answer": task["answer"],
+        "is_correct": is_correct
+    })
+    
+    session["current"] += 1
+    context.user_data["awaiting_word_formation"] = False
+    
+    if session["current"] >= session["total"]:
+        await finish_word_formation_from_message(update, context)
+    else:
+        await show_word_formation_question_from_message(update, context)
+
+async def show_word_formation_question_from_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает следующий вопрос после ответа"""
+    session = context.user_data.get("word_formation")
+    if not session:
+        return
+    
+    current = session["current"]
+    tasks = session["tasks"]
+    
+    if current >= session["total"]:
+        await finish_word_formation_from_message(update, context)
+        return
+    
+    task = tasks[current]
+    
+    text = f"📝 *Словообразование*\n\n"
+    text += f"Задание {current + 1} из {session['total']}:\n\n"
+    text += f"{task['question']}\n\n"
+    text += "✏️ *Напиши преобразованное слово в чат:*"
+    
+    await update.message.reply_text(
+        text,
+        parse_mode="Markdown"
+    )
+    
+    context.user_data["awaiting_word_formation"] = True
+
+async def finish_word_formation(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Завершает задание 4 (из callback)"""
+    await finish_word_formation_internal(update, context)
+
+async def finish_word_formation_from_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Завершает задание 4 (из сообщения)"""
+    await finish_word_formation_internal(update, context)
+
+async def finish_word_formation_internal(update, context):
+    """Внутренняя функция завершения задания 4"""
+    session = context.user_data.get("word_formation")
+    if not session:
+        return
+    
+    total = session["total"]
+    score = session["score"]
+    percent = int(score / total * 100) if total > 0 else 0
+    
+    if percent == 100:
+        emoji, comment = "🏆", "Идеально! Ты мастер словообразования!"
+    elif percent >= 80:
+        emoji, comment = "🎉", "Отличный результат!"
+    elif percent >= 60:
+        emoji, comment = "📚", "Неплохо! Но стоит повторить правила."
+    else:
+        emoji, comment = "💪", "Нужно больше практики!"
+    
+    details = ""
+    for i, ans in enumerate(session["user_answers"]):
+        icon = "✅" if ans["is_correct"] else "❌"
+        details += f"{i+1}. {ans['question']}\n"
+        details += f"   {icon} Ты: {ans['user_answer']} | Правильно: {ans['correct_answer']}\n"
+    
+    result_text = f"{emoji} *Результат!*\n\n"
+    result_text += f"📊 {score}/{total} ({percent}%)\n\n"
+    result_text += f"{comment}\n\n"
+    
+    bar_length = 10
+    filled = int(percent / 100 * bar_length)
+    bar = "🟩" * filled + "⬜" * (bar_length - filled)
+    result_text += f"{bar} {percent}%\n\n"
+    
+    result_text += f"📋 *Детали:*\n{details}"
+    
+    keyboard = [
+        [InlineKeyboardButton("🔄 Пройти заново", callback_data="start_word_formation")],
+        [InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    # Определяем, откуда пришёл вызов
+    if hasattr(update, 'callback_query') and update.callback_query:
+        await update.callback_query.edit_message_text(
+            result_text,
+            reply_markup=reply_markup,
+            parse_mode="Markdown"
+        )
+    else:
+        await update.message.reply_text(
+            result_text,
+            reply_markup=reply_markup,
+            parse_mode="Markdown"
+        )
+    
+    del context.user_data["word_formation"]
+    context.user_data["awaiting_word_formation"] = False
 # ===== BUTTON CALLBACK =====
 
 async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -2479,6 +2690,8 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         rubric_idx = int(parts[0])
         speaker_idx = int(parts[1])
         await handle_matching_answer(update, context, rubric_idx, speaker_idx)
+    elif data == "start_word_formation":
+        await start_word_formation(update, context)
     
 
 # ===== MAIN =====
