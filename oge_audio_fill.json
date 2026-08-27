@@ -1,0 +1,35 @@
+{
+  "audio_file": "3030.mp3",
+  "tasks": [
+    {
+      "id": "fill_1",
+      "question": "Kate is from ______.",
+      "answer": "Canada"
+    },
+    {
+      "id": "fill_2",
+      "question": "Kate's parents travel a lot because of their ______.",
+      "answer": "job"
+    },
+    {
+      "id": "fill_3",
+      "question": "Kate is going to have a guide excursion to the historical part of ______.",
+      "answer": "Paris"
+    },
+    {
+      "id": "fill_4",
+      "question": "Kevin is on a ______ trip.",
+      "answer": "school"
+    },
+    {
+      "id": "fill_5",
+      "question": "Kevin plays the ______ in a music band.",
+      "answer": "drums"
+    },
+    {
+      "id": "fill_6",
+      "question": "Kevin is deeply interested in physics and ______.",
+      "answer": "chemistry"
+    }
+  ]
+}
