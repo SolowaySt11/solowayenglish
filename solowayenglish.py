@@ -2208,6 +2208,11 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await handle_audio_choice_answer(update, context, answer_idx, q_index)
     elif data == "start_audio_matching":
         await start_audio_matching(update, context)
+    elif data.startswith("matching_ans_"):
+        parts = data[13:].split("_")
+        rubric_idx = int(parts[0])
+        speaker_idx = int(parts[1])
+        await handle_matching_answer(update, context, rubric_idx, speaker_idx)
     
 
 # ===== MAIN =====
