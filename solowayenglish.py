@@ -1470,8 +1470,8 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await oge_reading_menu(update, context)
     elif data == "oge_matching":
         await start_oge_matching(update, context)
-    elif data == "oge_tfns":
-        await update.callback_query.answer("✅ True/False/Not Stated пока в разработке!", show_alert=True)
+    elif data == "oge_tfns":  # <- ДОБАВИТЬ ЭТУ СТРОКУ!
+        await start_oge_tfns(update, context)
     elif data.startswith("oge_match_show_"):
         text_id = data[15:]
         await show_oge_matching_text(update, context, text_id)
@@ -1489,6 +1489,16 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         pos = parts[0]
         idx = int(parts[1])
         await handle_oge_word_pos(update, context, pos, idx)
+    elif data.startswith("oge_tfns_show_"):  # <- ДОБАВИТЬ ЭТУ СТРОКУ!
+        text_id = data[14:]
+        await show_oge_tfns_text(update, context, text_id)
+    elif data.startswith("oge_tfns_start_"):  # <- ДОБАВИТЬ ЭТУ СТРОКУ!
+        await start_oge_tfns_questions(update, context)
+    elif data.startswith("oge_tfns_ans_"):  # <- ДОБАВИТЬ ЭТУ СТРОКУ!
+        parts = data[13:].split("_")
+        answer = parts[0]
+        q_index = int(parts[1])
+        await handle_oge_tfns_answer(update, context, answer, q_index)
     elif data == "oge_audio":
         await update.callback_query.answer("🎧 Аудирование пока в разработке!", show_alert=True)
     elif data == "oge_letter":
@@ -1499,17 +1509,6 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.callback_query.answer("🎤 Монолог пока в разработке!", show_alert=True)
     elif data == "oge_assistant":
         await update.callback_query.answer("📱 Electronic Assistant пока в разработке!", show_alert=True)
-    elif data.startswith("oge_tfns_show_"):
-        text_id = data[14:]
-        await show_oge_tfns_text(update, context, text_id)
-    elif data.startswith("oge_tfns_start_"):
-        await start_oge_tfns_questions(update, context)
-    elif data.startswith("oge_tfns_ans_"):
-    # Формат: oge_tfns_ans_True_0
-        parts = data[13:].split("_")
-        answer = parts[0]
-        q_index = int(parts[1])
-        await handle_oge_tfns_answer(update, context, answer, q_index)
 
 # ===== MAIN =====
 
