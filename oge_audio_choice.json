@@ -1,0 +1,45 @@
+{
+  "audio_file": "8171.mp3",
+  "tasks": [
+    {
+      "id": "choice_1",
+      "question": "The client is not satisfied because…",
+      "options": [
+        "He wanted to get a table near the stage.",
+        "He wanted to speak to the manager.",
+        "He wanted a table near the window."
+      ],
+      "answer": 2
+    },
+    {
+      "id": "choice_2",
+      "question": "The customer wants to buy…",
+      "options": [
+        "Three tickets for a concert on Friday.",
+        "Three tickets in the orchestra row.",
+        "Three tickets but he's only got 20 dollars."
+      ],
+      "answer": 2
+    },
+    {
+      "id": "choice_3",
+      "question": "The speakers decided to get home on foot because…",
+      "options": [
+        "They didn't want to take a taxi, that was too expensive.",
+        "They wanted to have a walk on that warm evening.",
+        "They could not get a taxi."
+      ],
+      "answer": 2
+    },
+    {
+      "id": "choice_4",
+      "question": "The male speaker…",
+      "options": [
+        "Wants to call the police immediately.",
+        "Asks the girl to wait for 20 minutes.",
+        "Wants to join the party."
+      ],
+      "answer": 1
+    }
+  ]
+}
