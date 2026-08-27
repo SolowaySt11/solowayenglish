@@ -821,6 +821,8 @@ async def toggle_topic_handler(update: Update, context: ContextTypes.DEFAULT_TYP
 async def oge_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
         [InlineKeyboardButton("🎧 1. Аудирование (выбор ответа)", callback_data="start_audio_choice")],
+        [InlineKeyboardButton("🎧 2. Аудирование (сопоставление)", callback_data="start_audio_matching")],
+        [InlineKeyboardButton("📝 3. Аудирование (заполнение пропусков)", callback_data="start_audio_fill")],
         [InlineKeyboardButton("📖 2. Работа с текстом", callback_data="oge_reading")],
         [InlineKeyboardButton("📝 3. Словообразование", callback_data="oge_word_formation")],
         [InlineKeyboardButton("✉️ 4. Письмо (скоро)", callback_data="oge_letter")],
@@ -1863,6 +1865,239 @@ async def debug_paths(update: Update, context: ContextTypes.DEFAULT_TYPE):
         message += "\n❌ Не удалось прочитать директорию"
     
     await update.message.reply_text(message, parse_mode="Markdown")
+
+# ===== ОГЭ: АУДИРОВАНИЕ (ЗАДАНИЕ 2 — СОПОСТАВЛЕНИЕ) =====
+
+def load_audio_matching():
+    """Загружает задания для сопоставления"""
+    try:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        json_paths = [
+            os.path.join(base_dir, "oge_audio_matching.json"),
+            os.path.join("/app", "oge_audio_matching.json"),
+            os.path.join(os.getcwd(), "oge_audio_matching.json")
+        ]
+        
+        for path in json_paths:
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    return json.load(f)
+        
+        print(f"❌ oge_audio_matching.json не найден. Проверены пути: {json_paths}")
+        return None
+    except Exception as e:
+        print(f"❌ Ошибка загрузки oge_audio_matching.json: {e}")
+        return None
+
+def find_audio_file_matching(filename):
+    """Ищет аудиофайл для задания 2"""
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    possible_paths = [
+        os.path.join(base_dir, "audio", "matching", filename),
+        os.path.join(base_dir, "matching", filename),
+        os.path.join(base_dir, filename),
+        os.path.join("/app", "audio", "matching", filename),
+        os.path.join("/app", "matching", filename),
+        os.path.join("/data", "audio", "matching", filename),
+        os.path.join(os.getcwd(), "audio", "matching", filename),
+        os.path.join(os.getcwd(), "matching", filename),
+    ]
+    
+    for path in possible_paths:
+        if os.path.exists(path):
+            print(f"✅ Найден аудиофайл: {path}")
+            return path
+    
+    print(f"❌ Аудиофайл {filename} не найден. Проверены пути:")
+    for path in possible_paths:
+        print(f"  - {path} (exists: {os.path.exists(path)})")
+    
+    return None
+
+async def start_audio_matching(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Запускает задание 2 — сопоставление"""
+    data = load_audio_matching()
+    if not data:
+        await update.callback_query.answer("❌ Задания не загружены", show_alert=True)
+        return
+    
+    # Отправляем аудио
+    audio_path = find_audio_file_matching(data["audio_file"])
+    
+    if audio_path:
+        try:
+            with open(audio_path, "rb") as f:
+                await update.effective_chat.send_voice(
+                    voice=f,
+                    caption="🎧 *Задание 2. Сопоставление*\n\n"
+                           "Прослушайте высказывания пяти людей (A, B, C, D, E) и подберите к каждому "
+                           "соответствующую рубрику из списка 1–6. Одна рубрика лишняя.\n"
+                           "Вы услышите запись дважды.",
+                    parse_mode="Markdown"
+                )
+        except Exception as e:
+            await update.callback_query.edit_message_text(
+                f"❌ Ошибка при отправке аудио: {str(e)}\n\n"
+                f"Путь: `{audio_path}`",
+                parse_mode="Markdown"
+            )
+            return
+    else:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        await update.callback_query.edit_message_text(
+            f"❌ Аудиофайл `{data['audio_file']}` не найден!\n\n"
+            f"Проверь, что файл находится в папке `audio/matching/`\n\n"
+            f"Текущая директория: `{base_dir}`",
+            parse_mode="Markdown"
+        )
+        return
+    
+    # Сохраняем данные в сессию
+    context.user_data["audio_matching"] = {
+        "speakers": data["speakers"],
+        "rubrics": data["rubrics"],
+        "current": 0,
+        "score": 0,
+        "user_answers": [],
+        "total": len(data["speakers"])
+    }
+    
+    # Показываем рубрики и начинаем опрос
+    await show_matching_question(update, context)
+
+async def show_matching_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает текущего говорящего для сопоставления"""
+    session = context.user_data.get("audio_matching")
+    if not session:
+        return
+    
+    current = session["current"]
+    speakers = session["speakers"]
+    rubrics = session["rubrics"]
+    
+    if current >= session["total"]:
+        await finish_matching(update, context)
+        return
+    
+    speaker = speakers[current]
+    
+    # Формируем текст с рубриками
+    text = f"🎯 *Сопоставление*\n\n"
+    text += f"Говорящий *{speaker['id']}*\n\n"
+    text += "📋 *Рубрики:*\n"
+    for i, rubric in enumerate(rubrics):
+        text += f"{i+1}. {rubric}\n"
+    text += f"\n⬇️ *Выбери номер рубрики для говорящего {speaker['id']}:*"
+    
+    # Создаём кнопки с номерами рубрик
+    keyboard = []
+    row = []
+    for i in range(len(rubrics)):
+        row.append(InlineKeyboardButton(str(i+1), callback_data=f"matching_ans_{i}_{current}"))
+        if len(row) == 3:
+            keyboard.append(row)
+            row = []
+    if row:
+        keyboard.append(row)
+    
+    # Кнопка назад
+    keyboard.append([InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")])
+    
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    await update.callback_query.edit_message_text(
+        text,
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
+
+async def handle_matching_answer(update: Update, context: ContextTypes.DEFAULT_TYPE, rubric_idx, speaker_idx):
+    """Обрабатывает ответ на сопоставление"""
+    session = context.user_data.get("audio_matching")
+    if not session:
+        await update.callback_query.answer("❌ Сессия устарела", show_alert=True)
+        return
+    
+    if speaker_idx != session["current"]:
+        await update.callback_query.answer("⏳ Это задание уже выполнено!", show_alert=True)
+        return
+    
+    speaker = session["speakers"][speaker_idx]
+    is_correct = (rubric_idx == speaker["correct_rubric"])
+    
+    if is_correct:
+        session["score"] += 1
+        await update.callback_query.answer(f"✅ Правильно! Рубрика {rubric_idx + 1}")
+    else:
+        correct_rubric_text = session["rubrics"][speaker["correct_rubric"]]
+        await update.callback_query.answer(f"❌ Правильно: {speaker['correct_rubric'] + 1} — {correct_rubric_text}", show_alert=True)
+    
+    session["user_answers"].append({
+        "speaker": speaker["id"],
+        "user_answer": rubric_idx + 1,
+        "correct_answer": speaker["correct_rubric"] + 1,
+        "is_correct": is_correct
+    })
+    
+    session["current"] += 1
+    
+    if session["current"] >= session["total"]:
+        await finish_matching(update, context)
+    else:
+        await show_matching_question(update, context)
+
+async def finish_matching(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Завершает задание 2 — сопоставление"""
+    session = context.user_data.get("audio_matching")
+    if not session:
+        return
+    
+    total = session["total"]
+    score = session["score"]
+    percent = int(score / total * 100) if total > 0 else 0
+    
+    if percent == 100:
+        emoji, comment = "🏆", "Идеально! Ты отлично справился(ась)!"
+    elif percent >= 80:
+        emoji, comment = "🎉", "Отличный результат!"
+    elif percent >= 60:
+        emoji, comment = "📚", "Неплохо! Но стоит переслушать аудио."
+    else:
+        emoji, comment = "💪", "Нужно больше практики!"
+    
+    details = ""
+    for i, ans in enumerate(session["user_answers"]):
+        icon = "✅" if ans["is_correct"] else "❌"
+        details += f"{i+1}. Говорящий {ans['speaker']} → "
+        details += f"{icon} Ты выбрал: {ans['user_answer']} | "
+        details += f"Правильно: {ans['correct_answer']}\n"
+    
+    # Результат с прогресс-баром
+    result_text = f"{emoji} *Результат!*\n\n"
+    result_text += f"📊 {score}/{total} ({percent}%)\n\n"
+    result_text += f"{comment}\n\n"
+    
+    bar_length = 10
+    filled = int(percent / 100 * bar_length)
+    bar = "🟩" * filled + "⬜" * (bar_length - filled)
+    result_text += f"{bar} {percent}%\n\n"
+    
+    result_text += f"📋 *Детали:*\n{details}"
+    
+    keyboard = [
+        [InlineKeyboardButton("🔄 Пройти заново", callback_data="start_audio_matching")],
+        [InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    await update.callback_query.edit_message_text(
+        result_text,
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
+    
+    del context.user_data["audio_matching"]
 # ===== BUTTON CALLBACK =====
 
 async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -1971,6 +2206,8 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         answer_idx = int(parts[0])
         q_index = int(parts[1])
         await handle_audio_choice_answer(update, context, answer_idx, q_index)
+    elif data == "start_audio_matching":
+        await start_audio_matching(update, context)
     
 
 # ===== MAIN =====

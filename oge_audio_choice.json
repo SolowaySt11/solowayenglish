@@ -19,7 +19,7 @@
         "Three tickets in the orchestra row.",
         "Three tickets but he's only got 20 dollars."
       ],
-      "answer": 2
+      "answer": 0
     },
     {
       "id": "choice_3",
@@ -29,7 +29,7 @@
         "They wanted to have a walk on that warm evening.",
         "They could not get a taxi."
       ],
-      "answer": 2
+      "answer": 1
     },
     {
       "id": "choice_4",
