@@ -1,0 +1,28 @@
+{
+  "tasks": [
+    {
+      "id": "letter_1",
+      "from": "Paige@mail.uk",
+      "to": "Russian_friend@sdamgia.ru",
+      "subject": "Dear friend",
+      "email_text": "Last Friday was a busy day. We had classes till 3 pm and then we went to the museum. I always thought that museums were boring and I didn't feel excited about the excursion at all. To my surprise, I enjoyed it very much!",
+      "questions": [
+        "Do you think that visiting museums and exhibitions is boring or not, why?",
+        "When was the last time you were in a museum?",
+        "What kind of museum / exhibition would you like to visit, why?"
+      ]
+    },
+    {
+      "id": "letter_2",
+      "from": "Sarah@mail.uk",
+      "to": "Russian_friend@sdamgia.ru",
+      "subject": "Holidays",
+      "email_text": "I'm writing to tell you about my summer holidays. I went to the seaside with my family. The weather was wonderful and we spent a lot of time on the beach. I really enjoyed swimming in the sea and building sandcastles.",
+      "questions": [
+        "Where do you usually spend your summer holidays?",
+        "What do you like to do during your holidays?",
+        "What was the best holiday you ever had and why?"
+      ]
+    }
+  ]
+}

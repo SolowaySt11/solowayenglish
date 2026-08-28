@@ -15,7 +15,13 @@ from oge_monologue import (
     handle_monologue_answer,
     load_monologue_tasks
 )
-
+# ===== ИМПОРТ ПИСЬМА =====
+from oge_letter import (
+    start_letter,
+    letter_next,
+    handle_letter_answer,
+    load_letter_tasks
+)
 TOKEN = "8681728801:AAFNkjp2eeIZ3KYEOnpXgIu3IowwERXSEWM"
 DB_PATH = "/data/english.db"
 
@@ -494,6 +500,9 @@ async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif context.user_data.get("awaiting_monologue"):
         await handle_monologue_answer(update, context)
         return
+    elif context.user_data.get("awaiting_letter"):
+        await handle_letter_answer(update, context)
+        return
 
 async def show_levels(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Показывает список уровней с проверкой авторизации"""
@@ -875,7 +884,7 @@ async def oge_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("📖 4. Работа с текстом", callback_data="oge_reading")],
         [InlineKeyboardButton("📝 5. Словообразование (грамматика)", callback_data="start_word_formation")],
         [InlineKeyboardButton("📝 6. Лексико-грамматика", callback_data="start_lexical_grammar")],
-        [InlineKeyboardButton("✉️ 7. Письмо (скоро)", callback_data="oge_letter")],
+        [InlineKeyboardButton("✉️ 7. Письмо", callback_data="start_letter")],
         [InlineKeyboardButton("📖 8. Чтение текста (скоро)", callback_data="oge_text_reading")],
         [InlineKeyboardButton("🎤 9. Монолог", callback_data="oge_monologue")],
         [InlineKeyboardButton("📱 10. Electronic Assistant (скоро)", callback_data="oge_assistant")],
@@ -2994,6 +3003,10 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await start_monologue(update, context)
     elif data == "monologue_next":
         await monologue_next(update, context)
+    elif data == "start_letter":
+        await start_letter(update, context)
+    elif data == "letter_next":
+        await letter_next(update, context)
 
 # ===== MAIN =====
 
