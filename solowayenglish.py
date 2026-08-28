@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import io
 import hashlib
 import re
+import speech_recognition as sr
 
 # ===== ИМПОРТ МОНОЛОГА =====
 from oge_monologue import (
@@ -508,6 +509,90 @@ async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif context.user_data.get("awaiting_letter"):
         await handle_letter_answer(update, context)
         return
+    
+async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Обработчик голосовых сообщений для монолога"""
+    
+    # Проверяем, ждём ли монолог
+    if not context.user_data.get("awaiting_monologue"):
+        await update.message.reply_text(
+            "ℹ️ Сейчас не ожидается монолог.\n"
+            "Нажмите '🎤 Монолог' в меню ОГЭ."
+        )
+        return
+    
+    voice = update.message.voice
+    
+    # Проверяем длительность
+    if voice.duration > 60:
+        await update.message.reply_text(
+            "⏱️ Слишком длинное сообщение (больше 1 минуты).\n"
+            "Запишите более короткое сообщение или напишите текст."
+        )
+        return
+    
+    # Отправляем сообщение о начале распознавания
+    status_msg = await update.message.reply_text("🎤 Распознаю речь... Пожалуйста, подождите.")
+    
+    try:
+        # Скачиваем голосовое сообщение
+        file = await context.bot.get_file(voice.file_id)
+        file_bytes = await file.download_as_bytearray()
+        
+        # Создаём аудио-объект
+        audio_data = io.BytesIO(file_bytes)
+        
+        # Настраиваем распознаватель
+        recognizer = sr.Recognizer()
+        
+        # Читаем аудио
+        with sr.AudioFile(audio_data) as source:
+            recognizer.adjust_for_ambient_noise(source, duration=0.5)
+            audio = recognizer.record(source)
+        
+        # Обновляем статус
+        await status_msg.edit_text("🎤 Анализирую аудио...")
+        
+        # Распознаём речь
+        try:
+            text = recognizer.recognize_google(audio, language="en-US")
+            
+            # Проверяем, есть ли текст
+            if not text or len(text.strip()) == 0:
+                await status_msg.edit_text("❌ Не удалось распознать речь. Попробуйте ещё раз.")
+                return
+            
+            # Удаляем статусное сообщение
+            await status_msg.delete()
+            
+            # Отправляем распознанный текст
+            await update.message.reply_text(
+                f"📝 Распознано:\n\n{text}"
+            )
+            
+            # Обрабатываем как монолог
+            # Создаём имитацию текстового сообщения
+            original_message = update.message
+            original_message.text = text
+            await handle_monologue_answer(update, context)
+            
+        except sr.UnknownValueError:
+            await status_msg.edit_text(
+                "❌ Не удалось распознать речь.\n\n"
+                "Советы:\n"
+                "• Говорите чётче\n"
+                "• Уменьшите фоновый шум\n"
+                "• Запишите сообщение ещё раз"
+            )
+        except sr.RequestError:
+            await status_msg.edit_text(
+                "❌ Ошибка подключения к серверу распознавания.\n"
+                "Проверьте интернет-соединение."
+            )
+            
+    except Exception as e:
+        await status_msg.edit_text(f"❌ Произошла ошибка: {str(e)}")
+        print(f"Ошибка в handle_voice: {e}")
 
 async def show_levels(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Показывает список уровней с проверкой авторизации"""
@@ -3029,10 +3114,16 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
 def main():
     init_db()
     app = Application.builder().token(TOKEN).build()
+    
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CallbackQueryHandler(button_callback))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_messages))
+    
+    # ===== ДОБАВЛЯЕМ ОБРАБОТЧИК ГОЛОСОВЫХ СООБЩЕНИЙ =====
+    app.add_handler(MessageHandler(filters.VOICE, handle_voice))
+    
     app.add_handler(CommandHandler("debug", debug_paths))
+    
     print("🎓 Soloway English Tracker запущен...")
     app.run_polling()
 
