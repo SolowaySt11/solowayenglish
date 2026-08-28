@@ -1,0 +1,34 @@
+{
+  "tasks": [
+    {
+      "id": "monologue_1",
+      "instruction": "You are going to give a talk about education. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10-12 sentences). Remember to say:",
+      "plan": [
+        "why education is important",
+        "how long compulsory education in Russia is",
+        "what your favourite subject is",
+        "what your ideas of your future job are"
+      ]
+    },
+    {
+      "id": "monologue_2",
+      "instruction": "You are going to give a talk about your free time. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10-12 sentences). Remember to say:",
+      "plan": [
+        "how you usually spend your free time",
+        "what your favourite hobby is and why",
+        "how much time you spend on hobbies",
+        "what hobby you would like to try in the future"
+      ]
+    },
+    {
+      "id": "monologue_3",
+      "instruction": "You are going to give a talk about travelling. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10-12 sentences). Remember to say:",
+      "plan": [
+        "why people travel",
+        "what type of travel you prefer and why",
+        "what is the most memorable trip you've had",
+        "where you would like to go in the future"
+      ]
+    }
+  ]
+}

@@ -379,17 +379,34 @@ def generate_table_image(headers, rows, topic):
 # ===== ОСНОВНЫЕ ОБРАБОТЧИКИ =====
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Обработчик команды /start - проверяет авторизацию"""
+    # Проверяем, авторизован ли пользователь
+    if context.user_data.get("authenticated") and context.user_data.get("user_id"):
+        # Если уже авторизован, показываем уровни
+        await show_levels(update, context)
+        return
+    
+    # Иначе показываем экран входа/регистрации
     keyboard = [
         [InlineKeyboardButton("🔑 Войти", callback_data="login")],
         [InlineKeyboardButton("📝 Зарегистрироваться", callback_data="register")]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    await update.message.reply_text(
-        "👋 *Добро пожаловать в Soloway English Tracker!*\n\n"
-        "У тебя уже есть аккаунт? Войди или зарегистрируйся!",
-        reply_markup=reply_markup,
-        parse_mode="Markdown"
-    )
+    
+    if update.callback_query:
+        await update.callback_query.edit_message_text(
+            "👋 *Добро пожаловать в Soloway English Tracker!*\n\n"
+            "У тебя уже есть аккаунт? Войди или зарегистрируйся!",
+            reply_markup=reply_markup,
+            parse_mode="Markdown"
+        )
+    else:
+        await update.message.reply_text(
+            "👋 *Добро пожаловать в Soloway English Tracker!*\n\n"
+            "У тебя уже есть аккаунт? Войди или зарегистрируйся!",
+            reply_markup=reply_markup,
+            parse_mode="Markdown"
+        )
 
 async def show_login(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
@@ -479,9 +496,21 @@ async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
 async def show_levels(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает список уровней с проверкой авторизации"""
     user_id = context.user_data.get("user_id")
     if not user_id:
-        await start(update, context)
+        # Если пользователь не авторизован, показываем экран входа
+        keyboard = [
+            [InlineKeyboardButton("🔑 Войти", callback_data="login")],
+            [InlineKeyboardButton("📝 Зарегистрироваться", callback_data="register")]
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        text = "👋 *Пожалуйста, войдите или зарегистрируйтесь*"
+        
+        if update.callback_query:
+            await update.callback_query.edit_message_text(text, reply_markup=reply_markup, parse_mode="Markdown")
+        else:
+            await update.message.reply_text(text, reply_markup=reply_markup, parse_mode="Markdown")
         return
     
     keyboard = [
@@ -848,7 +877,7 @@ async def oge_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("📝 6. Лексико-грамматика", callback_data="start_lexical_grammar")],
         [InlineKeyboardButton("✉️ 7. Письмо (скоро)", callback_data="oge_letter")],
         [InlineKeyboardButton("📖 8. Чтение текста (скоро)", callback_data="oge_text_reading")],
-        [InlineKeyboardButton("🎤 9. Монолог", callback_data="start_monologue")],
+        [InlineKeyboardButton("🎤 9. Монолог", callback_data="oge_monologue")],
         [InlineKeyboardButton("📱 10. Electronic Assistant (скоро)", callback_data="oge_assistant")],
         [InlineKeyboardButton("🔙 Назад", callback_data="back_to_levels")]
     ]
@@ -2928,7 +2957,8 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif data == "oge_text_reading":
         await update.callback_query.answer("📖 Чтение текста пока в разработке!", show_alert=True)
     elif data == "oge_monologue":
-        await update.callback_query.answer("🎤 Монолог пока в разработке!", show_alert=True)
+        # Исправлено: теперь запускаем монолог вместо сообщения о разработке
+        await start_monologue(update, context)
     elif data == "oge_assistant":
         await update.callback_query.answer("📱 Electronic Assistant пока в разработке!", show_alert=True)
     elif data == "start_audio_choice":
