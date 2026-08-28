@@ -8,6 +8,14 @@ import io
 import hashlib
 import re
 
+# ===== ИМПОРТ МОНОЛОГА =====
+from oge_monologue import (
+    start_monologue,
+    monologue_next,
+    handle_monologue_answer,
+    load_monologue_tasks
+)
+
 TOKEN = "8681728801:AAFNkjp2eeIZ3KYEOnpXgIu3IowwERXSEWM"
 DB_PATH = "/data/english.db"
 
@@ -225,22 +233,8 @@ def init_db():
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     
-    # Проверяем, есть ли уже колонка telegram_id
-    c.execute("PRAGMA table_info(users)")
-    columns = [col[1] for col in c.fetchall()]
-    
-    if "telegram_id" not in columns:
-        # Добавляем колонку БЕЗ UNIQUE
-        c.execute("ALTER TABLE users ADD COLUMN telegram_id INTEGER")
-        print("✅ Добавлена колонка telegram_id")
-        
-        # Создаём новый индекс для уникальности (только для не-NULL значений)
-        c.execute("CREATE UNIQUE INDEX IF NOT EXISTS idx_telegram_id ON users(telegram_id) WHERE telegram_id IS NOT NULL")
-        print("✅ Создан уникальный индекс для telegram_id")
-    
     c.execute("""CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        telegram_id INTEGER UNIQUE,
         username TEXT UNIQUE NOT NULL,
         password TEXT NOT NULL,
         is_admin INTEGER DEFAULT 0
@@ -276,6 +270,7 @@ def init_db():
     
     conn.commit()
     conn.close()
+
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
@@ -287,26 +282,20 @@ def get_user(username):
     conn.close()
     return user
 
-def create_user(username, password, telegram_id=None):
+def create_user(username, password):
     try:
         conn = sqlite3.connect(DB_PATH)
         c = conn.cursor()
         hashed = hash_password(password)
-        c.execute("INSERT INTO users (username, password, is_admin, telegram_id) VALUES (?, ?, 0, ?)", 
-                  (username, hashed, telegram_id))
+        c.execute("INSERT INTO users (username, password, is_admin) VALUES (?, ?, 0)", 
+                  (username, hashed))
         user_id = c.lastrowid
         conn.commit()
         conn.close()
         return user_id
     except sqlite3.IntegrityError:
         return None
-def get_user_by_telegram_id(telegram_id):
-    conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-    c.execute("SELECT id, username, password, is_admin FROM users WHERE telegram_id = ?", (telegram_id,))
-    user = c.fetchone()
-    conn.close()
-    return user
+
 def get_progress(user_id, level):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
@@ -390,31 +379,17 @@ def generate_table_image(headers, rows, topic):
 # ===== ОСНОВНЫЕ ОБРАБОТЧИКИ =====
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    telegram_id = update.effective_user.id
-    
-    # Проверяем, есть ли пользователь в БД
-    user = get_user_by_telegram_id(telegram_id)
-    
-    if user:
-        # Пользователь уже есть — сразу показываем меню
-        context.user_data["authenticated"] = True
-        context.user_data["user_id"] = user[0]
-        context.user_data["username"] = user[1]
-        context.user_data["is_admin"] = user[3]
-        await show_levels(update, context)
-    else:
-        # Новый пользователь — показываем вход/регистрацию
-        keyboard = [
-            [InlineKeyboardButton("🔑 Войти", callback_data="login")],
-            [InlineKeyboardButton("📝 Зарегистрироваться", callback_data="register")]
-        ]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        await update.message.reply_text(
-            "👋 *Добро пожаловать в Soloway English Tracker!*\n\n"
-            "У тебя уже есть аккаунт? Войди или зарегистрируйся!",
-            reply_markup=reply_markup,
-            parse_mode="Markdown"
-        )
+    keyboard = [
+        [InlineKeyboardButton("🔑 Войти", callback_data="login")],
+        [InlineKeyboardButton("📝 Зарегистрироваться", callback_data="register")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    await update.message.reply_text(
+        "👋 *Добро пожаловать в Soloway English Tracker!*\n\n"
+        "У тебя уже есть аккаунт? Войди или зарегистрируйся!",
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
 
 async def show_login(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
@@ -446,14 +421,6 @@ async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
             password = text
             user = get_user(username)
             if user and user[2] == hash_password(password):
-                # Сохраняем telegram_id при входе
-                telegram_id = update.effective_user.id
-                conn = sqlite3.connect(DB_PATH)
-                c = conn.cursor()
-                c.execute("UPDATE users SET telegram_id = ? WHERE id = ?", (telegram_id, user[0]))
-                conn.commit()
-                conn.close()
-                
                 context.user_data["authenticated"] = True
                 context.user_data["user_id"] = user[0]
                 context.user_data["username"] = user[1]
@@ -480,11 +447,7 @@ async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
             if len(password) < 4:
                 await update.message.reply_text("❌ Пароль должен быть минимум 4 символа.")
                 return
-            
-            # Получаем telegram_id
-            telegram_id = update.effective_user.id
-            new_user_id = create_user(username, password, telegram_id)
-            
+            new_user_id = create_user(username, password)
             if new_user_id:
                 context.user_data["authenticated"] = True
                 context.user_data["user_id"] = new_user_id
@@ -511,6 +474,10 @@ async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif context.user_data.get("awaiting_lexical_word"):
         await handle_lexical_word(update, context)
         return
+    elif context.user_data.get("awaiting_monologue"):
+        await handle_monologue_answer(update, context)
+        return
+
 async def show_levels(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = context.user_data.get("user_id")
     if not user_id:
@@ -877,11 +844,11 @@ async def oge_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("🎧 2. Аудирование (сопоставление)", callback_data="start_audio_matching")],
         [InlineKeyboardButton("📝 3. Аудирование (заполнение пропусков)", callback_data="start_audio_fill")],
         [InlineKeyboardButton("📖 4. Работа с текстом", callback_data="oge_reading")],
-        [InlineKeyboardButton("📝 5. Словообразование", callback_data="start_word_formation")],
+        [InlineKeyboardButton("📝 5. Словообразование (грамматика)", callback_data="start_word_formation")],
         [InlineKeyboardButton("📝 6. Лексико-грамматика", callback_data="start_lexical_grammar")],
         [InlineKeyboardButton("✉️ 7. Письмо (скоро)", callback_data="oge_letter")],
         [InlineKeyboardButton("📖 8. Чтение текста (скоро)", callback_data="oge_text_reading")],
-        [InlineKeyboardButton("🎤 9. Монолог (скоро)", callback_data="oge_monologue")],
+        [InlineKeyboardButton("🎤 9. Монолог", callback_data="start_monologue")],
         [InlineKeyboardButton("📱 10. Electronic Assistant (скоро)", callback_data="oge_assistant")],
         [InlineKeyboardButton("🔙 Назад", callback_data="back_to_levels")]
     ]
@@ -1089,7 +1056,7 @@ async def finish_oge_matching(update: Update, context: ContextTypes.DEFAULT_TYPE
     
     del context.user_data["oge_matching_session"]
 
-# ===== ОГЭ: СЛОВООБРАЗОВАНИЕ =====
+# ===== ОГЭ: СЛОВООБРАЗОВАНИЕ (СТАРОЕ) =====
 
 def load_oge_word_formation():
     try:
@@ -1647,8 +1614,7 @@ async def finish_oge_tfns(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     del context.user_data["oge_tfns_session"]
 
-
-# ===== ОГЭ: АУДИРОВАНИЕ (ЗАДАНИЕ 1 — ВЫБОР ОТВЕТА) =====
+# ===== ОГЭ: АУДИРОВАНИЕ (ВСЕ ЗАДАНИЯ) =====
 
 def find_audio_file(filename):
     """Ищет аудиофайл в разных возможных местах"""
@@ -2867,6 +2833,7 @@ async def finish_lexical_grammar_internal(update, context):
     
     del context.user_data["lexical_grammar"]
     context.user_data["awaiting_lexical_word"] = False
+
 # ===== BUTTON CALLBACK =====
 
 async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -2993,7 +2960,10 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         pos = parts[0]
         task_idx = int(parts[1])
         await handle_lexical_pos(update, context, pos, task_idx)
-    
+    elif data == "start_monologue":
+        await start_monologue(update, context)
+    elif data == "monologue_next":
+        await monologue_next(update, context)
 
 # ===== MAIN =====
 
