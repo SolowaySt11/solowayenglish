@@ -3007,6 +3007,16 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await start_letter(update, context)
     elif data == "letter_next":
         await letter_next(update, context)
+    elif data == "monologue_list":
+        await monologue_list(update, context)
+    elif data.startswith("monologue_select_"):
+        task_index = int(data[18:])
+        await show_monologue_task(update, context, task_index)
+    elif data == "letter_list":
+        await letter_list(update, context)
+    elif data.startswith("letter_select_"):
+        task_index = int(data[14:])
+        await show_letter_task(update, context, task_index)
 
 # ===== MAIN =====
 

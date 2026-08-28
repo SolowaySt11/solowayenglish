@@ -274,8 +274,6 @@ def check_letter(text, questions):
     }
 
 def format_letter_result(result):
-    """Форматирует результат БЕЗ использования Markdown"""
-    
     if result.get("error"):
         text = "❌ РЕЗУЛЬТАТ ПРОВЕРКИ ПИСЬМА\n\n"
         text += f"📝 Объём: {result.get('word_count', 0)} слов\n\n"
@@ -298,10 +296,8 @@ def format_letter_result(result):
     
     text = f"{emoji} РЕЗУЛЬТАТ ПРОВЕРКИ ПИСЬМА\n\n"
     text += f"📊 {bar} {total}/10\n\n"
-    
     text += f"📝 Объём: {result['word_count']} слов\n\n"
     
-    # К1
     text += f"📋 К1 — Решение коммуникативной задачи: {result['k1_score']}/3\n"
     text += f"   Ответы на вопросы: {details['answered_questions']}/{details['total_questions']}\n"
     
@@ -310,7 +306,6 @@ def format_letter_result(result):
         q_text = answer['question'][:50] + "..." if len(answer['question']) > 50 else answer['question']
         text += f"   {icon} Вопрос {i}: {q_text}\n"
     
-    # Структура
     if "structure" in details:
         text += "\n   Структура письма:\n"
         s = details["structure"]
@@ -323,11 +318,8 @@ def format_letter_result(result):
         text += f"   {'✅' if s.get('has_paragraphs') else '❌'} Абзацы\n"
     
     text += "\n"
-    
-    # К2
     text += f"📋 К2 — Организация текста: {result['k2_score']}/2\n\n"
     
-    # К3
     text += f"📋 К3 — Лексико-грамматическое оформление: {result['k3_score']}/3\n"
     if details.get("grammar_errors"):
         text += "   ❌ Найдено проблем:\n"
@@ -337,7 +329,6 @@ def format_letter_result(result):
             text += f"      ... и ещё {len(details['grammar_errors']) - 3} проблем\n"
     text += "\n"
     
-    # К4
     text += f"📋 К4 — Орфография и пунктуация: {result['k4_score']}/2\n"
     if details.get("spelling_errors"):
         text += "   ❌ Найдено проблем:\n"
@@ -347,7 +338,6 @@ def format_letter_result(result):
             text += f"      ... и ещё {len(details['spelling_errors']) - 3} проблем\n"
     text += "\n"
     
-    # Итог
     text += f"⭐ Итоговый балл: {total}/10"
     
     return text
@@ -369,6 +359,7 @@ async def start_letter(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.callback_query.answer("❌ Нет заданий", show_alert=True)
         return
     
+    # Сохраняем задания в сессию
     context.user_data["letter"] = {
         "tasks": tasks,
         "current": 0,
@@ -376,67 +367,56 @@ async def start_letter(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "results": []
     }
     
-    await show_letter_task(update, context)
+    # Показываем список заданий
+    await letter_list(update, context)
 
-def load_letter_tasks():
-    try:
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        json_paths = [
-            os.path.join(base_dir, "oge_letter.json"),
-            os.path.join("/app", "oge_letter.json"),
-            os.path.join(os.getcwd(), "oge_letter.json")
-        ]
+async def letter_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает список вариантов писем"""
+    session = context.user_data.get("letter")
+    if not session:
+        await update.callback_query.answer("❌ Сессия не найдена", show_alert=True)
+        return
+    
+    tasks = session["tasks"]
+    keyboard = []
+    for i, task in enumerate(tasks):
+        # Проверяем, выполнен ли этот вариант
+        is_done = False
+        for result in session.get("results", []):
+            if result["task"].get("id") == task.get("id"):
+                is_done = True
+                break
         
-        for path in json_paths:
-            if os.path.exists(path):
-                with open(path, "r", encoding="utf-8") as f:
-                    data = json.load(f)
-                    print(f"✅ Загружен oge_letter.json: {len(data.get('tasks', []))} заданий")
-                    return data
-        
-        default_tasks = {
-            "tasks": [
-                {
-                    "id": "letter_1",
-                    "from": "Paige@mail.uk",
-                    "to": "Russian_friend@sdamgia.ru",
-                    "subject": "Dear friend",
-                    "email_text": "Last Friday was a busy day. We had classes till 3 pm and then we went to the museum. I always thought that museums were boring and I didn't feel excited about the excursion at all. To my surprise, I enjoyed it very much!",
-                    "questions": [
-                        "Do you think that visiting museums and exhibitions is boring or not, why?",
-                        "When was the last time you were in a museum?",
-                        "What kind of museum / exhibition would you like to visit, why?"
-                    ]
-                }
-            ]
-        }
-        
-        default_path = os.path.join(base_dir, "oge_letter.json")
-        with open(default_path, "w", encoding="utf-8") as f:
-            json.dump(default_tasks, f, ensure_ascii=False, indent=2)
-        print(f"✅ Создан дефолтный oge_letter.json")
-        return default_tasks
-        
-    except Exception as e:
-        print(f"❌ Ошибка загрузки oge_letter.json: {e}")
-        return None
+        status = "✅" if is_done else "⬜"
+        button_text = f"{status} Вариант {i+1}"
+        keyboard.append([InlineKeyboardButton(button_text, callback_data=f"letter_select_{i}")])
+    
+    keyboard.append([InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")])
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    await update.callback_query.edit_message_text(
+        "✉️ ВЫБЕРИ ВАРИАНТ ПИСЬМА\n\n"
+        "✅ - уже выполнено\n"
+        "⬜ - ещё не выполнено\n\n"
+        "Выбери вариант для тренировки:",
+        reply_markup=reply_markup
+    )
 
-async def show_letter_task(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def show_letter_task(update: Update, context: ContextTypes.DEFAULT_TYPE, task_index=0):
     session = context.user_data.get("letter")
     if not session:
         return
     
-    current = session["current"]
     tasks = session["tasks"]
-    
-    if current >= session["total"]:
+    if task_index >= len(tasks):
         await finish_letter_session(update, context)
         return
     
-    task = tasks[current]
+    task = tasks[task_index]
+    session["current"] = task_index
     
-    text = "✉️ ЗАДАНИЕ 35. ПИСЬМО\n\n"
-    text += f"Задание {current + 1} из {session['total']}\n\n"
+    text = f"✉️ ЗАДАНИЕ 35. ПИСЬМО\n\n"
+    text += f"Вариант {task_index + 1} из {len(tasks)}\n\n"
     text += f"📧 От: {task['from']}\n"
     text += f"📧 Кому: {task['to']}\n"
     text += f"📌 Тема: {task['subject']}\n\n"
@@ -451,6 +431,7 @@ async def show_letter_task(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text += "✏️ Напиши своё письмо в чат:"
     
     keyboard = [
+        [InlineKeyboardButton("📋 К списку вариантов", callback_data="letter_list")],
         [InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -487,7 +468,7 @@ async def handle_letter_answer(update: Update, context: ContextTypes.DEFAULT_TYP
         })
     
     keyboard = [
-        [InlineKeyboardButton("➡️ Следующее задание", callback_data="letter_next")],
+        [InlineKeyboardButton("📋 К списку вариантов", callback_data="letter_list")],
         [InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -500,13 +481,8 @@ async def handle_letter_answer(update: Update, context: ContextTypes.DEFAULT_TYP
     context.user_data["awaiting_letter"] = False
 
 async def letter_next(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    session = context.user_data.get("letter")
-    if not session:
-        await update.callback_query.answer("❌ Сессия не найдена", show_alert=True)
-        return
-    
-    session["current"] += 1
-    await show_letter_task(update, context)
+    """Переход к следующему заданию (устарело, используем список)"""
+    await letter_list(update, context)
 
 async def finish_letter_session(update: Update, context: ContextTypes.DEFAULT_TYPE):
     session = context.user_data.get("letter")
@@ -514,7 +490,7 @@ async def finish_letter_session(update: Update, context: ContextTypes.DEFAULT_TY
         return
     
     results = session.get("results", [])
-    total = session["total"]
+    total = len(session["tasks"])
     
     avg_score = 0
     if results:
@@ -549,3 +525,58 @@ async def finish_letter_session(update: Update, context: ContextTypes.DEFAULT_TY
     
     del context.user_data["letter"]
     context.user_data["awaiting_letter"] = False
+
+def load_letter_tasks():
+    try:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        json_paths = [
+            os.path.join(base_dir, "oge_letter.json"),
+            os.path.join("/app", "oge_letter.json"),
+            os.path.join(os.getcwd(), "oge_letter.json")
+        ]
+        
+        for path in json_paths:
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    print(f"✅ Загружен oge_letter.json: {len(data.get('tasks', []))} заданий")
+                    return data
+        
+        default_tasks = {
+            "tasks": [
+                {
+                    "id": "letter_1",
+                    "from": "Paige@mail.uk",
+                    "to": "Russian_friend@sdamgia.ru",
+                    "subject": "Dear friend",
+                    "email_text": "Last Friday was a busy day. We had classes till 3 pm and then we went to the museum. I always thought that museums were boring and I didn't feel excited about the excursion at all. To my surprise, I enjoyed it very much!",
+                    "questions": [
+                        "Do you think that visiting museums and exhibitions is boring or not, why?",
+                        "When was the last time you were in a museum?",
+                        "What kind of museum / exhibition would you like to visit, why?"
+                    ]
+                },
+                {
+                    "id": "letter_2",
+                    "from": "Sarah@mail.uk",
+                    "to": "Russian_friend@sdamgia.ru",
+                    "subject": "Holidays",
+                    "email_text": "I'm writing to tell you about my summer holidays. I went to the seaside with my family. The weather was wonderful and we spent a lot of time on the beach.",
+                    "questions": [
+                        "Where do you usually spend your summer holidays?",
+                        "What do you like to do during your holidays?",
+                        "What was the best holiday you ever had and why?"
+                    ]
+                }
+            ]
+        }
+        
+        default_path = os.path.join(base_dir, "oge_letter.json")
+        with open(default_path, "w", encoding="utf-8") as f:
+            json.dump(default_tasks, f, ensure_ascii=False, indent=2)
+        print(f"✅ Создан дефолтный oge_letter.json")
+        return default_tasks
+        
+    except Exception as e:
+        print(f"❌ Ошибка загрузки oge_letter.json: {e}")
+        return None
