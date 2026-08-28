@@ -40,8 +40,38 @@ def load_monologue_tasks():
                     print(f"✅ Загружен oge_monologue.json: {len(data.get('tasks', []))} заданий")
                     return data
         
-        print(f"❌ oge_monologue.json не найден")
-        return None
+        # Создаём дефолтные задания
+        default_tasks = {
+            "tasks": [
+                {
+                    "id": "monologue_1",
+                    "instruction": "You are going to give a talk about education. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10-12 sentences). Remember to say:",
+                    "plan": [
+                        "why education is important",
+                        "how long compulsory education in Russia is",
+                        "what your favourite subject is",
+                        "what your ideas of your future job are"
+                    ]
+                },
+                {
+                    "id": "monologue_2",
+                    "instruction": "You are going to give a talk about your free time. You will have to start in 1.5 minutes and speak for not more than 2 minutes (10-12 sentences). Remember to say:",
+                    "plan": [
+                        "how you usually spend your free time",
+                        "what your favourite hobby is and why",
+                        "how much time you spend on hobbies",
+                        "what hobby you would like to try in the future"
+                    ]
+                }
+            ]
+        }
+        
+        default_path = os.path.join(base_dir, "oge_monologue.json")
+        with open(default_path, "w", encoding="utf-8") as f:
+            json.dump(default_tasks, f, ensure_ascii=False, indent=2)
+        print(f"✅ Создан дефолтный oge_monologue.json")
+        return default_tasks
+        
     except Exception as e:
         print(f"❌ Ошибка загрузки oge_monologue.json: {e}")
         return None
@@ -201,6 +231,7 @@ def format_monologue_result(result):
 # ===== ОСНОВНЫЕ ОБРАБОТЧИКИ =====
 
 async def start_monologue(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Запускает меню выбора монолога"""
     if not context.user_data.get("authenticated"):
         await update.callback_query.answer("❌ Пожалуйста, войдите в аккаунт", show_alert=True)
         return
@@ -215,11 +246,37 @@ async def start_monologue(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.callback_query.answer("❌ Нет заданий", show_alert=True)
         return
     
-    # Показываем список заданий для выбора
+    # Сохраняем в сессию
+    context.user_data["monologue"] = {
+        "tasks": tasks,
+        "current": 0,
+        "total": len(tasks),
+        "results": []
+    }
+    
+    # Показываем список
+    await monologue_list(update, context)
+
+async def monologue_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает список вариантов монолога"""
+    session = context.user_data.get("monologue")
+    if not session:
+        await update.callback_query.answer("❌ Сессия не найдена", show_alert=True)
+        return
+    
+    tasks = session["tasks"]
     keyboard = []
+    
     for i, task in enumerate(tasks):
-        task_id = task.get("id", f"monologue_{i+1}")
-        button_text = f"🎤 Вариант {i+1}"
+        # Проверяем, выполнен ли этот вариант
+        is_done = False
+        for result in session.get("results", []):
+            if result["task"].get("id") == task.get("id"):
+                is_done = True
+                break
+        
+        status = "✅" if is_done else "⬜"
+        button_text = f"{status} Вариант {i+1}"
         keyboard.append([InlineKeyboardButton(button_text, callback_data=f"monologue_select_{i}")])
     
     keyboard.append([InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")])
@@ -227,13 +284,17 @@ async def start_monologue(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     await update.callback_query.edit_message_text(
         "🎤 ВЫБЕРИ ВАРИАНТ МОНОЛОГА\n\n"
-        "Выбери один из вариантов для тренировки:",
+        "✅ - уже выполнено\n"
+        "⬜ - ещё не выполнено\n\n"
+        "Выбери вариант для тренировки:",
         reply_markup=reply_markup
     )
 
 async def show_monologue_task(update: Update, context: ContextTypes.DEFAULT_TYPE, task_index=0):
+    """Показывает задание по монологу"""
     session = context.user_data.get("monologue")
     if not session:
+        await update.callback_query.answer("❌ Сессия не найдена", show_alert=True)
         return
     
     tasks = session["tasks"]
@@ -253,7 +314,7 @@ async def show_monologue_task(update: Update, context: ContextTypes.DEFAULT_TYPE
     
     text += f"\n⏱️ Время на подготовку: 1.5 минуты\n"
     text += f"⏱️ Время ответа: до 2 минут (10-12 фраз)\n\n"
-    text += "✏️ Напиши свой монолог в чат:"
+    text += "✏️ Напиши свой монолог в чат (или отправь голосовое сообщение 🎤):"
     
     keyboard = [
         [InlineKeyboardButton("📋 К списку вариантов", callback_data="monologue_list")],
@@ -270,6 +331,7 @@ async def show_monologue_task(update: Update, context: ContextTypes.DEFAULT_TYPE
     )
 
 async def handle_monologue_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Обрабатывает ответ на монолог"""
     text = update.message.text.strip()
     
     if not text:
@@ -310,43 +372,12 @@ async def handle_monologue_answer(update: Update, context: ContextTypes.DEFAULT_
     
     context.user_data["awaiting_monologue"] = False
 
-async def monologue_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Показывает список вариантов монолога"""
-    session = context.user_data.get("monologue")
-    if not session:
-        await update.callback_query.answer("❌ Сессия не найдена", show_alert=True)
-        return
-    
-    tasks = session["tasks"]
-    keyboard = []
-    for i, task in enumerate(tasks):
-        # Проверяем, выполнен ли этот вариант
-        is_done = False
-        for result in session.get("results", []):
-            if result["task"].get("id") == task.get("id"):
-                is_done = True
-                break
-        
-        status = "✅" if is_done else "⬜"
-        button_text = f"{status} Вариант {i+1}"
-        keyboard.append([InlineKeyboardButton(button_text, callback_data=f"monologue_select_{i}")])
-    
-    keyboard.append([InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")])
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    
-    await update.callback_query.edit_message_text(
-        "🎤 ВЫБЕРИ ВАРИАНТ МОНОЛОГА\n\n"
-        "✅ - уже выполнено\n"
-        "⬜ - ещё не выполнено\n\n"
-        "Выбери вариант для тренировки:",
-        reply_markup=reply_markup
-    )
-
 async def monologue_next(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Переход к следующему заданию (устарело, используем список)"""
+    """Переход к следующему заданию"""
     await monologue_list(update, context)
 
 async def finish_monologue_session(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Завершает сессию монологов"""
     session = context.user_data.get("monologue")
     if not session:
         return
