@@ -2967,7 +2967,7 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif data == "oge_audio":
         await update.callback_query.answer("🎧 Аудирование пока в разработке!", show_alert=True)
     elif data == "oge_letter":
-        await update.callback_query.answer("✉️ Письмо пока в разработке!", show_alert=True)
+        await start_letter(update, context)
     elif data == "oge_text_reading":
         await update.callback_query.answer("📖 Чтение текста пока в разработке!", show_alert=True)
     elif data == "oge_monologue":
