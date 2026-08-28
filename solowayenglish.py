@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import io
 import hashlib
 import re
+from pydub import AudioSegment
 import speech_recognition as sr
 
 # ===== ИМПОРТ МОНОЛОГА =====
@@ -510,6 +511,8 @@ async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await handle_letter_answer(update, context)
         return
     
+
+
 async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Обработчик голосовых сообщений для монолога"""
     
@@ -539,120 +542,67 @@ async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
         file = await context.bot.get_file(voice.file_id)
         file_bytes = await file.download_as_bytearray()
         
-        # Сохраняем временный файл в формате OGG
-        import tempfile
-        import subprocess
+        # Конвертируем OGG в WAV с помощью pydub
+        audio = AudioSegment.from_file(io.BytesIO(file_bytes), format="ogg")
         
-        temp_ogg = tempfile.NamedTemporaryFile(suffix=".ogg", delete=False)
-        temp_ogg.write(file_bytes)
-        temp_ogg.close()
+        # Настраиваем параметры для распознавания
+        audio = audio.set_frame_rate(16000).set_channels(1)
         
-        # Конвертируем OGG в WAV с помощью ffmpeg
-        temp_wav = tempfile.NamedTemporaryFile(suffix=".wav", delete=False)
-        temp_wav.close()
+        # Сохраняем в WAV в памяти
+        wav_io = io.BytesIO()
+        audio.export(wav_io, format="wav")
+        wav_io.seek(0)
         
-        # Проверяем наличие ffmpeg
-        try:
-            # Проверяем, доступен ли ffmpeg
-            subprocess.run(["ffmpeg", "-version"], check=True, capture_output=True)
-        except (subprocess.CalledProcessError, FileNotFoundError):
-            await status_msg.edit_text(
-                "❌ ffmpeg не найден!\n\n"
-                "Установите ffmpeg:\n"
-                "• Windows: скачайте с ffmpeg.org\n"
-                "• Linux: sudo apt install ffmpeg\n"
-                "• macOS: brew install ffmpeg"
-            )
-            return
+        await status_msg.edit_text("🎤 Анализирую аудио...")
+        
+        # Распознаём речь
+        recognizer = sr.Recognizer()
+        with sr.AudioFile(wav_io) as source:
+            recognizer.adjust_for_ambient_noise(source, duration=0.5)
+            audio_data = recognizer.record(source)
         
         try:
-            # Конвертируем с правильными параметрами
-            cmd = [
-                "ffmpeg",
-                "-i", temp_ogg.name,
-                "-ar", "16000",        # частота дискретизации
-                "-ac", "1",            # моно
-                "-c:a", "pcm_s16le",   # кодек PCM 16-bit
-                temp_wav.name,
-                "-y"                   # перезаписывать файл
-            ]
+            # Пробуем распознать с английским языком
+            text = recognizer.recognize_google(audio_data, language="en-US")
             
-            result = subprocess.run(cmd, check=True, capture_output=True, text=True)
+            if not text or len(text.strip()) == 0:
+                # Если не распозналось, пробуем русский
+                text = recognizer.recognize_google(audio_data, language="ru-RU")
             
-            # Проверяем, создался ли WAV файл
-            if not os.path.exists(temp_wav.name) or os.path.getsize(temp_wav.name) == 0:
-                await status_msg.edit_text("❌ Ошибка: WAV файл не создан или пустой")
+            if not text or len(text.strip()) == 0:
+                await status_msg.edit_text("❌ Не удалось распознать речь. Попробуйте ещё раз.")
                 return
             
-            await status_msg.edit_text("🎤 Анализирую аудио...")
+            # Удаляем статусное сообщение
+            await status_msg.delete()
             
-            # Распознаём речь
-            recognizer = sr.Recognizer()
-            with sr.AudioFile(temp_wav.name) as source:
-                recognizer.adjust_for_ambient_noise(source, duration=0.5)
-                audio = recognizer.record(source)
-            
-            try:
-                # Пробуем распознать с английским языком
-                text = recognizer.recognize_google(audio, language="en-US")
-                
-                if not text or len(text.strip()) == 0:
-                    # Если не распозналось, пробуем русский
-                    text = recognizer.recognize_google(audio, language="ru-RU")
-                
-                if not text or len(text.strip()) == 0:
-                    await status_msg.edit_text("❌ Не удалось распознать речь. Попробуйте ещё раз.")
-                    return
-                
-                # Удаляем статусное сообщение
-                await status_msg.delete()
-                
-                # Отправляем распознанный текст
-                await update.message.reply_text(
-                    f"📝 Распознано:\n\n{text}"
-                )
-                
-                # Обрабатываем как монолог
-                # Создаём имитацию текстового сообщения
-                original_message = update.message
-                original_message.text = text
-                await handle_monologue_answer(update, context)
-                
-            except sr.UnknownValueError:
-                await status_msg.edit_text(
-                    "❌ Не удалось распознать речь.\n\n"
-                    "Советы:\n"
-                    "• Говорите чётче\n"
-                    "• Уменьшите фоновый шум\n"
-                    "• Запишите сообщение ещё раз"
-                )
-            except sr.RequestError as e:
-                await status_msg.edit_text(
-                    f"❌ Ошибка подключения к серверу распознавания: {str(e)}\n"
-                    "Проверьте интернет-соединение."
-                )
-                
-        except subprocess.CalledProcessError as e:
-            error_msg = e.stderr if e.stderr else str(e)
-            await status_msg.edit_text(
-                f"❌ Ошибка конвертации аудио:\n\n"
-                f"`{error_msg[:200]}`\n\n"
-                f"Проверьте, что файл не повреждён."
+            # Отправляем распознанный текст
+            await update.message.reply_text(
+                f"📝 Распознано:\n\n{text}"
             )
-        finally:
-            # Удаляем временные файлы
-            try:
-                if os.path.exists(temp_ogg.name):
-                    os.unlink(temp_ogg.name)
-                if os.path.exists(temp_wav.name):
-                    os.unlink(temp_wav.name)
-            except Exception as e:
-                print(f"Ошибка удаления временных файлов: {e}")
+            
+            # Обрабатываем как монолог
+            original_message = update.message
+            original_message.text = text
+            await handle_monologue_answer(update, context)
+            
+        except sr.UnknownValueError:
+            await status_msg.edit_text(
+                "❌ Не удалось распознать речь.\n\n"
+                "Советы:\n"
+                "• Говорите чётче\n"
+                "• Уменьшите фоновый шум\n"
+                "• Запишите сообщение ещё раз"
+            )
+        except sr.RequestError as e:
+            await status_msg.edit_text(
+                f"❌ Ошибка подключения к серверу распознавания: {str(e)}\n"
+                "Проверьте интернет-соединение."
+            )
             
     except Exception as e:
         await status_msg.edit_text(f"❌ Произошла ошибка: {str(e)}")
         print(f"Ошибка в handle_voice: {e}")
-
 async def show_levels(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Показывает список уровней с проверкой авторизации"""
     user_id = context.user_data.get("user_id")
