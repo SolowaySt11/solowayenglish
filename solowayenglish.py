@@ -13,14 +13,19 @@ from oge_monologue import (
     start_monologue,
     monologue_next,
     handle_monologue_answer,
-    load_monologue_tasks
+    load_monologue_tasks,
+    monologue_list,
+    show_monologue_task
 )
+
 # ===== ИМПОРТ ПИСЬМА =====
 from oge_letter import (
     start_letter,
     letter_next,
     handle_letter_answer,
-    load_letter_tasks
+    load_letter_tasks,
+    letter_list,
+    show_letter_task
 )
 TOKEN = "8681728801:AAFNkjp2eeIZ3KYEOnpXgIu3IowwERXSEWM"
 DB_PATH = "/data/english.db"
@@ -2999,24 +3004,25 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         pos = parts[0]
         task_idx = int(parts[1])
         await handle_lexical_pos(update, context, pos, task_idx)
-    elif data == "start_monologue":
-        await start_monologue(update, context)
-    elif data == "monologue_next":
-        await monologue_next(update, context)
-    elif data == "start_letter":
-        await start_letter(update, context)
-    elif data == "letter_next":
-        await letter_next(update, context)
+    
+    # ===== ОБРАБОТЧИКИ ДЛЯ МОНОЛОГА =====
     elif data == "monologue_list":
         await monologue_list(update, context)
     elif data.startswith("monologue_select_"):
         task_index = int(data[18:])
         await show_monologue_task(update, context, task_index)
+    elif data == "start_monologue":
+        await start_monologue(update, context)
+    
+    # ===== ОБРАБОТЧИКИ ДЛЯ ПИСЬМА =====
     elif data == "letter_list":
         await letter_list(update, context)
     elif data.startswith("letter_select_"):
         task_index = int(data[14:])
         await show_letter_task(update, context, task_index)
+    elif data == "start_letter":
+        await start_letter(update, context)
+    
 
 # ===== MAIN =====
 
