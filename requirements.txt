@@ -4,3 +4,4 @@ beautifulsoup4==4.12.2
 python-dateutil
 matplotlib
 tabulate
+SpeechRecognition==3.17.0
