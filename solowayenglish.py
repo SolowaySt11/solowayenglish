@@ -3090,11 +3090,13 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         task_idx = int(parts[1])
         await handle_lexical_pos(update, context, pos, task_idx)
     
-    # ===== ОБРАБОТЧИКИ ДЛЯ МОНОЛОГА =====
+   # ===== ОБРАБОТЧИКИ ДЛЯ МОНОЛОГА =====
     elif data == "monologue_list":
+        # Исправлено: передаём оба параметра
         await monologue_list(update, context)
     elif data.startswith("monologue_select_"):
-        task_index = int(data[18:])
+        # Исправлено: правильная индексация
+        task_index = int(data.split("_")[-1])  # или int(data[18:])
         await show_monologue_task(update, context, task_index)
     elif data == "start_monologue":
         await start_monologue(update, context)
