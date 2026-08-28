@@ -8,30 +8,25 @@ from telegram.ext import ContextTypes
 
 # ===== КОНСТАНТЫ =====
 
-# Приветственные фразы для письма
 GREETINGS = [
     "dear", "hi", "hello", "hey", "good morning", "good afternoon", "good evening"
 ]
 
-# Фразы благодарности
 THANK_YOU_PHRASES = [
     "thank you for", "thanks for", "i'm grateful for", "i appreciate"
 ]
 
-# Фразы для выражения эмоций
 EMOTION_PHRASES = [
     "i'm glad", "i am glad", "i'm happy", "i am happy", "i was glad", 
     "i was happy", "it was great", "it was nice", "i enjoyed"
 ]
 
-# Фразы для надежды на последующие контакты
 FUTURE_CONTACT_PHRASES = [
     "write soon", "write back soon", "hope to hear from you", 
     "looking forward to", "waiting for your reply", "hope you'll write",
     "keep in touch", "stay in touch", "i look forward"
 ]
 
-# Завершающие фразы
 CLOSING_PHRASES = [
     "best wishes", "with love", "yours sincerely", "yours faithfully",
     "all the best", "take care", "see you soon", "warm regards",
@@ -42,16 +37,13 @@ CLOSING_PHRASES = [
 # ===== ФУНКЦИИ ПРОВЕРКИ =====
 
 def count_words(text):
-    """Подсчёт слов в письме по правилам ОГЭ"""
     if not text:
         return 0
-    
     text = text.strip()
     words = re.findall(r"[a-zA-Zа-яА-Я0-9\-']+", text)
     return len(words)
 
 def check_letter_structure(text):
-    """Проверка структуры письма"""
     text_lower = text.lower()
     
     has_greeting = any(greeting in text_lower for greeting in GREETINGS)
@@ -81,23 +73,20 @@ def check_letter_structure(text):
     }
 
 def check_questions_answered(text, questions):
-    """Проверка ответов на вопросы"""
     text_lower = text.lower()
     answers = []
     
-    for i, question in enumerate(questions):
+    for question in questions:
         keywords = question.lower().replace('?', '').split()
-        found = any(keyword in text_lower for keyword in keywords)
+        found = any(keyword in text_lower for keyword in keywords[:3])
         answers.append({
             "question": question,
-            "answered": found,
-            "keywords": keywords
+            "answered": found
         })
     
     return answers
 
 def check_grammar_and_vocabulary(text):
-    """Упрощённая проверка лексико-грамматического оформления"""
     errors = []
     
     words = re.findall(r'[a-zA-Z]+', text.lower())
@@ -112,20 +101,15 @@ def check_grammar_and_vocabulary(text):
     
     has_verb_to_be = any(verb in text.lower() for verb in ['is', 'am', 'are', 'was', 'were'])
     if not has_verb_to_be:
-        errors.append("Нет глаголов to be (возможно, проблемы с грамматикой)")
+        errors.append("Нет глаголов to be")
     
     has_conjunctions = any(conj in text.lower() for conj in ['and', 'but', 'because', 'so', 'however'])
     if not has_conjunctions:
         errors.append("Нет союзов (and, but, because, so, however)")
     
-    article_errors = re.findall(r'(?<![a-z])[a-z](?![a-z])', text)
-    if len(article_errors) > 5:
-        errors.append("Возможны ошибки с артиклями")
-    
     return errors
 
 def check_spelling(text):
-    """Упрощённая проверка орфографии и пунктуации"""
     errors = []
     
     sentences = re.split(r'[.!?]', text)
@@ -139,47 +123,37 @@ def check_spelling(text):
         errors.append("Нет точки в конце письма")
     
     if ',' not in text:
-        errors.append("Нет запятых (возможно, проблемы с пунктуацией)")
+        errors.append("Нет запятых")
     
     common_mistakes = {
         r'teh': 'the',
         r'wich': 'which',
-        r'thier': 'their',
-        r'there is': 'there are'
+        r'thier': 'their'
     }
     
     for mistake, correction in common_mistakes.items():
         if re.search(mistake, text.lower()):
-            errors.append(f"Орфографическая ошибка: '{mistake}' → '{correction}'")
+            errors.append(f"Ошибка: '{mistake}' → '{correction}'")
     
     return errors
 
 def check_letter(text, questions):
-    """Основная функция проверки письма"""
-    
     word_count = count_words(text)
     volume_ok = 90 <= word_count <= 132
     
     if word_count < 90:
         return {
-            "error": "Недостаточный объём",
-            "message": f"В письме {word_count} слов. Минимум 90 слов. Задание оценивается 0 баллов.",
+            "error": True,
             "word_count": word_count,
+            "message": f"В письме {word_count} слов. Минимум 90 слов. Задание оценивается 0 баллов.",
             "k1_score": 0,
             "k2_score": 0,
             "k3_score": 0,
             "k4_score": 0,
             "total": 0,
-            "max_total": 10,
             "details": {
                 "answered_questions": 0,
                 "total_questions": len(questions),
-                "structure": {},
-                "answers": [],
-                "grammar_errors": [],
-                "grammar_errors_count": 0,
-                "spelling_errors": [],
-                "spelling_errors_count": 0,
                 "volume_ok": False
             }
         }
@@ -195,9 +169,8 @@ def check_letter(text, questions):
     grammar_errors = check_grammar_and_vocabulary(text)
     spelling_errors = check_spelling(text)
     
-    # К1: Решение коммуникативной задачи (0-3)
+    # К1
     k1_score = 0
-    
     if answered_count == 3:
         if structure["has_greeting"] and structure["has_closing"] and structure["has_signature"]:
             k1_score = 3
@@ -218,31 +191,24 @@ def check_letter(text, questions):
     if not structure["has_closing"] and k1_score > 1:
         k1_score -= 1
     
-    if k1_score == 0:
+    if k1_score <= 0:
         return {
-            "error": "К1 = 0",
-            "message": "Задание оценивается 0 баллов по всем критериям.",
+            "error": True,
             "word_count": word_count,
+            "message": "Задание оценивается 0 баллов по всем критериям (К1 = 0).",
             "k1_score": 0,
             "k2_score": 0,
             "k3_score": 0,
             "k4_score": 0,
             "total": 0,
-            "max_total": 10,
             "details": {
                 "answered_questions": answered_count,
                 "total_questions": len(questions),
-                "structure": structure,
-                "answers": answers,
-                "grammar_errors": grammar_errors,
-                "grammar_errors_count": len(grammar_errors),
-                "spelling_errors": spelling_errors,
-                "spelling_errors_count": len(spelling_errors),
-                "volume_ok": True
+                "volume_ok": volume_ok
             }
         }
     
-    # К2: Организация текста (0-2)
+    # К2
     errors_org = 0
     if not structure["has_greeting"]:
         errors_org += 1
@@ -264,22 +230,22 @@ def check_letter(text, questions):
     else:
         k2_score = 2
     
-    # К3: Лексико-грамматическое оформление (0-3)
-    grammar_errors_count = len(grammar_errors)
-    if grammar_errors_count >= 5:
+    # К3
+    grammar_count = len(grammar_errors)
+    if grammar_count >= 5:
         k3_score = 0
-    elif grammar_errors_count >= 4:
+    elif grammar_count >= 4:
         k3_score = 1
-    elif grammar_errors_count >= 2:
+    elif grammar_count >= 2:
         k3_score = 2
     else:
         k3_score = 3
     
-    # К4: Орфография и пунктуация (0-2)
-    spelling_errors_count = len(spelling_errors)
-    if spelling_errors_count >= 5:
+    # К4
+    spelling_count = len(spelling_errors)
+    if spelling_count >= 5:
         k4_score = 0
-    elif spelling_errors_count >= 3:
+    elif spelling_count >= 3:
         k4_score = 1
     else:
         k4_score = 2
@@ -287,42 +253,38 @@ def check_letter(text, questions):
     total = k1_score + k2_score + k3_score + k4_score
     
     return {
+        "error": False,
         "word_count": word_count,
         "k1_score": k1_score,
         "k2_score": k2_score,
         "k3_score": k3_score,
         "k4_score": k4_score,
         "total": total,
-        "max_total": 10,
         "details": {
             "answered_questions": answered_count,
             "total_questions": len(questions),
             "structure": structure,
             "answers": answers,
             "grammar_errors": grammar_errors,
-            "grammar_errors_count": grammar_errors_count,
+            "grammar_errors_count": grammar_count,
             "spelling_errors": spelling_errors,
-            "spelling_errors_count": spelling_errors_count,
+            "spelling_errors_count": spelling_count,
             "volume_ok": volume_ok
         }
     }
 
 def format_letter_result(result):
-    """Форматирует результат проверки письма"""
+    """Форматирует результат БЕЗ использования Markdown"""
     
-    if "error" in result and result.get("k1_score") == 0:
-        text = "❌ *Результат проверки письма*\n\n"
-        text += f"📝 *Объём:* {result.get('word_count', 0)} слов\n"
-        text += "⚠️ *Меньше 90 слов!*\n\n"
-        text += f"*{result['message']}*"
+    if result.get("error"):
+        text = "❌ РЕЗУЛЬТАТ ПРОВЕРКИ ПИСЬМА\n\n"
+        text += f"📝 Объём: {result.get('word_count', 0)} слов\n\n"
+        text += result.get("message", "Ошибка проверки")
         return text
     
-    if "error" in result:
-        return f"❌ *{result['error']}*\n\n{result['message']}"
-    
     details = result["details"]
-    
     total = result["total"]
+    
     if total == 10:
         emoji = "🏆"
     elif total >= 8:
@@ -332,41 +294,42 @@ def format_letter_result(result):
     else:
         emoji = "💪"
     
-    bar_length = 10
-    filled = int(total / 10 * bar_length)
-    bar = "🟩" * filled + "⬜" * (bar_length - filled)
+    bar = "█" * (total) + "░" * (10 - total)
     
-    text = f"{emoji} *Результат проверки письма*\n\n"
+    text = f"{emoji} РЕЗУЛЬТАТ ПРОВЕРКИ ПИСЬМА\n\n"
     text += f"📊 {bar} {total}/10\n\n"
     
-    word_count = result["word_count"]
-    volume_status = "✅" if details["volume_ok"] else "⚠️"
-    text += f"📝 *Объём:* {word_count} слов {volume_status}\n\n"
+    text += f"📝 Объём: {result['word_count']} слов\n\n"
     
     # К1
-    text += f"📋 *К1 — Решение коммуникативной задачи:* {result['k1_score']}/3\n"
+    text += f"📋 К1 — Решение коммуникативной задачи: {result['k1_score']}/3\n"
     text += f"   Ответы на вопросы: {details['answered_questions']}/{details['total_questions']}\n"
-    for i, answer in enumerate(details["answers"]):
+    
+    for i, answer in enumerate(details.get("answers", []), 1):
         icon = "✅" if answer["answered"] else "❌"
-        q_text = answer['question'][:40] + "..." if len(answer['question']) > 40 else answer['question']
-        text += f"   {icon} Вопрос {i+1}: {q_text}\n"
+        q_text = answer['question'][:50] + "..." if len(answer['question']) > 50 else answer['question']
+        text += f"   {icon} Вопрос {i}: {q_text}\n"
     
     # Структура
-    text += "\n   *Структура письма:*\n"
-    text += f"   {'✅' if details['structure']['has_greeting'] else '❌'} Обращение\n"
-    text += f"   {'✅' if details['structure']['has_thanks'] else '❌'} Благодарность\n"
-    text += f"   {'✅' if details['structure']['has_emotion'] else '❌'} Эмоции\n"
-    text += f"   {'✅' if details['structure']['has_future_contact'] else '❌'} Надежда на ответ\n"
-    text += f"   {'✅' if details['structure']['has_closing'] else '❌'} Завершающая фраза\n"
-    text += f"   {'✅' if details['structure']['has_signature'] else '❌'} Подпись\n"
-    text += f"   {'✅' if details['structure']['has_paragraphs'] else '❌'} Абзацы\n\n"
+    if "structure" in details:
+        text += "\n   Структура письма:\n"
+        s = details["structure"]
+        text += f"   {'✅' if s.get('has_greeting') else '❌'} Обращение\n"
+        text += f"   {'✅' if s.get('has_thanks') else '❌'} Благодарность\n"
+        text += f"   {'✅' if s.get('has_emotion') else '❌'} Эмоции\n"
+        text += f"   {'✅' if s.get('has_future_contact') else '❌'} Надежда на ответ\n"
+        text += f"   {'✅' if s.get('has_closing') else '❌'} Завершающая фраза\n"
+        text += f"   {'✅' if s.get('has_signature') else '❌'} Подпись\n"
+        text += f"   {'✅' if s.get('has_paragraphs') else '❌'} Абзацы\n"
+    
+    text += "\n"
     
     # К2
-    text += f"📋 *К2 — Организация текста:* {result['k2_score']}/2\n\n"
+    text += f"📋 К2 — Организация текста: {result['k2_score']}/2\n\n"
     
     # К3
-    text += f"📋 *К3 — Лексико-грамматическое оформление:* {result['k3_score']}/3\n"
-    if details["grammar_errors"]:
+    text += f"📋 К3 — Лексико-грамматическое оформление: {result['k3_score']}/3\n"
+    if details.get("grammar_errors"):
         text += "   ❌ Найдено проблем:\n"
         for error in details["grammar_errors"][:3]:
             text += f"      • {error}\n"
@@ -375,8 +338,8 @@ def format_letter_result(result):
     text += "\n"
     
     # К4
-    text += f"📋 *К4 — Орфография и пунктуация:* {result['k4_score']}/2\n"
-    if details["spelling_errors"]:
+    text += f"📋 К4 — Орфография и пунктуация: {result['k4_score']}/2\n"
+    if details.get("spelling_errors"):
         text += "   ❌ Найдено проблем:\n"
         for error in details["spelling_errors"][:3]:
             text += f"      • {error}\n"
@@ -385,14 +348,13 @@ def format_letter_result(result):
     text += "\n"
     
     # Итог
-    text += f"⭐ *Итоговый балл: {total}/10*"
+    text += f"⭐ Итоговый балл: {total}/10"
     
     return text
 
 # ===== ОСНОВНЫЕ ОБРАБОТЧИКИ =====
 
 async def start_letter(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Запускает задание — письмо"""
     if not context.user_data.get("authenticated"):
         await update.callback_query.answer("❌ Пожалуйста, войдите в аккаунт", show_alert=True)
         return
@@ -417,7 +379,6 @@ async def start_letter(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await show_letter_task(update, context)
 
 def load_letter_tasks():
-    """Загружает задания по письму"""
     try:
         base_dir = os.path.dirname(os.path.abspath(__file__))
         json_paths = [
@@ -461,7 +422,6 @@ def load_letter_tasks():
         return None
 
 async def show_letter_task(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Показывает текущее задание по письму"""
     session = context.user_data.get("letter")
     if not session:
         return
@@ -475,20 +435,20 @@ async def show_letter_task(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     task = tasks[current]
     
-    text = "✉️ *Задание 35. Письмо*\n\n"
+    text = "✉️ ЗАДАНИЕ 35. ПИСЬМО\n\n"
     text += f"Задание {current + 1} из {session['total']}\n\n"
-    text += f"📧 *От:* {task['from']}\n"
-    text += f"📧 *Кому:* {task['to']}\n"
-    text += f"📌 *Тема:* {task['subject']}\n\n"
-    text += f"*{task['email_text']}*\n\n"
+    text += f"📧 От: {task['from']}\n"
+    text += f"📧 Кому: {task['to']}\n"
+    text += f"📌 Тема: {task['subject']}\n\n"
+    text += f"{task['email_text']}\n\n"
     
-    text += "❓ *Ответь на вопросы:*\n"
+    text += "❓ Ответь на вопросы:\n"
     for i, question in enumerate(task["questions"], 1):
         text += f"{i}. {question}\n"
     
-    text += f"\n⏱️ *Время:* 30 минут\n"
-    text += f"📝 *Объём:* 100-120 слов\n\n"
-    text += "✏️ *Напиши своё письмо в чат:*"
+    text += f"\n⏱️ Время: 30 минут\n"
+    text += f"📝 Объём: 100-120 слов\n\n"
+    text += "✏️ Напиши своё письмо в чат:"
     
     keyboard = [
         [InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")]
@@ -500,12 +460,10 @@ async def show_letter_task(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     await update.callback_query.edit_message_text(
         text,
-        reply_markup=reply_markup,
-        parse_mode="Markdown"
+        reply_markup=reply_markup
     )
 
 async def handle_letter_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Обрабатывает ответ на письмо"""
     text = update.message.text.strip()
     
     if not text:
@@ -536,14 +494,12 @@ async def handle_letter_answer(update: Update, context: ContextTypes.DEFAULT_TYP
     
     await update.message.reply_text(
         result_text,
-        reply_markup=reply_markup,
-        parse_mode="Markdown"
+        reply_markup=reply_markup
     )
     
     context.user_data["awaiting_letter"] = False
 
 async def letter_next(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Переход к следующему заданию"""
     session = context.user_data.get("letter")
     if not session:
         await update.callback_query.answer("❌ Сессия не найдена", show_alert=True)
@@ -553,7 +509,6 @@ async def letter_next(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await show_letter_task(update, context)
 
 async def finish_letter_session(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Завершает сессию писем"""
     session = context.user_data.get("letter")
     if not session:
         return
@@ -570,16 +525,16 @@ async def finish_letter_session(update: Update, context: ContextTypes.DEFAULT_TY
         if total_scores:
             avg_score = sum(total_scores) / len(total_scores)
     
-    text = "✉️ *Все письма выполнены!*\n\n"
-    text += f"📊 *Выполнено:* {len(results)} из {total}\n"
-    text += f"⭐ *Средний балл:* {avg_score:.1f}/10\n\n"
+    text = "✉️ ВСЕ ПИСЬМА ВЫПОЛНЕНЫ!\n\n"
+    text += f"📊 Выполнено: {len(results)} из {total}\n"
+    text += f"⭐ Средний балл: {avg_score:.1f}/10\n\n"
     
     if avg_score >= 9:
-        text += "🏆 *Отличный результат! Ты готов к письму на ОГЭ!*"
+        text += "🏆 Отличный результат! Ты готов к письму на ОГЭ!"
     elif avg_score >= 7:
-        text += "📚 *Хороший результат! Продолжай тренироваться.*"
+        text += "📚 Хороший результат! Продолжай тренироваться."
     else:
-        text += "💪 *Нужно ещё немного практики. Попробуй ещё раз!*"
+        text += "💪 Нужно ещё немного практики. Попробуй ещё раз!"
     
     keyboard = [
         [InlineKeyboardButton("🔄 Пройти заново", callback_data="start_letter")],
@@ -589,8 +544,7 @@ async def finish_letter_session(update: Update, context: ContextTypes.DEFAULT_TY
     
     await update.callback_query.edit_message_text(
         text,
-        reply_markup=reply_markup,
-        parse_mode="Markdown"
+        reply_markup=reply_markup
     )
     
     del context.user_data["letter"]
