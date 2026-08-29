@@ -1,0 +1,43 @@
+{
+  "tasks": [
+    {
+      "id": "reading_1",
+      "title": "Water Skiing",
+      "text": "One day a young man who lived near the lake in a small American town asked himself...",
+      "difficult_words": [
+        {
+          "word": "skiing",
+          "transcription": "/ˈskiːɪŋ/",
+          "explanation": "Читается как 'скиинг' (долгий 'и'), ударение на первый слог"
+        },
+        {
+          "word": "invention",
+          "transcription": "/ɪnˈvenʃn/",
+          "explanation": "Ударение на второй слог, 'в' произносится как 'в'"
+        },
+        {
+          "word": "recognized",
+          "transcription": "/ˈrekəɡnaɪzd/",
+          "explanation": "Ударение на первый слог, 're' читается как 'рэ'"
+        },
+        {
+          "word": "equipment",
+          "transcription": "/ɪˈkwɪpmənt/",
+          "explanation": "Ударение на второй слог, 'qu' читается как 'ку'"
+        }
+      ],
+      "questions": [
+        {
+          "q": "Как правильно произносится слово 'skiing'?",
+          "options": ["/ˈskiːɪŋ/", "/ˈskaɪɪŋ/", "/ˈskiŋ/"],
+          "answer": 0
+        },
+        {
+          "q": "Где ударение в слове 'invention'?",
+          "options": ["Первый слог", "Второй слог", "Третий слог"],
+          "answer": 1
+        }
+      ]
+    }
+  ]
+}

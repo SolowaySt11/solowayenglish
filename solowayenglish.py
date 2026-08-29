@@ -890,7 +890,7 @@ async def oge_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("📝 5. Словообразование (грамматика)", callback_data="start_word_formation")],
         [InlineKeyboardButton("📝 6. Лексико-грамматика", callback_data="start_lexical_grammar")],
         [InlineKeyboardButton("✉️ 7. Письмо", callback_data="start_letter")],
-        [InlineKeyboardButton("📖 8. Чтение текста (скоро)", callback_data="oge_text_reading")],
+        [InlineKeyboardButton("📖 8. Чтение текста", callback_data="start_reading")],
         [InlineKeyboardButton("🎤 9. Монолог", callback_data="oge_monologue")],
         [InlineKeyboardButton("📱 10. Electronic Assistant (скоро)", callback_data="oge_assistant")],
         [InlineKeyboardButton("🔙 Назад", callback_data="back_to_levels")]
@@ -2877,6 +2877,284 @@ async def finish_lexical_grammar_internal(update, context):
     del context.user_data["lexical_grammar"]
     context.user_data["awaiting_lexical_word"] = False
 
+# ===== ОГЭ: ЧТЕНИЕ ТЕКСТА =====
+
+def load_reading_tasks():
+    """Загружает задания для чтения"""
+    try:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        json_paths = [
+            os.path.join(base_dir, "oge_reading.json"),
+            os.path.join("/app", "oge_reading.json"),
+            os.path.join(os.getcwd(), "oge_reading.json")
+        ]
+        
+        for path in json_paths:
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    return json.load(f)
+        
+        print(f"❌ oge_reading.json не найден. Проверены пути: {json_paths}")
+        return None
+    except Exception as e:
+        print(f"❌ Ошибка загрузки oge_reading.json: {e}")
+        return None
+
+
+async def start_reading(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Запускает раздел чтения"""
+    if not context.user_data.get("authenticated"):
+        await update.callback_query.answer("❌ Пожалуйста, войдите в аккаунт", show_alert=True)
+        return
+    
+    data = load_reading_tasks()
+    if not data:
+        await update.callback_query.answer("❌ Задания не загружены", show_alert=True)
+        return
+    
+    tasks = data.get("tasks", [])
+    if not tasks:
+        await update.callback_query.answer("❌ Нет заданий", show_alert=True)
+        return
+    
+    context.user_data["reading"] = {
+        "tasks": tasks,
+        "current": 0,
+        "total": len(tasks)
+    }
+    
+    await reading_list(update, context)
+
+
+async def reading_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает список текстов для чтения"""
+    session = context.user_data.get("reading")
+    if not session:
+        await update.callback_query.answer("❌ Сессия не найдена", show_alert=True)
+        return
+    
+    tasks = session["tasks"]
+    keyboard = []
+    
+    for i, task in enumerate(tasks):
+        status = "✅" if task.get("done", False) else "⬜"
+        keyboard.append([InlineKeyboardButton(f"{status} {task['title']}", callback_data=f"reading_select_{i}")])
+    
+    keyboard.append([InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")])
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    await update.callback_query.edit_message_text(
+        "📖 *ЧТЕНИЕ ТЕКСТА ВСЛУХ*\n\n"
+        "Выбери текст для тренировки:\n"
+        "✅ - уже выполнено\n"
+        "⬜ - ещё не выполнено\n\n"
+        "📌 *Инструкция:*\n"
+        "1. Прочитай текст про себя (1.5 минуты)\n"
+        "2. Посмотри разбор сложных слов\n"
+        "3. Ответь на вопросы о произношении",
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
+
+
+async def show_reading_task(update: Update, context: ContextTypes.DEFAULT_TYPE, task_index: int):
+    """Показывает текст для чтения с разбором"""
+    session = context.user_data.get("reading")
+    if not session:
+        await update.callback_query.answer("❌ Сессия не найдена", show_alert=True)
+        return
+    
+    task = session["tasks"][task_index]
+    session["current"] = task_index
+    
+    text_message = f"📖 *{task['title']}*\n\n"
+    text_message += f"⏱️ *У тебя есть 1.5 минуты, чтобы прочитать текст про себя:*\n\n"
+    text_message += f"```\n{task['text']}\n```\n\n"
+    text_message += f"✅ *Когда прочитаешь, нажми кнопку ниже для разбора сложных слов:*"
+    
+    keyboard = [
+        [InlineKeyboardButton("🔍 Разобрать сложные слова", callback_data=f"reading_analyze_{task_index}")],
+        [InlineKeyboardButton("📋 К списку текстов", callback_data="reading_list")],
+        [InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    await update.callback_query.edit_message_text(
+        text_message,
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
+
+
+async def analyze_reading_text(update: Update, context: ContextTypes.DEFAULT_TYPE, task_index: int):
+    """Показывает разбор сложных слов и вопросы"""
+    session = context.user_data.get("reading")
+    if not session:
+        await update.callback_query.answer("❌ Сессия не найдена", show_alert=True)
+        return
+    
+    task = session["tasks"][task_index]
+    difficult_words = task.get("difficult_words", [])
+    questions = task.get("questions", [])
+    
+    context.user_data["reading_questions"] = {
+        "questions": questions,
+        "current": 0,
+        "score": 0,
+        "user_answers": [],
+        "task_index": task_index,
+        "total": len(questions)
+    }
+    
+    analysis = f"🔍 *Разбор сложных слов для текста «{task['title']}»*\n\n"
+    analysis += "📌 *Вот как произносятся сложные слова:*\n\n"
+    
+    for word_info in difficult_words:
+        analysis += f"• *{word_info['word']}* — {word_info['transcription']}\n"
+        analysis += f"  💡 {word_info['tip']}\n\n"
+    
+    if questions:
+        analysis += "📝 *Теперь ответь на вопросы о произношении:*\n"
+        analysis += f"Всего вопросов: {len(questions)}\n\n"
+        analysis += "Нажми кнопку ниже, чтобы начать!"
+    
+    keyboard = []
+    if questions:
+        keyboard.append([InlineKeyboardButton("▶️ Начать вопросы", callback_data=f"reading_start_questions_{task_index}")])
+    keyboard.append([InlineKeyboardButton("📋 К списку текстов", callback_data="reading_list")])
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    await update.callback_query.edit_message_text(
+        analysis,
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
+
+
+async def start_reading_questions(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Начинает вопросы по тексту"""
+    await show_reading_question(update, context)
+
+
+async def show_reading_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает текущий вопрос"""
+    session = context.user_data.get("reading_questions")
+    if not session:
+        await update.callback_query.answer("❌ Сессия не найдена", show_alert=True)
+        return
+    
+    current = session["current"]
+    questions = session["questions"]
+    
+    if current >= len(questions):
+        await finish_reading(update, context)
+        return
+    
+    question = questions[current]
+    
+    keyboard = []
+    for i, option in enumerate(question["options"]):
+        keyboard.append([InlineKeyboardButton(f"{chr(97+i)}) {option}", callback_data=f"reading_ans_{i}_{current}")])
+    
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    await update.callback_query.edit_message_text(
+        f"📝 *Вопрос {current + 1} из {len(questions)}*\n\n"
+        f"{question['q']}",
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
+
+
+async def handle_reading_answer(update: Update, context: ContextTypes.DEFAULT_TYPE, answer_idx: int, q_index: int):
+    """Обрабатывает ответ на вопрос"""
+    session = context.user_data.get("reading_questions")
+    if not session:
+        await update.callback_query.answer("❌ Сессия устарела", show_alert=True)
+        return
+    
+    if q_index != session["current"]:
+        await update.callback_query.answer("⏳ Уже отвечено!", show_alert=True)
+        return
+    
+    question = session["questions"][q_index]
+    is_correct = (answer_idx == question["answer"])
+    
+    if is_correct:
+        session["score"] += 1
+        await update.callback_query.answer("✅ Правильно!")
+    else:
+        correct_text = question["options"][question["answer"]]
+        await update.callback_query.answer(f"❌ Правильно: {correct_text}", show_alert=True)
+    
+    session["user_answers"].append({
+        "question": question["q"],
+        "user_answer": question["options"][answer_idx],
+        "correct_answer": question["options"][question["answer"]],
+        "is_correct": is_correct
+    })
+    
+    session["current"] += 1
+    
+    if session["current"] >= session["total"]:
+        await finish_reading(update, context)
+    else:
+        await show_reading_question(update, context)
+
+
+async def finish_reading(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Завершает чтение"""
+    session = context.user_data.get("reading_questions")
+    if not session:
+        return
+    
+    total = session["total"]
+    score = session["score"]
+    percent = int(score / total * 100) if total > 0 else 0
+    
+    if percent == 100:
+        emoji, comment = "🏆", "Идеально! Ты отлично понимаешь правила чтения!"
+    elif percent >= 75:
+        emoji, comment = "🎉", "Хороший результат!"
+    elif percent >= 50:
+        emoji, comment = "📚", "Неплохо! Но стоит повторить правила."
+    else:
+        emoji, comment = "💪", "Нужно больше практики!"
+    
+    details = ""
+    for i, ans in enumerate(session["user_answers"]):
+        icon = "✅" if ans["is_correct"] else "❌"
+        details += f"{i+1}. {ans['question']}\n"
+        details += f"   {icon} Ты: {ans['user_answer']} | Правильно: {ans['correct_answer']}\n"
+    
+    result_text = f"{emoji} *Результат!*\n\n"
+    result_text += f"📊 {score}/{total} ({percent}%)\n\n"
+    result_text += f"{comment}\n\n"
+    
+    bar_length = 10
+    filled = int(percent / 100 * bar_length)
+    bar = "🟩" * filled + "⬜" * (bar_length - filled)
+    result_text += f"{bar} {percent}%\n\n"
+    result_text += f"📋 *Детали:*\n{details}"
+    
+    reading_session = context.user_data.get("reading")
+    if reading_session:
+        task_index = session["task_index"]
+        reading_session["tasks"][task_index]["done"] = True
+    
+    keyboard = [
+        [InlineKeyboardButton("📋 К списку текстов", callback_data="reading_list")],
+        [InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    await update.callback_query.edit_message_text(
+        result_text,
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
+    
+    del context.user_data["reading_questions"]
 # ===== BUTTON CALLBACK =====
 
 async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -3004,6 +3282,23 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         pos = parts[0]
         task_idx = int(parts[1])
         await handle_lexical_pos(update, context, pos, task_idx)
+    elif data == "start_reading":
+        await start_reading(update, context)
+    elif data == "reading_list":
+        await reading_list(update, context)
+    elif data.startswith("reading_select_"):
+        task_index = int(data[15:])
+        await show_reading_task(update, context, task_index)
+    elif data.startswith("reading_analyze_"):
+        task_index = int(data[16:])
+        await analyze_reading_text(update, context, task_index)
+    elif data.startswith("reading_start_questions_"):
+        await start_reading_questions(update, context)
+    elif data.startswith("reading_ans_"):
+        parts = data[11:].split("_")
+        answer_idx = int(parts[0])
+        q_index = int(parts[1])
+        await handle_reading_answer(update, context, answer_idx, q_index)
     
    # ===== ОБРАБОТЧИКИ ДЛЯ МОНОЛОГА =====
     elif data == "monologue_list":
@@ -3028,6 +3323,7 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # ===== MAIN =====
 
+
 def main():
     init_db()
     app = Application.builder().token(TOKEN).build()
@@ -3035,9 +3331,10 @@ def main():
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CallbackQueryHandler(button_callback))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_messages))
-
+    app.add_handler(CommandHandler("debug", debug_paths))
+    
     print("🎓 Soloway English Tracker запущен...")
     app.run_polling()
-    app.add_handler(CommandHandler("debug", debug_paths))
+
 if __name__ == "__main__":
     main()
