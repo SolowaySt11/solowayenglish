@@ -6,8 +6,12 @@ meta:
 build:
   requirementsPath: requirements.txt
   useCache: true
+  postBuild:
+    - apt-get update
+    - apt-get install -y ffmpeg
+    - ffmpeg -version
 run:
-  scriptName: arsagera.py
+  scriptName: solowayenglish.py
   command: null
   persistenceMount: /data
   containerPort: "80"
