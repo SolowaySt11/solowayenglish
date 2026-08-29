@@ -7,70 +7,7 @@ import matplotlib.pyplot as plt
 import io
 import hashlib
 import re
-from pydub import AudioSegment
-import speech_recognition as sr
-import platform
-import subprocess
-import sys
 
-# ===== АВТО-УСТАНОВКА FFMPEG ДЛЯ AMVERA =====
-def install_ffmpeg():
-    """Автоматическая установка ffmpeg на Amvera"""
-    try:
-        result = subprocess.run(["ffmpeg", "-version"], capture_output=True, text=True)
-        if result.returncode == 0:
-            print("✅ ffmpeg уже установлен")
-            return True
-    except FileNotFoundError:
-        pass
-    
-    print("📦 Устанавливаю ffmpeg...")
-    try:
-        subprocess.run(["apt-get", "update", "-y"], check=True, capture_output=True)
-        subprocess.run(["apt-get", "install", "-y", "ffmpeg"], check=True, capture_output=True)
-        print("✅ ffmpeg успешно установлен!")
-        return True
-    except Exception as e:
-        print(f"❌ Ошибка установки ffmpeg: {e}")
-        return False
-
-# Устанавливаем ffmpeg
-install_ffmpeg()
-
-# ===== НАСТРОЙКА FFMPEG ДЛЯ PYDUB =====
-def setup_ffmpeg():
-    """Настраивает ffmpeg для pydub"""
-    # Пробуем найти ffmpeg в системе
-    try:
-        result = subprocess.run(["which", "ffmpeg"], capture_output=True, text=True)
-        if result.stdout.strip():
-            AudioSegment.converter = result.stdout.strip()
-            print(f"✅ ffmpeg найден: {AudioSegment.converter}")
-            return True
-    except:
-        pass
-    
-    # Альтернативные пути
-    standard_paths = [
-        "/usr/bin/ffmpeg", 
-        "/usr/local/bin/ffmpeg", 
-        "/bin/ffmpeg",
-        "/app/venv/bin/ffmpeg"
-    ]
-    for path in standard_paths:
-        if os.path.exists(path):
-            AudioSegment.converter = path
-            print(f"✅ ffmpeg найден: {path}")
-            return True
-    
-    print("❌ ffmpeg не найден!")
-    return False
-
-setup_ffmpeg()
-
-# Проверяем, что ffmpeg настроен
-ffmpeg_path = getattr(AudioSegment, 'converter', 'не найден')
-print(f"🔊 ffmpeg путь: {ffmpeg_path}")
 # ===== ИМПОРТ МОНОЛОГА =====
 from oge_monologue import (
     start_monologue,
@@ -571,99 +508,7 @@ async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif context.user_data.get("awaiting_letter"):
         await handle_letter_answer(update, context)
         return
-    
 
-
-async def handle_voice(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Обработчик голосовых сообщений для монолога"""
-    
-    # Проверяем, ждём ли монолог
-    if not context.user_data.get("awaiting_monologue"):
-        await update.message.reply_text(
-            "ℹ️ Сейчас не ожидается монолог.\n"
-            "Нажмите '🎤 Монолог' в меню ОГЭ."
-        )
-        return
-    
-    voice = update.message.voice
-    
-    # Проверяем длительность
-    if voice.duration > 60:
-        await update.message.reply_text(
-            "⏱️ Слишком длинное сообщение (больше 1 минуты).\n"
-            "Запишите более короткое сообщение или напишите текст."
-        )
-        return
-    
-    # Отправляем сообщение о начале распознавания
-    status_msg = await update.message.reply_text("🎤 Распознаю речь... Пожалуйста, подождите.")
-    
-    try:
-        # Скачиваем голосовое сообщение
-        file = await context.bot.get_file(voice.file_id)
-        file_bytes = await file.download_as_bytearray()
-        
-        # Конвертируем OGG в WAV с помощью pydub
-        audio = AudioSegment.from_file(io.BytesIO(file_bytes), format="ogg")
-        
-        # Настраиваем параметры для распознавания
-        audio = audio.set_frame_rate(16000).set_channels(1)
-        
-        # Сохраняем в WAV в памяти
-        wav_io = io.BytesIO()
-        audio.export(wav_io, format="wav")
-        wav_io.seek(0)
-        
-        await status_msg.edit_text("🎤 Анализирую аудио...")
-        
-        # Распознаём речь
-        recognizer = sr.Recognizer()
-        with sr.AudioFile(wav_io) as source:
-            recognizer.adjust_for_ambient_noise(source, duration=0.5)
-            audio_data = recognizer.record(source)
-        
-        try:
-            # Пробуем распознать с английским языком
-            text = recognizer.recognize_google(audio_data, language="en-US")
-            
-            if not text or len(text.strip()) == 0:
-                # Если не распозналось, пробуем русский
-                text = recognizer.recognize_google(audio_data, language="ru-RU")
-            
-            if not text or len(text.strip()) == 0:
-                await status_msg.edit_text("❌ Не удалось распознать речь. Попробуйте ещё раз.")
-                return
-            
-            # Удаляем статусное сообщение
-            await status_msg.delete()
-            
-            # Отправляем распознанный текст
-            await update.message.reply_text(
-                f"📝 Распознано:\n\n{text}"
-            )
-            
-            # Обрабатываем как монолог
-            original_message = update.message
-            original_message.text = text
-            await handle_monologue_answer(update, context)
-            
-        except sr.UnknownValueError:
-            await status_msg.edit_text(
-                "❌ Не удалось распознать речь.\n\n"
-                "Советы:\n"
-                "• Говорите чётче\n"
-                "• Уменьшите фоновый шум\n"
-                "• Запишите сообщение ещё раз"
-            )
-        except sr.RequestError as e:
-            await status_msg.edit_text(
-                f"❌ Ошибка подключения к серверу распознавания: {str(e)}\n"
-                "Проверьте интернет-соединение."
-            )
-            
-    except Exception as e:
-        await status_msg.edit_text(f"❌ Произошла ошибка: {str(e)}")
-        print(f"Ошибка в handle_voice: {e}")
 async def show_levels(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Показывает список уровней с проверкой авторизации"""
     user_id = context.user_data.get("user_id")
@@ -3190,14 +3035,9 @@ def main():
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CallbackQueryHandler(button_callback))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_messages))
-    
-    # ===== ДОБАВЛЯЕМ ОБРАБОТЧИК ГОЛОСОВЫХ СООБЩЕНИЙ =====
-    app.add_handler(MessageHandler(filters.VOICE, handle_voice))
-    
-    app.add_handler(CommandHandler("debug", debug_paths))
-    
+
     print("🎓 Soloway English Tracker запущен...")
     app.run_polling()
-
+    app.add_handler(CommandHandler("debug", debug_paths))
 if __name__ == "__main__":
     main()
