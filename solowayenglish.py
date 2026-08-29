@@ -9,18 +9,14 @@ import hashlib
 import re
 from pydub import AudioSegment
 import speech_recognition as sr
-import os
 import platform
 import subprocess
-# ===== АВТО-УСТАНОВКА FFMPEG ДЛЯ AMVERA =====
-import subprocess
-import os
 import sys
 
+# ===== АВТО-УСТАНОВКА FFMPEG ДЛЯ AMVERA =====
 def install_ffmpeg():
     """Автоматическая установка ffmpeg на Amvera"""
     try:
-        # Проверяем, есть ли ffmpeg
         result = subprocess.run(["ffmpeg", "-version"], capture_output=True, text=True)
         if result.returncode == 0:
             print("✅ ffmpeg уже установлен")
@@ -30,7 +26,6 @@ def install_ffmpeg():
     
     print("📦 Устанавливаю ffmpeg...")
     try:
-        # Для Amvera (Debian/Ubuntu)
         subprocess.run(["apt-get", "update", "-y"], check=True, capture_output=True)
         subprocess.run(["apt-get", "install", "-y", "ffmpeg"], check=True, capture_output=True)
         print("✅ ffmpeg успешно установлен!")
@@ -39,67 +34,49 @@ def install_ffmpeg():
         print(f"❌ Ошибка установки ffmpeg: {e}")
         return False
 
-# Устанавливаем ffmpeg при запуске
 install_ffmpeg()
 
-# ===== НАСТРОЙКА FFMPEG =====
+# ===== НАСТРОЙКА FFMPEG ДЛЯ PYDUB =====
 def setup_ffmpeg():
-    """Автоматически находит ffmpeg на разных платформах"""
-    
-    # Для Windows (локальный ПК)
+    """Настраивает ffmpeg для pydub"""
     if platform.system() == "Windows":
-        possible_paths = [
-            r"C:\Users\Marina\Documents\Новая папка\telegram_bot\ffmpeg\bin\ffmpeg.exe",
-            r"C:\ffmpeg\bin\ffmpeg.exe",
-            "ffmpeg"
-        ]
-        for path in possible_paths:
-            if os.path.exists(path) or path == "ffmpeg":
-                try:
-                    AudioSegment.ffmpeg = path
-                    AudioSegment.ffprobe = path.replace("ffmpeg.exe", "ffprobe.exe")
-                    print(f"✅ ffmpeg найден: {path}")
-                    return True
-                except:
-                    pass
-        return False
-    
-    # Для Linux (Amvera)
+        ffmpeg_path = r"C:\Users\Marina\Documents\Новая папка\telegram_bot\ffmpeg\bin\ffmpeg.exe"
+        if os.path.exists(ffmpeg_path):
+            AudioSegment.converter = ffmpeg_path
+            print(f"✅ ffmpeg найден: {ffmpeg_path}")
+            return True
+        # Если не найден, пробуем через which
+        try:
+            result = subprocess.run(["where", "ffmpeg"], capture_output=True, text=True)
+            if result.stdout.strip():
+                AudioSegment.converter = result.stdout.strip().split('\n')[0]
+                print(f"✅ ffmpeg найден: {AudioSegment.converter}")
+                return True
+        except:
+            pass
     else:
-        # Проверяем, установлен ли ffmpeg
+        # Linux
         try:
             result = subprocess.run(["which", "ffmpeg"], capture_output=True, text=True)
             if result.stdout.strip():
-                ffmpeg_path = result.stdout.strip()
-                AudioSegment.ffmpeg = ffmpeg_path
-                AudioSegment.ffprobe = ffmpeg_path.replace("ffmpeg", "ffprobe")
-                print(f"✅ ffmpeg найден: {ffmpeg_path}")
+                AudioSegment.converter = result.stdout.strip()
+                print(f"✅ ffmpeg найден: {AudioSegment.converter}")
                 return True
         except:
             pass
         
-        # Если не найден, пробуем стандартные пути
-        standard_paths = [
-            "/usr/bin/ffmpeg",
-            "/usr/local/bin/ffmpeg",
-            "/bin/ffmpeg"
-        ]
+        standard_paths = ["/usr/bin/ffmpeg", "/usr/local/bin/ffmpeg", "/bin/ffmpeg"]
         for path in standard_paths:
             if os.path.exists(path):
-                AudioSegment.ffmpeg = path
-                AudioSegment.ffprobe = path.replace("ffmpeg", "ffprobe")
+                AudioSegment.converter = path
                 print(f"✅ ffmpeg найден: {path}")
                 return True
-        
-        print("❌ ffmpeg не найден!")
-        return False
+    
+    print("❌ ffmpeg не найден!")
+    return False
 
-# Выполняем настройку
 setup_ffmpeg()
-
-# Проверка
-print(f"ffmpeg путь: {AudioSegment.ffmpeg}")
-print(f"ffprobe путь: {AudioSegment.ffprobe}")
+print(f"ffmpeg путь: {getattr(AudioSegment, 'converter', 'не установлен')}")
 # ===== ИМПОРТ МОНОЛОГА =====
 from oge_monologue import (
     start_monologue,
