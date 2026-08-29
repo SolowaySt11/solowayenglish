@@ -9,38 +9,32 @@
         {
           "q": "How many lessons of PE do you have a week?",
           "keywords": ["pe", "physical education", "lessons", "week", "have"],
-          "min_words": 5,
-          "hint": "Назови количество уроков физкультуры в неделю"
+          "min_words": 5
         },
         {
           "q": "What sport facilities do you have in your school?",
           "keywords": ["sport", "facilities", "school", "gym", "pitch", "court", "stadium", "have"],
-          "min_words": 7,
-          "hint": "Расскажи о спортивных объектах в школе"
+          "min_words": 7
         },
         {
           "q": "What sport do you do regularly?",
           "keywords": ["sport", "regularly", "do", "go", "play", "swim", "run", "train"],
-          "min_words": 6,
-          "hint": "Назови вид спорта, которым занимаешься регулярно"
+          "min_words": 6
         },
         {
           "q": "What winter sports are popular with you and your friends?",
           "keywords": ["winter", "sport", "popular", "friends", "ski", "skate", "hockey", "snowboard"],
-          "min_words": 8,
-          "hint": "Расскажи о зимних видах спорта"
+          "min_words": 8
         },
         {
           "q": "Would you like to do any extreme sports? Why? Why not?",
           "keywords": ["extreme", "sport", "would", "like", "dangerous", "exciting", "adrenaline", "try"],
-          "min_words": 8,
-          "hint": "Расскажи об экстремальных видах спорта"
+          "min_words": 8
         },
         {
           "q": "What would you recommend to a teenager who wants to be healthy and fit?",
           "keywords": ["recommend", "teenager", "healthy", "fit", "sport", "exercise", "food", "diet", "regularly"],
-          "min_words": 10,
-          "hint": "Дай совет подростку для здоровья"
+          "min_words": 10
         }
       ]
     }

@@ -3341,7 +3341,6 @@ async def show_assistant_question(update: Update, context: ContextTypes.DEFAULT_
     text += f"Вопрос {q_index + 1} из {len(questions)}\n\n"
     text += f"*{question['q']}*\n\n"
     text += f"⏱️ У тебя 40 секунд на ответ\n"
-    text += f"💡 *Подсказка:* {question['hint']}\n\n"
     text += "✏️ *Напиши свой ответ в чат (или отправь голосовое сообщение 🎤):*"
     
     await update.callback_query.edit_message_text(
