@@ -6,6 +6,8 @@ meta:
 build:
   requirementsPath: requirements.txt
   useCache: true
+  commands:
+    - apt-get update && apt-get install -y ffmpeg
 run:
   scriptName: solowayenglish.py
   persistenceMount: /data
