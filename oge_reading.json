@@ -2,42 +2,113 @@
   "tasks": [
     {
       "id": "reading_1",
-      "title": "Water Skiing",
-      "text": "One day a young man who lived near the lake in a small American town asked himself...",
+      "title": "The Globe Theatre",
+      "text": "Most tourists who come to London want to see the Globe Theatre. It is one of the main landmarks in the British capital. The theatre has always been linked with William Shakespeare. His plays have been staged there for several centuries.\n\nHistorians say that the theatre was built in 1599. It was a large, round, open air theatre. In those days special coloured flags were used to advertise the type of play to be performed. A red flag was put up for a history play, a white flag for a comedy, and a black flag for a tragedy.\n\nThe theatre worked for 14 years before it was destroyed by fire. Then it was rebuilt, destroyed, and reconstructed again. The theatre has changed several names and now it is called Shakespeare's Globe.",
       "difficult_words": [
         {
-          "word": "skiing",
-          "transcription": "/ˈskiːɪŋ/",
-          "explanation": "Читается как 'скиинг' (долгий 'и'), ударение на первый слог"
+          "word": "theatre",
+          "transcription": "/ˈθɪətə/",
+          "tip": "Буквосочетание 'ea' даёт звук /ɪə/, как в слове 'here'"
         },
         {
-          "word": "invention",
-          "transcription": "/ɪnˈvenʃn/",
-          "explanation": "Ударение на второй слог, 'в' произносится как 'в'"
+          "word": "tourists",
+          "transcription": "/ˈtʊərɪsts/",
+          "tip": "Ударение на первый слог, 'tour' читается как 'туэ'"
         },
         {
-          "word": "recognized",
-          "transcription": "/ˈrekəɡnaɪzd/",
-          "explanation": "Ударение на первый слог, 're' читается как 'рэ'"
+          "word": "landmarks",
+          "transcription": "/ˈlændmɑːks/",
+          "tip": "Ударение на первый слог, 'a' читается как /æ/ (краткий 'э')"
         },
         {
-          "word": "equipment",
-          "transcription": "/ɪˈkwɪpmənt/",
-          "explanation": "Ударение на второй слог, 'qu' читается как 'ку'"
+          "word": "linked",
+          "transcription": "/lɪŋkt/",
+          "tip": "Окончание 'ed' читается как /t/, слово произносится как 'линкт'"
+        },
+        {
+          "word": "William Shakespeare",
+          "transcription": "/ˈwɪljəm ˈʃeɪkspɪə/",
+          "tip": "Ударение на первый слог в обоих словах. 'Will' как 'Уил'"
+        },
+        {
+          "word": "staged",
+          "transcription": "/steɪdʒd/",
+          "tip": "Буквосочетание 'ge' даёт звук /dʒ/, окончание 'ed' читается как /d/"
+        },
+        {
+          "word": "centuries",
+          "transcription": "/ˈsentʃəriz/",
+          "tip": "Ударение на первый слог, 't' перед 'u' даёт звук /tʃ/ (как 'ч')"
+        },
+        {
+          "word": "historians",
+          "transcription": "/hɪˈstɔːriənz/",
+          "tip": "Ударение на второй слог, 'h' произносится чётко"
+        },
+        {
+          "word": "advertise",
+          "transcription": "/ˈædvətaɪz/",
+          "tip": "Ударение на первый слог, 'ise' читается как /aɪz/ (как 'айз')"
+        },
+        {
+          "word": "performed",
+          "transcription": "/pəˈfɔːmd/",
+          "tip": "Ударение на второй слог, окончание 'ed' читается как /d/"
+        },
+        {
+          "word": "comedy",
+          "transcription": "/ˈkɒmədi/",
+          "tip": "Ударение на первый слог, 'o' читается как /ɒ/ (краткий 'о')"
+        },
+        {
+          "word": "tragedy",
+          "transcription": "/ˈtrædʒədi/",
+          "tip": "Ударение на первый слог, 'a' читается как /æ/ (краткий 'э')"
+        },
+        {
+          "word": "destroyed",
+          "transcription": "/dɪˈstrɔɪd/",
+          "tip": "Ударение на второй слог, 'oi' даёт звук /ɔɪ/ (как 'ой')"
+        },
+        {
+          "word": "rebuilt",
+          "transcription": "/ˌriːˈbɪlt/",
+          "tip": "Ударение на второй слог, 're' читается как /riː/ (долгий 'и')"
+        },
+        {
+          "word": "reconstructed",
+          "transcription": "/ˌriːkənˈstrʌktɪd/",
+          "tip": "Ударение на третий слог, окончание 'ed' читается как /ɪd/"
         }
       ],
       "questions": [
         {
-          "q": "Как правильно произносится слово 'skiing'?",
-          "options": ["/ˈskiːɪŋ/", "/ˈskaɪɪŋ/", "/ˈskiŋ/"],
+          "q": "Как правильно произносится слово 'theatre'?",
+          "options": ["/ˈθɪətə/", "/ˈteɪtə/", "/ˈθiːtə/"],
           "answer": 0
         },
         {
-          "q": "Где ударение в слове 'invention'?",
+          "q": "Где ударение в слове 'advertise'?",
           "options": ["Первый слог", "Второй слог", "Третий слог"],
-          "answer": 1
+          "answer": 0
+        },
+        {
+          "q": "Как читается окончание в слове 'destroyed'?",
+          "options": ["/d/", "/t/", "/ɪd/"],
+          "answer": 0
+        },
+        {
+          "q": "Как правильно произнести 'Shakespeare'?",
+          "options": ["/ˈʃeɪkspɪə/", "/ʃeɪksˈpɪə/", "/ˈʃækspɪə/"],
+          "answer": 0
+        },
+        {
+          "q": "Как читается буква 'o' в слове 'comedy'?",
+          "options": ["/ɒ/ (краткий 'о')", "/əʊ/ (долгий 'оу')", "/ɔː/ (долгий 'о')"],
+          "answer": 0
         }
-      ]
+      ],
+      "done": false
     }
   ]
 }
