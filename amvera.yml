@@ -6,10 +6,9 @@ meta:
 build:
   requirementsPath: requirements.txt
   useCache: true
-  commands:
-    - apt-get update && apt-get install -y ffmpeg
 run:
   scriptName: solowayenglish.py
+  command: null
   persistenceMount: /data
   containerPort: "80"
   servicePort: "80"
