@@ -508,6 +508,9 @@ async def handle_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif context.user_data.get("awaiting_letter"):
         await handle_letter_answer(update, context)
         return
+    elif context.user_data.get("awaiting_assistant_answer"):
+        await handle_assistant_answer(update, context)
+        return
 
 async def show_levels(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Показывает список уровней с проверкой авторизации"""
@@ -892,7 +895,7 @@ async def oge_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("✉️ 7. Письмо", callback_data="start_letter")],
         [InlineKeyboardButton("📖 8. Чтение текста", callback_data="start_reading")],
         [InlineKeyboardButton("🎤 9. Монолог", callback_data="oge_monologue")],
-        [InlineKeyboardButton("📱 10. Electronic Assistant (скоро)", callback_data="oge_assistant")],
+        [InlineKeyboardButton("📱 10. Electronic Assistant", callback_data="oge_assistant")],
         [InlineKeyboardButton("🔙 Назад", callback_data="back_to_levels")]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -3155,6 +3158,424 @@ async def finish_reading(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
     
     del context.user_data["reading_questions"]
+
+# ===== ОГЭ: ELECTRONIC ASSISTANT (ЗАДАНИЕ 10) =====
+
+def load_assistant_tasks():
+    """Загружает задания для Electronic Assistant"""
+    try:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        json_paths = [
+            os.path.join(base_dir, "oge_assistant.json"),
+            os.path.join("/app", "oge_assistant.json"),
+            os.path.join(os.getcwd(), "oge_assistant.json")
+        ]
+        
+        for path in json_paths:
+            if os.path.exists(path):
+                with open(path, "r", encoding="utf-8") as f:
+                    return json.load(f)
+        
+        print(f"❌ oge_assistant.json не найден")
+        return None
+    except Exception as e:
+        print(f"❌ Ошибка загрузки oge_assistant.json: {e}")
+        return None
+
+def find_audio_file_assistant(filename):
+    """Ищет аудиофайл для Electronic Assistant"""
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    possible_paths = [
+        os.path.join(base_dir, "audio", "assistant", filename),
+        os.path.join(base_dir, "assistant", filename),
+        os.path.join(base_dir, filename),
+        os.path.join("/app", "audio", "assistant", filename),
+        os.path.join("/app", "assistant", filename),
+        os.path.join(os.getcwd(), "audio", "assistant", filename),
+        os.path.join(os.getcwd(), "assistant", filename),
+    ]
+    
+    for path in possible_paths:
+        if os.path.exists(path):
+            print(f"✅ Найден аудиофайл: {path}")
+            return path
+    
+    print(f"❌ Аудиофайл {filename} не найден")
+    return None
+
+async def start_assistant(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Запускает задание 10 — Electronic Assistant"""
+    if not context.user_data.get("authenticated"):
+        await update.callback_query.answer("❌ Пожалуйста, войдите в аккаунт", show_alert=True)
+        return
+    
+    data = load_assistant_tasks()
+    if not data:
+        await update.callback_query.answer("❌ Задания не загружены", show_alert=True)
+        return
+    
+    tasks = data.get("tasks", [])
+    if not tasks:
+        await update.callback_query.answer("❌ Нет заданий", show_alert=True)
+        return
+    
+    context.user_data["assistant"] = {
+        "tasks": tasks,
+        "current_task": 0,
+        "current_question": 0,
+        "answers": [],
+        "total_tasks": len(tasks)
+    }
+    
+    await assistant_list(update, context)
+
+async def assistant_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает список тем для Electronic Assistant"""
+    session = context.user_data.get("assistant")
+    if not session:
+        await update.callback_query.answer("❌ Сессия не найдена", show_alert=True)
+        return
+    
+    tasks = session["tasks"]
+    keyboard = []
+    
+    for i, task in enumerate(tasks):
+        status = "✅" if task.get("done", False) else "⬜"
+        keyboard.append([InlineKeyboardButton(f"{status} {task['title']}", callback_data=f"assistant_select_{i}")])
+    
+    keyboard.append([InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")])
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    await update.callback_query.edit_message_text(
+        "📱 *Electronic Assistant*\n\n"
+        "Выбери тему для тренировки:\n"
+        "✅ - уже выполнено\n"
+        "⬜ - ещё не выполнено\n\n"
+        "📌 *Инструкция:*\n"
+        "1. Ты участвуешь в телефонном опросе\n"
+        "2. Прослушай аудиозапись с вопросами\n"
+        "3. Ответь на 6 вопросов (40 секунд на каждый)\n"
+        "4. Давай полные развёрнутые ответы\n"
+        "5. Максимальный балл: 6 (по 1 за каждый ответ)",
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
+
+async def show_assistant_task(update: Update, context: ContextTypes.DEFAULT_TYPE, task_index: int):
+    """Показывает задание и отправляет аудио"""
+    session = context.user_data.get("assistant")
+    if not session:
+        await update.callback_query.answer("❌ Сессия не найдена", show_alert=True)
+        return
+    
+    if task_index >= len(session["tasks"]):
+        await update.callback_query.answer("❌ Задание не найдено", show_alert=True)
+        return
+    
+    task = session["tasks"][task_index]
+    session["current_task"] = task_index
+    session["current_question"] = 0
+    session["answers"] = []
+    session["scores"] = []
+    
+    # Загружаем аудио
+    data = load_assistant_tasks()
+    audio_path = find_audio_file_assistant(data.get("audio_file", f"assistant_{task_index + 1}.mp3"))
+    
+    # Показываем вступление
+    intro_text = f"📱 *{task['title']}*\n\n"
+    intro_text += f"{task['intro']}\n\n"
+    intro_text += f"Всего вопросов: {len(task['questions'])}\n\n"
+    intro_text += "🎧 Сначала прослушай аудиозапись, затем отвечай на каждый вопрос по порядку."
+    
+    keyboard = [
+        [InlineKeyboardButton("▶️ Начать опрос", callback_data=f"assistant_start_{task_index}")],
+        [InlineKeyboardButton("📋 К списку тем", callback_data="assistant_list")],
+        [InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    # Отправляем аудио, если есть
+    if audio_path:
+        try:
+            with open(audio_path, "rb") as f:
+                await update.effective_chat.send_voice(
+                    voice=f,
+                    caption="🎧 Прослушай запись с вопросами. Запись будет звучать дважды.",
+                    parse_mode="Markdown"
+                )
+        except Exception as e:
+            print(f"❌ Ошибка отправки аудио: {e}")
+    
+    await update.callback_query.edit_message_text(
+        intro_text,
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
+
+async def start_assistant_questions(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Начинает опрос (первый вопрос)"""
+    await show_assistant_question(update, context)
+
+async def show_assistant_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает текущий вопрос"""
+    session = context.user_data.get("assistant")
+    if not session:
+        await update.callback_query.answer("❌ Сессия не найдена", show_alert=True)
+        return
+    
+    task_index = session["current_task"]
+    q_index = session["current_question"]
+    task = session["tasks"][task_index]
+    questions = task["questions"]
+    
+    if q_index >= len(questions):
+        await finish_assistant(update, context)
+        return
+    
+    question = questions[q_index]
+    
+    text = f"📱 *Electronic Assistant*\n\n"
+    text += f"Тема: {task['title']}\n"
+    text += f"Вопрос {q_index + 1} из {len(questions)}\n\n"
+    text += f"*{question['q']}*\n\n"
+    text += f"⏱️ У тебя 40 секунд на ответ\n"
+    text += f"💡 *Подсказка:* {question['hint']}\n\n"
+    text += "✏️ *Напиши свой ответ в чат (или отправь голосовое сообщение 🎤):*"
+    
+    await update.callback_query.edit_message_text(
+        text,
+        parse_mode="Markdown"
+    )
+    
+    context.user_data["awaiting_assistant_answer"] = True
+
+async def handle_assistant_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Обрабатывает ответ пользователя (текст или голосовое)"""
+    session = context.user_data.get("assistant")
+    if not session:
+        await update.message.reply_text("❌ Сессия устарела. Начни заново.")
+        return
+    
+    task_index = session["current_task"]
+    q_index = session["current_question"]
+    task = session["tasks"][task_index]
+    questions = task["questions"]
+    
+    if q_index >= len(questions):
+        return
+    
+    # Получаем текст ответа
+    if update.message.voice:
+        # Голосовое сообщение
+        await update.message.reply_text("🎤 Голосовое сообщение получено! Я распознаю его как текст...")
+        # Здесь можно добавить распознавание речи через Google Speech или Whisper
+        # Пока просто просим написать текст
+        await update.message.reply_text("✏️ Пожалуйста, также напиши свой ответ текстом для проверки.")
+        return
+    
+    user_answer = update.message.text.strip()
+    
+    # Проверяем длину ответа
+    if len(user_answer) < 5:
+        await update.message.reply_text("❌ Ответ слишком короткий. Пожалуйста, дай полный ответ (минимум 2 предложения).")
+        return
+    
+    # Проверяем ответ
+    question = questions[q_index]
+    is_full, score, comment = check_assistant_answer(user_answer, question)
+    
+    # Сохраняем ответ
+    session["answers"].append({
+        "question": question["q"],
+        "answer": user_answer,
+        "score": score,
+        "comment": comment,
+        "is_full": is_full
+    })
+    session["scores"].append(score)
+    
+    # Отправляем обратную связь
+    feedback = f"📝 Твой ответ:\n{user_answer[:200]}{'...' if len(user_answer) > 200 else ''}\n\n"
+    feedback += f"{'✅' if is_full else '⚠️'} {comment}"
+    await update.message.reply_text(feedback)
+    
+    session["current_question"] += 1
+    
+    # Проверяем, все ли вопросы заданы
+    if session["current_question"] >= len(questions):
+        await finish_assistant_from_message(update, context)
+    else:
+        await show_assistant_question_from_message(update, context)
+
+def check_assistant_answer(answer: str, question: dict) -> tuple:
+    """
+    Проверяет ответ на вопрос Electronic Assistant
+    Возвращает: (is_full, score, comment)
+    """
+    answer_lower = answer.lower()
+    words = answer.split()
+    word_count = len(words)
+    min_words = question.get("min_words", 5)
+    keywords = question.get("keywords", [])
+    
+    # Проверка количества слов
+    if word_count < min_words:
+        return False, 0, f"❌ Слишком короткий ответ ({word_count} слов, нужно минимум {min_words})"
+    
+    # Проверка наличия ключевых слов
+    found_keywords = []
+    for kw in keywords:
+        if kw in answer_lower:
+            found_keywords.append(kw)
+    
+    # Проверка структуры (наличие союзов для связи)
+    conjunctions = ["and", "but", "or", "because", "so", "although", "however", "moreover", "furthermore"]
+    has_conjunction = any(conj in answer_lower for conj in conjunctions)
+    
+    # Проверка на наличие нескольких предложений
+    sentences = re.split(r'[.!?]+', answer)
+    sentence_count = len([s for s in sentences if s.strip()])
+    
+    # Оценка
+    score = 0
+    comments = []
+    
+    # Критерий 1: Достаточный объём
+    if word_count >= min_words:
+        comments.append(f"✅ Объём: {word_count} слов (норма)")
+        score += 0.5
+    else:
+        comments.append(f"⚠️ Объём: {word_count} слов (нужно {min_words})")
+    
+    # Критерий 2: Наличие ключевых слов/тем
+    if len(found_keywords) >= 2:
+        comments.append(f"✅ Раскрыта тема: найдены ключевые слова")
+        score += 0.5
+    else:
+        comments.append(f"⚠️ Тема раскрыта не полностью")
+    
+    # Критерий 3: Структура (союзы)
+    if has_conjunction:
+        comments.append(f"✅ Хорошая связность (использованы союзы)")
+        score += 0.5
+    else:
+        comments.append(f"⚠️ Используй союзы для связи предложений")
+    
+    # Критерий 4: Количество предложений
+    if sentence_count >= 2:
+        comments.append(f"✅ {sentence_count} предложений")
+        score += 0.5
+    else:
+        comments.append(f"⚠️ {sentence_count} предложений (нужно минимум 2)")
+    
+    # Итоговый балл (0 или 1)
+    is_full = score >= 1.5  # Нужно набрать хотя бы 1.5 из 2
+    final_score = 1 if is_full else 0
+    
+    final_comment = "✅ Полный ответ" if is_full else "❌ Ответ неполный"
+    
+    return is_full, final_score, final_comment
+
+async def show_assistant_question_from_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает следующий вопрос (из сообщения)"""
+    session = context.user_data.get("assistant")
+    if not session:
+        return
+    
+    task_index = session["current_task"]
+    q_index = session["current_question"]
+    task = session["tasks"][task_index]
+    questions = task["questions"]
+    
+    if q_index >= len(questions):
+        await finish_assistant_from_message(update, context)
+        return
+    
+    question = questions[q_index]
+    
+    text = f"📱 *Electronic Assistant*\n\n"
+    text += f"Тема: {task['title']}\n"
+    text += f"Вопрос {q_index + 1} из {len(questions)}\n\n"
+    text += f"*{question['q']}*\n\n"
+    text += f"⏱️ У тебя 40 секунд на ответ\n"
+    text += f"💡 *Подсказка:* {question['hint']}\n\n"
+    text += "✏️ *Напиши свой ответ в чат:*"
+    
+    await update.message.reply_text(
+        text,
+        parse_mode="Markdown"
+    )
+    
+    context.user_data["awaiting_assistant_answer"] = True
+
+async def finish_assistant(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Завершает задание (из callback)"""
+    await finish_assistant_internal(update, context)
+
+async def finish_assistant_from_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Завершает задание (из сообщения)"""
+    await finish_assistant_internal(update, context)
+
+async def finish_assistant_internal(update, context):
+    """Внутренняя функция завершения задания"""
+    session = context.user_data.get("assistant")
+    if not session:
+        return
+    
+    task_index = session["current_task"]
+    task = session["tasks"][task_index]
+    answers = session["answers"]
+    scores = session["scores"]
+    
+    # Отмечаем задание как выполненное
+    task["done"] = True
+    
+    # Подсчёт баллов
+    total_score = sum(scores)
+    max_score = len(answers)
+    
+    # Формируем результат
+    result_text = f"✅ *Опрос завершён!*\n\n"
+    result_text += f"📱 Тема: {task['title']}\n"
+    result_text += f"📊 Результат: {total_score}/{max_score}\n\n"
+    
+    if total_score == max_score:
+        result_text += "🏆 *Отлично! Все ответы полные!*\n\n"
+    elif total_score >= max_score * 0.5:
+        result_text += "📚 *Хороший результат! Попробуй улучшить некоторые ответы.*\n\n"
+    else:
+        result_text += "💪 *Нужно больше практики. Старайся давать более развёрнутые ответы.*\n\n"
+    
+    result_text += "📋 *Твои ответы:*\n\n"
+    
+    for i, ans in enumerate(answers):
+        icon = "✅" if ans["score"] else "❌"
+        result_text += f"*{i+1}. {ans['question']}*\n"
+        result_text += f"   {icon} {ans['answer'][:150]}{'...' if len(ans['answer']) > 150 else ''}\n"
+        result_text += f"   💬 {ans['comment']}\n\n"
+    
+    keyboard = [
+        [InlineKeyboardButton("📋 К списку тем", callback_data="assistant_list")],
+        [InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    if hasattr(update, 'callback_query') and update.callback_query:
+        await update.callback_query.edit_message_text(
+            result_text,
+            reply_markup=reply_markup,
+            parse_mode="Markdown"
+        )
+    else:
+        await update.message.reply_text(
+            result_text,
+            reply_markup=reply_markup,
+            parse_mode="Markdown"
+        )
+    
+    context.user_data["awaiting_assistant_answer"] = False
 # ===== BUTTON CALLBACK =====
 
 async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -3252,7 +3673,7 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # Исправлено: теперь запускаем монолог вместо сообщения о разработке
         await start_monologue(update, context)
     elif data == "oge_assistant":
-        await update.callback_query.answer("📱 Electronic Assistant пока в разработке!", show_alert=True)
+        await start_assistant(update, context)
     elif data == "start_audio_choice":
         await start_audio_choice(update, context)
     elif data == "audio_choice_restart":
@@ -3324,6 +3745,17 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await show_letter_task(update, context, task_index)
     elif data == "start_letter":
         await start_letter(update, context)
+
+    # ===== ОГЭ: ELECTRONIC ASSISTANT =====
+    elif data == "oge_assistant":
+        await start_assistant(update, context)
+    elif data == "assistant_list":
+        await assistant_list(update, context)
+    elif data.startswith("assistant_select_"):
+        task_index = int(data.split("_")[-1])
+        await show_assistant_task(update, context, task_index)
+    elif data.startswith("assistant_start_"):
+        await start_assistant_questions(update, context)
     
 
 # ===== MAIN =====

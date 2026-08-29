@@ -1,0 +1,48 @@
+{
+  "audio_file": "26616.mp3",
+  "tasks": [
+    {
+      "id": "assistant_1",
+      "title": "Telephone Survey: Sport and Healthy Lifestyle",
+      "intro": "You are going to take part in a telephone survey. You have to answer six questions. Give full answers to the questions. Remember that you have 40 seconds to answer each question.",
+      "questions": [
+        {
+          "q": "How many lessons of PE do you have a week?",
+          "keywords": ["pe", "physical education", "lessons", "week", "have"],
+          "min_words": 5,
+          "hint": "Назови количество уроков физкультуры в неделю"
+        },
+        {
+          "q": "What sport facilities do you have in your school?",
+          "keywords": ["sport", "facilities", "school", "gym", "pitch", "court", "stadium", "have"],
+          "min_words": 7,
+          "hint": "Расскажи о спортивных объектах в школе"
+        },
+        {
+          "q": "What sport do you do regularly?",
+          "keywords": ["sport", "regularly", "do", "go", "play", "swim", "run", "train"],
+          "min_words": 6,
+          "hint": "Назови вид спорта, которым занимаешься регулярно"
+        },
+        {
+          "q": "What winter sports are popular with you and your friends?",
+          "keywords": ["winter", "sport", "popular", "friends", "ski", "skate", "hockey", "snowboard"],
+          "min_words": 8,
+          "hint": "Расскажи о зимних видах спорта"
+        },
+        {
+          "q": "Would you like to do any extreme sports? Why? Why not?",
+          "keywords": ["extreme", "sport", "would", "like", "dangerous", "exciting", "adrenaline", "try"],
+          "min_words": 8,
+          "hint": "Расскажи об экстремальных видах спорта"
+        },
+        {
+          "q": "What would you recommend to a teenager who wants to be healthy and fit?",
+          "keywords": ["recommend", "teenager", "healthy", "fit", "sport", "exercise", "food", "diet", "regularly"],
+          "min_words": 10,
+          "hint": "Дай совет подростку для здоровья"
+        }
+      ]
+    }
+  ]
+}
