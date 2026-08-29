@@ -8,11 +8,11 @@ build:
   useCache: true
   postBuild:
     - apt-get update
-    - apt-get install -y ffmpeg
+    - apt-get install -y ffmpeg -y
     - ffmpeg -version
 run:
   scriptName: solowayenglish.py
   command: null
   persistenceMount: /data
   containerPort: "80"
-  servicePort: "80"
+  servicePort: "80"  
