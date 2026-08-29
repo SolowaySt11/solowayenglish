@@ -3282,6 +3282,9 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         pos = parts[0]
         task_idx = int(parts[1])
         await handle_lexical_pos(update, context, pos, task_idx)
+    # ===== ОГЭ: ЧТЕНИЕ =====
+    elif data == "start_reading":
+        await start_reading(update, context)
     elif data == "reading_list":
         await reading_list(update, context)
     elif data.startswith("reading_select_"):
@@ -3291,6 +3294,10 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         task_index = int(data.split("_")[-1])
         await analyze_reading_text(update, context, task_index)
     elif data.startswith("reading_start_questions_"):
+        # Проверяем, что сессия существует
+        if "reading_questions" not in context.user_data:
+            await query.answer("❌ Сессия устарела. Выбери текст заново.", show_alert=True)
+            return
         await start_reading_questions(update, context)
     elif data.startswith("reading_ans_"):
         parts = data[11:].split("_")
