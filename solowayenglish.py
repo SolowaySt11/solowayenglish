@@ -3282,15 +3282,13 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         pos = parts[0]
         task_idx = int(parts[1])
         await handle_lexical_pos(update, context, pos, task_idx)
-    elif data == "start_reading":
-        await start_reading(update, context)
     elif data == "reading_list":
         await reading_list(update, context)
     elif data.startswith("reading_select_"):
-        task_index = int(data[15:])
+        task_index = int(data.split("_")[-1])
         await show_reading_task(update, context, task_index)
     elif data.startswith("reading_analyze_"):
-        task_index = int(data[16:])
+        task_index = int(data.split("_")[-1])
         await analyze_reading_text(update, context, task_index)
     elif data.startswith("reading_start_questions_"):
         await start_reading_questions(update, context)
