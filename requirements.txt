@@ -5,3 +5,4 @@ python-dateutil
 matplotlib
 tabulate
 SpeechRecognition==3.17.0
+pydub==0.25.1
