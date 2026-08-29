@@ -1,5 +1,4 @@
 meta:
-meta:
   environment: python
   toolchain:
     name: pip
@@ -7,10 +6,6 @@ meta:
 build:
   requirementsPath: requirements.txt
   useCache: true
-  postBuild:
-    - apt-get update
-    - apt-get install -y ffmpeg
-    - ffmpeg -version
 run:
   scriptName: solowayenglish.py
   persistenceMount: /data
