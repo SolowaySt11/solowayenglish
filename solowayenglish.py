@@ -12,6 +12,35 @@ import speech_recognition as sr
 import os
 import platform
 import subprocess
+# ===== АВТО-УСТАНОВКА FFMPEG ДЛЯ AMVERA =====
+import subprocess
+import os
+import sys
+
+def install_ffmpeg():
+    """Автоматическая установка ffmpeg на Amvera"""
+    try:
+        # Проверяем, есть ли ffmpeg
+        result = subprocess.run(["ffmpeg", "-version"], capture_output=True, text=True)
+        if result.returncode == 0:
+            print("✅ ffmpeg уже установлен")
+            return True
+    except FileNotFoundError:
+        pass
+    
+    print("📦 Устанавливаю ffmpeg...")
+    try:
+        # Для Amvera (Debian/Ubuntu)
+        subprocess.run(["apt-get", "update", "-y"], check=True, capture_output=True)
+        subprocess.run(["apt-get", "install", "-y", "ffmpeg"], check=True, capture_output=True)
+        print("✅ ffmpeg успешно установлен!")
+        return True
+    except Exception as e:
+        print(f"❌ Ошибка установки ffmpeg: {e}")
+        return False
+
+# Устанавливаем ffmpeg при запуске
+install_ffmpeg()
 
 # ===== НАСТРОЙКА FFMPEG =====
 def setup_ffmpeg():
