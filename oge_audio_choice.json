@@ -93,6 +93,147 @@
           "answer": 0
         }
       ]
+    },
+    {
+      "id": "variant_3",
+      "title": "Вариант 3",
+      "audio_file": "3697.mp3",
+      "tasks": [
+        {
+          "id": "choice_1",
+          "question": "The man needs a book about pirates and sea adventures to…",
+          "options": [
+            "read it to his younger brother",
+            "Prepare for his role in the play about Captain Blade.",
+            "Have a quiet evening with a book at home."
+          ],
+          "answer": 1
+        },
+        {
+          "id": "choice_2",
+          "question": "The girl wants the man to…",
+          "options": [
+            "Tell her the plot of the film",
+            "Buy some popcorn for her.",
+            "be quiet and not disturb other people."
+          ],
+          "answer": 2
+        },
+        {
+          "id": "choice_3",
+          "question": "The students didn't hear the bell because they were…",
+          "options": [
+            "Playing a game.",
+            "Reading a book about pirates aloud.",
+            "Listening to music and dancing like wild pirates."
+          ],
+          "answer": 0
+        },
+        {
+          "id": "choice_4",
+          "question": "The girl had suggested to join a guided tour as…",
+          "options": [
+            "Guides explain everything.",
+            "Group visitors don't have to queue",
+            "Guides help you not to get lost."
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "variant_4",
+      "title": "Вариант 4",
+      "audio_file": "3061.mp3",
+      "tasks": [
+        {
+          "id": "choice_1",
+          "question": "The man is interested in…",
+          "options": [
+            "Football",
+            "Volleyball",
+            "Baseball"
+          ],
+          "answer": 0
+        },
+        {
+          "id": "choice_2",
+          "question": "The speakers are heading to…",
+          "options": [
+            "The stadium",
+            "To Arena shopping mall",
+            "To Lily's place."
+          ],
+          "answer": 2
+        },
+        {
+          "id": "choice_3",
+          "question": "The male speaker claims it is very important and urgent to…",
+          "options": [
+            "Confirm their hotel reservation",
+            "Check the football match results",
+            "Switch off all the electronic devices"
+          ],
+          "answer": 0
+        },
+        {
+          "id": "choice_4",
+          "question": "The girl…",
+          "options": [
+            "Is a real fan and hotly supports the Eagles",
+            "Came because of her friend and does not really care.",
+            "Had to come to the game as her boyfriend is the Eagles' forward."
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    {
+      "id": "variant_5",
+      "title": "Вариант 5",
+      "audio_file": "3022.mp3",
+      "tasks": [
+        {
+          "id": "choice_1",
+          "question": "The girl goes jogging",
+          "options": [
+            "Sometimes, depending on the weather.",
+            "Regardless of what season is or what is the weather.",
+            "Only when it rains."
+          ],
+          "answer": 1
+        },
+        {
+          "id": "choice_2",
+          "question": "The male speaker is interested in",
+          "options": [
+            "Playing golf.",
+            "Swimming in the pool.",
+            "Playing bowling and billiards."
+          ],
+          "answer": 0
+        },
+        {
+          "id": "choice_3",
+          "question": "The girl is interested in",
+          "options": [
+            "Various sports",
+            "Aerobics",
+            "Boxing"
+          ],
+          "answer": 1
+        },
+        {
+          "id": "choice_4",
+          "question": "The eight churches which constitute the historical complex are now",
+          "options": [
+            "Churches, as they used to be in the past.",
+            "Museums and places for holding international competitions.",
+            "Some of them are museums and some are still working as churches."
+          ],
+          "answer": 2
+        }
+      ]
     }
   ]
 }
