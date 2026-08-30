@@ -1816,9 +1816,13 @@ async def start_audio_choice_variant(update: Update, context: ContextTypes.DEFAU
     
     audio_path = find_audio_file(selected_variant["audio_file"])
     
+    # Отвечаем на callback, чтобы убрать индикатор загрузки
+    await update.callback_query.answer()
+    
     if audio_path:
         try:
             with open(audio_path, "rb") as f:
+                # Отправляем аудио как новое сообщение
                 await update.effective_chat.send_voice(
                     voice=f,
                     caption=f"🎧 *Вариант {selected_variant.get('title', '')}*\n\n"
@@ -1827,14 +1831,15 @@ async def start_audio_choice_variant(update: Update, context: ContextTypes.DEFAU
                     parse_mode="Markdown"
                 )
         except Exception as e:
-            await update.callback_query.edit_message_text(
+            # Если ошибка, отправляем новое сообщение вместо редактирования
+            await update.effective_chat.send_message(
                 f"❌ Ошибка при отправке аудио: {str(e)}\n\n"
                 f"Путь: `{audio_path}`",
                 parse_mode="Markdown"
             )
             return
     else:
-        await update.callback_query.edit_message_text(
+        await update.effective_chat.send_message(
             f"❌ Аудиофайл `{selected_variant['audio_file']}` не найден!\n\n"
             f"Проверь, что файл находится в папке `audio/choice/`",
             parse_mode="Markdown"
@@ -1850,10 +1855,63 @@ async def start_audio_choice_variant(update: Update, context: ContextTypes.DEFAU
         "total": len(selected_variant["tasks"])
     }
     
-    # Показываем все вопросы сразу
-    await show_all_audio_questions(update, context) 
+    # Показываем все вопросы сразу через новое сообщение
+    await show_all_audio_questions_from_message(update, context)
 
-
+async def show_all_audio_questions_from_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Показывает все 4 вопроса сразу с кнопками для ответа (через новое сообщение)"""
+    session = context.user_data.get("audio_choice")
+    if not session:
+        return
+    
+    tasks = session["tasks"]
+    current = session["current"]
+    
+    # Формируем текст со всеми вопросами
+    text = "🎧 *Задание 1. Выбор ответа*\n\n"
+    text += "Ответь на все 4 вопроса. На каждый вопрос выбери один вариант:\n\n"
+    
+    for i, task in enumerate(tasks):
+        status = "✅" if i < current else "⬜"
+        text += f"{status} *Вопрос {i+1}:* {task['question']}\n"
+        for j, opt in enumerate(task["options"]):
+            text += f"   {chr(97+j)}) {opt}\n"
+        text += "\n"
+    
+    # Создаём кнопки для каждого вопроса
+    keyboard = []
+    for i in range(len(tasks)):
+        if i < current:
+            # Вопрос уже отвечен - показываем зелёную галочку
+            keyboard.append([InlineKeyboardButton(f"✅ Вопрос {i+1} (отвечен)", callback_data=f"audio_choice_noop")])
+        else:
+            # Вопрос ещё не отвечен - показываем кнопку с вариантами
+            row = []
+            for j in range(3):
+                row.append(InlineKeyboardButton(
+                    f"{chr(97+j)}", 
+                    callback_data=f"audio_choice_ans_{j}_{i}"
+                ))
+            keyboard.append([InlineKeyboardButton(f"❓ Вопрос {i+1}:", callback_data=f"audio_choice_noop")] + row)
+    
+    # Кнопка для перезапуска
+    keyboard.append([InlineKeyboardButton("🔄 Пройти заново", callback_data="audio_choice_restart")])
+    keyboard.append([InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")])
+    
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    # Отправляем новое сообщение
+    await update.effective_chat.send_message(
+        text,
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
+    
+    # Удаляем предыдущее сообщение с кнопками выбора варианта
+    try:
+        await update.callback_query.message.delete()
+    except Exception as e:
+        print(f"⚠️ Не удалось удалить сообщение: {e}")
 async def show_all_audio_questions(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Показывает все 4 вопроса сразу с кнопками для ответа"""
     session = context.user_data.get("audio_choice")
@@ -1938,12 +1996,18 @@ async def handle_audio_choice_answer(update: Update, context: ContextTypes.DEFAU
     
     session["current"] += 1
     
+    # Удаляем текущее сообщение с вопросами
+    try:
+        await update.callback_query.message.delete()
+    except Exception as e:
+        print(f"⚠️ Не удалось удалить сообщение: {e}")
+    
     # Проверяем, все ли вопросы отвечены
     if session["current"] >= session["total"]:
         await finish_audio_choice(update, context)
     else:
-        # Обновляем список вопросов
-        await show_all_audio_questions(update, context)
+        # Отправляем обновлённый список вопросов
+        await show_all_audio_questions_from_message(update, context)
 
 async def finish_audio_choice(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Завершает задание 1 по аудированию"""
