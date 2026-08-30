@@ -3709,16 +3709,18 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         answer = parts[0]
         q_index = int(parts[1])
         await handle_oge_tfns_answer(update, context, answer, q_index)
+    
+    # ===== ИСПРАВЛЕНИЕ: ОБРАБОТЧИК ВЫБОРА ВАРИАНТА АУДИРОВАНИЯ =====
     elif data.startswith("audio_choice_variant_"):
         variant_id = data[22:]  # убираем "audio_choice_variant_"
         context.user_data["audio_choice_variant"] = variant_id
         await start_audio_choice_variant(update, context)
+    
     elif data == "oge_letter":
         await start_letter(update, context)
     elif data == "oge_text_reading":
         await update.callback_query.answer("📖 Чтение текста пока в разработке!", show_alert=True)
     elif data == "oge_monologue":
-        # Исправлено: теперь запускаем монолог вместо сообщения о разработке
         await start_monologue(update, context)
     elif data == "oge_assistant":
         await start_assistant(update, context)
@@ -3751,7 +3753,6 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         pos = parts[0]
         task_idx = int(parts[1])
         await handle_lexical_pos(update, context, pos, task_idx)
-    # ===== ОГЭ: ЧТЕНИЕ =====
     elif data == "start_reading":
         await start_reading(update, context)
     elif data == "reading_list":
@@ -3763,7 +3764,6 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         task_index = int(data.split("_")[-1])
         await analyze_reading_text(update, context, task_index)
     elif data.startswith("reading_start_questions_"):
-        # Проверяем, что сессия существует
         if "reading_questions" not in context.user_data:
             await query.answer("❌ Сессия устарела. Выбери текст заново.", show_alert=True)
             return
@@ -3773,19 +3773,13 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         answer_idx = int(parts[0])
         q_index = int(parts[1])
         await handle_reading_answer(update, context, answer_idx, q_index)
-    
-   # ===== ОБРАБОТЧИКИ ДЛЯ МОНОЛОГА =====
     elif data == "monologue_list":
-        # Исправлено: передаём оба параметра
         await monologue_list(update, context)
     elif data.startswith("monologue_select_"):
-        # Исправлено: правильная индексация
-        task_index = int(data.split("_")[-1])  # или int(data[18:])
+        task_index = int(data.split("_")[-1])
         await show_monologue_task(update, context, task_index)
     elif data == "start_monologue":
         await start_monologue(update, context)
-    
-    # ===== ОБРАБОТЧИКИ ДЛЯ ПИСЬМА =====
     elif data == "letter_list":
         await letter_list(update, context)
     elif data.startswith("letter_select_"):
@@ -3793,10 +3787,6 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await show_letter_task(update, context, task_index)
     elif data == "start_letter":
         await start_letter(update, context)
-
-    # ===== ОГЭ: ELECTRONIC ASSISTANT =====
-    elif data == "oge_assistant":
-        await start_assistant(update, context)
     elif data == "assistant_list":
         await assistant_list(update, context)
     elif data.startswith("assistant_select_"):
