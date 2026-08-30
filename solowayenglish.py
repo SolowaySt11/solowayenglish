@@ -1659,7 +1659,7 @@ async def finish_oge_tfns(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
     
     del context.user_data["oge_tfns_session"]
-    # ===== ОГЭ: АУДИРОВАНИЕ (ЗАДАНИЕ 1 — ВЫБОР ОТВЕТА) =====
+# ===== ОГЭ: АУДИРОВАНИЕ (ЗАДАНИЕ 1 — ВЫБОР ОТВЕТА) =====
 
 def load_audio_choice():
     """Загружает задания для аудирования (все варианты)"""
@@ -1683,9 +1683,7 @@ def load_audio_choice():
                         print(f"⚠️ В JSON нет ключа 'variants'")
                         return None
         
-        print(f"❌ oge_audio_choice.json не найден. Проверены пути:")
-        for path in json_paths:
-            print(f"  - {path} (exists: {os.path.exists(path)})")
+        print(f"❌ oge_audio_choice.json не найден")
         return None
     except Exception as e:
         print(f"❌ Ошибка загрузки oge_audio_choice.json: {e}")
@@ -1712,10 +1710,7 @@ def find_audio_file(filename):
             print(f"✅ Найден аудиофайл: {path}")
             return path
     
-    print(f"❌ Аудиофайл {filename} не найден. Проверены пути:")
-    for path in possible_paths:
-        print(f"  - {path} (exists: {os.path.exists(path)})")
-    
+    print(f"❌ Аудиофайл {filename} не найден")
     return None
 
 async def start_audio_choice(update: Update, context: ContextTypes.DEFAULT_TYPE, variant_id: str = None):
