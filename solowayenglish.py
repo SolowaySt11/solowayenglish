@@ -1807,7 +1807,7 @@ async def start_audio_choice_variant(update: Update, context: ContextTypes.DEFAU
     # Показываем все вопросы сразу
     await show_all_audio_questions(update, context) 
 
-    
+
 async def show_all_audio_questions(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Показывает все 4 вопроса сразу с кнопками для ответа"""
     session = context.user_data.get("audio_choice")
@@ -3709,8 +3709,10 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         answer = parts[0]
         q_index = int(parts[1])
         await handle_oge_tfns_answer(update, context, answer, q_index)
-    elif data == "oge_audio":
-        await update.callback_query.answer("🎧 Аудирование пока в разработке!", show_alert=True)
+    elif data.startswith("audio_choice_variant_"):
+        variant_id = data[22:]  # убираем "audio_choice_variant_"
+        context.user_data["audio_choice_variant"] = variant_id
+        await start_audio_choice_variant(update, context)
     elif data == "oge_letter":
         await start_letter(update, context)
     elif data == "oge_text_reading":
