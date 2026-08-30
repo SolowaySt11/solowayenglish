@@ -1998,57 +1998,84 @@ def find_audio_file_matching(filename):
     
     return None
 
-async def start_audio_matching(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def start_audio_matching(update: Update, context: ContextTypes.DEFAULT_TYPE, variant_id: str = None):
     """Запускает задание 2 — сопоставление"""
+    if not context.user_data.get("authenticated"):
+        await update.callback_query.answer("❌ Пожалуйста, войдите в аккаунт", show_alert=True)
+        return
+    
     data = load_audio_matching()
     if not data:
         await update.callback_query.answer("❌ Задания не загружены", show_alert=True)
         return
     
-    # Отправляем аудио
-    audio_path = find_audio_file_matching(data["audio_file"])
-    
-    if audio_path:
-        try:
-            with open(audio_path, "rb") as f:
-                await update.effective_chat.send_voice(
-                    voice=f,
-                    caption="🎧 *Задание 2. Сопоставление*\n\n"
-                           "Прослушайте высказывания пяти людей (A, B, C, D, E) и подберите к каждому "
-                           "соответствующую рубрику из списка 1–6. Одна рубрика лишняя.\n"
-                           "Вы услышите запись дважды.",
-                    parse_mode="Markdown"
-                )
-        except Exception as e:
-            await update.callback_query.edit_message_text(
-                f"❌ Ошибка при отправке аудио: {str(e)}\n\n"
-                f"Путь: `{audio_path}`",
-                parse_mode="Markdown"
-            )
+    # Если передан ID варианта, показываем его
+    if variant_id:
+        # Находим нужный вариант
+        selected_variant = None
+        for variant in data["variants"]:
+            if variant["id"] == variant_id:
+                selected_variant = variant
+                break
+        
+        if not selected_variant:
+            await update.callback_query.answer("❌ Вариант не найден", show_alert=True)
             return
-    else:
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        await update.callback_query.edit_message_text(
-            f"❌ Аудиофайл `{data['audio_file']}` не найден!\n\n"
-            f"Проверь, что файл находится в папке `audio/matching/`\n\n"
-            f"Текущая директория: `{base_dir}`",
-            parse_mode="Markdown"
-        )
+        
+        # Отправляем аудио
+        audio_path = find_audio_file_matching(selected_variant["audio_file"])
+        
+        if audio_path:
+            try:
+                with open(audio_path, "rb") as f:
+                    await update.effective_chat.send_voice(
+                        voice=f,
+                        caption=f"🎧 *{selected_variant['title']}*\n\n"
+                               "Прослушайте высказывания пяти людей (A, B, C, D, E) и подберите к каждому "
+                               "соответствующую рубрику из списка 1–6. Одна рубрика лишняя.\n"
+                               "Вы услышите запись дважды.",
+                        parse_mode="Markdown"
+                    )
+            except Exception as e:
+                await update.callback_query.answer(f"❌ Ошибка отправки аудио: {str(e)}", show_alert=True)
+                return
+        else:
+            await update.callback_query.answer(f"❌ Аудиофайл не найден: {selected_variant['audio_file']}", show_alert=True)
+            return
+        
+        # Сохраняем данные в сессию
+        context.user_data["audio_matching"] = {
+            "variant": selected_variant,
+            "speakers": selected_variant["speakers"],
+            "rubrics": selected_variant["rubrics"],
+            "current": 0,
+            "score": 0,
+            "user_answers": [],
+            "total": len(selected_variant["speakers"])
+        }
+        
+        # Показываем рубрики и начинаем опрос
+        await show_matching_question(update, context)
         return
     
-    # Сохраняем данные в сессию
-    context.user_data["audio_matching"] = {
-        "speakers": data["speakers"],
-        "rubrics": data["rubrics"],
-        "current": 0,
-        "score": 0,
-        "user_answers": [],
-        "total": len(data["speakers"])
-    }
+    # Иначе показываем список вариантов с ЯВНЫМИ кнопками
+    keyboard = [
+        [InlineKeyboardButton("🎧 Вариант 1", callback_data="matching_variant_1")],
+        [InlineKeyboardButton("🎧 Вариант 2", callback_data="matching_variant_2")],
+        [InlineKeyboardButton("🎧 Вариант 3", callback_data="matching_variant_3")],
+        [InlineKeyboardButton("🎧 Вариант 4", callback_data="matching_variant_4")],
+        [InlineKeyboardButton("🎧 Вариант 5", callback_data="matching_variant_5")],
+        [InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
     
-    # Показываем рубрики и начинаем опрос
-    await show_matching_question(update, context)
-
+    await update.callback_query.edit_message_text(
+        "🎧 *Задание 2. Аудирование (сопоставление)*\n\n"
+        "Выбери вариант для тренировки:\n"
+        "Каждый вариант содержит 5 высказываний для сопоставления с рубриками.",
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
 async def show_matching_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Показывает текущего говорящего для сопоставления"""
     session = context.user_data.get("audio_matching")
@@ -3702,7 +3729,23 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # ===== АУДИРОВАНИЕ: ЗАДАНИЕ 2 (СОПОСТАВЛЕНИЕ) =====
     elif data == "start_audio_matching":
         await start_audio_matching(update, context)
-    
+
+# Явные обработчики для каждого варианта
+    elif data == "matching_variant_1":
+        await start_audio_matching(update, context, "matching_1")
+
+    elif data == "matching_variant_2":
+        await start_audio_matching(update, context, "matching_2")
+
+    elif data == "matching_variant_3":
+        await start_audio_matching(update, context, "matching_3")
+
+    elif data == "matching_variant_4":
+        await start_audio_matching(update, context, "matching_4")
+
+    elif data == "matching_variant_5":
+        await start_audio_matching(update, context, "matching_5")
+
     elif data.startswith("matching_ans_"):
         parts = data[13:].split("_")
         rubric_idx = int(parts[0])
