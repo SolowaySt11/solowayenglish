@@ -1,38 +1,204 @@
 {
-  "audio_file": "3014.mp3",
-  "rubrics": [
-    "What stops him/her from skiing.",
-    "First skiing experience.",
-    "Why he/she prefers skiing to other sports.",
-    "Professional skiing equipment.",
-    "Ski resort facilities.",
-    "Ski racing competition."
-  ],
-  "speakers": [
+  "variants": [
     {
-      "id": "A",
-      "text": "I love sports. But I've never been very extreme. Recently my friend had a ski holiday in the mountains. But I chose to stay at home. First: I hate cold. I don't enjoy staying outdoors longer than half an hour. Second: I found ski boots so heavy and uncomfortable. And the last but the main reason: is that I could fall over and hurt myself.",
-      "correct_rubric": 0
+      "id": "matching_1",
+      "title": "Вариант 1",
+      "audio_file": "3014.mp3",
+      "rubrics": [
+        "What stops him/her from skiing.",
+        "First skiing experience.",
+        "Why he/she prefers skiing to other sports.",
+        "Professional skiing equipment.",
+        "Ski resort facilities.",
+        "Ski racing competition."
+      ],
+      "speakers": [
+        {
+          "id": "A",
+          "text": "I love sports. But I've never been very extreme. Recently my friend had a ski holiday in the mountains. But I chose to stay at home. First: I hate cold. I don't enjoy staying outdoors longer than half an hour. Second: I found ski boots so heavy and uncomfortable. And the last but the main reason: is that I could fall over and hurt myself.",
+          "correct_rubric": 0
+        },
+        {
+          "id": "B",
+          "text": "I think that winter is the best season of the year and I take every opportunity to do winter sports. I like skiing best of all. First of all it's very exciting to ski down the slope. Lots of people from different places go to skiing and I like to meet new friends. And finally, when you ski you enjoy the wonderful nature, the beautiful landscape and the fresh air of the mountains.",
+          "correct_rubric": 2
+        },
+        {
+          "id": "C",
+          "text": "I sometimes go to the ski resorts with my friends. However, when I first tried this sport it was a great failure. I spent about half an hour putting the boots on! They were heavy, and it was difficult to move in them. Anyway, I got to the hill and fastened the skies and started to slide down! I wasn't able to stop! It was really frightened. At last, I fell over and stopped. Very painful.",
+          "correct_rubric": 1
+        },
+        {
+          "id": "D",
+          "text": "I ski quite serious and I often take part in different competitions: local, national, international. Safety is very important for this sport. Apart from quality skies, good boots are important. They should be strong and high to protect the ankles. The helmet is also necessary. I also wear sport glasses and the skiing mask to protect my face from the sun, the wind and the snow.",
+          "correct_rubric": 3
+        },
+        {
+          "id": "E",
+          "text": "When we go skiing we always stay in one and the same hotel, it's in a very beautiful place in the mountains and sometimes even the international competitions are held there. Apart from several ski centers where we hire skies there are restaurants there and medical center, different souvenir shops and several ski-lifts that can take you up to the top of the mountains very quickly.",
+          "correct_rubric": 4
+        }
+      ]
     },
     {
-      "id": "B",
-      "text": "I think that winter is the best season of the year and I take every opportunity to do winter sports. I like skiing best of all. First of all it's very exciting to ski down the slope. Lots of people from different places go to skiing and I like to meet new friends. And finally, when you ski you enjoy the wonderful nature, the beautiful landscape and the fresh air of the mountains.",
-      "correct_rubric": 2
+      "id": "matching_2",
+      "title": "Вариант 2",
+      "audio_file": "3032.mp3",
+      "rubrics": [
+        "School book exhibition.",
+        "School classroom.",
+        "After-class activities.",
+        "Favourite subject.",
+        "What friend is angry about.",
+        "Using the school library."
+      ],
+      "speakers": [
+        {
+          "id": "A",
+          "text": "It's large and spacious... desks, the teacher's table... you can write your questions on the wall...",
+          "correct_rubric": 1
+        },
+        {
+          "id": "B",
+          "text": "I am always glad to come before the lessons and study the maps on the wall... I find geography very interesting...",
+          "correct_rubric": 3
+        },
+        {
+          "id": "C",
+          "text": "I sat next to Tracy and she is sure I copied her answers... she thinks I cheated... it's dishonest...",
+          "correct_rubric": 4
+        },
+        {
+          "id": "D",
+          "text": "I study in a large, modern school... when the lessons are over my friends and I go to the gym to exercise or to play volleyball... I have a swimming class twice a week...",
+          "correct_rubric": 2
+        },
+        {
+          "id": "E",
+          "text": "On the shelves the books are arranged in the alphabetical order... to find the book you need electronic catalogue...",
+          "correct_rubric": 5
+        }
+      ]
     },
     {
-      "id": "C",
-      "text": "I sometimes go to the ski resorts with my friends. However, when I first tried this sport it was a great failure. I spent about half an hour putting the boots on! They were heavy, and it was difficult to move in them. Anyway, I got to the hill and fastened the skies and started to slide down! I wasn't able to stop! It was really frightened. At last, I fell over and stopped. Very painful.",
-      "correct_rubric": 1
+      "id": "matching_3",
+      "title": "Вариант 3",
+      "audio_file": "31024.mp3",
+      "rubrics": [
+        "The equipment used on space stations.",
+        "His/her friend's hobby.",
+        "A film he/she saw recently.",
+        "The challenges of space travel.",
+        "A scientist whose lecture he/she attended.",
+        "His/her dream career."
+      ],
+      "speakers": [
+        {
+          "id": "A",
+          "text": "I would like to devote all my life to space research… which means I'll be the first astrophysicist in our family.",
+          "correct_rubric": 5
+        },
+        {
+          "id": "B",
+          "text": "I don't remember the names of the starring actors but you've certainly seen them, and not just once.",
+          "correct_rubric": 2
+        },
+        {
+          "id": "C",
+          "text": "I expected it to be a boring scientific talk nobody could understand, but the man on the stage did not look boring at all. He was young - in his late thirties. He was wearing jeans and a jumper, like most of us.",
+          "correct_rubric": 4
+        },
+        {
+          "id": "D",
+          "text": "The absence of gravity changes not only the bones and muscles, it also changes the work of the heart and other organs. Along with that, the astronauts receive deadly cosmic radiation.",
+          "correct_rubric": 3
+        },
+        {
+          "id": "E",
+          "text": "I was really impressed when he showed me his pictures. He draws space and planets! And his pictures look like nothing I've ever seen. The colours are very unusual too.",
+          "correct_rubric": 1
+        }
+      ]
     },
     {
-      "id": "D",
-      "text": "I ski quite serious and I often take part in different competitions: local, national, international. Safety is very important for this sport. Apart from quality skies, good boots are important. They should be strong and high to protect the ankles. The helmet is also necessary. I also wear sport glasses and the skiing mask to protect my face from the sun, the wind and the snow.",
-      "correct_rubric": 3
+      "id": "matching_4",
+      "title": "Вариант 4",
+      "audio_file": "3038.mp3",
+      "rubrics": [
+        "School library.",
+        "Schoolmates.",
+        "School sports facilities.",
+        "Favourite school subject.",
+        "Changing school.",
+        "Being late for school."
+      ],
+      "speakers": [
+        {
+          "id": "A",
+          "text": "But the book was really interesting, I got involved and put it aside only when I had read it up to the very end. In the morning, I wasn't able to get up on time so I missed the school bus and got to school thirty minutes after the bell had gone.",
+          "correct_rubric": 5
+        },
+        {
+          "id": "B",
+          "text": "I'm considering taking History as my major at university.",
+          "correct_rubric": 3
+        },
+        {
+          "id": "C",
+          "text": "I'm very lucky that the people around me are friendly and supportive and there's no bullying or fighting in class. My friends have different interests but they all are very nice people.",
+          "correct_rubric": 1
+        },
+        {
+          "id": "D",
+          "text": "It was shocking news when my parents told me about their decision to move to another city. I was completely against it. I didn't want to leave my school.",
+          "correct_rubric": 4
+        },
+        {
+          "id": "E",
+          "text": "Our school is a good place for doing sports — we have a gym, a football pitch, a swimming pool and even a tennis court.",
+          "correct_rubric": 2
+        }
+      ]
     },
     {
-      "id": "E",
-      "text": "When we go skiing we always stay in one and the same hotel, it's in a very beautiful place in the mountains and sometimes even the international competitions are held there. Apart from several ski centers where we hire skies there are restaurants there and medical center, different souvenir shops and several ski-lifts that can take you up to the top of the mountains very quickly.",
-      "correct_rubric": 4
+      "id": "matching_5",
+      "title": "Вариант 5",
+      "audio_file": "3698.mp3",
+      "rubrics": [
+        "Languages are important for scientists.",
+        "Languages help to do business.",
+        "People find learning languages difficult.",
+        "Languages should be learnt at early age.",
+        "People can do without foreign languages.",
+        "People usually enjoy learning languages."
+      ],
+      "speakers": [
+        {
+          "id": "A",
+          "text": "Children acquire new words and grammar patterns easily, while playing and communicating.",
+          "correct_rubric": 3
+        },
+        {
+          "id": "B",
+          "text": "I myself took a Spanish course when our company signed several contracts with Spanish partners. Now it's not a problem for me to write a letter in Spanish or make a telephone call.",
+          "correct_rubric": 1
+        },
+        {
+          "id": "C",
+          "text": "For scholars and researchers it's even more crucial than for others.",
+          "correct_rubric": 0
+        },
+        {
+          "id": "D",
+          "text": "I know lots of people who started learning languages at a very mature age. They say it's fun and I agree with them. I'm taking an Italian course at the moment and I enjoy every minute in our classroom.",
+          "correct_rubric": 5
+        },
+        {
+          "id": "E",
+          "text": "All good films and books are translated by professional interpreters. TV broadcasts programmes in different languages too... and so on.",
+          "correct_rubric": 4
+        }
+      ]
     }
   ]
 }
