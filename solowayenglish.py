@@ -1687,30 +1687,6 @@ def find_audio_file(filename):
     
     return None
 
-
-def load_audio_choice():
-    """Загружает задания для аудирования (все варианты)"""
-    try:
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        json_paths = [
-            os.path.join(base_dir, "oge_audio_choice.json"),
-            os.path.join("/app", "oge_audio_choice.json"),
-            os.path.join(os.getcwd(), "oge_audio_choice.json")
-        ]
-        
-        for path in json_paths:
-            if os.path.exists(path):
-                with open(path, "r", encoding="utf-8") as f:
-                    data = json.load(f)
-                    return data
-        
-        print(f"❌ oge_audio_choice.json не найден")
-        return None
-    except Exception as e:
-        print(f"❌ Ошибка загрузки oge_audio_choice.json: {e}")
-        return None
-
-
 async def start_audio_choice(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Запускает задание 1 по аудированию (выбор ответа) — показывает список вариантов"""
     if not context.user_data.get("authenticated"):
@@ -1744,6 +1720,35 @@ async def start_audio_choice(update: Update, context: ContextTypes.DEFAULT_TYPE)
         parse_mode="Markdown"
     )
 
+def load_audio_choice():
+    """Загружает задания для аудирования (все варианты)"""
+    try:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        json_paths = [
+            os.path.join(base_dir, "oge_audio_choice.json"),
+            os.path.join("/app", "oge_audio_choice.json"),
+            os.path.join(os.getcwd(), "oge_audio_choice.json")
+        ]
+        
+        for path in json_paths:
+            if os.path.exists(path):
+                print(f"📂 Найден JSON: {path}")
+                with open(path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    if "variants" in data:
+                        print(f"📊 Загружено вариантов: {len(data['variants'])}")
+                        return data
+                    else:
+                        print(f"⚠️ В JSON нет ключа 'variants'")
+                        return None
+        
+        print(f"❌ oge_audio_choice.json не найден. Проверены пути:")
+        for path in json_paths:
+            print(f"  - {path} (exists: {os.path.exists(path)})")
+        return None
+    except Exception as e:
+        print(f"❌ Ошибка загрузки oge_audio_choice.json: {e}")
+        return None
 
 async def start_audio_choice_variant(update: Update, context: ContextTypes.DEFAULT_TYPE, variant_id: str):
     """Запускает конкретный вариант аудирования"""
