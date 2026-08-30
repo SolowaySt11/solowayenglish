@@ -1,45 +1,98 @@
 {
-  "audio_file": "8171.mp3",
-  "tasks": [
+  "variants": [
     {
-      "id": "choice_1",
-      "question": "The client is not satisfied because…",
-      "options": [
-        "He wanted to get a table near the stage.",
-        "He wanted to speak to the manager.",
-        "He wanted a table near the window."
-      ],
-      "answer": 2
+      "id": "variant_1",
+      "title": "Вариант 1",
+      "audio_file": "8171.mp3",
+      "tasks": [
+        {
+          "id": "choice_1",
+          "question": "The client is not satisfied because…",
+          "options": [
+            "He wanted to get a table near the stage.",
+            "He wanted to speak to the manager.",
+            "He wanted a table near the window."
+          ],
+          "answer": 2
+        },
+        {
+          "id": "choice_2",
+          "question": "The customer wants to buy…",
+          "options": [
+            "Three tickets for a concert on Friday.",
+            "Three tickets in the orchestra row.",
+            "Three tickets but he's only got 20 dollars."
+          ],
+          "answer": 0
+        },
+        {
+          "id": "choice_3",
+          "question": "The speakers decided to get home on foot because…",
+          "options": [
+            "They didn't want to take a taxi, that was too expensive.",
+            "They wanted to have a walk on that warm evening.",
+            "They could not get a taxi."
+          ],
+          "answer": 1
+        },
+        {
+          "id": "choice_4",
+          "question": "The male speaker…",
+          "options": [
+            "Wants to call the police immediately.",
+            "Asks the girl to wait for 20 minutes.",
+            "Wants to join the party."
+          ],
+          "answer": 1
+        }
+      ]
     },
     {
-      "id": "choice_2",
-      "question": "The customer wants to buy…",
-      "options": [
-        "Three tickets for a concert on Friday.",
-        "Three tickets in the orchestra row.",
-        "Three tickets but he's only got 20 dollars."
-      ],
-      "answer": 0
-    },
-    {
-      "id": "choice_3",
-      "question": "The speakers decided to get home on foot because…",
-      "options": [
-        "They didn't want to take a taxi, that was too expensive.",
-        "They wanted to have a walk on that warm evening.",
-        "They could not get a taxi."
-      ],
-      "answer": 1
-    },
-    {
-      "id": "choice_4",
-      "question": "The male speaker…",
-      "options": [
-        "Wants to call the police immediately.",
-        "Asks the girl to wait for 20 minutes.",
-        "Wants to join the party."
-      ],
-      "answer": 1
+      "id": "variant_2",
+      "title": "Вариант 2",
+      "audio_file": "3040.mp3",
+      "tasks": [
+        {
+          "id": "choice_1",
+          "question": "The teacher did not let the students draw self-portraits right away because…",
+          "options": [
+            "They had another things to do at the lesson.",
+            "The students had to practise drawing first, otherwise, the teacher was afraid that their self-portraits would look like self caricatures.",
+            "They had to learn about artists who painted self-portraits."
+          ],
+          "answer": 1
+        },
+        {
+          "id": "choice_2",
+          "question": "The girl kept Jack waiting as far as…",
+          "options": [
+            "She was delayed at the customs because of the valuable picture she had bought.",
+            "The flight was delayed by 30 minutes.",
+            "It took her some time to pack the masterpiece she had bought in Rome."
+          ],
+          "answer": 2
+        },
+        {
+          "id": "choice_3",
+          "question": "The female speaker wants to…",
+          "options": [
+            "Paint the walls yellow and keep the old furniture.",
+            "Paint the furniture yellow and leave the walls as they are.",
+            "Paint the walls yellow and change the furniture."
+          ],
+          "answer": 2
+        },
+        {
+          "id": "choice_4",
+          "question": "The man is trying to find a present for his nephew who likes…",
+          "options": [
+            "Playing active games and drawing.",
+            "Playing football and tennis.",
+            "Watching educational videos."
+          ],
+          "answer": 0
+        }
+      ]
     }
   ]
 }
