@@ -2258,61 +2258,90 @@ def find_audio_file_fill(filename):
     
     return None
 
-async def start_audio_fill(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def start_audio_fill(update: Update, context: ContextTypes.DEFAULT_TYPE, variant_id: str = None):
     """Запускает задание 3 — заполнение пропусков"""
+    if not context.user_data.get("authenticated"):
+        await update.callback_query.answer("❌ Пожалуйста, войдите в аккаунт", show_alert=True)
+        return
+    
     data = load_audio_fill()
     if not data:
         await update.callback_query.answer("❌ Задания не загружены", show_alert=True)
         return
     
-    # Отправляем аудио
-    audio_path = find_audio_file_fill(data["audio_file"])
-    
-    if audio_path:
-        try:
-            with open(audio_path, "rb") as f:
-                await update.effective_chat.send_voice(
-                    voice=f,
-                    caption="🎧 *Задание 3. Заполнение пропусков*\n\n"
-                           "Прослушайте интервью и заполните пропуски в предложениях.\n"
-                           "Впишите не более одного слова (без артиклей).\n"
-                           "Числа записывайте буквами.\n"
-                           "Вы услышите запись дважды.",
-                    parse_mode="Markdown"
-                )
-        except Exception as e:
-            await update.callback_query.edit_message_text(
-                f"❌ Ошибка при отправке аудио: {str(e)}\n\n"
-                f"Путь: `{audio_path}`",
-                parse_mode="Markdown"
-            )
+    # Если передан ID варианта, показываем его
+    if variant_id:
+        # Находим нужный вариант
+        selected_variant = None
+        for variant in data["variants"]:
+            if variant["id"] == variant_id:
+                selected_variant = variant
+                break
+        
+        if not selected_variant:
+            await update.callback_query.answer("❌ Вариант не найден", show_alert=True)
             return
-    else:
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        await update.callback_query.edit_message_text(
-            f"❌ Аудиофайл `{data['audio_file']}` не найден!\n\n"
-            f"Проверь, что файл находится в папке `audio/fill/`\n\n"
-            f"Текущая директория: `{base_dir}`",
-            parse_mode="Markdown"
-        )
+        
+        # Отправляем аудио
+        audio_path = find_audio_file_fill(selected_variant["audio_file"])
+        
+        if audio_path:
+            try:
+                with open(audio_path, "rb") as f:
+                    await update.effective_chat.send_voice(
+                        voice=f,
+                        caption=f"🎧 *{selected_variant['title']}*\n\n"
+                               "Прослушайте интервью и заполните пропуски в предложениях.\n"
+                               "Впишите не более одного слова (без артиклей).\n"
+                               "Числа записывайте буквами.\n"
+                               "Вы услышите запись дважды.",
+                        parse_mode="Markdown"
+                    )
+            except Exception as e:
+                await update.callback_query.answer(f"❌ Ошибка отправки аудио: {str(e)}", show_alert=True)
+                return
+        else:
+            await update.callback_query.answer(f"❌ Аудиофайл не найден: {selected_variant['audio_file']}", show_alert=True)
+            return
+        
+        # Сохраняем данные в сессию
+        context.user_data["audio_fill"] = {
+            "variant": selected_variant,
+            "tasks": selected_variant["tasks"],
+            "current": 0,
+            "score": 0,
+            "user_answers": [],
+            "total": len(selected_variant["tasks"])
+        }
+        
+        # Показываем первый вопрос
+        await show_fill_question(update, context)
         return
     
-    # Сохраняем данные в сессию
-    context.user_data["audio_fill"] = {
-        "tasks": data["tasks"],
-        "current": 0,
-        "score": 0,
-        "user_answers": [],
-        "total": len(data["tasks"])
-    }
+    # Иначе показываем список вариантов с ЯВНЫМИ кнопками
+    keyboard = [
+        [InlineKeyboardButton("🎧 Вариант 1", callback_data="fill_variant_1")],
+        [InlineKeyboardButton("🎧 Вариант 2", callback_data="fill_variant_2")],
+        [InlineKeyboardButton("🎧 Вариант 3", callback_data="fill_variant_3")],
+        [InlineKeyboardButton("🎧 Вариант 4", callback_data="fill_variant_4")],
+        [InlineKeyboardButton("🎧 Вариант 5", callback_data="fill_variant_5")],
+        [InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
     
-    # Показываем первый вопрос
-    await show_fill_question(update, context)
+    await update.callback_query.edit_message_text(
+        "🎧 *Задание 3. Аудирование (заполнение пропусков)*\n\n"
+        "Выбери вариант для тренировки:\n"
+        "Каждый вариант содержит 6 вопросов с пропусками.",
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
 
 async def show_fill_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Показывает текущий вопрос для заполнения"""
     session = context.user_data.get("audio_fill")
     if not session:
+        await update.callback_query.answer("❌ Сессия не найдена", show_alert=True)
         return
     
     current = session["current"]
@@ -2337,7 +2366,6 @@ async def show_fill_question(update: Update, context: ContextTypes.DEFAULT_TYPE)
     
     # Устанавливаем флаг ожидания ответа
     context.user_data["awaiting_fill_answer"] = True
-
 async def handle_fill_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Обрабатывает ответ на заполнение пропуска"""
     session = context.user_data.get("audio_fill")
@@ -2375,7 +2403,6 @@ async def handle_fill_answer(update: Update, context: ContextTypes.DEFAULT_TYPE)
         await finish_fill_from_message(update, context)
     else:
         await show_fill_question_from_message(update, context)
-
 async def show_fill_question_from_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Показывает следующий вопрос после ответа"""
     session = context.user_data.get("audio_fill")
@@ -2402,10 +2429,71 @@ async def show_fill_question_from_message(update: Update, context: ContextTypes.
     )
     
     context.user_data["awaiting_fill_answer"] = True
-
 async def finish_fill(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Завершает задание 3 (из callback)"""
     await finish_fill_internal(update, context)
+
+async def finish_fill_from_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Завершает задание 3 (из сообщения)"""
+    await finish_fill_internal(update, context)
+
+async def finish_fill_internal(update, context):
+    """Внутренняя функция завершения задания 3"""
+    session = context.user_data.get("audio_fill")
+    if not session:
+        return
+    
+    total = session["total"]
+    score = session["score"]
+    percent = int(score / total * 100) if total > 0 else 0
+    
+    if percent == 100:
+        emoji, comment = "🏆", "Идеально! Ты отлично справился(ась)!"
+    elif percent >= 75:
+        emoji, comment = "🎉", "Хороший результат!"
+    elif percent >= 50:
+        emoji, comment = "📚", "Неплохо! Но стоит переслушать аудио."
+    else:
+        emoji, comment = "💪", "Нужно больше практики!"
+    
+    details = ""
+    for i, ans in enumerate(session["user_answers"]):
+        icon = "✅" if ans["is_correct"] else "❌"
+        details += f"{i+1}. {ans['question']}\n"
+        details += f"   {icon} Ты: {ans['user_answer']} | Правильно: {ans['correct_answer']}\n"
+    
+    result_text = f"{emoji} *Результат!*\n\n"
+    result_text += f"📊 {score}/{total} ({percent}%)\n\n"
+    result_text += f"{comment}\n\n"
+    
+    bar_length = 10
+    filled = int(percent / 100 * bar_length)
+    bar = "🟩" * filled + "⬜" * (bar_length - filled)
+    result_text += f"{bar} {percent}%\n\n"
+    
+    result_text += f"📋 *Детали:*\n{details}"
+    
+    keyboard = [
+        [InlineKeyboardButton("🔄 Пройти заново", callback_data="start_audio_fill")],
+        [InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
+    if hasattr(update, 'callback_query') and update.callback_query:
+        await update.callback_query.edit_message_text(
+            result_text,
+            reply_markup=reply_markup,
+            parse_mode="Markdown"
+        )
+    else:
+        await update.message.reply_text(
+            result_text,
+            reply_markup=reply_markup,
+            parse_mode="Markdown"
+        )
+    
+    del context.user_data["audio_fill"]
+    context.user_data["awaiting_fill_answer"] = False
 
 async def finish_fill_from_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Завершает задание 3 (из сообщения)"""
@@ -3755,6 +3843,22 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # ===== АУДИРОВАНИЕ: ЗАДАНИЕ 3 (ЗАПОЛНЕНИЕ ПРОПУСКОВ) =====
     elif data == "start_audio_fill":
         await start_audio_fill(update, context)
+
+# Явные обработчики для каждого варианта
+    elif data == "fill_variant_1":
+        await start_audio_fill(update, context, "fill_1")
+
+    elif data == "fill_variant_2":
+        await start_audio_fill(update, context, "fill_2")
+
+    elif data == "fill_variant_3":
+        await start_audio_fill(update, context, "fill_3")
+
+    elif data == "fill_variant_4":
+        await start_audio_fill(update, context, "fill_4")
+
+    elif data == "fill_variant_5":
+        await start_audio_fill(update, context, "fill_5")
     
     # ===== ПИСЬМО =====
     elif data == "start_letter":

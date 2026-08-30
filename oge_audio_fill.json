@@ -1,35 +1,189 @@
 {
-  "audio_file": "3030.mp3",
-  "tasks": [
+  "variants": [
     {
       "id": "fill_1",
-      "question": "Kate is from ______.",
-      "answer": "Canada"
+      "title": "Вариант 1",
+      "audio_file": "3030.mp3",
+      "tasks": [
+        {
+          "id": "fill_1",
+          "question": "Kate is from ______.",
+          "answer": "Canada"
+        },
+        {
+          "id": "fill_2",
+          "question": "Kate's parents travel a lot because of their ______.",
+          "answer": "job"
+        },
+        {
+          "id": "fill_3",
+          "question": "Kate is going to have a guide excursion to the historical part of ______.",
+          "answer": "Paris"
+        },
+        {
+          "id": "fill_4",
+          "question": "Kevin is on a ______ trip.",
+          "answer": "school"
+        },
+        {
+          "id": "fill_5",
+          "question": "Kevin plays the ______ in a music band.",
+          "answer": "drums"
+        },
+        {
+          "id": "fill_6",
+          "question": "Kevin is deeply interested in physics and ______.",
+          "answer": "chemistry"
+        }
+      ]
     },
     {
       "id": "fill_2",
-      "question": "Kate's parents travel a lot because of their ______.",
-      "answer": "job"
+      "title": "Вариант 2",
+      "audio_file": "5023.mp3",
+      "tasks": [
+        {
+          "id": "fill_1",
+          "question": "Neil was shopping the day before yesterday and had a ______ in the shopping center.",
+          "answer": "coffee"
+        },
+        {
+          "id": "fill_2",
+          "question": "Alice's birthday party is this ______ at 5 p.m.",
+          "answer": "Saturday"
+        },
+        {
+          "id": "fill_3",
+          "question": "Alice's family want to live closer to the ______.",
+          "answer": "beach"
+        },
+        {
+          "id": "fill_4",
+          "question": "The only sport Alice does is ______.",
+          "answer": "jogging"
+        },
+        {
+          "id": "fill_5",
+          "question": "Neil will bring his ______ along to the party.",
+          "answer": "sister"
+        },
+        {
+          "id": "fill_6",
+          "question": "Neil and Jessica will get Alice ______ to her favorite band's show.",
+          "answer": "tickets"
+        }
+      ]
     },
     {
       "id": "fill_3",
-      "question": "Kate is going to have a guide excursion to the historical part of ______.",
-      "answer": "Paris"
+      "title": "Вариант 3",
+      "audio_file": "3006.mp3",
+      "tasks": [
+        {
+          "id": "fill_1",
+          "question": "Simon lives close to the ______.",
+          "answer": "centre"
+        },
+        {
+          "id": "fill_2",
+          "question": "Norah is going to study on the ______ faculty.",
+          "answer": "drama"
+        },
+        {
+          "id": "fill_3",
+          "question": "In order to be an actress, according to Simon, a lady needs to be very ______.",
+          "answer": "fit"
+        },
+        {
+          "id": "fill_4",
+          "question": "Simon wanted to show Norah the ______.",
+          "answer": "zoo"
+        },
+        {
+          "id": "fill_5",
+          "question": "Simon and Norah go to the café called 'The ______'.",
+          "answer": "Goldfish"
+        },
+        {
+          "id": "fill_6",
+          "question": "Norah doesn't eat ______.",
+          "answer": "meat"
+        }
+      ]
     },
     {
       "id": "fill_4",
-      "question": "Kevin is on a ______ trip.",
-      "answer": "school"
+      "title": "Вариант 4",
+      "audio_file": "3039.mp3",
+      "tasks": [
+        {
+          "id": "fill_1",
+          "question": "Mia is arranging a party for the ______.",
+          "answer": "newcomers"
+        },
+        {
+          "id": "fill_2",
+          "question": "When people are wearing masks, they pretend to be ______.",
+          "answer": "strangers"
+        },
+        {
+          "id": "fill_3",
+          "question": "Mia went to ______ for a couple of weeks.",
+          "answer": "France"
+        },
+        {
+          "id": "fill_4",
+          "question": "Mia and her parents went to Paris as ______.",
+          "answer": "tourists"
+        },
+        {
+          "id": "fill_5",
+          "question": "The summer was really cold and ______.",
+          "answer": "rainy"
+        },
+        {
+          "id": "fill_6",
+          "question": "Mia's new hobby is baking biscuits and making ______.",
+          "answer": "cakes"
+        }
+      ]
     },
     {
       "id": "fill_5",
-      "question": "Kevin plays the ______ in a music band.",
-      "answer": "drums"
-    },
-    {
-      "id": "fill_6",
-      "question": "Kevin is deeply interested in physics and ______.",
-      "answer": "chemistry"
+      "title": "Вариант 5",
+      "audio_file": "11823.mp3",
+      "tasks": [
+        {
+          "id": "fill_1",
+          "question": "Jenny is listening to an ______ course.",
+          "answer": "Italian"
+        },
+        {
+          "id": "fill_2",
+          "question": "Nick's mum speaks ______ foreign languages.",
+          "answer": "five"
+        },
+        {
+          "id": "fill_3",
+          "question": "Jenny believes Nick is the best ______ player she's ever seen.",
+          "answer": "volleyball"
+        },
+        {
+          "id": "fill_4",
+          "question": "Jenny's favourite sport in summer is ______ volleyball.",
+          "answer": "beach"
+        },
+        {
+          "id": "fill_5",
+          "question": "When Nick was a child he wanted to be a ______.",
+          "answer": "researcher"
+        },
+        {
+          "id": "fill_6",
+          "question": "Jenny says she's always wanted to be a ______.",
+          "answer": "chef"
+        }
+      ]
     }
   ]
 }
