@@ -1715,6 +1715,52 @@ def load_audio_choice():
         print(f"❌ Ошибка загрузки oge_audio_choice.json: {e}")
         return None
 
+# ===== ОГЭ: АУДИРОВАНИЕ (ВСЕ ЗАДАНИЯ) =====
+
+def debug_file_paths():
+    """Отладочная функция для проверки путей к файлам"""
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    print("\n=== ОТЛАДКА ПУТЕЙ ===")
+    print(f"📁 Текущая директория: {base_dir}")
+    print(f"📁 Рабочая директория: {os.getcwd()}")
+    
+    # Проверяем наличие файлов
+    files_to_check = [
+        "oge_audio_choice.json",
+        "oge_audio_matching.json",
+        "oge_audio_fill.json",
+        "oge_word_formation.json",
+        "oge_lexical_grammar.json",
+        "oge_assistant.json",
+        "oge_reading.json"
+    ]
+    
+    for filename in files_to_check:
+        # Проверяем в разных местах
+        paths = [
+            os.path.join(base_dir, filename),
+            os.path.join(os.getcwd(), filename),
+            os.path.join("/app", filename),
+            filename
+        ]
+        
+        found = False
+        for path in paths:
+            if os.path.exists(path):
+                print(f"✅ Найден {filename}: {path}")
+                found = True
+                break
+        
+        if not found:
+            print(f"❌ {filename} НЕ НАЙДЕН")
+            print(f"   Искали в: {paths}")
+    
+    print("=== КОНЕЦ ОТЛАДКИ ===\n")
+
+# Вызываем отладку при запуске
+debug_file_paths()
+
 async def start_audio_choice(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Запускает задание 1 по аудированию (выбор ответа) — показывает список вариантов"""
     data = load_audio_choice()
