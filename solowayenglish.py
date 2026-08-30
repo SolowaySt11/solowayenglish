@@ -1750,64 +1750,30 @@ def load_audio_choice():
         print(f"❌ Ошибка загрузки oge_audio_choice.json: {e}")
         return None
 
-async def start_audio_choice_variant(update: Update, context: ContextTypes.DEFAULT_TYPE, variant_id: str):
-    """Запускает конкретный вариант аудирования"""
-    data = load_audio_choice()
-    if not data:
-        await update.callback_query.answer("❌ Задания не загружены", show_alert=True)
+async def start_audio_choice(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Запускает задание 1 по аудированию (выбор ответа) — показывает список вариантов"""
+    if not context.user_data.get("authenticated"):
+        await update.callback_query.answer("❌ Пожалуйста, войдите в аккаунт", show_alert=True)
         return
     
-    # Находим нужный вариант
-    selected_variant = None
-    for variant in data.get("variants", []):
-        if variant["id"] == variant_id:
-            selected_variant = variant
-            break
+    # Ручное создание кнопок для всех 5 вариантов
+    keyboard = [
+        [InlineKeyboardButton("🎧 Вариант 1", callback_data="audio_variant_variant_1")],
+        [InlineKeyboardButton("🎧 Вариант 2", callback_data="audio_variant_variant_2")],
+        [InlineKeyboardButton("🎧 Вариант 3", callback_data="audio_variant_variant_3")],
+        [InlineKeyboardButton("🎧 Вариант 4", callback_data="audio_variant_variant_4")],
+        [InlineKeyboardButton("🎧 Вариант 5", callback_data="audio_variant_variant_5")],
+        [InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
     
-    if not selected_variant:
-        await update.callback_query.answer("❌ Вариант не найден", show_alert=True)
-        return
-    
-    # Ищем аудиофайл
-    audio_path = find_audio_file(selected_variant["audio_file"])
-    
-    if not audio_path:
-        await update.callback_query.answer(
-            f"❌ Аудиофайл {selected_variant['audio_file']} не найден!",
-            show_alert=True
-        )
-        return
-    
-    # Отправляем аудио
-    try:
-        with open(audio_path, "rb") as f:
-            await update.effective_chat.send_voice(
-                voice=f,
-                caption=f"🎧 *Вариант {selected_variant.get('title', '')}*\n\n"
-                       "Прослушайте аудио (4 коротких текста A, B, C, D) и ответьте на 4 вопроса.\n"
-                       "Вы услышите запись дважды.",
-                parse_mode="Markdown"
-            )
-    except Exception as e:
-        await update.callback_query.answer(f"❌ Ошибка отправки аудио: {e}", show_alert=True)
-        return
-    
-    # Сохраняем данные в сессию
-    context.user_data["audio_choice"] = {
-        "tasks": selected_variant["tasks"],
-        "current": 0,
-        "score": 0,
-        "user_answers": [],
-        "total": len(selected_variant["tasks"])
-    }
-    
-    # Отвечаем на callback
-    await update.callback_query.answer()
-    
-    # Показываем вопросы
-    await show_audio_questions(update, context)
-
-
+    await update.callback_query.edit_message_text(
+        "🎧 *Задание 1. Аудирование (выбор ответа)*\n\n"
+        "Выбери вариант для тренировки:\n"
+        "Каждый вариант содержит 4 вопроса с аудио.",
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )
 async def show_audio_questions(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Показывает все 4 вопроса сразу с кнопками для ответа"""
     session = context.user_data.get("audio_choice")
@@ -3698,9 +3664,8 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await start_audio_choice(update, context)
     
     elif data.startswith("audio_variant_"):
-        # Правильный парсинг: "audio_variant_" = 14 символов
         variant_id = data[14:]
-        await start_audio_choice_variant(update, context, variant_id)
+        await start_audio_choice(update, context, variant_id)  # ✅ правильная функция
     
     elif data == "audio_noop":
         await query.answer()
