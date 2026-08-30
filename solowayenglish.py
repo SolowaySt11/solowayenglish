@@ -1839,7 +1839,7 @@ async def show_audio_questions(update: Update, context: ContextTypes.DEFAULT_TYP
                 callback_data="audio_noop"
             )] + row)
     
-    # Кнопки управления
+    # Кнопки управления (ТОЛЬКО ЭТИ, без выбора вариантов!)
     keyboard.append([InlineKeyboardButton("🔄 Пройти заново", callback_data="start_audio_choice")])
     keyboard.append([InlineKeyboardButton("🔙 Назад в ОГЭ", callback_data="oge_menu")])
     
